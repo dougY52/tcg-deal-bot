@@ -32,6 +32,7 @@ def load_config(path):
         if shop['currency'] != 'EUR':
             assert shop.get('international') and shop.get('import_costs'), 'Foreign currency must be an explicit import source'
         assert 1 <= shop['max_pages'] <= 40, 'Invalid page limit'
+        assert len(shop.get('catalog_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('catalog_collections', [])), 'Invalid collection targets'
         shop['base_url'] = shop['base_url'].rstrip('/')
         shop['watch_handles'] = []
         shop['watch_urls'] = list(shop.get('product_urls', []))

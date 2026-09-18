@@ -39,3 +39,19 @@ class EuropeTests(unittest.TestCase):
         self.assertEqual(orientation(self.row | {'title':'Dragon Ball FB100 Booster Box EN'},self.cfg,'EN'),'')
         self.cfg['price_guides'][0]['valid_until']='2020-01-01'
         self.assertEqual(orientation(self.row,self.cfg,'EN'),'')
+
+    def test_targeted_english_collection_is_read_and_deduplicated(self):
+        from test_bot import product
+        from tcg_bot.sources import shopify
+        calls=[]
+        p=product()
+        extra=product() | {'handle':'english-extra','variants':[product()['variants'][0] | {'id':99}]}
+        class Client:
+            def get(self,url):
+                calls.append(url)
+                return {'products':[p,extra] if '/collections/' in url else [p]}
+        shop=config()['shops'][0] | {'catalog_collections':['english-booster-boxes']}
+        rows,warnings=shopify(shop,Client())
+        self.assertEqual(len(rows),2)
+        self.assertEqual(warnings,[])
+        self.assertTrue(any('/collections/english-booster-boxes/products.json' in u for u in calls))

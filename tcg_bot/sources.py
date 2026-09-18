@@ -57,19 +57,22 @@ def shopify(shop, client):
             products[product['handle']] = product
         except Exception as exc:
             warnings.append('Watched product unavailable: ' + handle + ' (' + type(exc).__name__ + ')')
-    for page in range(1, shop.get('max_pages', 20) + 1):
-        try:
-            data = client.get(f"{shop['base_url']}/products.json?limit=250&page={page}")
-            rows = data['products']
-            if not isinstance(rows, list):
-                raise ValueError('Unexpected catalog schema')
-            for p in rows:
-                products.setdefault(p['handle'], p)
-            if len(rows) < 250:
+    endpoints = [shop['base_url'] + '/products.json']
+    endpoints.extend(shop['base_url'] + '/collections/' + name + '/products.json' for name in shop.get('catalog_collections', []))
+    for endpoint in endpoints:
+        for page in range(1, shop.get('max_pages', 20) + 1):
+            try:
+                data = client.get(f"{endpoint}?limit=250&page={page}")
+                rows = data['products']
+                if not isinstance(rows, list):
+                    raise ValueError('Unexpected catalog schema')
+                for p in rows:
+                    products.setdefault(p['handle'], p)
+                if len(rows) < 250:
+                    break
+            except Exception as exc:
+                warnings.append('Catalog discovery incomplete: ' + type(exc).__name__)
                 break
-        except Exception as exc:
-            warnings.append('Catalog discovery incomplete: ' + type(exc).__name__)
-            break
     # Discovery is deliberately bounded. Exact watched products are independent.
     if not products:
         raise ValueError('No valid products received')

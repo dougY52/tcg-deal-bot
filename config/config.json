@@ -582,14 +582,20 @@
       "currency": "GBP",
       "enabled": false,
       "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "discovery_scope": "Erste Katalogseite plus vier gezielte englische Display-Kategorien; jeweils maximal 250 Produkte.",
       "audit_checked_on": "2026-09-18",
       "international": true,
       "market_region": "GB",
       "ships_to_de": true,
       "shipping_evidence": "https://www.japan2uk.com/policies/shipping-policy",
       "shipping_note": "Versand aus UK nach Deutschland; laut Händler DDP. Porto im Checkout, ab 500 GBP laut Händler frei. EUR-Endpreis nicht berechnet.",
-      "import_costs": true
+      "import_costs": true,
+      "catalog_collections": [
+        "digimon-english-booster-boxes",
+        "dragon-ball-english-booster-boxes",
+        "one-piece-english-booster-boxes",
+        "pokemon-english-booster-boxes"
+      ]
     },
     {
       "id": "eu-poke-swiss-ch",
@@ -1223,6 +1229,15 @@
       "usd_per_pack": "4.99",
       "packs": 24,
       "url": "https://world.digimoncard.com/products/pack/ver26/",
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17"
+    },
+    {
+      "id": "onepiece-op16-usd",
+      "title_pattern": "One\\s*Piece.*\\bOP[ -]?16\\b",
+      "usd_per_pack": "4.99",
+      "packs": null,
+      "url": "https://en.onepiece-cardgame.com/products/op16.html",
       "verified_on": "2026-09-18",
       "valid_until": "2026-12-17"
     }
