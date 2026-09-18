@@ -403,6 +403,244 @@
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
+    },
+    {
+      "id": "eu-geekie-be",
+      "name": "Geekie (BE)",
+      "base_url": "https://geekie.be",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "BE",
+      "ships_to_de": true,
+      "shipping_evidence": "https://geekie.be/policies/shipping-policy",
+      "shipping_note": "Versand nach Deutschland laut Händler: 9 EUR.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-outpostbrussels-be",
+      "name": "OutpostBrussels (BE)",
+      "base_url": "https://outpostbrussels.be",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "BE",
+      "ships_to_de": true,
+      "shipping_evidence": "https://outpostbrussels.be/policies/shipping-policy",
+      "shipping_note": "Deutschland: 10 EUR Versand; ab 190 EUR Warenwert laut Händler kostenlos.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-www-bescards-com",
+      "name": "Bescards (NL)",
+      "base_url": "https://www.bescards.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "NL",
+      "ships_to_de": true,
+      "shipping_evidence": "https://www.bescards.com/policies/shipping-policy",
+      "shipping_note": "Versand nach Europa; Deutschland im Ländermenü. Versandkosten im Checkout.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-cardstore-nl",
+      "name": "CardStore (NL)",
+      "base_url": "https://cardstore.nl",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "NL",
+      "ships_to_de": true,
+      "shipping_evidence": "https://cardstore.nl/pages/verzenden",
+      "shipping_note": "Deutschland: 12,99 EUR Standardversand; Versand separater Artikel kann abweichen.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-lairos-shop",
+      "name": "Lairos.Shop (AT)",
+      "base_url": "https://lairos.shop",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://lairos.shop/policies/shipping-policy",
+      "shipping_note": "Deutschland: 10,90 EUR Versand; ab 60 EUR Warenwert 6,90 EUR.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-cardstore-at",
+      "name": "CardStore (AT)",
+      "base_url": "https://cardstore.at",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://cardstore.at/pages/versand-details",
+      "shipping_note": "Deutschlandversand bestätigt; unterschiedliche Sprachseiten nennen abweichende Kosten. Endpreis im Checkout prüfen.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-s-games-at",
+      "name": "S-Games (AT)",
+      "base_url": "https://s-games.at",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://s-games.at/policies/shipping-policy",
+      "shipping_note": "Deutschland: je nach Warenwert 6,50 / 5,50 / 3,50 EUR; über 250,01 EUR frei.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-primeprotector-at",
+      "name": "PrimeProtector (AT)",
+      "base_url": "https://primeprotector.at",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://primeprotector.at/policies/shipping-policy",
+      "shipping_note": "Deutschland: Standardversand laut Händler 5,90 EUR; Checkout prüfen.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-www-merchfox-at",
+      "name": "Merchfox (AT)",
+      "base_url": "https://www.merchfox.at",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://www.merchfox.at/policies/shipping-policy",
+      "shipping_note": "Versand nach Europa; Deutschland im Ländermenü. Produktabhängige Versandkosten im Checkout.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-www-coso5-at",
+      "name": "Coso5 (AT)",
+      "base_url": "https://www.coso5.at",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "AT",
+      "ships_to_de": true,
+      "shipping_evidence": "https://www.coso5.at/policies/shipping-policy",
+      "shipping_note": "Deutschland: 16 EUR Versand bis 510 EUR Warenwert, darüber 25,90 EUR.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-www-japan2uk-com",
+      "name": "Japan2UK (GB)",
+      "base_url": "https://www.japan2uk.com",
+      "adapter": "shopify",
+      "currency": "GBP",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "GB",
+      "ships_to_de": true,
+      "shipping_evidence": "https://www.japan2uk.com/policies/shipping-policy",
+      "shipping_note": "Versand aus UK nach Deutschland; laut Händler DDP. Porto im Checkout, ab 500 GBP laut Händler frei. EUR-Endpreis nicht berechnet.",
+      "import_costs": true
+    },
+    {
+      "id": "eu-poke-swiss-ch",
+      "name": "Poke Swiss (CH)",
+      "base_url": "https://poke-swiss.ch",
+      "adapter": "shopify",
+      "currency": "CHF",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "CH",
+      "ships_to_de": true,
+      "shipping_evidence": "https://poke-swiss.ch/policies/shipping-policy",
+      "shipping_note": "Versand aus Genf nach Europa; Deutschland im Ländermenü. Versand und mögliche Importabgaben zusätzlich.",
+      "import_costs": true
+    },
+    {
+      "id": "eu-pokeflip-com",
+      "name": "Pokeflip (BE)",
+      "base_url": "https://pokeflip.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "BE",
+      "ships_to_de": true,
+      "shipping_evidence": "https://pokeflip.com/policies/shipping-policy",
+      "shipping_note": "Deutschland: 6,95 EUR Versand laut Händlertabelle.",
+      "import_costs": false
+    },
+    {
+      "id": "eu-www-universetcg-com",
+      "name": "Universe TCG (ES)",
+      "base_url": "https://www.universetcg.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 1,
+      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
+      "audit_checked_on": "2026-09-18",
+      "international": true,
+      "market_region": "ES",
+      "ships_to_de": true,
+      "shipping_evidence": "https://www.universetcg.com/policies/shipping-policy",
+      "shipping_note": "Versand aus Barcelona in die EU; Versand und endgültige Steuerberechnung im Checkout.",
+      "import_costs": false
     }
   ],
   "references": [
@@ -762,6 +1000,97 @@
           "note": "65 EUR, englisches 12-Pack-Display, aktuell ausverkauft; direkter Produktseitenabruf am 18.09.2026."
         }
       ]
+    },
+    {
+      "id": "digimon-bt26-en-24",
+      "group": "digimon-bt26-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "89.95",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Digimon.*Timeless Bonds.*(?:BT[ -]?26|Display)",
+      "bindings": [
+        {
+          "shop": "eu-primeprotector-at",
+          "handle": "digimon-card-game-timeless-bonds-bt-26-booster-display-englisch",
+          "variant_id": "58648087626060",
+          "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "cardbuddys",
+          "handle": "digimon-card-game-timeless-bonds-booster-display-bt26",
+          "variant_id": "58336628080971",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://primeprotector.at/products/digimon-card-game-timeless-bonds-bt-26-booster-display-englisch",
+          "note": "Händlerkatalog 18.09.2026: 99.99 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
+        },
+        {
+          "url": "https://cardbuddys.de/products/digimon-card-game-timeless-bonds-booster-display-bt26",
+          "note": "Händlerkatalog 18.09.2026: 89.95 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
+        }
+      ]
+    },
+    {
+      "id": "yugioh-glorious-gallery-de-24",
+      "group": "yugioh-glorious-gallery-24",
+      "language": "DE",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "64.90",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Yu.Gi.Oh.*Glorious Gallery.*Display",
+      "bindings": [
+        {
+          "shop": "eu-primeprotector-at",
+          "handle": "yu-gi-oh-battles-of-legend-glorious-gallery-booster-display-de",
+          "variant_id": "57634236531020",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://primeprotector.at/products/yu-gi-oh-battles-of-legend-glorious-gallery-booster-display-de",
+          "note": "Händlerkatalog 18.09.2026: 64.90 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
+        }
+      ]
+    },
+    {
+      "id": "yugioh-glorious-gallery-en-24",
+      "group": "yugioh-glorious-gallery-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "64.90",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Yu.Gi.Oh.*Glorious Gallery.*Display",
+      "bindings": [
+        {
+          "shop": "eu-primeprotector-at",
+          "handle": "yugioh-battles-of-legend-glorious-gallery-booster-display-en",
+          "variant_id": "57634224210252",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://primeprotector.at/products/yugioh-battles-of-legend-glorious-gallery-booster-display-en",
+          "note": "Händlerkatalog 18.09.2026: 64.90 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
+        }
+      ]
     }
   ],
   "local_stores": {
@@ -859,5 +1188,43 @@
   "discoveries": {
     "enabled": true,
     "max_per_run": 10
-  }
+  },
+  "price_guides": [
+    {
+      "id": "dbs-fb09-usd",
+      "title_pattern": "Dragon\\s*Ball.*\\bFB[ -]?09\\b",
+      "usd_per_pack": "4.99",
+      "packs": null,
+      "url": "https://www.dbs-cardgame.com/fw/en/products/02_230.html",
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17"
+    },
+    {
+      "id": "dbs-fb10-usd",
+      "title_pattern": "Dragon\\s*Ball.*\\bFB[ -]?10\\b",
+      "usd_per_pack": "4.99",
+      "packs": null,
+      "url": "https://www.dbs-cardgame.com/fw/en/products/01_400.html",
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17"
+    },
+    {
+      "id": "dbs-fb11-usd",
+      "title_pattern": "Dragon\\s*Ball.*\\bFB[ -]?11\\b",
+      "usd_per_pack": "4.99",
+      "packs": null,
+      "url": "https://www.dbs-cardgame.com/fw/en/products/01_422.html",
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17"
+    },
+    {
+      "id": "digimon-bt26-usd",
+      "title_pattern": "Digimon.*\\bBT[ -]?26\\b",
+      "usd_per_pack": "4.99",
+      "packs": 24,
+      "url": "https://world.digimoncard.com/products/pack/ver26/",
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17"
+    }
+  ]
 }

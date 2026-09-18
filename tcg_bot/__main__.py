@@ -26,7 +26,11 @@ def load_config(path):
         ids.add(shop['id'])
         u = urlsplit(shop['base_url'])
         assert u.scheme == 'https' and u.hostname and not u.username and not u.password and not u.query and u.path in ('', '/'), 'Invalid shop URL'
-        assert shop['adapter'] in ADAPTERS and shop['currency'] == 'EUR', 'Unsupported source'
+        assert shop['adapter'] in ADAPTERS and shop['currency'] in ('EUR', 'GBP', 'CHF'), 'Unsupported source'
+        if shop.get('international'):
+            assert shop.get('ships_to_de') is True and shop.get('shipping_evidence', '').startswith('https://') and shop.get('shipping_note'), 'Missing Germany delivery evidence'
+        if shop['currency'] != 'EUR':
+            assert shop.get('international') and shop.get('import_costs'), 'Foreign currency must be an explicit import source'
         assert 1 <= shop['max_pages'] <= 40, 'Invalid page limit'
         shop['base_url'] = shop['base_url'].rstrip('/')
         shop['watch_handles'] = []
@@ -63,6 +67,12 @@ def load_config(path):
                 assert urlsplit(binding['url']).netloc == urlsplit(shop['base_url']).netloc
                 if binding['url'] not in shop['watch_urls']:
                     shop['watch_urls'].append(binding['url'])
+    for guide in cfg.get('price_guides', []):
+        amount = Decimal(guide['usd_per_pack'])
+        assert amount.is_finite() and amount > 0 and guide['url'].startswith('https://'), 'Invalid USD guide'
+        assert guide.get('packs') is None or (isinstance(guide['packs'], int) and 0 < guide['packs'] <= 100), 'Invalid guide pack count'
+        assert date.fromisoformat(guide['valid_until']) >= date.fromisoformat(guide['verified_on']), 'Invalid guide dates'
+        re.compile(guide['title_pattern'])
     for pattern in cfg['franchises'].values():
         re.compile(pattern)
     assert cfg['max_alerts_per_run'] is None or 1 <= cfg['max_alerts_per_run'] <= 1000

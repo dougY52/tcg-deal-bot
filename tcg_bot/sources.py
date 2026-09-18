@@ -29,6 +29,10 @@ def parse_product(shop, product):
             'price': str(price), 'available': variant['available'],
             'gtin': str(variant.get('barcode') or ''),
             'seller': shop['name'], 'seller_verified': True,
+            'international': shop.get('international', False),
+            'ships_to_de': shop.get('ships_to_de'),
+            'import_costs': shop.get('import_costs', False),
+            'shipping_note': shop.get('shipping_note', ''),
             'currency': variant.get('price_currency', shop['currency']),
             'url': shop['base_url'] + '/products/' + quote(product['handle'], safe='-') + '?variant=' + vid,
         })

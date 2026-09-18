@@ -3,17 +3,17 @@ from decimal import Decimal
 import re
 
 # Restricted to the offer title/variant: descriptions often mention accessories as cross-sales.
-BAD = r'\b(acryl|acrylic|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|starter[ -]?deck|theme[ -]?deck|case|hülle|schutz|beschädigt|damaged|einzelkarte|single card|gebraucht|refurbished|b-ware|mini tin|booster bundle|sticker)\b'
+BAD = r'\b(acryl\w*|acrylic\w*|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|starter[ -]?deck|theme[ -]?deck|decks?|boxbreak|case|hülle|schutz|beschädigt|damaged|einzelkarte|single card|gebraucht|refurbished|b-ware|mini tin|booster bundle|sticker)\b'
 PREORDER = r'vorbestell|pre[ -]?order|vorverkauf|erscheint am|release[: ]|lieferbar ab|versand (?:ab|ca)' 
-FOREIGN = r'\b(japanisch|japanese|jpn|jp|cn|chinesisch|chinese|chn|kor|kr|korean|koreanisch|französisch|french|italienisch|italian|spanisch|spanish)\b'
+FOREIGN = r'\b(japanisch|japanese|jpn|jp|cn|chinesisch|chinese|chn|kor|kr|korean|koreanisch|fr|fra|français|francais|französisch|french|it|ita|italiano|italienisch|italian|es|esp|español|spanisch|spanish|polski|polish|pl|pt|portuguese)\b'
 
 
 def language(offer):
     text = offer['title'] + ' ' + offer['variant']
     if re.search(FOREIGN, text, re.I):
         return 'OTHER'
-    de = bool(re.search(r'\b(de|ger|deutsch|german)\b', text, re.I))
-    en = bool(re.search(r'\b(en|eng|englisch|english)\b', text, re.I))
+    de = bool(re.search(r'\b(de|ger|deutsch|german|duits|allemand|tedesco)\b', text, re.I))
+    en = bool(re.search(r'\b(en|eng|englisch|english|engels|anglais|inglese|inglés)\b', text, re.I))
     if de != en:
         return 'DE' if de else 'EN'
     # Explicit labelled language only; never infer language from German shop prose.
@@ -50,6 +50,8 @@ def reference_matches(offer, config):
 def assess(offer, config, today=None):
     today = today or date.today()
     text = offer['title'] + ' ' + offer['variant']
+    if offer.get('international') and (offer.get('ships_to_de') is not True or offer.get('import_costs')):
+        return None, 'international_total_unverified'
     if not franchise(offer, config):
         return None, 'irrelevant'
     exact = [r for r, _ in reference_matches(offer, config)]
@@ -137,7 +139,8 @@ def payload(deal, reason):
         'title': (reason + ': ' + deal['title'])[:250], 'url': deal['url'], 'color': 0x26A269,
         'description': f"**{Decimal(deal['price']):.2f} €** · {deal['language']} · {deal['shop_name']}\n"
                        f"{ref['packs']} Booster · {kind_label} · laut Händler online verfügbar\n"
-                       'Preis inkl. MwSt.; **Versand zusätzlich / im Checkout prüfen.**' + seller_text,
+                       'Preis inkl. MwSt.; **Versand zusätzlich / im Checkout prüfen.**' + seller_text
+                       + ('\n' + deal['shipping_note'] if deal.get('shipping_note') else ''),
         'fields': [{'name': label, 'value': f"{ref['retail_eur']} €; geprüft {ref['verified_on']}\n[Beleg]({ref['evidence'][0]['url']})"}],
         'footer': {'text': 'Nur Produktpreis verglichen. Verfügbarkeit kann sich ändern.'}
     }]}

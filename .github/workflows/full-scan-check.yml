@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
     paths:
+      - 'config/config.json'
+      - 'tcg_bot/**'
       - '.github/workflows/watch.yml'
       - '.github/workflows/full-scan-check.yml'
   workflow_dispatch:
@@ -27,6 +29,10 @@ jobs:
           from tcg_bot.__main__ import load_config, run, summary
           from tcg_bot.http import Client
           cfg = load_config('config/config.json')
+          # Include staged sources in this read-only qualification run.
+          for shop in cfg['shops']:
+              if shop.get('audit_checked_on'):
+                  shop['enabled'] = True
           start = time.monotonic()
           client = Client()
           try:
