@@ -1,3 +1,5 @@
+> Europa-Erweiterung: 14 zusätzliche Quellen (12 EU, 2 UK/CH-Import), 44 Quellen insgesamt; 13 feste Euro-Referenzen und 5 offizielle US-Dollar-Orientierungen. Aktueller Umfang, Versandbelege und Grenzen: [EUROPA.md](EUROPA.md).
+
 # Prüfbericht · 18.09.2026
 
 **Aktuelle Erweiterung:** 61 Tests bestanden. 20/20 neue Händlerkataloge im GitHub-Livetest erfolgreich; 5.299 Varianten gelesen. [Nachweis und Grenzen](QUELLEN-AUDIT.md). Die folgenden Zahlen dokumentieren den früheren Stand von Version 2.

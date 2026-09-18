@@ -26,6 +26,7 @@ class EuropeTests(unittest.TestCase):
     def test_europe_languages_and_accessory_false_positives(self):
         for title in ['Pokémon - Display de Boosters - FR','Pokemon Display IT','Pokemon Booster Box ES','Pokemon Acrylcase Display EN','Pokemon Assorted Deck Display EN']:
             self.assertIsNone(discovery(self.row | {'title':title},self.cfg))
+        self.assertEqual(language(self.row | {'title':'Pokemon Display de Boosters','description':''}), 'UNKNOWN')
         for name,expected in [('Engels','EN'),('Anglais','EN'),('Duits','DE')]:
             self.assertEqual(language(self.row | {'title':'Pokemon Booster Box '+name}),expected)
 

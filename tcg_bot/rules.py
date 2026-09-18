@@ -1,3 +1,4 @@
+from .price_guides import orientation
 from datetime import date
 from decimal import Decimal
 import re
@@ -12,8 +13,8 @@ def language(offer):
     text = offer['title'] + ' ' + offer['variant']
     if re.search(FOREIGN, text, re.I):
         return 'OTHER'
-    de = bool(re.search(r'\b(de|ger|deutsch|german|duits|allemand|tedesco)\b', text, re.I))
-    en = bool(re.search(r'\b(en|eng|englisch|english|engels|anglais|inglese|inglés)\b', text, re.I))
+    de = bool(re.search(r'\b(ger|deutsch|german|duits|allemand|tedesco)\b', text, re.I) or re.search(r'\bDE\b', text) or re.search(r'[([]de[)\]]', text, re.I))
+    en = bool(re.search(r'\b(eng|englisch|english|engels|anglais|inglese|inglés)\b', text, re.I) or re.search(r'\bEN\b', text) or re.search(r'[([]en[)\]]', text, re.I))
     if de != en:
         return 'DE' if de else 'EN'
     # Explicit labelled language only; never infer language from German shop prose.
@@ -96,7 +97,7 @@ def assess(offer, config, today=None):
     ceiling = Decimal(ref['retail_eur']) * (1 + Decimal(str(ref.get('tolerance_pct', 0))) / 100)
     if Decimal(offer['price']) > ceiling:
         return None, 'over_retail'
-    return dict(offer, reference=ref, language=ref['language'], ceiling=str(ceiling)), 'eligible'
+    return dict(offer, reference=ref, language=ref['language'], ceiling=str(ceiling), price_orientation=orientation(offer, config, ref['language'])), 'eligible'
 
 
 def prefer_german(deals):
@@ -140,7 +141,8 @@ def payload(deal, reason):
         'description': f"**{Decimal(deal['price']):.2f} €** · {deal['language']} · {deal['shop_name']}\n"
                        f"{ref['packs']} Booster · {kind_label} · laut Händler online verfügbar\n"
                        'Preis inkl. MwSt.; **Versand zusätzlich / im Checkout prüfen.**' + seller_text
-                       + ('\n' + deal['shipping_note'] if deal.get('shipping_note') else ''),
+                       + ('\n' + deal['shipping_note'] if deal.get('shipping_note') else '')
+                       + ('\n' + deal['price_orientation'] if deal.get('price_orientation') else ''),
         'fields': [{'name': label, 'value': f"{ref['retail_eur']} €; geprüft {ref['verified_on']}\n[Beleg]({ref['evidence'][0]['url']})"}],
         'footer': {'text': 'Nur Produktpreis verglichen. Verfügbarkeit kann sich ändern.'}
     }]}

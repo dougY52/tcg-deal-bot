@@ -1,3 +1,5 @@
+> Europa-Erweiterung: 14 zusätzliche Quellen (12 EU, 2 UK/CH-Import), 44 Quellen insgesamt; 13 feste Euro-Referenzen und 5 offizielle US-Dollar-Orientierungen. Aktueller Umfang, Versandbelege und Grenzen: [EUROPA.md](EUROPA.md).
+
 > Aktualisierung: Jeder geplante Fünf-Minuten-Lauf prüft jetzt alle aktivierten Händlerkataloge innerhalb ihrer konfigurierten Seitenlimits sowie die hinterlegten Produktziele. Keine stündliche Trennung mehr. Blockierte Quellen bleiben blockiert; ungeprüfte Preise sind keine Retail-Bestätigung. GitHub kann Starts verzögern.
 
 # Anime TCG Retail Watch · Discord · 0 €
