@@ -1,0 +1,1776 @@
+{
+  "checked_on": "2026-09-18",
+  "directory": "https://pokestores.de/",
+  "method": "Einmalige lokale Prüfung, Homepage und erste Shopify-Katalogseite. Keine Händler-Zuverlässigkeitsprüfung. unavailable bedeutet Abruf fehlgeschlagen, nicht Geschäft geschlossen. html_only bedeutet kein Shopify-Feed erkannt, nicht kein möglicher Adapter.",
+  "results": [
+    {
+      "name": "Poke-Corner",
+      "url": "https://www.poke-corner.de",
+      "final_url": "https://www.card-corner.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "KofukuGames",
+      "url": "https://kofukugames.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "PokeGeoDude",
+      "url": "https://pokegeodude.shop",
+      "final_url": "https://pokegeodude.shop/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Man-of-Games",
+      "url": "https://www.man-of-games.de",
+      "final_url": "https://www.man-of-games.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Cardmarket",
+      "url": "https://www.cardmarket.com",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "CardBuddys",
+      "url": "https://www.cardbuddys.de",
+      "final_url": "https://cardbuddys.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 6,
+      "examples": [
+        {
+          "title": "Digimon Card Game Timeless Bonds Booster Display BT26",
+          "url": "https://www.cardbuddys.de/products/digimon-card-game-timeless-bonds-booster-display-bt26?variant=58336628080971",
+          "price": "89.95"
+        },
+        {
+          "title": "Digimon Card Game Limited Card Pack Final Crest Booster Display LM-08 EN",
+          "url": "https://www.cardbuddys.de/products/digimon-card-game-limited-card-pack-final-crest-booster-display-lm-08-en?variant=58257172889931",
+          "price": "29.95"
+        }
+      ]
+    },
+    {
+      "name": "CardsParadise",
+      "url": "https://www.cardsparadise.com",
+      "final_url": "https://www.cardsparadise.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "PokeViert",
+      "url": "https://www.pokeviert.shop",
+      "final_url": "https://tcgviert.com/",
+      "social": [
+        "https://twitter.com/PokeViert"
+      ],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 5,
+      "examples": [
+        {
+          "title": "Digimon TCG | Final Crest | Display (EN)",
+          "url": "https://www.pokeviert.shop/products/digimon-tcg-final-crest-display-en?variant=53627526545674",
+          "price": "28.99"
+        },
+        {
+          "title": "Pokémon TCG | Mega Entwicklungen: Wachsendes Chaos (ME04) | 36er Display (DE)  (Limit: 1/Kunde)",
+          "url": "https://www.pokeviert.shop/products/pokemon-tcg-mega-entwicklungen-wachsendes-chaos-me04-36er-display-de-vvk-22-05-26-limit-1-person?variant=52705955545354",
+          "price": "174.99"
+        }
+      ]
+    },
+    {
+      "name": "TradingCards4Life",
+      "url": "https://tradingcards4life.com",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Pokesynek",
+      "url": "https://www.pokesynek.de",
+      "final_url": "https://www.pokesynek.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "LindCards",
+      "url": "https://www.lindcards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Poke-Explosion",
+      "url": "https://poke-explosion.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "TSGeneration",
+      "url": "https://tsgeneration.de",
+      "status": "unavailable",
+      "error": "HTTPError 530"
+    },
+    {
+      "name": "TradersHood",
+      "url": "https://tradershood.de",
+      "final_url": "https://www.tradershood.de/password",
+      "social": [],
+      "eur_evidence": true,
+      "status": "unavailable",
+      "error": "HTTPError 401"
+    },
+    {
+      "name": "SmythsToys",
+      "url": "https://www.smythstoys.com",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "KartenArena",
+      "url": "https://kartenarena.de",
+      "final_url": "https://kartenarena.de/",
+      "social": [
+        "https://x.com/share"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Webbas-Kartenecke",
+      "url": "https://webbas-kartenecke.de",
+      "final_url": "https://webbas-kartenecke.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 471,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Celestial-Gameshop",
+      "url": "https://www.celestial-gameshop.de",
+      "final_url": "https://www.celestial-gameshop.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "CardCatcher",
+      "url": "https://www.cardcatcher.de",
+      "final_url": "https://www.cardcatcher.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Pokeminati",
+      "url": "https://pokeminati.de",
+      "final_url": "https://pokeminati.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 260,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "GeeksHeaven",
+      "url": "https://geeksheaven.de",
+      "final_url": "https://geeksheaven.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 1,
+      "examples": [
+        {
+          "title": "One Piece Card Game - The World's Strongest Warriors Display 24 Booster OP-17 (englisch)",
+          "url": "https://geeksheaven.de/products/one-piece-card-game-the-worlds-strongest-warriors-display-op-17-englisch-vorbestellung?variant=53279861408011",
+          "price": "399.99"
+        }
+      ]
+    },
+    {
+      "name": "PaddysTCG",
+      "url": "https://paddystcg.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "ComicPlanet",
+      "url": "https://www.comicplanet.de",
+      "final_url": "https://www.comicplanet.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MJCCG-Shop",
+      "url": "https://mjccg-shop.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Poke-Universe",
+      "url": "https://poke-universe.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Müller",
+      "url": "https://www.mueller.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "Play-And-Collect",
+      "url": "https://play-and-collect.de",
+      "final_url": "https://play-and-collect.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Card-Collector",
+      "url": "https://www.card-collector.net",
+      "final_url": "https://card-collector.net/",
+      "social": [
+        "https://twitter.com/CardCollectorY1"
+      ],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 261,
+      "orderable_displays": 2,
+      "examples": [
+        {
+          "title": "Yu-Gi-Oh! - Limited Pack World Championship 2026 Display (10 Packs) Englisch",
+          "url": "https://www.card-collector.net/products/yu-gi-oh-limited-pack-world-championship-2026-display-10-packs-englisch-ab-29-08-2026?variant=62052662509836",
+          "price": "44.00"
+        },
+        {
+          "title": "Digimon Card Game - Rubeusdramon Starter Deck Display ST-25 (8 Decks) Englisch - ab 04.12.2026",
+          "url": "https://www.card-collector.net/products/digimon-card-game-rubeusdramon-starter-deck-display-st-25-8-decks-englisch-ab-04-12-2026?variant=62019123872012",
+          "price": "18.00"
+        }
+      ]
+    },
+    {
+      "name": "PushDich",
+      "url": "https://www.pushdich-tcg.de",
+      "final_url": "https://www.pushdich-tcg.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 535,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "VanessasTCG-Shop",
+      "url": "https://www.vanessastcg-shop.de",
+      "final_url": "https://vanessastcg-shop.myshopify.com/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 86,
+      "variants": 110,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Gate-To-The-Games",
+      "url": "https://www.gate-to-the-games.de",
+      "final_url": "https://www.gate-to-the-games.de/",
+      "social": [
+        "https://twitter.com/GatetotheGames"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MoCards",
+      "url": "https://mocards.de",
+      "final_url": "https://mocards.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 315,
+      "orderable_displays": 1,
+      "examples": [
+        {
+          "title": "Digimon Card Game Timeless Bonds BT-26 Booster Display (24 Packs) - EN",
+          "url": "https://mocards.de/products/digimon-card-game-timeless-bonds-bt-26-booster-display-24-packs-en?variant=62066497880332",
+          "price": "84.99"
+        }
+      ]
+    },
+    {
+      "name": "Crocus-Cards",
+      "url": "https://crocus-cards.de",
+      "final_url": "https://crocus-cards.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 6,
+      "examples": [
+        {
+          "title": "Pokemon Dunkelnacht - 36er Display (DE)",
+          "url": "https://crocus-cards.de/products/pokemon-dunkelnacht-36er-display-de?variant=53273731039499",
+          "price": "184.90"
+        },
+        {
+          "title": "Yugioh Photon Hypernova Display (DE)",
+          "url": "https://crocus-cards.de/products/yugioh-photon-hypernova-display-de?variant=49578681958667",
+          "price": "74.90"
+        }
+      ]
+    },
+    {
+      "name": "LottiCards",
+      "url": "https://www.lotticards.de",
+      "final_url": "https://www.lotticards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "JimboCards",
+      "url": "https://shop-jimbocards.company.site",
+      "status": "unavailable",
+      "error": "HTTPError 404"
+    },
+    {
+      "name": "Joker-Games",
+      "url": "https://joker-games.de",
+      "final_url": "https://joker-games.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Sapphire-Cards",
+      "url": "https://sapphire-cards.de",
+      "final_url": "https://sapphire-cards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "BalticToys",
+      "url": "https://www.baltictoys.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "DaiynamicPokemon",
+      "url": "https://daiynamicpokemon.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Temple-Of-Cards",
+      "url": "https://temple-of-cards.de",
+      "final_url": "https://temple-of-cards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "GamersTrading",
+      "url": "https://www.gamerstrading.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Redrum-Verlag",
+      "url": "https://www.redrum-verlag.de",
+      "final_url": "https://redrumshop.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 341,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Hanse-Games",
+      "url": "https://www.hanse-games.de",
+      "final_url": "https://www.hanse-games.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Gamestop",
+      "url": "https://www.gamestop.de",
+      "status": "robots_disallow"
+    },
+    {
+      "name": "FK-Store",
+      "url": "https://www.fk-store.de",
+      "final_url": "https://www.fk-store.de/_bcchk?return=%2f",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Play-Maniac",
+      "url": "https://www.play-maniac.de",
+      "final_url": "https://www.play-maniac.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 14,
+      "examples": [
+        {
+          "title": "Digimon Card Game Dual Revolution BT-25 Booster Display (24 Packs) Englisch",
+          "url": "https://www.play-maniac.de/products/digimon-bt25-dual-revolution-display-eng?variant=53009081991432",
+          "price": "84.99"
+        },
+        {
+          "title": "Bundle: Palworld Official Card Game Dawn of Palpagos BP01 Booster Display Englisch / Naruto Mythos TCG First Set 2nd Edition Display Englisch",
+          "url": "https://www.play-maniac.de/products/bundle-palworld-official-card-game-dawn-of-palpagos-bp01-booster-display-naruto-mythos-tcg-first-set-2nd-edition-display-englisch?variant=58351636611336",
+          "price": "239.99"
+        }
+      ]
+    },
+    {
+      "name": "Kartenschatz",
+      "url": "https://kartenschatz.de",
+      "final_url": "https://kartenschatz.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 95,
+      "variants": 164,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "PokeDen",
+      "url": "https://www.pokeden.de",
+      "final_url": "https://pokeden.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "SportShopFairPlay",
+      "url": "https://sportshopfairplay.de",
+      "final_url": "https://sportshopfairplay.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Cards-Uniques",
+      "url": "https://www.cards-uniques.de",
+      "final_url": "https://www.cards-uniques.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 304,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "AdventureCardz",
+      "url": "https://adventurecardz.de",
+      "final_url": "https://adventurecardz.de/",
+      "social": [
+        "https://twitter.com/AdventureCardz"
+      ],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 289,
+      "orderable_displays": 20,
+      "examples": [
+        {
+          "title": "🟢LIVESTREAM - Dragonball - Critical Blow B22 Booster [EN]",
+          "url": "https://adventurecardz.de/products/ufuk-tiktok-dragonball-critical-blow-b22-booster-en?variant=52347705688331",
+          "price": "179.90"
+        },
+        {
+          "title": "🟢LIVESTREAM - Dragon Ball Fusion World - Ultra Limit FB04 [EN]",
+          "url": "https://adventurecardz.de/products/ufuk-tiktok-dragonball-ultra-limit-fb04-booster-en?variant=52892921397515",
+          "price": "89.99"
+        }
+      ]
+    },
+    {
+      "name": "Tenkaichi",
+      "url": "https://tenkaichi.de",
+      "final_url": "https://tenkaichi.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 24,
+      "variants": 31,
+      "orderable_displays": 2,
+      "examples": [
+        {
+          "title": "Yu-Gi-Oh! Trading Card Game Battles of Legend: Glorious Gallery Booster Display Englisch",
+          "url": "https://tenkaichi.de/products/yu-gi-oh-trading-card-game-battles-of-legend-glorious-gallery-booster-display-englisch?variant=53226449240331",
+          "price": "64.99"
+        },
+        {
+          "title": "One Piece Card Game: The Time of Battle OP-16",
+          "url": "https://tenkaichi.de/products/one-piece-card-game-the-time-of-battle-op-16?variant=53215777358091",
+          "price": "199.00"
+        }
+      ]
+    },
+    {
+      "name": "Stickerpoint",
+      "url": "https://www.stickerpoint.de",
+      "final_url": "https://www.stickerpoint.de/",
+      "social": [
+        "https://twitter.com/stickerpoint_de"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MyToys",
+      "url": "https://www.mytoys.de",
+      "final_url": "https://www.otto.de/mytoys/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MojoZone",
+      "url": "https://www.mojozone.de",
+      "final_url": "https://www.mojozone.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Poke-Centre",
+      "url": "https://poke-centre.de",
+      "final_url": "https://card-centre.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Nika-PokemonCards",
+      "url": "https://nika-pokemoncards.de",
+      "final_url": "https://nikacards.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "unavailable",
+      "error": "JSONDecodeError"
+    },
+    {
+      "name": "TableTopsters",
+      "url": "https://tabletopsters.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Toy-Treasure",
+      "url": "https://toy-treasure.com",
+      "final_url": "https://toy-treasure.com/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 13,
+      "examples": [
+        {
+          "title": "My Hero Academia Collectible Card Game: Series 1 - Display (ENG)",
+          "url": "https://toy-treasure.com/products/my-hero-academia-collectible-card-game-series-1-display-eng?variant=54958967226695",
+          "price": "59.90"
+        },
+        {
+          "title": "Yu-Gi-Oh! Magnificent Monsters Booster Box (ENG)",
+          "url": "https://toy-treasure.com/products/yu-gi-oh-magnificent-monsters-booster-box-englisch?variant=54944183877959",
+          "price": "34.90"
+        }
+      ]
+    },
+    {
+      "name": "PokePoint",
+      "url": "https://pokepoint-shop.com",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "GoodGameGuys",
+      "url": "https://www.goodgameguys.de",
+      "final_url": "https://www.goodgameguys.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Collect-It",
+      "url": "https://www.collect-it.de",
+      "final_url": "https://www.collect-it.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Card-Zone",
+      "url": "https://www.card-zone.de",
+      "status": "unavailable",
+      "error": "HTTPError 500"
+    },
+    {
+      "name": "Madycards",
+      "url": "https://www.madycards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Battle-Bear",
+      "url": "https://www.battle-bear.de",
+      "final_url": "https://www.battle-bear.de/",
+      "social": [
+        "https://x.com/battlebeartcg"
+      ],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 1,
+      "examples": [
+        {
+          "title": "Pokémon Mega Evolution Pitch Black Display Englisch",
+          "url": "https://www.battle-bear.de/products/pokemon-mega-evolution-pitch-black-display-englisch?variant=57848279990603",
+          "price": "220.00"
+        }
+      ]
+    },
+    {
+      "name": "CardTree",
+      "url": "https://cardtree.de",
+      "final_url": "https://cardtree.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "GameShop-Marli",
+      "url": "https://www.gameshop-marli.de",
+      "final_url": "https://www.gameshop-marli.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "ChaseCards",
+      "url": "https://www.chasecards.shop",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "BaYuGiOhShop",
+      "url": "https://www.bayugiohshop.eu",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "VoxyMoron",
+      "url": "https://voxymoron.de",
+      "final_url": "https://voxymoron.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Cardsköpfe",
+      "url": "https://www.cardskoepfe.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "GGCards",
+      "url": "https://www.ggcards.de",
+      "final_url": "https://www.ggcards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Lejamo-Shop",
+      "url": "https://www.lejamo-shop.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Innventory",
+      "url": "https://innventory.de",
+      "final_url": "https://innventory.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CollectingNerdsDE",
+      "url": "https://www.collectingnerds.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Variety Cards",
+      "url": "https://variety-cards.de",
+      "final_url": "https://variety-cards.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 310,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "GamersHeaven",
+      "url": "https://gamersheaven.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "Best-Collect",
+      "url": "https://www.best-collect.de",
+      "status": "unavailable",
+      "error": "HTTPError 503"
+    },
+    {
+      "name": "Gletschis-Kartenkiste",
+      "url": "https://www.gletschis-kartenkiste.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "CardColosseum",
+      "url": "https://cardcolosseum.de",
+      "status": "robots_disallow"
+    },
+    {
+      "name": "Lukricards",
+      "url": "https://lukricards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Poke-Hype2K",
+      "url": "https://www.poke-hype2k.de",
+      "final_url": "https://www.cards4fun.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 3,
+      "variants": 6,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Cardcat",
+      "url": "https://cardcat.de",
+      "final_url": "https://cardcat.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "OpasLaden",
+      "url": "https://opasladen.de",
+      "final_url": "https://opasladen.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "shopify_ok",
+      "products": 250,
+      "variants": 250,
+      "orderable_displays": 0,
+      "examples": []
+    },
+    {
+      "name": "Collector-Card",
+      "url": "https://collector-card.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "StrongVision",
+      "url": "https://www.strongvision.de",
+      "final_url": "https://strongvision.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Kartendeck",
+      "url": "https://www.kartendeck.net",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Duo-Shop",
+      "url": "https://www.duo-shop.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "Poke-Planet",
+      "url": "https://poke-planet.de",
+      "final_url": "https://vireza1.com/casino?cxd=37093_621385_|afp10:Seo&vcntr=1&afp10=Seo&bta=37093&nci=5486&utm_campaign=trust#register",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Vedes",
+      "url": "https://www.vedes.com",
+      "final_url": "https://www.vedes.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CardMiral",
+      "url": "https://www.cardmiral.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "DD-Trading-Cards",
+      "url": "https://www.dd-trading-cards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "KeepSeven",
+      "url": "https://keepseven.de",
+      "final_url": "https://keepseven.de/",
+      "social": [
+        "https://twitter.com/keep_seven"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Industrial-Illusions",
+      "url": "https://industrial-illusions.eu",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "WRD-Trading-Cards",
+      "url": "https://www.wrd-trading-cards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "TCG-Trade",
+      "url": "https://www.tcg-trade.de",
+      "final_url": "https://tcg-trade.de/",
+      "social": [
+        "https://twitter.com/trade_tcg"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CrispyCards",
+      "url": "https://crispycards.de",
+      "final_url": "https://crispycards.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "RaveCards",
+      "url": "https://ravecards.com",
+      "final_url": "https://ravecards.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TobisToys",
+      "url": "https://tobistoys.de",
+      "final_url": "https://tobistoys.de/",
+      "social": [],
+      "eur_evidence": true,
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Nerdig",
+      "url": "https://nerdig.de",
+      "final_url": "https://nerdig.de/de",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "BrofessorEich",
+      "url": "https://brofessoreich.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Sticker-Und-Co",
+      "url": "https://sticker-und-co.de",
+      "final_url": "https://sticker-und-co.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Anime-Le",
+      "url": "https://www.anime-le.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Games-Island",
+      "url": "https://games-island.eu",
+      "final_url": "https://games-island.eu/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "RisingCards",
+      "url": "https://risingcards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "PokeGarden",
+      "url": "https://www.pokegarden.de",
+      "status": "robots_disallow"
+    },
+    {
+      "name": "IdeeUndSpiel",
+      "url": "https://www.ideeundspiel.com",
+      "final_url": "https://www.ideeundspiel.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "JK-Entertainment",
+      "url": "https://jk-entertainment.de",
+      "final_url": "https://jk-entertainment.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Nanis-Kinderparadies",
+      "url": "https://www.nanis-kinderparadies.de",
+      "final_url": "https://www.nanis-kinderparadies.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Markustery-Cards",
+      "url": "https://markustery-cards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "MoSelection",
+      "url": "https://moselection.de",
+      "final_url": "https://omg-nerdstuff.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "God of Games",
+      "url": "https://www.god-of-games.de",
+      "final_url": "https://www.god-of-games.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CardsAndToys",
+      "url": "https://cardsandtoys.de",
+      "final_url": "https://cardsandtoys.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Cardgames24",
+      "url": "https://cardgames24.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Spielzeugwelten",
+      "url": "https://www.spielzeugwelten.de",
+      "final_url": "https://www.spielzeugwelten.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Spielwaren-Kroemer",
+      "url": "https://spielwaren-kroemer.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "PokeBreak",
+      "url": "https://www.pokebreak.de",
+      "final_url": "https://www.pokebreak.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Geco-Cards",
+      "url": "https://www.geco-cards.de",
+      "final_url": "https://www.geco-cards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Aixplosive-TCG",
+      "url": "https://aixplosive-tcg.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Shop-Funtainment",
+      "url": "https://shop-funtainment.de",
+      "final_url": "https://shop-funtainment.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MJs Anime",
+      "url": "https://mjs-anime-store.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Kevins-Cards",
+      "url": "https://www.kevins-cards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Beas-Schatzinsel",
+      "url": "https://beas-schatzinsel.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "CardCollector",
+      "url": "https://cardcollector.shop",
+      "final_url": "https://cardcollector.shop/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Bulcards",
+      "url": "https://www.bulcards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "PoCaBo",
+      "url": "https://www.pocabo.de",
+      "final_url": "https://www.pocabo.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CrazyCards",
+      "url": "https://www.crazycards.eu",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Mr Bricks and More",
+      "url": "https://mrbricksandmore.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "DragonCats",
+      "url": "https://www.dragoncats.de",
+      "final_url": "https://www.dragoncats.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TradingToys",
+      "url": "https://www.tradingtoys.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Lotus Games",
+      "url": "https://www.lotus-games.eu",
+      "final_url": "https://www.lotus-games.eu/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Poke-Freddy",
+      "url": "https://poke-freddy.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Svens-Spielzeugparadies",
+      "url": "https://www.svens-spielzeugparadies.de",
+      "final_url": "https://www.svens-spielzeugparadies.de/",
+      "social": [
+        "https://twitter.com/share"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Cardicuno",
+      "url": "https://cardicuno.de",
+      "final_url": "https://www.cardicuno.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Aussenposten-Tabletop",
+      "url": "https://aussenposten-tabletop.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Hebelbros",
+      "url": "https://hebelbros.company.site",
+      "status": "unavailable",
+      "error": "HTTPError 404"
+    },
+    {
+      "name": "Peer Online",
+      "url": "https://peer-online.com",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Bücher",
+      "url": "https://www.buecher.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "Karten-Dschungel",
+      "url": "https://karten-dschungel.de",
+      "final_url": "https://karten-dschungel.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "World-Of-Fantasy-Online",
+      "url": "https://www.world-of-fantasy-online.de",
+      "status": "unavailable",
+      "error": "HTTPError 404"
+    },
+    {
+      "name": "DoicCards",
+      "url": "https://doiccards.de",
+      "final_url": "https://www.doiccards.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "J. H. Fuhr",
+      "url": "https://shop.fuhr.info",
+      "final_url": "https://shop.fuhr.info/de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Stackmann",
+      "url": "https://www.stackmann.de",
+      "final_url": "https://www.stackmann.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "PokeTani",
+      "url": "https://www.poketani.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "DJShop24",
+      "url": "https://djshop24.de",
+      "status": "unavailable",
+      "error": "HTTPError 503"
+    },
+    {
+      "name": "ToyThunder",
+      "url": "https://toythunder.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Conny's World",
+      "url": "https://www.connys-world.de",
+      "final_url": "https://www.dasonlinekaufhausmitherz.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Dudes-Comic-Corner",
+      "url": "https://www.dudes-comic-corner.de",
+      "final_url": "https://www.dudes-comic-corner.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "WizzardsInn",
+      "url": "https://wizzardsinn.de",
+      "status": "unavailable",
+      "error": "HTTPError 423"
+    },
+    {
+      "name": "Funtainment",
+      "url": "https://shop.funtainment.de",
+      "final_url": "https://funtainment.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TCG-Ajdin",
+      "url": "https://tcg-ajdin.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Games-Cafe",
+      "url": "https://shop.games-cafe.de",
+      "final_url": "https://shop.games-cafe.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Karten-Biest",
+      "url": "https://karten-biest.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Gruendauer-Spieleck",
+      "url": "https://www.gruendauer-spieleck.de",
+      "final_url": "https://www.gruendauer-spieleck.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TCGWarehouse",
+      "url": "https://www.tcgwarehouse.de",
+      "final_url": "https://www.tcgwarehouse.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Trader-Online",
+      "url": "https://www.trader-online.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "BB-Spiele",
+      "url": "https://www.bb-spiele.de",
+      "final_url": "https://www.bb-spiele.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "NR-Collectibles",
+      "url": "https://www.nr-collectibles.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Cards-Collect",
+      "url": "https://www.cards-collect.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "GameParadise24",
+      "url": "https://www.gameparadise24.de",
+      "final_url": "https://gameparadise24.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TradingCardCave",
+      "url": "https://tradingcardcave.de",
+      "final_url": "https://tradingcardcave.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Hive World",
+      "url": "https://www.hiveworld.de",
+      "final_url": "https://www.hiveworld.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "BMG TCG",
+      "url": "https://bloodmoongaming.de",
+      "status": "unavailable",
+      "error": "HTTPError 500"
+    },
+    {
+      "name": "GameYard24",
+      "url": "https://gameyard24.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Tradingcardshannover",
+      "url": "https://www.tradingcardshannover.com",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "YumeiNihon",
+      "url": "https://yumeinihon.com",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Gamepaddy",
+      "url": "https://gamepaddy.de",
+      "final_url": "https://cardandsoul.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "GamesKong",
+      "url": "https://gameskong.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "RotDerSammler",
+      "url": "https://www.rotdersammler.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "PokeRoom",
+      "url": "https://www.pokeroom.shop",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Sleevee",
+      "url": "https://sleevee.de",
+      "final_url": "https://sleevee.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Spielzeugladen-Neusser",
+      "url": "https://www.spielzeugladen-neusser.de",
+      "final_url": "https://www.schul-und-spielzeug.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Fantasy-In",
+      "url": "https://www.fantasy-in.de",
+      "final_url": "https://www.fantasy-in.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Heldenschmiede",
+      "url": "https://www.heldenschmiede.eu",
+      "final_url": "https://www.heldenschmiede.eu/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Toys-For-Fun",
+      "url": "https://www.toys-for-fun.com",
+      "final_url": "https://www.toys-for-fun.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CardSmith",
+      "url": "https://www.cardsmith.de",
+      "final_url": "https://www.cardsmith.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MyCollectibles",
+      "url": "https://mycollectibles.de",
+      "final_url": "https://mycollectibles.de/",
+      "social": [
+        "https://twitter.com/myCollect_de"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Arns Gameshop",
+      "url": "https://arns-gameshop.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Comic Portal",
+      "url": "https://comic-portal.net",
+      "final_url": "https://comic-portal.net/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Ap-Tradingcards",
+      "url": "https://www.ap-tradingcards.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Yodasdata",
+      "url": "https://yodasdata.biz",
+      "final_url": "https://yodasdata.biz/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MariosGamesWorld",
+      "url": "https://www.mariosgamesworld.de",
+      "final_url": "https://www.mariosgamesworld.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Itemstar-Shop",
+      "url": "https://itemstar-shop.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Comix-Hannover",
+      "url": "https://www.comix-hannover.de",
+      "final_url": "https://www.comix-hannover.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Figuya",
+      "url": "https://figuya.com",
+      "final_url": "https://figuya.com/",
+      "social": [
+        "https://twitter.com/figuchan"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Schreiben-Lesen-Spielen",
+      "url": "https://schreiben-lesen-spielen.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "FluseBaer",
+      "url": "https://flusebaer.de",
+      "final_url": "https://flusebaer.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Game-Republic",
+      "url": "https://game-republic.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "Compravo",
+      "url": "https://www.compravo.de",
+      "final_url": "https://www.compravo.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "FantasyStronghold",
+      "url": "https://www.fantasystronghold.de",
+      "final_url": "https://fantasystronghold.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CardCosmos",
+      "url": "https://cardcosmos.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "X-Comics",
+      "url": "https://www.x-comics.de",
+      "final_url": "https://www.x-comics.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "CToy",
+      "url": "https://ctoy.de",
+      "status": "unavailable",
+      "error": "HTTPError 503"
+    },
+    {
+      "name": "Fictionary-World",
+      "url": "https://fictionary-world.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Kartenbasis",
+      "url": "https://kartenbasis.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Spielebude",
+      "url": "https://spielebude.com",
+      "final_url": "https://spielebude.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "PokeTjey",
+      "url": "https://poketjey.de",
+      "status": "unavailable",
+      "error": "URLError"
+    },
+    {
+      "name": "EinzigUndArtig",
+      "url": "https://www.einzigundartig.de",
+      "final_url": "https://www.einzigundartig.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Hocus Pocus",
+      "url": "https://hocuspocus-shop.de",
+      "final_url": "https://hocuspocus-shop.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Honest Trading",
+      "url": "https://honest-trading.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "MagicPapa-Shop",
+      "url": "https://www.magicpapa-shop.de",
+      "final_url": "https://www.magicpapa-shop.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "GetTheGame",
+      "url": "https://www.getthegame.de",
+      "final_url": "https://www.getthegame.de/_bcchk?return=%2f",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "BrettspielHeld",
+      "url": "https://brettspielheld.de",
+      "final_url": "https://brettspielheld.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TCG-Cases",
+      "url": "https://tcg-cases.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Adequamus",
+      "url": "https://adequamus.de",
+      "final_url": "https://adequamus.de/",
+      "social": [
+        "https://twitter.com/KeineAhnungvonPokemon"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "PlayingCards",
+      "url": "https://www.playingcards.de",
+      "final_url": "https://www.playingcards.de/",
+      "social": [
+        "https://twitter.com/playingcardsDE"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "TCGViert",
+      "url": "https://tcgviert.com",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "TCG-Camp",
+      "url": "https://www.tcg-camp.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "Kartenmeier",
+      "url": "https://kartenmeier.de",
+      "status": "unavailable",
+      "error": "HTTPError 429"
+    },
+    {
+      "name": "LimitedMarket",
+      "url": "https://www.limitedmarket.com",
+      "final_url": "https://www.limitedmarket.com/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Rossmann",
+      "url": "https://www.rossmann.de",
+      "final_url": "https://www.rossmann.de/de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "challenge"
+    },
+    {
+      "name": "Thalia",
+      "url": "https://www.thalia.de",
+      "status": "unavailable",
+      "error": "HTTPError 403"
+    },
+    {
+      "name": "OTTO",
+      "url": "https://www.otto.de",
+      "final_url": "https://www.otto.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "MediaMarkt",
+      "url": "https://www.mediamarkt.de",
+      "final_url": "https://www.mediamarkt.de/",
+      "social": [
+        "https://x.com/MediaMarktGames"
+      ],
+      "eur_evidence": false,
+      "status": "html_only"
+    },
+    {
+      "name": "Saturn",
+      "url": "https://www.saturn.de",
+      "final_url": "https://www.saturn.de/",
+      "social": [],
+      "eur_evidence": false,
+      "status": "html_only"
+    }
+  ]
+}

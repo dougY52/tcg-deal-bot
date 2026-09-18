@@ -3,7 +3,7 @@ from decimal import Decimal
 import re
 
 # Restricted to the offer title/variant: descriptions often mention accessories as cross-sales.
-BAD = r'\b(acryl|acrylic|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|case|hülle|schutz|beschädigt|damaged|einzelkarte|single card|gebraucht|refurbished|b-ware|mini tin|booster bundle|sticker)\b'
+BAD = r'\b(acryl|acrylic|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|starter[ -]?deck|theme[ -]?deck|case|hülle|schutz|beschädigt|damaged|einzelkarte|single card|gebraucht|refurbished|b-ware|mini tin|booster bundle|sticker)\b'
 PREORDER = r'vorbestell|pre[ -]?order|vorverkauf|erscheint am|release[: ]|lieferbar ab|versand (?:ab|ca)' 
 FOREIGN = r'\b(japanisch|japanese|jpn|jp|cn|chinesisch|chinese|chn|kor|kr|korean|koreanisch|französisch|french|italienisch|italian|spanisch|spanish)\b'
 

@@ -1,0 +1,31 @@
+name: Catalog source check
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'config/config.json'
+      - 'tcg_bot/discovery.py'
+      - 'tcg_bot/rules.py'
+      - 'scripts/check_catalogs.py'
+      - '.github/workflows/catalog-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -q
+      - run: python scripts/check_catalogs.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: catalog-check
+          path: catalog-check.json
+          retention-days: 7

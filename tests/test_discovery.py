@@ -65,3 +65,8 @@ class DiscoveryTests(unittest.TestCase):
         report = self.check(state)
         self.assertEqual(report['sent'], 1)
         self.assertEqual(report['discovery_sent'], 0)
+
+    def test_live_opening_and_deck_displays_are_not_sealed_booster_displays(self):
+        for title in ['LIVESTREAM Dragon Ball FB10 Display EN', 'Dragon Ball Rip and Ship Booster Box EN', 'Digimon Starter Deck Display EN', 'Pokemon Theme Deck Display DE']:
+            self.assertIsNone(discovery(self.row | {'title': title}, self.cfg))
+        self.assertIsNotNone(discovery(self.row, self.cfg))
