@@ -1,0 +1,51 @@
+name: Full catalog scan check
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/watch.yml'
+      - '.github/workflows/full-scan-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -q
+      - name: Read all configured catalogs without Discord or state writes
+        run: |
+          python - <<'PY'
+          import json, time
+          from pathlib import Path
+          from tcg_bot.__main__ import load_config, run, summary
+          from tcg_bot.http import Client
+          cfg = load_config('config/config.json')
+          start = time.monotonic()
+          client = Client()
+          try:
+              report = run(cfg, {'version': 1, 'offers': {}}, client)
+          finally:
+              client.close()
+          elapsed = time.monotonic() - start
+          Path('scan-check.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
+          print(summary(report))
+          print(f'FULL SCAN SECONDS: {elapsed:.1f}')
+          active = [s for s in cfg['shops'] if s.get('enabled', True)]
+          assert len(report['shops']) + len(report['errors']) == len(active), 'Not every source attempted'
+          passed = {s['shop'] for s in report['shops']}
+          assert all(s['id'] in passed for s in active if s.get('audit_checked_on')), 'New source failed'
+          assert elapsed < 240, 'Scan too slow for five minute cadence'
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-scan-check
+          path: scan-check.json
+          retention-days: 7

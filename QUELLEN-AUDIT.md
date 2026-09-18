@@ -1,3 +1,5 @@
+> Aktualisierung: Jeder geplante Fünf-Minuten-Lauf prüft jetzt alle aktivierten Händlerkataloge innerhalb ihrer konfigurierten Seitenlimits sowie die hinterlegten Produktziele. Keine stündliche Trennung mehr. Blockierte Quellen bleiben blockiert; ungeprüfte Preise sind keine Retail-Bestätigung. GitHub kann Starts verzögern.
+
 # Breite Quellenprüfung · 18.09.2026
 
 215 Händleradressen einmalig geprüft. Ausgangspunkt: [Pokestores-Verzeichnis](https://pokestores.de/) plus gezielt ergänzte Händler. Adressen sind keine unabhängigen Geschäfte (Umleitungen möglich). Das Verzeichnis ist keine Händlerempfehlung oder Garantie für Vollständigkeit.
@@ -31,7 +33,7 @@ Ergebnis der lokalen Erstprüfung: 23 lesbare Shopify-Kataloge, 97 HTML-Seiten o
 - [Variety Cards](https://variety-cards.de)
 - [OpasLaden](https://opasladen.de)
 
-Pro neuem Shop wird stündlich die erste Katalogseite mit höchstens 250 Produkten gelesen. Das ist keine vollständige Suche im gesamten Shop. Bereits ausdrücklich freigegebene Produktziele bleiben im Fünf-Minuten-Zeitplan. Neue Katalogentdeckungen werden nicht automatisch in die schnelle Produktüberwachung aufgenommen. GitHub kann geplante Starts verzögern oder auslassen.
+Pro neuem Shop wird bei jedem geplanten Fünf-Minuten-Lauf die erste Katalogseite mit höchstens 250 Produkten gelesen. Das ist keine vollständige Suche im gesamten Shop. Bereits ausdrücklich freigegebene Produktziele bleiben im Fünf-Minuten-Zeitplan. Katalogentdeckungen werden bei jedem Lauf erneut auf Bestellbarkeit geprüft; eine feste Preisreferenz wird dadurch nicht automatisch angelegt. GitHub kann geplante Starts verzögern oder auslassen.
 
 Nur explizit bestellbare Varianten mit DE/EN-Kennzeichnung passieren die Entdeckungsfilter. Bestellbare Vorbestellungen sind erlaubt und entsprechend beschriftet. Nicht lieferbare und unklare Bestände werden nicht gemeldet. Livestream-Öffnungen, Rip-and-Ship und Starterdeck-Displays sind ausgeschlossen. Quellen-/Verkäuferidentität bedeutet keine Händler-Bonitätsprüfung.
 

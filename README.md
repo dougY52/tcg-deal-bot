@@ -1,6 +1,8 @@
+> Aktualisierung: Jeder geplante Fünf-Minuten-Lauf prüft jetzt alle aktivierten Händlerkataloge innerhalb ihrer konfigurierten Seitenlimits sowie die hinterlegten Produktziele. Keine stündliche Trennung mehr. Blockierte Quellen bleiben blockiert; ungeprüfte Preise sind keine Retail-Bestätigung. GitHub kann Starts verzögern.
+
 # Anime TCG Retail Watch · Discord · 0 €
 
-Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht stündlich die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. Ein optionaler isolierter Chromium-Browser für MediaMarkt und Saturn ist vorbereitet; lokal getestet, auf GitHub derzeit durch HTTP 403 blockiert.
+Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht dabei die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. Ein optionaler isolierter Chromium-Browser für MediaMarkt und Saturn ist vorbereitet; lokal getestet, auf GitHub derzeit durch HTTP 403 blockiert.
 
 **Im Repository dougY52/tcg-deal-bot eingerichtet; Discord-Versand wurde bereits bestätigt.** Für diese Quellenerweiterung ist keine erneute Einrichtung nötig. Die folgenden Schritte gelten für eine Neuinstallation. Das kostenlose Setup verwendet ein **öffentliches** GitHub-Repository und den normalen Linux-Runner. Für private Repositories startet der mitgelieferte Workflow absichtlich nicht.
 
@@ -21,7 +23,7 @@ Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zei
 - Repository → **Settings → Secrets and variables → Actions → New repository secret**.
 - Name exakt **`DISCORD_WEBHOOK_URL`**, als Wert die kopierte Discord-URL einfügen, speichern.
 - **Actions → TCG Deal Watch → Run workflow**. Für den tatsächlichen Start das Häkchen bei **„Nur prüfen, keine Discord-Nachrichten senden“ entfernen** und starten. Mit Häkchen gibt es ausschließlich eine Vorschau im Laufbericht.
-- Bekannte Produkte werden anschließend alle **fünf Minuten** eingeplant (xx:02, :07, :12 usw.). Um **xx:17** erfolgt zusätzlich die Katalogsuche. GitHub kann Starts verzögern oder auslassen; dazu kommt die Abrufdauer. Das ist keine garantierte Echtzeitüberwachung. Wenn Actions einen Aktivieren-Button zeigt, einmal aktivieren. Unter dem ersten Lauf findest du erfolgreiche Quellen, Filter und eventuelle Probleme. Ohne passende Angebote bleibt Discord still; es wird keine künstliche Testnachricht gesendet.
+- Bekannte Produkte werden anschließend alle **fünf Minuten** eingeplant (xx:02, :07, :12 usw.). Die Katalogsuche erfolgt bei jedem dieser Läufe. GitHub kann Starts verzögern oder auslassen; dazu kommt die Abrufdauer. Das ist keine garantierte Echtzeitüberwachung. Wenn Actions einen Aktivieren-Button zeigt, einmal aktivieren. Unter dem ersten Lauf findest du erfolgreiche Quellen, Filter und eventuelle Probleme. Ohne passende Angebote bleibt Discord still; es wird keine künstliche Testnachricht gesendet.
 
 Der Workflow besitzt die nötige `contents: write`-Berechtigung bereits. Verhindert eine Organisationsrichtlinie das Schreiben, muss diese Richtlinie bzw. die Freigabe für Actions angepasst werden; bei einem normalen persönlichen Repository ist keine zusätzliche Einstellung vorgesehen.
 
