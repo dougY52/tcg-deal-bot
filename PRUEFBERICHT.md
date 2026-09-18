@@ -54,3 +54,7 @@ Fünf-Minuten-Zeitplan für explizite Produktbindungen, stündliche Katalogsuche
 ## Browseradapter
 
 60 lokale Tests bestanden. Isolierter Chromium-Livecheck: MediaMarkt und Saturn jeweils 59,99 EUR, verfügbar=false, Verkäufer bestätigt. Katalogseiten ebenfalls lesbar. LimitedMarket: Sicherheitsprüfung/403. Smyths:403. Rossmann: Amigo-Katalog lesbar, frühere Produktseite nicht gefunden. Keine Discord-Testmeldungen. GitHub-Validierung separat, lokaler Test allein ist kein Cloud-Nachweis.
+
+### Ergebnis des GitHub-Browsertests
+
+[Browser source check](https://github.com/dougY52/tcg-deal-bot/actions/runs/35339357663): Installation und 60 Tests erfolgreich; MediaMarkt und Saturn jeweils **Browser HTTP 403**. Deshalb wird Browserbetrieb im regulären Workflow nur nach ausdrücklicher Aktivierung über die Repository-Variable TCG_BROWSER=1 installiert/benutzt. Kein Erfolg der Cloud-Anbindung behauptet; lokale Probe erfolgreich. Die bereits funktionierenden Quellen behalten ihren bisherigen Betrieb.

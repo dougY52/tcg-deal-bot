@@ -1,6 +1,6 @@
 # Anime TCG Retail Watch · Discord · 0 €
 
-Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht stündlich die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. MediaMarkt und Saturn werden auf GitHub mit einem isolierten Chromium-Browser über Playwright geladen.
+Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht stündlich die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. Ein optionaler isolierter Chromium-Browser für MediaMarkt und Saturn ist vorbereitet; lokal getestet, auf GitHub derzeit durch HTTP 403 blockiert.
 
 **Fertig vorbereitet, noch nicht auf deinem GitHub-Konto aktiviert.** Der Bot sendet erst, wenn du ihn mit deinem Discord-Secret startest. Das kostenlose Setup verwendet ein **öffentliches** GitHub-Repository und den normalen Linux-Runner. Für private Repositories startet der mitgelieferte Workflow absichtlich nicht.
 
@@ -110,6 +110,6 @@ Entdeckungen entstehen bei der **stündlichen, begrenzten Katalogsuche**, nicht 
 
 ## Browserabruf für dynamische Händlerseiten
 
-GitHub installiert `requirements-browser.txt` und Chromium und setzt `TCG_BROWSER=1`. Nur MediaMarkt und Saturn werden dann mit JavaScript in getrennten, frischen Browserkontexten ohne Login geladen. Bestehende Preis-/Bestands-/Verkäuferprüfungen bleiben unverändert. Andere Händler behalten ihren bisherigen Abruf. Keine CAPTCHA-Lösung, keine Proxyrotation und kein Fingerprint-Spoofing. Sperrseiten werden nicht als Produkte ausgewertet.
+Nur mit Repository-Variable `TCG_BROWSER=1` installiert GitHub `requirements-browser.txt` und Chromium. Standardmäßig ist dies deaktiviert: Der Live-Test auf GitHub am 18.09.2026 lieferte für beide Händler Browser HTTP 403. Lokal funktionierte der Browserabruf; ein lokaler Betrieb braucht einen laufenden Rechner. Nur MediaMarkt und Saturn werden dann mit JavaScript in getrennten, frischen Browserkontexten ohne Login geladen. Bestehende Preis-/Bestands-/Verkäuferprüfungen bleiben unverändert. Andere Händler behalten ihren bisherigen Abruf. Keine CAPTCHA-Lösung, keine Proxyrotation und kein Fingerprint-Spoofing. Sperrseiten werden nicht als Produkte ausgewertet.
 
 Lokaler Browserbetrieb: `python -m pip install -r requirements-browser.txt`, `python -m playwright install --with-deps chromium`, dann `TCG_BROWSER=1 python -m tcg_bot`. Der zusätzliche Workflow **Browser source check** prüft nach Änderungen die zwei konkreten Produktseiten ohne Discord-Versand. Ein lokaler erfolgreicher Browserabruf garantiert noch keinen erfolgreichen GitHub-Abruf. Browserinstallation und Seitenaufbau verlängern die Laufzeit; fünf Minuten bleiben ein Startzeitplan, keine garantierte Meldefrist.

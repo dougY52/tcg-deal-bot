@@ -74,3 +74,7 @@ MediaMarkt und Saturn: echte Produktseiten und Kataloge im isolierten Chromium o
 LimitedMarket: konkrete Jubiläums-ETB-Seite zeigt auch im Browser eine Cloudflare-Sicherheitsprüfung (HTTP 403). Nicht aktiviert. Rossmann: lesbarer Katalog ist noch keine verifizierte lokale Bestandsabfrage. Der bisherige Umkreis 65934 / 50 km bleibt unverändert und noch ohne funktionierenden Filialadapter.
 
 Seit Version 2.3 gibt es zusätzlich einmalige Meldungen für neue bestellbare DE/EN-Displays ohne Preisreferenz, einschließlich markierter Vorbestellungen. Diese sind ausdrücklich keine Deal-Empfehlungen.
+
+### Ergebnis des GitHub-Browsertests
+
+[Browser source check](https://github.com/dougY52/tcg-deal-bot/actions/runs/35339357663): Installation und 60 Tests erfolgreich; MediaMarkt und Saturn jeweils **Browser HTTP 403**. Deshalb wird Browserbetrieb im regulären Workflow nur nach ausdrücklicher Aktivierung über die Repository-Variable TCG_BROWSER=1 installiert/benutzt. Kein Erfolg der Cloud-Anbindung behauptet; lokale Probe erfolgreich. Die bereits funktionierenden Quellen behalten ihren bisherigen Betrieb.
