@@ -46,3 +46,7 @@ Kein echter GitHub-Actions-Lauf im Konto des Nutzers, keine Zustellung in einen 
 ## Version 2.2: schnellere Meldungen
 
 Fünf-Minuten-Zeitplan für explizite Produktbindungen, stündliche Katalogsuche. Keine Sechs-Stunden-Sperre und keine künstliche Begrenzung auf sechs Meldungen. 51 automatisierte Tests bestanden, Konfiguration und Workflow-Zeitplan geprüft; weiterhin kein echter GitHub-Lauf oder Discord-Versand. Die Live-Prüfergebnisse oben stammen aus Version 2 und stellen keine neue Verfügbarkeitsprüfung dar.
+
+## Erweiterung: Produktentdeckungen
+
+57 lokale Tests bestanden. Neue Tests: FB10 ohne Preisreferenz, Wiederholungsunterdrückung, Zustellfehler/Wiederholung, Vorschau, bestehender Ausgangsstand, Versandlimit, späterer Retail-Treffer, nicht verfügbare/unklare Bestände ausgeschlossen, bestellbare Vorbestellungen erlaubt, Verkäufer-/Sprach-/Zubehörfilter. Kein künstlicher Discovery-Testpost an Discord.

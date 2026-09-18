@@ -33,7 +33,7 @@ Die detaillierte, ehrliche Trennung zwischen **automatischer Überwachung**, **K
 
 Zehn Produkt-/Sprachregeln mit 16 konkreten Händlerbindungen sind vorbereitet. Neu sind Reisegefährten Top-Trainer-Boxen DE bei MediaMarkt/Saturn und Fairy Tail 100 Years Quest 12er-Displays EN bei Gate to the Games/Ultra Comix. Die vollständigen Preise, Belege und Bindungen stehen in `config/config.json`. Referenzen mit gültiger EAN können auch händlerübergreifend greifen, wenn Titel, Sprache, Preis und Verkäufer ebenfalls passen. Es wird keine automatische Hersteller-UVP aus Marktpreisen abgeleitet.
 
-Alle ursprünglichen Reihen bleiben als Suchregeln eingerichtet: Pokémon, Dragon Ball, JoJo, Fairy Tail, Bleach, One Piece, My Hero Academia, Naruto, Digimon und weitere Anime-TCGs. Für JoJo, Bleach und My Hero Academia fehlen weiterhin konkrete freigegebene Preisreferenzen.
+Alle ursprünglichen Reihen bleiben als Suchregeln eingerichtet: Pokémon, Dragon Ball, JoJo, Fairy Tail, Bleach, One Piece, My Hero Academia, Naruto, Digimon und weitere Anime-TCGs. Für JoJo, Bleach und My Hero Academia fehlen weiterhin konkrete freigegebene Preisreferenzen. Neue bestellbare Displays können jetzt trotzdem als ungeprüfte Entdeckung gemeldet werden.
 
 Keine freie Vollwebsuche, keine Garantie aller Händler oder aller Produkte. Händler-Referenzpreise sind keine bestätigten Hersteller-UVPs und kein bundesweiter Bestpreis einschließlich Versand. Katalogabfragen sind begrenzt; explizit beobachtete Produktseiten werden zusätzlich geprüft. Die bestehenden Referenzen laufen am 17.12.2026 ab und müssen anhand aktueller Belege erneuert werden.
 
@@ -41,8 +41,8 @@ Keine freie Vollwebsuche, keine Garantie aller Händler oder aller Produkte. Hä
 
 - Exakte Zuordnung über Händler, Produktpfad und Varianten-ID oder freigegebene gültige GTIN; zusätzlich Prüfung von Titel, Variantenbezeichnung, Sprache und Format.
 - Keine Ableitung eines Displaypreises aus dem billigsten Einzelbooster einer Produktseite.
-- Unbekannte Preise, andere Währungen, Japanisch/Chinesisch/Koreanisch, Einzelkarten, Hüllen, Cases, B-Ware und nicht freigegebene Produktarten werden verworfen.
-- Händlerverfügbarkeit muss explizit `true` sein. Vorbestellhinweise im Titel oder der Beschreibung sperren das Angebot auch dann. Alte Vorbestellhinweise können deshalb einen eigentlich lieferbaren Artikel vorsorglich unterdrücken.
+- Fehlende/ungültige Preise, andere Währungen, Japanisch/Chinesisch/Koreanisch, Einzelkarten, Hüllen, Cases, B-Ware und nicht freigegebene Produktarten werden verworfen.
+- Händlerverfügbarkeit muss explizit `true` sein. Vorbestellhinweise im Titel oder der Beschreibung sperren die Einstufung als sofort lieferbarer Retail-Treffer auch dann. Die separate Entdeckungsmeldung erlaubt bestellbare Vorbestellungen und kennzeichnet sie. Alte Vorbestellhinweise können deshalb einen eigentlich lieferbaren Artikel vorsorglich unterdrücken.
 - Referenzen laufen am **17.12.2026** ab. Danach keine Meldungen für diese Regeln, bis die Belege neu geprüft und Daten verlängert wurden. Der Actions-Lauf weist schon 14 Tage vorher darauf hin und wird als prüfbedürftig markiert.
 - Deutsch wird gegenüber Englisch **für dasselbe Set, dieselbe Edition und Packgröße** bevorzugt, solange ein passendes deutsches Angebot den Preisfilter besteht. Englische Angebote anderer Sets bleiben sichtbar.
 - Produktpreise sind Händler-Endkundenpreise; **Versand kommt dazu und wird nicht automatisch ermittelt**. Die Nachricht benennt das ausdrücklich. Der Bot verspricht keinen günstigsten Gesamtpreis einschließlich Versand.
@@ -97,3 +97,13 @@ Offline-Tests decken Preisfilter, Varianten, Sprache, Vorbestellungen, Zubehör,
 Explizit konfigurierte Produktbindungen werden alle fünf Minuten eingeplant. Der Schnelllauf überspringt die Katalogsuche und prüft die bekannten Produktseiten direkt. Nach Abschluss der Prüfung werden passende neue Treffer und Restocks ohne zusätzliche Sammelwartezeit an Discord geschickt. Deutsch-Präferenz wird über die Ergebnisse des Laufs ausgewertet.
 
 Nur über Kataloge/EAN neu entdeckte Angebote werden weiterhin stündlich geprüft, bis ihre konkrete Produktseite als Bindung aufgenommen wurde. Es gibt keinen Push-Zugang der Händler. Kurzzeitige Bestände zwischen zwei Abfragen können verpasst werden. Fehlende Filialadapter und blockierte Quellen werden durch den schnelleren Zeitplan nicht verfügbar. GitHub-Konfiguration und Discord-Secret müssen weiterhin eingerichtet sein; dieses ZIP startet allein noch keinen Dienst.
+
+## Neue Produkte automatisch melden
+
+Aktiv unter `discoveries` in `config/config.json`: Neue Displays/Booster-Boxen der konfigurierten Reihen werden auch ohne Preisreferenz gemeldet, mit **„Neu entdeckt – Preis noch ungeprüft“**. Beispiel: Dragon Ball FB10 EN. Voraussetzung: Händler meldet ausdrücklich bestellbar (`available: true`), DE/EN ist erkennbar, EUR-Preis vorhanden und Verkäufer verifiziert. Bestellbare Vorbestellungen sind erlaubt und werden als Vorbestellung gekennzeichnet. Ausverkaufte Artikel und unbekannter Bestand werden nicht gemeldet. Zubehör, Cases, fremde Sprachen und ungeprüfte Marketplace-Verkäufer bleiben ausgeschlossen.
+
+Das ist eine Produktentdeckung, keine Preisempfehlung: Ohne Vergleichspreis lässt sich ein hoher Preis nicht zuverlässig als Scalperpreis erkennen. Bereits referenzierte zu teure Produkte werden nicht über diese Meldungsart durchgelassen. Geprüfte Retail-Angebote und Restocks behalten ihre bisherigen Regeln.
+
+Einmal pro Händler und Variante; derselbe Artikel bei einem anderen Händler kann eine weitere Meldung auslösen. DE-Meldungen werden zuerst versendet; ohne sicher bekannte Set-Identität werden EN-Varianten nicht automatisch unterdrückt. Bis zu zehn neue Produktmeldungen pro Lauf, weitere werden bei späteren Katalogabfragen erneut berücksichtigt. Nur erfolgreich gesendete Meldungen werden in `discovery_seen` auf dem vorhandenen `bot-state`-Branch bestätigt. Der beim Update bereits bekannte verfügbare Bestand dient als Ausgangsstand, ohne alte Produkte nachträglich zu fluten. Eine später hinzugefügte Preisreferenz kann weiterhin eine geprüfte Deal-Meldung auslösen.
+
+Entdeckungen entstehen bei der **stündlichen, begrenzten Katalogsuche**, nicht durch eine Vollwebsuche. Neue ungeprüfte Produkte werden dadurch nicht automatisch in die Fünf-Minuten-Prüfung aufgenommen. Otto bleibt reine Kandidatenquelle. X ist nicht angebunden. Händlerfehler und fehlende Filialadapter bleiben sichtbar.

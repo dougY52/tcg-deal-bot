@@ -11,6 +11,7 @@ import time
 from urllib.parse import urlsplit
 
 from .http import Client, send_discord, webhook_url
+from .discovery import discovery, discovery_payload
 from .rules import assess, prefer_german, observe, alert_reason, payload, franchise
 from .sources import ADAPTERS
 from .web_sources import html_catalog, mms, otto
@@ -67,6 +68,8 @@ def load_config(path):
     assert cfg['max_alerts_per_run'] is None or 1 <= cfg['max_alerts_per_run'] <= 1000
     assert cfg['restock_cooldown_hours'] >= 0
     assert cfg['price_drop_eur'] > 0 and 0 < cfg['price_drop_pct'] < 100
+    if cfg.get('discoveries', {}).get('enabled'):
+        assert 1 <= cfg['discoveries']['max_per_run'] <= 50
     return cfg
 
 
@@ -103,6 +106,8 @@ def load_state(path):
             sent = item['sent']
             assert isinstance(sent['at'], (int, float)) and isinstance(sent['episode'], int)
             assert Decimal(sent['price']).is_finite() and Decimal(sent['price']) > 0
+    if 'discovery_seen' in data and not isinstance(data['discovery_seen'], dict):
+        raise ValueError('Invalid discovery state')
     return data
 
 
@@ -115,6 +120,10 @@ def save_state(path, state):
 
 def run(cfg, state, client, send=None, checkpoint=None, now=None):
     now = time.time() if now is None else now
+    discoveries_enabled = cfg.get('discoveries', {}).get('enabled', False)
+    if discoveries_enabled and 'discovery_seen' not in state:
+        # Preserve the existing catalog baseline on upgrade, without a backlog flood.
+        state['discovery_seen'] = {key: {'baseline': True} for key, item in state['offers'].items() if item.get('available') is True}
     offers, errors, warnings, shops = [], [], [], []
     for shop in cfg['shops']:
         if not shop.get('enabled', True):
@@ -158,6 +167,33 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
             report['sent'] += 1
             if checkpoint:
                 checkpoint(state)
+    report['discovery_sent'] = 0
+    report['discovery_pending'] = 0
+    if discoveries_enabled:
+        new = {}
+        for offer in relevant:
+            if offer['key'] in state['discovery_seen']:
+                continue
+            found = discovery(offer, cfg)
+            if found:
+                new[offer['key']] = found
+        ordered = sorted(new.values(), key=lambda o: (o['language'] != 'DE', o['key']))
+        limit = cfg['discoveries']['max_per_run']
+        report['discovery_pending'] = max(0, len(ordered) - limit)
+        for offer in ordered[:limit]:
+            message = discovery_payload(offer)
+            report['alerts'].append({'key': offer['key'], 'reason': 'Neu entdeckt – Preis noch ungeprüft', 'payload': message})
+            if send:
+                try:
+                    message_id = send(message)
+                except Exception as exc:
+                    errors.append('Discord discovery: ' + type(exc).__name__)
+                    break
+                state['discovery_seen'][offer['key']] = {'at': now, 'message_id': message_id}
+                report['sent'] += 1
+                report['discovery_sent'] += 1
+                if checkpoint:
+                    checkpoint(state)
     for ref in cfg['references']:
         days = (date.fromisoformat(ref['valid_until']) - date.today()).days
         if days <= 14:
@@ -173,6 +209,7 @@ def summary(report):
     text = '# TCG Retail Watch\n\n'
     text += f"Modus: {'Vorschau – nichts gesendet' if report['dry_run'] else 'Discord aktiv'}\n\n"
     text += f"Quellen erfolgreich: {len(report['shops'])} · Meldungen: {report['sent']} · Vorschläge: {len(report['alerts'])}\n\n"
+    text += f"Neue Produktmeldungen: {report.get('discovery_sent', 0)} · weitere Kandidaten: {report.get('discovery_pending', 0)}\n\n"
     text += '## Quellen\n\n' + '\n'.join(f"- {s['shop']}: {s['variants']} Varianten — {s.get('scope', '')}" for s in report['shops']) + '\n\n'
     if report.get('unavailable_sources'):
         text += '## Nicht automatisch überwachte Quellen\n\n' + '\n'.join('- ' + s['name'] + ': ' + s['reason'] for s in report['unavailable_sources']) + '\n\n'
