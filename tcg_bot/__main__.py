@@ -249,7 +249,15 @@ def main():
             webhook_url(secret)
             send = lambda p: send_discord(secret, p)
             checkpoint = lambda s: save_state(state_path, s)
-        report = run(cfg, state, Client(), send, checkpoint)
+        if os.environ.get('TCG_BROWSER') == '1':
+            from .browser import BrowserClient
+            client = BrowserClient()
+        else:
+            client = Client()
+        try:
+            report = run(cfg, state, client, send, checkpoint)
+        finally:
+            client.close()
         Path(args.report).write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
         text = summary(report)
         print(text)

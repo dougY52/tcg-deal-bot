@@ -40,7 +40,7 @@ class Client:
         except (urllib.error.URLError, TimeoutError, UnicodeError):
             raise FetchError('Network or encoding error') from None
 
-    def text(self, url):
+    def check_allowed(self, url):
         parts = urllib.parse.urlsplit(url)
         if parts.scheme != 'https' or parts.username or parts.password:
             raise FetchError('Only public HTTPS sources allowed')
@@ -56,7 +56,13 @@ class Client:
             self.robots[origin] = body
         if not robots_allowed(self.robots[origin], url):
             raise FetchError('robots.txt disallows this endpoint')
+
+    def text(self, url):
+        self.check_allowed(url)
         return self.raw(url)
+
+    def close(self):
+        pass
 
     def get(self, url):
         return json.loads(self.text(url))

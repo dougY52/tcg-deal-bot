@@ -613,7 +613,7 @@
       "url": "https://www.rossmann.de/de/ideenwelt-amigo-pokemon-tcg-wachsendes-chaos-3-booster-blister/p/0196214140189",
       "status": "blocked",
       "checked_on": "2026-09-18",
-      "reason": "HTTP 200 liefert nur Client Challenge statt Produktdaten; keine aktive Filialprüfung."
+      "reason": "Einfacher Abruf liefert Client Challenge. Browser-Katalog lesbar, aber noch keine verifizierte Online-/Filialbestandsanbindung."
     }
   ],
   "discoveries": {

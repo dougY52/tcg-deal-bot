@@ -1,0 +1,28 @@
+name: Browser source check
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tcg_bot/browser.py'
+      - 'tcg_bot/http.py'
+      - 'scripts/check_browser.py'
+      - 'requirements-browser.txt'
+      - '.github/workflows/browser-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r requirements-browser.txt
+          python -m playwright install --with-deps chromium
+      - run: python -m unittest discover -s tests -q
+      - run: python scripts/check_browser.py

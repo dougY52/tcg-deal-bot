@@ -50,3 +50,7 @@ Fünf-Minuten-Zeitplan für explizite Produktbindungen, stündliche Katalogsuche
 ## Erweiterung: Produktentdeckungen
 
 57 lokale Tests bestanden. Neue Tests: FB10 ohne Preisreferenz, Wiederholungsunterdrückung, Zustellfehler/Wiederholung, Vorschau, bestehender Ausgangsstand, Versandlimit, späterer Retail-Treffer, nicht verfügbare/unklare Bestände ausgeschlossen, bestellbare Vorbestellungen erlaubt, Verkäufer-/Sprach-/Zubehörfilter. Kein künstlicher Discovery-Testpost an Discord.
+
+## Browseradapter
+
+60 lokale Tests bestanden. Isolierter Chromium-Livecheck: MediaMarkt und Saturn jeweils 59,99 EUR, verfügbar=false, Verkäufer bestätigt. Katalogseiten ebenfalls lesbar. LimitedMarket: Sicherheitsprüfung/403. Smyths:403. Rossmann: Amigo-Katalog lesbar, frühere Produktseite nicht gefunden. Keine Discord-Testmeldungen. GitHub-Validierung separat, lokaler Test allein ist kein Cloud-Nachweis.

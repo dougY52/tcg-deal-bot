@@ -29,9 +29,9 @@ Zusätzlich können freigegebene Referenzen mit geprüften GTIN/EAN-Codes händl
 |---|---|
 | **Cardmarket** | Direkter Abruf HTTP 403; laut offizieller Hilfe werden derzeit keine neuen API-Anträge angenommen. Keine aktive Verkäufer-, Preis- oder Bestandsüberwachung. Marktpreise wären außerdem keine Hersteller-UVP. |
 | **Müller** | Bereits der direkte robots.txt-Abruf antwortet mit HTTP 403. Keine aktive Online- oder Filialüberwachung. |
-| **Smyths Toys** | Öffentliche Kategorie ist per Websuche sichtbar, direkter Bot-Abruf antwortet mit HTTP 403. Keine aktive Überwachung. |
+| **Smyths Toys** | Öffentliche Kategorie ist per Websuche sichtbar; einfacher Abruf und separater Chromium-Test antworten mit HTTP 403. Keine aktive Überwachung. |
 | **Kaufland Marketplace** | Direkter Abruf HTTP 403. Keine aktive Überwachung. |
-| **Rossmann** | HTTP 200 enthält nur „Client Challenge“, keine Produktdaten. Das zählt ausdrücklich nicht als erfolgreicher Abruf. |
+| **Rossmann** | Einfacher Abruf: Client Challenge. Browserprüfung: Amigo-Katalog lesbar, gefundene Pokémon-Kalender online nicht verfügbar. Frühere Bisaflor-Produktseite nicht gefunden. Noch kein geprüfter Filialbestandsadapter. |
 | FantasyWelt | Kategorie HTTP 403. |
 | Games Island | Hauptseite liefert keine Produktangebote; separat verlinkter maschineller Feed sperrt Crawler in robots.txt. |
 | Galaxus | Suchseite wird durch robots.txt gesperrt; kein geprüfter alternativer TCG-Katalogadapter. |
@@ -66,3 +66,11 @@ Die offiziellen Filialseiten bestätigen folgende Standorte im Frankfurter Stadt
 - [MediaMarkt Frankfurt-Nordwestzentrum](https://www.mediamarkt.de/de/store/frankfurt-nordwestzentrum-447)
 - [Smyths Toys Frankfurt am Main, Nordwestzentrum](https://www.smythstoys.com/de/de-de/storefinder/storedetails/frankfurt-am-main)
 - [MediaMarkt-Standortübersicht Frankfurt mit Main-Taunus-Zentrum](https://www.mediamarkt.de/de/store/region-frankfurt-main)
+
+## Browserprüfung am 18.09.2026
+
+MediaMarkt und Saturn: echte Produktseiten und Kataloge im isolierten Chromium ohne Anmeldung lesbar. Die geprüfte KP09-Box wurde jeweils mit 59,99 EUR, Eigenverkauf und **nicht lieferbar** ausgelesen. Browseradapter implementiert; GitHub-Prüfung separat im Workflow.
+
+LimitedMarket: konkrete Jubiläums-ETB-Seite zeigt auch im Browser eine Cloudflare-Sicherheitsprüfung (HTTP 403). Nicht aktiviert. Rossmann: lesbarer Katalog ist noch keine verifizierte lokale Bestandsabfrage. Der bisherige Umkreis 65934 / 50 km bleibt unverändert und noch ohne funktionierenden Filialadapter.
+
+Seit Version 2.3 gibt es zusätzlich einmalige Meldungen für neue bestellbare DE/EN-Displays ohne Preisreferenz, einschließlich markierter Vorbestellungen. Diese sind ausdrücklich keine Deal-Empfehlungen.
