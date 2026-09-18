@@ -1,0 +1,619 @@
+{
+  "version": 1,
+  "max_alerts_per_run": null,
+  "restock_cooldown_hours": 0,
+  "price_drop_eur": 5,
+  "price_drop_pct": 5,
+  "franchises": {
+    "Pokémon": "pok[eé]mon",
+    "Dragon Ball": "dragon\\s*ball",
+    "JoJo": "jojo|jo.?jo.?s bizarre",
+    "Fairy Tail": "fairy\\s*tail",
+    "Bleach": "bleach",
+    "One Piece": "one\\s*piece",
+    "My Hero Academia": "my hero academia|boku no hero",
+    "Naruto": "naruto",
+    "Digimon": "digimon",
+    "Yu-Gi-Oh!": "yu[ -]?gi[ -]?oh",
+    "Hunter x Hunter": "hunter\\s*x\\s*hunter",
+    "Demon Slayer": "demon\\s*slayer|kimetsu",
+    "Jujutsu Kaisen": "jujutsu\\s*kaisen",
+    "Attack on Titan": "attack on titan|shingeki no kyojin",
+    "Black Clover": "black clover",
+    "Sword Art Online": "sword art online"
+  },
+  "shops": [
+    {
+      "id": "kartenzeche",
+      "name": "KartenZeche",
+      "base_url": "https://kartenzeche.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "discovery_scope": "Erste 1 Katalogseiten (max. 250 Produkte), plus alle expliziten Referenzprodukte."
+    },
+    {
+      "id": "cardbuddys",
+      "name": "CardBuddys",
+      "base_url": "https://cardbuddys.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "discovery_scope": "Erste 2 Katalogseiten (max. 500 Produkte), plus alle expliziten Referenzprodukte."
+    },
+    {
+      "id": "cardcosmos",
+      "name": "CardCosmos",
+      "base_url": "https://cardcosmos.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "discovery_scope": "Erste 4 Katalogseiten (max. 1000 Produkte), plus alle expliziten Referenzprodukte."
+    },
+    {
+      "id": "skashcards",
+      "name": "Skash Cards",
+      "base_url": "https://skashcards.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "discovery_scope": "Erste 1 Katalogseiten (max. 250 Produkte), plus alle expliziten Referenzprodukte."
+    },
+    {
+      "id": "crispycards",
+      "name": "CrispyCards",
+      "base_url": "https://crispycards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 6,
+      "discovery_scope": "Erste 6 Katalogseiten (max. 1500 Produkte), plus alle expliziten Referenzprodukte."
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "id": "mediamarkt",
+      "name": "MediaMarkt",
+      "base_url": "https://www.mediamarkt.de",
+      "adapter": "mms",
+      "marketplace": true,
+      "allowed_sellers": [
+        "MediaMarkt"
+      ],
+      "catalog_urls": [
+        "https://www.mediamarkt.de/de/category/pokemon-karten-8444.html",
+        "https://www.mediamarkt.de/de/brand/pokemon-sammelkartenspiel/neuheiten",
+        "https://www.mediamarkt.de/de/brand/pokemon-sammelkartenspiel/top-trainer-boxen",
+        "https://www.mediamarkt.de/de/brand/pokemon-sammelkartenspiel/tin-boxen",
+        "https://www.mediamarkt.de/de/brand/pokemon-sammelkartenspiel/geschenkideen"
+      ],
+      "max_product_pages": 16,
+      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt."
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "id": "saturn",
+      "name": "Saturn",
+      "base_url": "https://www.saturn.de",
+      "adapter": "mms",
+      "marketplace": true,
+      "allowed_sellers": [
+        "Saturn"
+      ],
+      "catalog_urls": [
+        "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/neuheiten",
+        "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/top-trainer-boxen",
+        "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/tin-boxen",
+        "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/geschenkideen"
+      ],
+      "max_product_pages": 16,
+      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt."
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "id": "otto",
+      "name": "OTTO",
+      "base_url": "https://www.otto.de",
+      "adapter": "otto",
+      "marketplace": true,
+      "allowed_sellers": [
+        "OTTO"
+      ],
+      "catalog_urls": [
+        "https://www.otto.de/spielzeug/spiele/sammelkarten/?marke=pokemon"
+      ],
+      "discovery_scope": "Varianten aus Pokemon-Katalog; exakte Preise ohne Ab-Preise. Nur Kandidaten, da Verkäuferdaten in dieser Quelle fehlen."
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "id": "gate",
+      "name": "Gate to the Games",
+      "base_url": "https://www.gate-to-the-games.de",
+      "adapter": "html_catalog",
+      "catalog_urls": [
+        "https://www.gate-to-the-games.de/Pokemon-Karten/Pokemon-Displays/",
+        "https://www.gate-to-the-games.de/Digimon-Karten-Card-Game-Shop",
+        "https://www.gate-to-the-games.de/Naruto-TCG",
+        "https://www.gate-to-the-games.de/One-Piece-TCG-Trading-Card-Game-Kartenspiel-Sammelkarten-englisch",
+        "https://www.gate-to-the-games.de/andere-TCGs/Weiss-Schwarz-TCG/Booster-und-Displays-731/"
+      ],
+      "discovery_scope": "Fünf Kategorien plus explizite Produktseiten. Kategoriepreise ohne bestätigten Bestand bleiben Kandidaten."
+    },
+    {
+      "id": "ultracomix",
+      "name": "Ultra Comix",
+      "base_url": "https://shop.ultracomix.de",
+      "adapter": "html_catalog",
+      "enabled": true,
+      "currency": "EUR",
+      "max_pages": 1,
+      "catalog_urls": [],
+      "product_urls": [
+        "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038"
+      ],
+      "discovery_scope": "Konkrete Fairy-Tail-12er-Display-Seite; kein Vollkatalog."
+    }
+  ],
+  "references": [
+    {
+      "id": "naruto-shinobi-shiren-set2-first-24",
+      "group": "naruto-shinobi-shiren-set2-first-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "89.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Naruto.*Shinobi Shiren.*(?:First Edition|1st Edition)",
+      "bindings": [
+        {
+          "shop": "kartenzeche",
+          "handle": "naruto-mythos-tcg-shinobi-shiren-set-2-display-first-edition",
+          "variant_id": "54626221588813",
+          "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "skashcards",
+          "handle": "naruto-mythos-tcg-shinobi-shiren-set-2-display-1st-edition",
+          "variant_id": "58719609225551",
+          "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "crispycards",
+          "handle": "naruto-mythos-shinobi-shiren-set-2-display-1st-edition-eng",
+          "variant_id": "62962896273738",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://kartenzeche.de/products/naruto-mythos-tcg-shinobi-shiren-set-2-display-first-edition",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 84.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        },
+        {
+          "url": "https://skashcards.com/products/naruto-mythos-tcg-shinobi-shiren-set-2-display-1st-edition",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 89.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        },
+        {
+          "url": "https://crispycards.de/products/naruto-mythos-shinobi-shiren-set-2-display-1st-edition-eng",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 84.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "KartenZeche aktuell mit Vorbestellhinweis: trotz verfügbar=true ausgeschlossen. Skash Cards bestätigt EN, 24 Packs und OVP. Keine B2B-Netto-/Brutto-Ableitung.",
+      "gtins": []
+    },
+    {
+      "id": "digimon-great-legend-bt04-24",
+      "group": "digimon-great-legend-bt04-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "49.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Digimon.*Great Legend.*Display",
+      "bindings": [
+        {
+          "shop": "cardcosmos",
+          "handle": "digimon-card-game-great-legend-bt04-booster-display-englisch",
+          "variant_id": "53744499196247",
+          "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "crispycards",
+          "handle": "digimon-great-legend-display-eng",
+          "variant_id": "61330134434122",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cardcosmos.de/products/digimon-card-game-great-legend-bt04-booster-display-englisch",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.90 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        },
+        {
+          "url": "https://crispycards.de/products/digimon-great-legend-display-eng",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 49.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "digimon-battle-of-omni-bt05-24",
+      "group": "digimon-battle-of-omni-bt05-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "49.90",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Digimon.*Battle of Omni BT05.*Display",
+      "bindings": [
+        {
+          "shop": "cardcosmos",
+          "handle": "digimon-card-game-battle-of-omni-bt05-booster-display-englisch",
+          "variant_id": "53744581574999",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cardcosmos.de/products/digimon-card-game-battle-of-omni-bt05-booster-display-englisch",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 49.90 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "dragonball-fb03-raging-roar-24",
+      "group": "dragonball-fb03-raging-roar-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "59.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Dragon\\s*Ball.*(?:Raging Roar.*FB03|FB03.*Raging Roar).*Display",
+      "bindings": [
+        {
+          "shop": "cardcosmos",
+          "handle": "dragon-ball-super-card-game-raging-roar-fusion-world-fb03-booster-display-englisch",
+          "variant_id": "49014725771607",
+          "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "crispycards",
+          "handle": "dragonball-super-fb03-fusion-world-raging-roar-display-eng",
+          "variant_id": "61016967184714",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cardcosmos.de/products/dragon-ball-super-card-game-raging-roar-fusion-world-fb03-booster-display-englisch",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 59.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        },
+        {
+          "url": "https://crispycards.de/products/dragonball-super-fb03-fusion-world-raging-roar-display-eng",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 89.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "onepiece-op10-royal-blood-24",
+      "group": "onepiece-op10-royal-blood-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "109.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "One Piece.*OP-10 Royal Blood.*Display",
+      "bindings": [
+        {
+          "shop": "cardcosmos",
+          "handle": "one-piece-op10-display-englisch",
+          "variant_id": "50959954968919",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://cardcosmos.de/products/one-piece-op10-display-englisch",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 109.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "pokemon-gewalten-der-zeit-18",
+      "group": "pokemon-gewalten-der-zeit-18",
+      "language": "DE",
+      "packs": 18,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "89.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Pokémon Gewalten der Zeit 18er Display \\(DE\\)",
+      "bindings": [
+        {
+          "shop": "crispycards",
+          "handle": "pokemon-gewalten-der-zeit-18er-display-de",
+          "variant_id": "51414277783882",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://crispycards.de/products/pokemon-gewalten-der-zeit-18er-display-de",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 89.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "yugioh-duelists-advance-24",
+      "group": "yugioh-duelists-advance-24",
+      "language": "DE",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "44.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Yu-Gi-Oh! Duelist's Advance Display \\(DE\\)",
+      "bindings": [
+        {
+          "shop": "crispycards",
+          "handle": "yu-gi-oh-duelists-advance-display-eng",
+          "variant_id": "52915743392074",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://crispycards.de/products/yu-gi-oh-duelists-advance-display-eng",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "URL endet irreführend auf eng, aber Produkttitel ist DE. Identität wird anhand Titel, Variante und Beschreibung geprüft.",
+      "gtins": []
+    },
+    {
+      "id": "yugioh-duelists-advance-24-en",
+      "group": "yugioh-duelists-advance-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "44.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Yu-Gi-Oh! Duelist's Advance Display \\(ENG\\)",
+      "bindings": [
+        {
+          "shop": "crispycards",
+          "handle": "yu-gi-oh-duelists-advance-display-eng-1",
+          "variant_id": "61950103814474",
+          "variant_pattern": "^Default\\ Title$"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://crispycards.de/products/yu-gi-oh-duelists-advance-display-eng-1",
+          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        }
+      ],
+      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
+      "gtins": []
+    },
+    {
+      "id": "pokemon-reisegefaehrten-etb-de",
+      "group": "pokemon-reisegefaehrten-etb-9",
+      "language": "DE",
+      "packs": 9,
+      "sealed": true,
+      "product_kind": "etb",
+      "kind": "observed_retail",
+      "retail_eur": "59.99",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "(?:KP09.*Top.Trainer|Reisegefährten.*Top.Trainer|Top.Trainer.*Reisegefährten)",
+      "gtins": [
+        "0196214107908"
+      ],
+      "bindings": [
+        {
+          "shop": "mediamarkt",
+          "handle": "web-0b0dd8ad3bdfac831b75",
+          "variant_id": "2974734",
+          "variant_pattern": "^Default Title$",
+          "url": "https://www.mediamarkt.de/de/product/_the-pokemon-company-int-41079-pokemon-kp09-top-trainer-box-sammelkarten-2974734.html"
+        },
+        {
+          "shop": "saturn",
+          "handle": "web-45af7c4754dd7c64ce53",
+          "variant_id": "2974734",
+          "variant_pattern": "^Default Title$",
+          "url": "https://www.saturn.de/de/product/_the-pokemon-company-int-41079-pokemon-kp09-top-trainer-box-sammelkarten-2974734.html"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.mediamarkt.de/de/product/_the-pokemon-company-int-41079-pokemon-kp09-top-trainer-box-sammelkarten-2974734.html",
+          "note": "Direkter Händlerpreis 59,99 EUR und Produkt-EAN aus öffentlicher Seite geprüft. Aktuell online nicht verfügbar. Keine Behauptung eines Filialbestands oder einer Hersteller-UVP."
+        },
+        {
+          "url": "https://www.saturn.de/de/product/_the-pokemon-company-int-41079-pokemon-kp09-top-trainer-box-sammelkarten-2974734.html",
+          "note": "Direkter Händlerpreis 59,99 EUR und Produkt-EAN aus öffentlicher Seite geprüft. Aktuell online nicht verfügbar. Keine Behauptung eines Filialbestands oder einer Hersteller-UVP."
+        }
+      ]
+    },
+    {
+      "id": "fairytail-100years-weissschwarz-12-en",
+      "group": "fairytail-100years-weissschwarz-12",
+      "language": "EN",
+      "packs": 12,
+      "sealed": true,
+      "kind": "observed_retail",
+      "retail_eur": "69.90",
+      "tolerance_pct": 0,
+      "verified_on": "2026-09-18",
+      "valid_until": "2026-12-17",
+      "title_pattern": "Fairy Tail.*100.*Years?.*Quest.*(?:Booster|Display)",
+      "gtins": [
+        "8885021122038"
+      ],
+      "bindings": [
+        {
+          "shop": "gate",
+          "handle": "web-b86af9ba8dc1a1c5e466",
+          "variant_id": "8885021122038",
+          "variant_pattern": "^Default Title$",
+          "url": "https://www.gate-to-the-games.de/Weiss-Schwarz-Fairy-Tail-100-Years-Quest-Booster-Display-12-Packs-englisch"
+        },
+        {
+          "shop": "ultracomix",
+          "handle": "web-d883068bf7ce48888974",
+          "variant_id": "WS122038",
+          "variant_pattern": "^Default Title$",
+          "url": "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.gate-to-the-games.de/Weiss-Schwarz-Fairy-Tail-100-Years-Quest-Booster-Display-12-Packs-englisch",
+          "note": "Aktueller Direktpreis 69,90 EUR, englische versiegelte 12-Pack-Box; OutOfStock im Live-HTML. Als Restock-Ziel eingerichtet."
+        },
+        {
+          "url": "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038",
+          "note": "65 EUR, englisches 12-Pack-Display, aktuell ausverkauft; direkter Produktseitenabruf am 18.09.2026."
+        }
+      ]
+    }
+  ],
+  "local_stores": {
+    "enabled": false,
+    "postal_code": "65934",
+    "radius_km": 50,
+    "stores": [],
+    "status": "Suchregion: 65934, 50 km Umkreis. Noch keine funktionierende Filialbestandsquelle. Allgemeine Abholhinweise sind kein bestätigter Filialbestand.",
+    "country": "DE",
+    "radius_basis": "Luftlinie ab PLZ-Gebiet; Entfernungsprüfung noch nicht implementiert"
+  },
+  "unavailable_sources": [
+    {
+      "id": "cardmarket",
+      "name": "Cardmarket",
+      "url": "https://www.cardmarket.com/de/Pokemon/Products/Booster-Boxes",
+      "reason": "Abruf HTTP 403. Laut offizieller Hilfe keine neuen API-Zugänge. Keine aktive Angebots- oder Bestandsüberwachung.",
+      "status": "blocked",
+      "checked_on": "2026-09-18",
+      "evidence_url": "https://help.cardmarket.com/de/cardmarket-api"
+    },
+    {
+      "id": "mueller",
+      "name": "Müller",
+      "url": "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
+      "reason": "Direkter Zugriff auf robots.txt HTTP 403; keine aktive Überwachung.",
+      "status": "blocked",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "smyths",
+      "name": "Smyths Toys",
+      "url": "https://www.smythstoys.com/de/de-de/spielzeug/action-spielzeug/pokemon/pokemon-karten/c/SM1001012002",
+      "reason": "Produktkategorie HTTP 403; keine aktive Überwachung.",
+      "status": "blocked",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "fantasywelt",
+      "name": "FantasyWelt",
+      "url": "https://www.fantasywelt.de/Pokemon",
+      "reason": "Produktkategorie HTTP 403; keine aktive Überwachung.",
+      "status": "blocked",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "gamesisland",
+      "name": "Games Island",
+      "url": "https://games-island.eu/Pokemon",
+      "reason": "Hauptseite ohne Katalogangebote. Verlinkter maschineller Feed sperrt Crawler in robots.txt.",
+      "status": "blocked",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "galaxus",
+      "name": "Galaxus",
+      "url": "https://www.galaxus.de/search?q=pokemon%20display",
+      "reason": "Suchseite durch robots.txt gesperrt; kein geprüfter TCG-Katalogadapter.",
+      "status": "not_integrated",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "rofu",
+      "name": "ROFU",
+      "url": "https://www.rofu.de/",
+      "reason": "Getesteter Pokemon-Kategoriepfad nicht vorhanden; noch kein verifizierter Adapter.",
+      "status": "not_integrated",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "ideeundspiel",
+      "name": "idee+spiel",
+      "url": "https://www.ideeundspiel.com/",
+      "reason": "Getesteter Suchpfad HTTP 404; noch kein verifizierter Adapter.",
+      "status": "not_integrated",
+      "checked_on": "2026-09-18"
+    },
+    {
+      "id": "kaufland",
+      "name": "Kaufland Marketplace",
+      "url": "https://www.kaufland.de/product/564681995/",
+      "status": "blocked",
+      "checked_on": "2026-09-18",
+      "reason": "Direkter Abruf HTTP 403; keine aktive Überwachung."
+    },
+    {
+      "id": "rossmann",
+      "name": "Rossmann",
+      "url": "https://www.rossmann.de/de/ideenwelt-amigo-pokemon-tcg-wachsendes-chaos-3-booster-blister/p/0196214140189",
+      "status": "blocked",
+      "checked_on": "2026-09-18",
+      "reason": "HTTP 200 liefert nur Client Challenge statt Produktdaten; keine aktive Filialprüfung."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+name: TCG Deal Watch
+on:
+  schedule:
+    - cron: '17 * * * *'  # Hourly discovery plus watched products
+    - cron: '2,7,12,22,27,32,37,42,47,52,57 * * * *'  # Watched products every five minutes
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Nur prüfen, keine Discord-Nachrichten senden'
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: tcg-retail-watch
+  cancel-in-progress: false
+jobs:
+  watch:
+    # Public repositories + standard Linux runner: free. Fail closed for private repos.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test and validate
+        run: |
+          python -m unittest discover -s tests -v
+          python -m tcg_bot --check-config
+      - name: Restore durable state
+        run: |
+          set -euo pipefail
+          remote_ref=$(git ls-remote --heads origin refs/heads/bot-state)
+          if [ -n "$remote_ref" ]; then
+            git fetch --no-tags origin refs/heads/bot-state
+            git show FETCH_HEAD:state.json > state.json
+            git worktree add --detach ../tcg-state FETCH_HEAD
+          else
+            git worktree add --detach ../tcg-state HEAD
+            git -C ../tcg-state switch --orphan bot-state
+          fi
+      - name: Check shops and notify
+        id: scan
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          FAST_SCAN: ${{ github.event_name == 'schedule' && github.event.schedule != '17 * * * *' }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          args=()
+          if [ "$FAST_SCAN" = "true" ]; then args+=(--watch-only); fi
+          if [ "$DRY_RUN" != "true" ]; then args+=(--send); fi
+          python -m tcg_bot "${args[@]}"
+      - name: Persist state even after partial send or source failure
+        if: ${{ always() && steps.scan.outcome != 'skipped' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: |
+          set -euo pipefail
+          if [ ! -f state.json ] || [ ! -d ../tcg-state ]; then exit 0; fi
+          cp state.json ../tcg-state/state.json
+          cd ../tcg-state
+          git config user.name 'tcg-retail-watch[bot]'
+          git config user.email 'tcg-retail-watch[bot]@users.noreply.github.com'
+          git add state.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update observed stock and delivered alerts'
+            git push origin HEAD:refs/heads/bot-state
+          fi

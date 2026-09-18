@@ -1,0 +1,27 @@
+{
+  "id": "replace-with-set-edition-packs-language",
+  "group": "same-set-edition-pack-format-across-languages",
+  "language": "DE",
+  "packs": 36,
+  "sealed": true,
+  "kind": "observed_retail",
+  "retail_eur": "0.00",
+  "tolerance_pct": 0,
+  "verified_on": "YYYY-MM-DD",
+  "valid_until": "YYYY-MM-DD",
+  "title_pattern": "^EXACT VERIFIED PRODUCT TITLE$",
+  "bindings": [
+    {
+      "shop": "shop-id",
+      "handle": "product-handle",
+      "variant_id": "0",
+      "variant_pattern": "^Default Title$"
+    }
+  ],
+  "evidence": [
+    {
+      "url": "https://example.org/product",
+      "note": "Replace with verified retail/MSRP source, exact language, pack count and edition."
+    }
+  ]
+}
