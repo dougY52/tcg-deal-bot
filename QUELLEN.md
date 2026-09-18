@@ -1,4 +1,6 @@
-# Händlerabdeckung · Version 2 · 18.09.2026
+# Händlerabdeckung · 18.09.2026
+
+**Erweiterung:** 20 neue Shopify-Kataloge sind angeschlossen und auf GitHub erfolgreich getestet. Vollständige aktuelle Liste und 215 geprüfte Adressen: [QUELLEN-AUDIT.md](QUELLEN-AUDIT.md). Die Tabelle unten beschreibt die ursprünglichen zehn Quellen.
 
 „Angeschlossen“ bedeutet nicht „jedes Produkt wird gemeldet“. Angebote benötigen weiterhin eine bestätigte Identität, passende Sprache, feste Preisreferenz, einen zugelassenen Verkäufer und bestätigten Onlinebestand. Es gibt keine vollständige Internet- oder Deutschland-Filialabdeckung.
 
@@ -28,7 +30,7 @@ Zusätzlich können freigegebene Referenzen mit geprüften GTIN/EAN-Codes händl
 | Quelle | Tatsächliches Ergebnis |
 |---|---|
 | **Cardmarket** | Direkter Abruf HTTP 403; laut offizieller Hilfe werden derzeit keine neuen API-Anträge angenommen. Keine aktive Verkäufer-, Preis- oder Bestandsüberwachung. Marktpreise wären außerdem keine Hersteller-UVP. |
-| **Müller** | Bereits der direkte robots.txt-Abruf antwortet mit HTTP 403. Keine aktive Online- oder Filialüberwachung. |
+| **Müller** | Browser: robots.txt lesbar; Sammelkartenkatalog HTTP 403 / CAPTCHA. Keine aktive Online- oder Filialüberwachung. |
 | **Smyths Toys** | Öffentliche Kategorie ist per Websuche sichtbar; einfacher Abruf und separater Chromium-Test antworten mit HTTP 403. Keine aktive Überwachung. |
 | **Kaufland Marketplace** | Direkter Abruf HTTP 403. Keine aktive Überwachung. |
 | **Rossmann** | Einfacher Abruf: Client Challenge. Browserprüfung: Amigo-Katalog lesbar, gefundene Pokémon-Kalender online nicht verfügbar. Frühere Bisaflor-Produktseite nicht gefunden. Noch kein geprüfter Filialbestandsadapter. |

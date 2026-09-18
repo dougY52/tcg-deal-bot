@@ -2,7 +2,7 @@
 
 Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht stündlich die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. Ein optionaler isolierter Chromium-Browser für MediaMarkt und Saturn ist vorbereitet; lokal getestet, auf GitHub derzeit durch HTTP 403 blockiert.
 
-**Fertig vorbereitet, noch nicht auf deinem GitHub-Konto aktiviert.** Der Bot sendet erst, wenn du ihn mit deinem Discord-Secret startest. Das kostenlose Setup verwendet ein **öffentliches** GitHub-Repository und den normalen Linux-Runner. Für private Repositories startet der mitgelieferte Workflow absichtlich nicht.
+**Im Repository dougY52/tcg-deal-bot eingerichtet; Discord-Versand wurde bereits bestätigt.** Für diese Quellenerweiterung ist keine erneute Einrichtung nötig. Die folgenden Schritte gelten für eine Neuinstallation. Das kostenlose Setup verwendet ein **öffentliches** GitHub-Repository und den normalen Linux-Runner. Für private Repositories startet der mitgelieferte Workflow absichtlich nicht.
 
 ## Einrichtung in drei Schritten
 
@@ -27,7 +27,7 @@ Der Workflow besitzt die nötige `contents: write`-Berechtigung bereits. Verhind
 
 ## Händlerabdeckung der erweiterten Version
 
-**Zehn angeschlossene Quellen:** die bisherigen fünf Shops sowie MediaMarkt, Saturn, Otto, Gate to the Games und Ultra Comix. Otto liefert momentan ausschließlich Prüfkandidaten, keine automatisch freigegebenen Angebote. Großhändlerabfragen sind zunächst auf verifizierte Pokémon-Kategorien begrenzt. Fachhändler erkennen zusätzlich die gewünschten Anime-Reihen.
+**30 konfigurierte Quellen, darunter 20 neu auf GitHub erfolgreich getestete Shopify-Kataloge.** Umfang und Grenzen stehen im [Quellen-Audit](QUELLEN-AUDIT.md). Die bisherigen zehn Quellen umfassen die bisherigen fünf Shops sowie MediaMarkt, Saturn, Otto, Gate to the Games und Ultra Comix. Otto liefert momentan ausschließlich Prüfkandidaten, keine automatisch freigegebenen Angebote. Großhändlerabfragen sind zunächst auf verifizierte Pokémon-Kategorien begrenzt. Fachhändler erkennen zusätzlich die gewünschten Anime-Reihen.
 
 Die detaillierte, ehrliche Trennung zwischen **automatischer Überwachung**, **Kandidatenerkennung** und **nicht angebundenen Quellen** steht in [QUELLEN.md](QUELLEN.md). Insbesondere Cardmarket, Müller, Smyths und Kaufland sind nach dem aktuellen Zugriffstest nicht aktiv angebunden. Die Filial-Suchregion ist **65934 mit 50 km Umkreis**. Ein verlässlicher Filialadapter ist noch nicht vorhanden; die Standortkonfiguration aktiviert daher noch keine Bestandsmeldungen.
 

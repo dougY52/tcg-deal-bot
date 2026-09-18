@@ -1,4 +1,6 @@
-# Prüfbericht · Version 2 · 18.09.2026
+# Prüfbericht · 18.09.2026
+
+**Aktuelle Erweiterung:** 61 Tests bestanden. 20/20 neue Händlerkataloge im GitHub-Livetest erfolgreich; 5.299 Varianten gelesen. [Nachweis und Grenzen](QUELLEN-AUDIT.md). Die folgenden Zahlen dokumentieren den früheren Stand von Version 2.
 
 ## Implementiert und geprüft
 
