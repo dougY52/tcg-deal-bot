@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from tcg_bot.__main__ import load_config
 from tcg_bot.browser import BrowserClient
+from tcg_bot.http import FetchError
 from tcg_bot.web_sources import parse_mms
 
 cfg=load_config('config/config.json')
@@ -21,7 +22,8 @@ try:
             for row in rows:
                 print(shop['id'], row['price'], row['currency'], 'available=', row['available'], 'seller_verified=', row['seller_verified'])
         except Exception as exc:
-            print(shop['id'], type(exc).__name__)
+            # FetchError messages are our fixed, secret-free diagnostics.
+            print(shop['id'], type(exc).__name__, str(exc) if isinstance(exc, FetchError) else '')
             failures+=1
 finally:
     client.close()
