@@ -1,7 +1,6 @@
 name: TCG Deal Watch
 on:
-  schedule:
-    - cron: '2-57/5 * * * *'  # All enabled catalogs and watched products every five minutes
+  # Scheduled cloud runs paused: Windows task TCG Deal Watch PC owns polling.
   workflow_dispatch:
     inputs:
       dry_run:
