@@ -143,3 +143,7 @@ Der gleiche Cloud-Lauf sammelt Händlerpreise, sucht fehlende Vergleichsangebote
 Explizit bestellbare Vorbestellungen und Nachbestellungen werden gemeldet und als Vorbestellung mit Händlertermin (falls vorhanden) bezeichnet. Ausverkaufte oder unklare Angebote bleiben ausgeschlossen.
 
 Bekannte Normalpreise werden im selben Lauf anhand bestellbarer Angebote erneut geprüft und können dadurch als beobachteter Handelspreis bestätigt oder abgesenkt werden. Belegte UVP-/Normalpreise haben Vorrang. Fehlen sie, kann ein **aktueller Marktvergleich** eine Meldung ermöglichen: mindestens drei unabhängige, im selben Lauf bestellbare Händlerangebote, die drei günstigsten höchstens 25 % auseinander. Die Grenze liegt dann höchstens 10 % über dem günstigsten Preis; der sonstige 30-Euro-Aufschlag gilt hier nicht. Die Nachricht sagt ausdrücklich **Normalpreis/UVP unbekannt**. Ein übereinstimmender Marktpreis beweist keinen ursprünglichen Normalpreis und kann bei knappen Produkten trotzdem über UVP liegen. Unbekannte oder widersprüchliche Produkte bleiben im Prüfbericht. `price_research` dokumentiert zusätzliche Anfragen, Treffer und Quellenfehler.
+
+### Kartensprache
+
+Pokémon wird ausschließlich mit deutschen Karten gemeldet, einschließlich Vorbestellungen. Englische oder sprachlich unklare Pokémon-Angebote werden nicht gemeldet. Entscheidend ist die Kartensprache, nicht der Sitz des Händlers. Andere TCGs bleiben für Deutsch und Englisch zugelassen. Einstellung: `market.franchise_languages`.

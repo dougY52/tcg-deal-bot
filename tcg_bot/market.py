@@ -58,6 +58,9 @@ def normalize(o, cfg):
         lang = ref['language']
     if lang not in ('DE', 'EN') or (ref and lang != ref['language']):
         return None, 'language_uncertain'
+    allowed_languages = cfg.get('market', {}).get('franchise_languages', {}).get(family, ['DE', 'EN'])
+    if lang not in allowed_languages:
+        return None, 'language_excluded'
     packs = {int(n) for n in re.findall(r'(?<![\w-])(\d{1,3})\s*(?:[x×]\s*)?(?:boosters?|packs?|boosterpacks?)\b', text, re.I)}
     packs.update(int(n) for n in re.findall(r'\b(\d{1,2})er[ -]+(?:booster[ -]+)?display\b', title, re.I))
     # A sentence describing one pack does not contradict the display pack count.
