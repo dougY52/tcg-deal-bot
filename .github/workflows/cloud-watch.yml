@@ -1,11 +1,6 @@
 name: TCG Cloud Watch
-# Independent cloud schedule registered 2026-09-19
+# Started every ten minutes by cron-job.org via workflow_dispatch
 on:
-  schedule:
-    - cron: '6,16,26,36,46,56 * * * *'
-  push:
-    branches: [main]
-    paths: ['.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:

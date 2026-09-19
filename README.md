@@ -131,3 +131,7 @@ Seit dem 19.09.2026 wird pro Produkt, Sprache und unabhängigem Händler gemelde
 Die Versandhistorie wird pro Händler geführt. Vorhandene bestätigte Meldungen werden ausschließlich dem tatsächlich gemeldeten Händler zugeordnet; andere Shops werden dadurch nicht gesperrt. Unveränderte Angebote bleiben stumm, deutliche Preisverbesserungen umgehen die Wiederholungssperre. Pro Lauf werden bis zu 20 Meldungen versendet; übrige qualifizierte Angebote bleiben für weitere Läufe offen. Tests prüfen mehrere Händler, gemeinsame Händlergruppen, die Übernahme alter Meldungen, Versandfehler und das Fortsetzen nach dem Nachrichtenlimit.
 
 Der eigenständige Workflow `.github/workflows/cloud-watch.yml` besitzt den Cloud-Zeitplan. `watch.yml` ist nur noch manuell startbar. Beide teilen dieselbe Sperre gegen parallele Läufe und dieselbe Versandhistorie. Ein erfolgreicher Start per Commit bestätigt den Zeitplan nicht; dafür muss ein Lauf mit Ereignis `schedule` nachgewiesen werden.
+
+## Externer Zeitgeber
+
+cron-job.org löst `cloud-watch.yml` alle zehn Minuten per authentifiziertem `workflow_dispatch` aus. GitHub-Schedule- und Push-Auslöser sind aus diesem Workflow entfernt. Der GitHub-Token ist auf Actions für dieses Repository beschränkt; der Discord-Webhook bleibt ausschließlich im GitHub-Secret. Die PC-Aufgabe bleibt deaktiviert. Im Ausführungsverlauf von cron-job.org lassen sich Startzeit und HTTP-Ergebnis prüfen; in GitHub stehen die eigentlichen Scanergebnisse. Ein erfolgreicher Zeitgeberaufruf bestätigt nur den Start, nicht den Erfolg aller Händlerabrufe.
