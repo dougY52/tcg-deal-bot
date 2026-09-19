@@ -28,7 +28,7 @@ def normalize(o, cfg):
         return None, 'not_sealed_display'
     if re.search(r'einzelbooster|single booster|\b1\s*(?:booster|pack)\b|\b[2-9]\s*[x×]\s*(?:display|booster.box)', o.get('variant', ''), re.I):
         return None, 'ambiguous_variant'
-    preorder = bool(o.get('preorder') or re.search(PREORDER, title, re.I) or re.search(r'\b(?:Vorbestellung|Pre-?order)\b', o.get('description', ''), re.I))
+    preorder = bool(o.get('preorder') or re.search(PREORDER, title, re.I) or re.search(r'\b(?:vorbestell\w*|pre[ -]?order\w*|vorverkauf|lieferbar ab|versand (?:ab|ca))\b', o.get('description', ''), re.I))
     release = o.get('release_date', '')
     if not release:
         match = re.search(r'(?:Release|Erscheinungsdatum|Liefertermin|Veröffentlichung)\s*[:–-]?\s*(\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{2}-\d{2})', text, re.I)

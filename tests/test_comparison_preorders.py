@@ -77,3 +77,7 @@ class ComparisonTests(unittest.TestCase):
         c=self.config();c['market']['price_references']=cfg()['market']['price_references']
         c['market']['research_max_requests']=0
         self.assertEqual(enrich(offers(('140','150','155')),c,state(),client,NOW)['normal_prices_rechecked'],0)
+
+    def test_preorder_notice_in_description_is_not_marked_in_stock(self):
+        row,_=normalize(offers()[0]|{'description':'24 Booster. Vorbestellhinweis: Dies ist ein Vorbestellungsprodukt.'},self.config())
+        self.assertTrue(row['preorder'])
