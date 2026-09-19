@@ -120,10 +120,10 @@ def parse_structured(shop, body, page_url):
         offers = product.get('offers', [])
         if isinstance(offers, dict): offers = [offers]
         for offer in offers:
-            # Aggregate lowPrice and preorder prices are never treated as executable offers.
+            # Aggregate lowPrice is not executable; explicit PreOrder/BackOrder is orderable.
             if not isinstance(offer, dict) or offer.get('price') is None: continue
             avail = str(offer.get('availability', '')).rsplit('/', 1)[-1]
-            stock = True if avail == 'InStock' else False if avail in ('OutOfStock', 'SoldOut', 'Discontinued') else None
+            stock = True if avail in ('InStock', 'PreOrder', 'BackOrder') else False if avail in ('OutOfStock', 'SoldOut', 'Discontinued') else None
             if offer.get('availableAtOrFrom') or 'OnSitePickup' in str(offer.get('availableDeliveryMethod', '')):
                 stock = None  # Physical-store offers must never masquerade as online inventory.
             seller = offer.get('seller', {})
@@ -132,7 +132,7 @@ def parse_structured(shop, body, page_url):
                 rows.append(normalized(shop, offer.get('url') or url, product['name'], offer['price'], stock,
                                        sku=product.get('sku'), description=product.get('description', ''),
                                        gtin=product.get('gtin13') or product.get('gtin') or '', seller=seller,
-                                       currency=offer.get('priceCurrency', ''), condition=offer.get('itemCondition', product.get('itemCondition', '')), preorder=avail in ('PreOrder', 'BackOrder')))
+                                       currency=offer.get('priceCurrency', ''), condition=offer.get('itemCondition', product.get('itemCondition', '')), preorder=avail in ('PreOrder', 'BackOrder'), release_date=offer.get('availabilityStarts') or product.get('releaseDate') or ''))
             except ValueError: continue
     return rows, list(dict.fromkeys(links))
 

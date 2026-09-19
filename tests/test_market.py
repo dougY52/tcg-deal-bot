@@ -15,6 +15,7 @@ def cfg():
     c['franchises']['Digimon'] = 'digimon'
     c['shops'] = [{'id': str(i), 'name': 'Shop '+str(i), 'base_url': f'https://shop{i}.example', 'adapter': 'shopify', 'currency': 'EUR', 'max_pages': 1} for i in range(7)]
     c['references'] = []
+    c['market']['automatic_comparison'] = False
     c['market']['notify_all_shops'] = False
     c['market']['min_comparisons'] = 3
     c['market'].pop('max_premium_eur', None)
@@ -77,7 +78,7 @@ class MarketTests(unittest.TestCase):
     def test_bad_condition_preorder_unknown_packs_single_variant(self):
         o=offers()[0]
         for change in [{'description':'24 Booster, Unperfektionen an der Verpackung möglich'},
-                       {'description':'24 Booster Vorbestellung'}, {'description':''},
+                       {'description':''},
                        {'variant':'1 Booster'}, {'title':o['title'].replace(' EN',' JP')}]:
             self.assertIsNone(normalize(o|change,cfg())[0])
 

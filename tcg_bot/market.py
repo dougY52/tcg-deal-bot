@@ -28,8 +28,11 @@ def normalize(o, cfg):
         return None, 'not_sealed_display'
     if re.search(r'einzelbooster|single booster|\b1\s*(?:booster|pack)\b|\b[2-9]\s*[x×]\s*(?:display|booster.box)', o.get('variant', ''), re.I):
         return None, 'ambiguous_variant'
-    if o.get('preorder') or re.search(PREORDER, text, re.I):
-        return None, 'preorder'
+    preorder = bool(o.get('preorder') or re.search(PREORDER, title, re.I) or re.search(r'\b(?:Vorbestellung|Pre-?order)\b', o.get('description', ''), re.I))
+    release = o.get('release_date', '')
+    if not release:
+        match = re.search(r'(?:Release|Erscheinungsdatum|Liefertermin|Veröffentlichung)\s*[:–-]?\s*(\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{2}-\d{2})', text, re.I)
+        release = match.group(1) if match else ''
     if re.search(r'unperfektion|verpackung\w*\s+(?:kann|könn|beschädigt)|beschädigt|damaged|b-ware|nicht versiegelt|unsealed|resealed', text, re.I):
         return None, 'condition_uncertain'
     if o.get('condition', '').rsplit('/', 1)[-1] in ('UsedCondition', 'DamagedCondition', 'RefurbishedCondition'):
@@ -79,7 +82,7 @@ def normalize(o, cfg):
         system += ':universus'
     elif family in ('JoJo', 'Fairy Tail', 'Bleach', 'My Hero Academia', 'Naruto'):
         system += ':mythos' if re.search('mythos', title, re.I) else ':unspecified'
-    patterns = {'Dragon Ball': r'\b(BT|B|FB|EX|EB)[ -]?(\d{1,3})\b', 'Digimon': r'\b(BT|EX|RB)[ -]?(\d{1,3})\b', 'One Piece': r'\b(OP|EB|PRB)[ -]?(\d{1,3})\b', 'Pokémon': r'\b(SV|SWSH|XY|SM)[ -]?(\d{1,3}(?:\.\d)?)\b'}
+    patterns = {'Dragon Ball': r'\b(BT|B|FB|EX|EB)[ -]?(\d{1,3})\b', 'Digimon': r'\b(BT|EX|RB)[ -]?(\d{1,3})\b', 'One Piece': r'\b(OP|EB|PRB)[ -]?(\d{1,3})\b', 'Pokémon': r'\b(SV|SWSH|XY|SM|ME)[ -]?(\d{1,3}(?:\.\d)?)\b'}
     codes = set()
     for prefix, number in re.findall(patterns.get(family, r'(?!)()()'), title, re.I):
         prefix = prefix.upper()
@@ -103,6 +106,7 @@ def normalize(o, cfg):
             system = alias_system
     if not set_name:
         clean = folded(title)
+        clean = re.sub(r'\b(?:vorbestellung|preorder|pre-order|pre order)\b|\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{2}-\d{2}', ' ', clean)
         # Edition and pack size already have dedicated identity fields.
         clean = re.sub(r'\b(?:1st|2nd|3rd|first|second|third|erste|zweite|dritte|[123]\.?)\s*(?:edition|auflage)\b', ' ', clean)
         clean = re.sub(r'\b\d{1,2}er[ -]+(?:booster[ -]+)?display\b', ' ', clean)
@@ -120,7 +124,7 @@ def normalize(o, cfg):
     retailer = shop.get('retailer_group') or urlsplit(shop.get('base_url', o['url'])).hostname
     return dict(o, identity=identity, group=group, language=lang, packs=packs,
                 edition=edition, set=set_name, system=system, retailer=retailer,
-                condition_normalized='new-retailer-display', reference=ref), 'normalized'
+                condition_normalized='new-retailer-display', reference=ref, preorder=preorder, release_date=release), 'normalized'
 
 
 def update_history(state, rows, now, policy):
@@ -265,6 +269,22 @@ def assess_market(o, state, cfg, now, assessment=None):
         if r['identity'] == o['identity'] and r['kind'] in ('msrp', 'observed_retail') and date.fromisoformat(r['verified_on']) <= today <= date.fromisoformat(r['valid_until']) and (today - date.fromisoformat(r['verified_on'])).days <= policy.get('anchor_max_days', 30):
             anchors.append(Decimal(r['price_eur']))
             anchor_labels.append({'kind': r['kind'], 'price': r['price_eur'], 'url': r['evidence_url']})
+    if not anchors and policy.get('automatic_comparison', False):
+        # A current market comparison is not evidence of MSRP or normal retail.
+        # Require three independent, currently orderable retailers; use the lower
+        # cluster and no absolute premium allowance for this weaker evidence.
+        fresh_rows = [h for h in state['market_history'].values()
+                      if h['identity'] == o['identity'] and h['available']
+                      and h['last_seen'] == now]
+        independent = {}
+        for h in fresh_rows:
+            if h['retailer'] not in independent or Decimal(h['price']) < Decimal(independent[h['retailer']]['price']):
+                independent[h['retailer']] = h
+        cluster = sorted(independent.values(), key=lambda h: Decimal(h['price']))
+        if len(cluster) >= 3 and Decimal(cluster[2]['price']) / Decimal(cluster[0]['price']) <= Decimal('1.25'):
+            baseline = Decimal(cluster[0]['price'])
+            anchors.append(baseline)
+            anchor_labels.append({'kind': 'automatic_market', 'price': str(baseline), 'url': cluster[0]['url']})
     if not anchors:
         return None, 'no_verified_normal_retail_anchor'
     # Stable history can cap an inflated contemporary market; never raises an anchor.
@@ -277,7 +297,16 @@ def assess_market(o, state, cfg, now, assessment=None):
     confidence = round(min(0.98, 0.80 + min(len(keep), 5) * 0.025 + (0.04 if fresh >= minimum else 0) + (0.02 if anchors else 0)), 3)
     if confidence < policy.get('min_confidence', 0.90):
         return None, 'low_confidence'
-    rating = price_rating(price, ceiling, center, policy)
+    automatic = all(a['kind'] == 'automatic_market' for a in anchor_labels)
+    rating_policy = dict(policy)
+    if automatic:
+        rating_policy.pop('max_premium_eur', None)
+        rating_policy['near_retail_tolerance_pct'] = 10
+    rating = price_rating(price, ceiling, center, rating_policy)
+    if automatic:
+        rating['explanation'] = rating['explanation'].replace('geprüftem Normalpreis', 'aktuell beobachtetem Vergleichspreis').replace('geprüften Normalpreis', 'aktuellen Vergleichspreis')
+        rating['label'] = '🔎 Preis im unteren Marktbereich' if rating['code'] != 'expensive' else '🔴 Über dem Vergleichspreisrahmen'
+        rating['explanation'] += ' Normalpreis/UVP unbekannt; auch mehrere Händler können über UVP liegen.'
     if assessment is not None:
         assessment.update(rating)
     if rating['code'] == 'expensive':
@@ -295,6 +324,8 @@ def assess_market(o, state, cfg, now, assessment=None):
     if not bargain and not restock and not policy.get('notify_within_price_range', False):
         return None, 'normal_price_no_deal'
     reason = 'Preisdeal' if bargain else 'Relevanter Restock' if restock else 'Neues Angebot in deinem Preisrahmen'
+    if o.get('preorder'):
+        reason = 'Bestellbare Vorbestellung – ' + reason
     sent = (state.setdefault('market_offer_sent', {}).get(delivery_key(o))
             if policy.get('notify_all_shops', False)
             else state.setdefault('market_sent', {}).get(o['identity']))
@@ -312,14 +343,17 @@ def assess_market(o, state, cfg, now, assessment=None):
 
 
 def market_payload(d):
+    availability = ('Vorbestellung bestellbar' if d.get('preorder') else 'laut Händler lieferbar')
+    if d.get('preorder'):
+        availability += (' · Händlertermin: ' + d['release_date']) if d.get('release_date') else ' · Liefertermin nicht angegeben'
     comparisons = '\n'.join(f"{h['shop']}: {Decimal(h['price']):.2f} € [Quelle]({h['url']})" for h in d['comparisons'][:5])
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
         'title': (d['rating']['label'] + ': ' + d['title'])[:250], 'url': d['url'], 'color': {'acceptable': 0xE5A50A, 'elevated': 0xE66100}.get(d['rating']['code'], 0x26A269),
-        'description': f"**{Decimal(d['price']):.2f} €** · {d['language']} · {d['shop_name']}\n{d['packs']} Booster · Edition {d['edition'] if d['edition'] != 'unspecified' else 'nicht angegeben'} · laut Händler lieferbar\n"
+        'description': f"**{Decimal(d['price']):.2f} €** · {d['language']} · {d['shop_name']}\n{d['packs']} Booster · Edition {d['edition'] if d['edition'] != 'unspecified' else 'nicht angegeben'} · {availability}\n"
                        f"Marktmedian **{Decimal(d['median']):.2f} €**; **{abs(Decimal(d['discount'])):.1f} %** {'darunter' if Decimal(d['discount']) >= 0 else 'darüber'}.\n"
                        f"{len(d['comparisons'])} unabhängige Vergleichshändler; Confidence **{d['confidence']:.0%}**.\n"
                        '**Produktpreise inkl. MwSt.; Versand zusätzlich, im Checkout prüfen.**',
-        'fields': [{'name': 'Hersteller-UVP' if d['anchor']['kind'] == 'msrp' else 'Geprüfter Normalpreis (keine UVP)', 'value': f"{Decimal(d['anchor']['price']):.2f} € · [Beleg]({d['anchor']['url']})"}, {'name': 'Preisbewertung', 'value': d['rating']['explanation']}, {'name': 'Warum qualifiziert?', 'value': d['reason'] + '; identisches Set, Sprache, Edition und Packformat. Keine UVP-Ableitung aus hohen Marktpreisen.'},
+        'fields': [{'name': 'Hersteller-UVP' if d['anchor']['kind'] == 'msrp' else 'Aktueller Marktvergleich (Normalpreis/UVP unbekannt)' if d['anchor']['kind'] == 'automatic_market' else 'Geprüfter Normalpreis (keine UVP)', 'value': f"{Decimal(d['anchor']['price']):.2f} € · [Beleg]({d['anchor']['url']})"}, {'name': 'Preisbewertung', 'value': d['rating']['explanation']}, {'name': 'Warum qualifiziert?', 'value': d['reason'] + '; identisches Set, Sprache, Edition und Packformat. Keine UVP-Ableitung aus hohen Marktpreisen.'},
                    {'name': 'Vergleichsmarkt (höchstens 24 Stunden alt)', 'value': comparisons[:1024]}],
         'footer': {'text': 'Confidence ist ein Regelwert, keine statistische Wahrscheinlichkeit. Bestand kann sich ändern.'}
     }]}

@@ -83,7 +83,7 @@ class WebSourceTests(unittest.TestCase):
         p = {'@type': 'Product', 'name': 'Pokemon Display', 'offers': {'price': 100, 'priceCurrency': 'EUR', 'availability': 'https://schema.org/PreOrder'}}
         rows, _ = parse_structured(shop(), '<script type="application/ld+json">'+json.dumps(p)+'</script>', 'https://example.org/item')
         self.assertTrue(rows[0]['preorder'])
-        self.assertIsNone(rows[0]['available'])
+        self.assertTrue(rows[0]['available'])
 
     def test_otto_instalments_and_starting_prices(self):
         exact = {'price': {'retailPrice': '119,90', 'isStartingPrice': False, 'installmentPlan': {'amount': 10.95}},

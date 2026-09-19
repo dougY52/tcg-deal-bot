@@ -135,3 +135,11 @@ Der eigenständige Workflow `.github/workflows/cloud-watch.yml` besitzt den Clou
 ## Externer Zeitgeber
 
 cron-job.org löst `cloud-watch.yml` alle zehn Minuten per authentifiziertem `workflow_dispatch` aus. GitHub-Schedule- und Push-Auslöser sind aus diesem Workflow entfernt. Der GitHub-Token ist auf Actions für dieses Repository beschränkt; der Discord-Webhook bleibt ausschließlich im GitHub-Secret. Die PC-Aufgabe bleibt deaktiviert. Im Ausführungsverlauf von cron-job.org lassen sich Startzeit und HTTP-Ergebnis prüfen; in GitHub stehen die eigentlichen Scanergebnisse. Ein erfolgreicher Zeitgeberaufruf bestätigt nur den Start, nicht den Erfolg aller Händlerabrufe.
+
+### Automatische Preisrecherche und Vorbestellungen
+
+Der gleiche Cloud-Lauf sammelt Händlerpreise, sucht fehlende Vergleichsangebote über öffentliche Shopify-Produktsuchen und prüft anschließend die Ergebnisse. Zusätzliche Suche: höchstens 16 Anfragen/90 Sekunden pro Lauf, sechs Stunden Pause je Produkt/Händler, Robots-Regeln und bestehende Netzwerkgrenzen gelten weiterhin. Produktdetails müssen Set, Sprache, Edition und Packformat bestätigen; Suchtreffer allein zählen nicht als Preisbeleg. Nicht alle Händler bieten diese Suche an.
+
+Explizit bestellbare Vorbestellungen und Nachbestellungen werden gemeldet und als Vorbestellung mit Händlertermin (falls vorhanden) bezeichnet. Ausverkaufte oder unklare Angebote bleiben ausgeschlossen.
+
+Bekannte Normalpreise werden im selben Lauf anhand bestellbarer Angebote erneut geprüft und können dadurch als beobachteter Handelspreis bestätigt oder abgesenkt werden. Belegte UVP-/Normalpreise haben Vorrang. Fehlen sie, kann ein **aktueller Marktvergleich** eine Meldung ermöglichen: mindestens drei unabhängige, im selben Lauf bestellbare Händlerangebote, die drei günstigsten höchstens 25 % auseinander. Die Grenze liegt dann höchstens 10 % über dem günstigsten Preis; der sonstige 30-Euro-Aufschlag gilt hier nicht. Die Nachricht sagt ausdrücklich **Normalpreis/UVP unbekannt**. Ein übereinstimmender Marktpreis beweist keinen ursprünglichen Normalpreis und kann bei knappen Produkten trotzdem über UVP liegen. Unbekannte oder widersprüchliche Produkte bleiben im Prüfbericht. `price_research` dokumentiert zusätzliche Anfragen, Treffer und Quellenfehler.

@@ -34,7 +34,7 @@ def load_config(path):
         assert 1 <= shop['max_pages'] <= 40, 'Invalid page limit'
         assert len(shop.get('catalog_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('catalog_collections', [])), 'Invalid collection targets'
         shop['base_url'] = shop['base_url'].rstrip('/')
-        shop['watch_handles'] = []
+        shop['watch_handles'] = list(shop.get('watch_handles', []))
         shop['watch_urls'] = list(shop.get('product_urls', []))
         for url in shop.get('catalog_urls', []) + shop['watch_urls']:
             assert urlsplit(url).scheme == 'https' and urlsplit(url).netloc == u.netloc, 'Offsite source URL'
@@ -178,8 +178,10 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
             errors.append(shop['id'] + ': ' + type(exc).__name__)
     if cfg.get('market', {}).get('enabled', False):
         from .market import evaluate, market_payload, delivery_key
+        from .comparison import enrich
+        research = enrich(offers, cfg, state, client, now)
         deals, skipped, candidates = evaluate(offers, cfg, state, now)
-        report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': skipped,
+        report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': skipped, 'price_research': research,
                   'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None,
                   'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0,
                   'pending_alerts': max(0, len(deals) - cfg['max_alerts_per_run']) if cfg['max_alerts_per_run'] else 0}
