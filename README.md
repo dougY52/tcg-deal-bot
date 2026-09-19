@@ -113,3 +113,11 @@ Seiten-/Detailgrenzen sind explizit und erzeugen Warnungen. Sehr große Kataloge
 ## Reparatur der Produktzuordnung
 
 Am 18.09.2026: geprüfte Set-Aliase verbinden Naruto Konoha Shido/First Set sowie Shinobi Shiren und unterschiedliche Schreibweisen der Edition. Editionsnummern bleiben getrennt, zählen aber nicht doppelt zum Setnamen. Explizite 18er-/36er-Displaygrößen werden erkannt. Drei unabhängige Händler insgesamt genügen nur zusammen mit gültigem geprüftem Normalpreisanker und unverändert mindestens 90 % Confidence. Alte Versandhistorie für umbenannte Identitäten wird übernommen.
+
+## Erweiterung vom 19.09.2026
+
+Neue Katalogquellen: TCG Garden, Moon-Shadow, Lake Cards, BreakTheCase, FantasiaCards und Spiele-Spezi (jeweils maximal acht Katalogseiten). Lake Cards und BreakTheCase prüfen die konkret gefundenen AoT-/JoJo-Produkte zusätzlich unabhängig von der Katalogreihenfolge. Hobby-Schmidt und Zuris-Shop prüfen zunächst einzelne verlinkte Produktseiten, keine vollständigen Sortimente. Hobby-Schmidt lieferte beim Test keinen eindeutigen Online-Bestand; Zuris-Shop eine abweichende Verkäuferbezeichnung. Diese Angebote bleiben bis zur sicheren Klärung im Bericht.
+
+Ein Preisrückgang von mindestens 3 EUR UND 5 Prozent gegenüber der letzten erfolgreich gesendeten Meldung umgeht die 24-Stunden-Sperre. Nach Versand wird der neue Preis gespeichert; unveränderte Preise werden weiterhin nicht wiederholt. Unabhängiger Marktvergleich, belegter Normalpreis und Verfügbarkeitsprüfung bleiben erforderlich. Einzelbooster-Inhaltsangaben (etwa „1 Boosterpack enthält 10 Karten“) verfälschen nicht länger die Displaygröße.
+
+Validierung: 112 Tests; Live-Abruf der acht zusätzlichen Quellen. Vergleich mit der Cloud-Historie ergab Naruto 2nd Edition für 50 EUR als neuen qualifizierten Preisrückgang. Das ist noch kein Nachweis eines Discord-Versands. Keine vollständige Händler- oder Marktabdeckung.

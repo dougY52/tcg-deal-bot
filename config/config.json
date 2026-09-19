@@ -2,7 +2,7 @@
   "version": 1,
   "max_alerts_per_run": 6,
   "restock_cooldown_hours": 0,
-  "price_drop_eur": 5,
+  "price_drop_eur": 3,
   "price_drop_pct": 5,
   "franchises": {
     "Pokémon": "pok[eé]mon",
@@ -695,6 +695,93 @@
         "https://comic-attack.de/produkt/dragon-ball-super-card-game-b15-saiyan-showdown-booster-box/"
       ],
       "discovery_scope": "Suchseite plus verknüpfte Produktseiten; strukturiertes HTML, begrenzte Pagination, robots-gesteuert."
+    },
+    {
+      "id": "tcg-garden",
+      "name": "TCG Garden",
+      "base_url": "https://tcg-garden.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+    },
+    {
+      "id": "moon-shadow",
+      "name": "Moon-Shadow",
+      "base_url": "https://moon-shadow.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+    },
+    {
+      "id": "lakecards",
+      "name": "Lake Cards",
+      "base_url": "https://lakecards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht.",
+      "watch_handles": [
+        "universus-ccg-attack-on-titan-battle-for-humanity-booster-display-24-packs-en",
+        "universus-ccg-attack-on-titan-origins-of-power-booster-display-24-packs-en"
+      ]
+    },
+    {
+      "id": "breakthecase",
+      "name": "BreakTheCase",
+      "base_url": "https://www.breakthecase.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht.",
+      "watch_handles": [
+        "weiss-schwarz-jojos-bizarre-adventure-stone-ocean-premium-booster-display-englisch"
+      ]
+    },
+    {
+      "id": "fantasiacards",
+      "name": "FantasiaCards",
+      "base_url": "https://fantasiacards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+    },
+    {
+      "id": "spiele-spezi",
+      "name": "Spiele-Spezi",
+      "base_url": "https://www.spiele-spezi.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+    },
+    {
+      "id": "hobby-schmidt",
+      "name": "Hobby-Schmidt",
+      "base_url": "https://www.hobby-schmidt.de",
+      "adapter": "html_catalog",
+      "currency": "EUR",
+      "max_pages": 1,
+      "max_detail_pages": 10,
+      "catalog_urls": [
+        "https://www.hobby-schmidt.de/pokemon-mega-entwicklung-optimale-ordnung-booster-display-pack-deutsch"
+      ],
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+    },
+    {
+      "id": "zuris-shop",
+      "name": "Zuris-Shop",
+      "base_url": "https://www.zuris-shop.de",
+      "adapter": "html_catalog",
+      "currency": "EUR",
+      "max_pages": 1,
+      "max_detail_pages": 10,
+      "catalog_urls": [
+        "https://www.zuris-shop.de/product-page/my-hero-academia-ccg-booster-display-series-02-crimson-rampage-24-packs-en"
+      ],
+      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
     }
   ],
   "references": [

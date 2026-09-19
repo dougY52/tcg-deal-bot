@@ -57,6 +57,8 @@ def normalize(o, cfg):
         return None, 'language_uncertain'
     packs = {int(n) for n in re.findall(r'(?<![\w-])(\d{1,3})\s*(?:[x×]\s*)?(?:boosters?|packs?|boosterpacks?)\b', text, re.I)}
     packs.update(int(n) for n in re.findall(r'\b(\d{1,2})er[ -]+(?:booster[ -]+)?display\b', title, re.I))
+    # A sentence describing one pack does not contradict the display pack count.
+    packs.discard(1)
     if ref:
         packs.add(ref['packs'])
     if len(packs) != 1 or not 6 <= next(iter(packs)) <= 60:
@@ -274,7 +276,8 @@ def assess_market(o, state, cfg, now, assessment=None):
         age = now - sent['at']
         improved = Decimal(sent['price']) - price >= Decimal(str(cfg['price_drop_eur'])) and price <= Decimal(sent['price']) * (1 - Decimal(str(cfg['price_drop_pct'])) / 100)
         new_episode = restock and (sent.get('offer') != o['key'] or sent.get('episode', 0) < item['episode'])
-        if age < policy.get('alert_cooldown_hours', 24) * 3600 or not (improved or new_episode):
+        # Meaningful price drops bypass the restock cooldown; unchanged offers stay silent.
+        if not improved and (age < policy.get('alert_cooldown_hours', 24) * 3600 or not new_episode):
             return None, 'duplicate_or_cooldown'
     return dict(o, reason=reason, rating=rating, confidence=confidence, median=str(center), savings=str(savings),
                 discount=str(discount.quantize(Decimal('0.1'))), ceiling=str(ceiling),
