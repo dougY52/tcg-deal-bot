@@ -1,4 +1,5 @@
 """Bounded requests; never print URLs containing credentials."""
+from email.utils import parsedate_to_datetime
 import json
 import re
 import time
@@ -21,14 +22,26 @@ class Client:
         self.delay = delay
         self.last = {}
         self.robots = {}
+        self.host_delay = {}
+        self.blocked = set()
+        self.cooldowns = {}
+        self.deadline = time.monotonic() + 600
 
     def raw(self, url):
+        if time.monotonic() >= self.deadline:
+            raise FetchError('Run request budget exhausted')
         host = urllib.parse.urlsplit(url).netloc
-        time.sleep(max(0, self.delay - (time.monotonic() - self.last.get(host, 0))))
+        if host in self.blocked or time.time() < self.cooldowns.get(host, 0):
+            raise FetchError('Host backed off until next run')
+        delay = max(self.delay, self.host_delay.get(host, 0))
+        wait = max(0, delay - (time.monotonic() - self.last.get(host, 0)))
+        if time.monotonic() + wait >= self.deadline:
+            raise FetchError('Run request budget exhausted')
+        time.sleep(wait)
         self.last[host] = time.monotonic()
         try:
             request = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/json,text/plain,*/*'})
-            with urllib.request.urlopen(request, timeout=25) as response:
+            with urllib.request.build_opener(NoRedirect()).open(request, timeout=max(1, min(25, self.deadline - time.monotonic()))) as response:
                 if urllib.parse.urlsplit(response.url).hostname != urllib.parse.urlsplit(url).hostname:
                     raise FetchError('Unexpected redirect host')
                 data = response.read(12_000_001)
@@ -36,6 +49,17 @@ class Client:
                     raise FetchError('Response too large')
                 return data.decode('utf-8')
         except urllib.error.HTTPError as exc:
+            if exc.code in (429, 503):
+                self.blocked.add(host)
+                retry = exc.headers.get('Retry-After', '') if exc.headers else ''
+                try:
+                    until = time.time() + max(0, float(retry))
+                except ValueError:
+                    try:
+                        until = parsedate_to_datetime(retry).timestamp()
+                    except (ValueError, TypeError, OverflowError):
+                        until = time.time() + 3600
+                self.cooldowns[host] = max(time.time() + 60, until)
             raise FetchError(f'HTTP {exc.code}') from None
         except (urllib.error.URLError, TimeoutError, UnicodeError):
             raise FetchError('Network or encoding error') from None
@@ -54,6 +78,21 @@ class Client:
                 body = 'User-agent: *\nAllow: /'
             # Match robots wildcards and end anchors as used by Shopify.
             self.robots[origin] = body
+            parser = RobotFileParser()
+            parser.parse(body.splitlines())
+            crawl = parser.crawl_delay(UA) or 0
+            rate = parser.request_rate(UA)
+            if rate and rate.requests:
+                crawl = max(crawl, rate.seconds / rate.requests)
+            for value in re.findall(r'^Crawl-delay:\s*([0-9.]+)', body, re.I | re.M):
+                try:
+                    crawl = max(crawl, float(value))
+                except ValueError:
+                    pass
+            if crawl > 60:
+                self.blocked.add(parts.netloc)
+                raise FetchError('Required crawl delay exceeds run budget')
+            self.host_delay[parts.netloc] = crawl
         if not robots_allowed(self.robots[origin], url):
             raise FetchError('robots.txt disallows this endpoint')
 

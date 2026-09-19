@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "max_alerts_per_run": null,
+  "max_alerts_per_run": 6,
   "restock_cooldown_hours": 0,
   "price_drop_eur": 5,
   "price_drop_pct": 5,
@@ -13,8 +13,6 @@
     "One Piece": "one\\s*piece",
     "My Hero Academia": "my hero academia|boku no hero",
     "Naruto": "naruto",
-    "Digimon": "digimon",
-    "Yu-Gi-Oh!": "yu[ -]?gi[ -]?oh",
     "Hunter x Hunter": "hunter\\s*x\\s*hunter",
     "Demon Slayer": "demon\\s*slayer|kimetsu",
     "Jujutsu Kaisen": "jujutsu\\s*kaisen",
@@ -30,8 +28,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste 1 Katalogseiten (max. 250 Produkte), plus alle expliziten Referenzprodukte."
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
     },
     {
       "id": "cardbuddys",
@@ -40,8 +38,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 2,
-      "discovery_scope": "Erste 2 Katalogseiten (max. 500 Produkte), plus alle expliziten Referenzprodukte."
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
     },
     {
       "id": "cardcosmos",
@@ -50,8 +48,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 4,
-      "discovery_scope": "Erste 4 Katalogseiten (max. 1000 Produkte), plus alle expliziten Referenzprodukte."
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
     },
     {
       "id": "skashcards",
@@ -60,8 +58,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste 1 Katalogseiten (max. 250 Produkte), plus alle expliziten Referenzprodukte."
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
     },
     {
       "id": "crispycards",
@@ -70,8 +68,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 6,
-      "discovery_scope": "Erste 6 Katalogseiten (max. 1500 Produkte), plus alle expliziten Referenzprodukte."
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
     },
     {
       "currency": "EUR",
@@ -93,7 +91,8 @@
         "https://www.mediamarkt.de/de/brand/pokemon-sammelkartenspiel/geschenkideen"
       ],
       "max_product_pages": 16,
-      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt."
+      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt.",
+      "retailer_group": "ceconomy"
     },
     {
       "currency": "EUR",
@@ -114,7 +113,8 @@
         "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/geschenkideen"
       ],
       "max_product_pages": 16,
-      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt."
+      "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt.",
+      "retailer_group": "ceconomy"
     },
     {
       "currency": "EUR",
@@ -171,8 +171,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -183,8 +183,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -195,8 +195,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -207,8 +207,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -219,8 +219,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -231,8 +231,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -243,8 +243,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -255,8 +255,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -267,8 +267,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -279,8 +279,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -291,8 +291,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -303,8 +303,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -315,8 +315,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -327,8 +327,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -339,8 +339,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -351,8 +351,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -363,8 +363,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -375,8 +375,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -387,8 +387,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -399,8 +399,8 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 1,
-      "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; keine vollständige Shop-Abdeckung.",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
       "cloud_check_run": "35340269350"
     },
@@ -410,7 +410,7 @@
       "base_url": "https://geekie.be",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -428,7 +428,7 @@
       "base_url": "https://outpostbrussels.be",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -446,7 +446,7 @@
       "base_url": "https://www.bescards.com",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -464,7 +464,7 @@
       "base_url": "https://cardstore.nl",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -482,7 +482,7 @@
       "base_url": "https://lairos.shop",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -500,7 +500,7 @@
       "base_url": "https://cardstore.at",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -518,7 +518,7 @@
       "base_url": "https://s-games.at",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -536,7 +536,7 @@
       "base_url": "https://primeprotector.at",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -554,7 +554,7 @@
       "base_url": "https://www.merchfox.at",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -572,7 +572,7 @@
       "base_url": "https://www.coso5.at",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -590,7 +590,7 @@
       "base_url": "https://www.japan2uk.com",
       "adapter": "shopify",
       "currency": "GBP",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite plus vier gezielte englische Display-Kategorien; jeweils maximal 250 Produkte.",
       "audit_checked_on": "2026-09-18",
@@ -614,7 +614,7 @@
       "base_url": "https://poke-swiss.ch",
       "adapter": "shopify",
       "currency": "CHF",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -632,7 +632,7 @@
       "base_url": "https://pokeflip.com",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -650,7 +650,7 @@
       "base_url": "https://www.universetcg.com",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 1,
       "discovery_scope": "Erste Katalogseite, maximal 250 Produkte; DE/EN-Filter; Versandbedingungen separat dokumentiert.",
       "audit_checked_on": "2026-09-18",
@@ -661,6 +661,40 @@
       "shipping_note": "Versand aus Barcelona in die EU; Versand und endgültige Steuerberechnung im Checkout.",
       "import_costs": false,
       "cloud_check_run": "35341984209"
+    },
+    {
+      "id": "cardsrfun",
+      "name": "CardsRfun",
+      "base_url": "https://cardsrfun.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
+    },
+    {
+      "id": "cardlegends",
+      "name": "CardLegends",
+      "base_url": "https://cardlegends.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "max_pages": 8,
+      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit."
+    },
+    {
+      "id": "comic-attack",
+      "name": "Comic Attack",
+      "base_url": "https://comic-attack.de",
+      "adapter": "html_catalog",
+      "currency": "EUR",
+      "max_pages": 3,
+      "max_detail_pages": 20,
+      "catalog_urls": [
+        "https://comic-attack.de/?s=booster+display&post_type=product"
+      ],
+      "product_urls": [
+        "https://comic-attack.de/produkt/dragon-ball-super-card-game-b15-saiyan-showdown-booster-box/"
+      ],
+      "discovery_scope": "Suchseite plus verknüpfte Produktseiten; strukturiertes HTML, begrenzte Pagination, robots-gesteuert."
     }
   ],
   "references": [
@@ -711,74 +745,6 @@
         }
       ],
       "note": "KartenZeche aktuell mit Vorbestellhinweis: trotz verfügbar=true ausgeschlossen. Skash Cards bestätigt EN, 24 Packs und OVP. Keine B2B-Netto-/Brutto-Ableitung.",
-      "gtins": []
-    },
-    {
-      "id": "digimon-great-legend-bt04-24",
-      "group": "digimon-great-legend-bt04-24",
-      "language": "EN",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "49.99",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Digimon.*Great Legend.*Display",
-      "bindings": [
-        {
-          "shop": "cardcosmos",
-          "handle": "digimon-card-game-great-legend-bt04-booster-display-englisch",
-          "variant_id": "53744499196247",
-          "variant_pattern": "^Default\\ Title$"
-        },
-        {
-          "shop": "crispycards",
-          "handle": "digimon-great-legend-display-eng",
-          "variant_id": "61330134434122",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://cardcosmos.de/products/digimon-card-game-great-legend-bt04-booster-display-englisch",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.90 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
-        },
-        {
-          "url": "https://crispycards.de/products/digimon-great-legend-display-eng",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 49.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
-        }
-      ],
-      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
-      "gtins": []
-    },
-    {
-      "id": "digimon-battle-of-omni-bt05-24",
-      "group": "digimon-battle-of-omni-bt05-24",
-      "language": "EN",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "49.90",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Digimon.*Battle of Omni BT05.*Display",
-      "bindings": [
-        {
-          "shop": "cardcosmos",
-          "handle": "digimon-card-game-battle-of-omni-bt05-booster-display-englisch",
-          "variant_id": "53744581574999",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://cardcosmos.de/products/digimon-card-game-battle-of-omni-bt05-booster-display-englisch",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 49.90 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
-        }
-      ],
-      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
       "gtins": []
     },
     {
@@ -879,64 +845,6 @@
       "gtins": []
     },
     {
-      "id": "yugioh-duelists-advance-24",
-      "group": "yugioh-duelists-advance-24",
-      "language": "DE",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "44.99",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Yu-Gi-Oh! Duelist's Advance Display \\(DE\\)",
-      "bindings": [
-        {
-          "shop": "crispycards",
-          "handle": "yu-gi-oh-duelists-advance-display-eng",
-          "variant_id": "52915743392074",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://crispycards.de/products/yu-gi-oh-duelists-advance-display-eng",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
-        }
-      ],
-      "note": "URL endet irreführend auf eng, aber Produkttitel ist DE. Identität wird anhand Titel, Variante und Beschreibung geprüft.",
-      "gtins": []
-    },
-    {
-      "id": "yugioh-duelists-advance-24-en",
-      "group": "yugioh-duelists-advance-24",
-      "language": "EN",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "44.99",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Yu-Gi-Oh! Duelist's Advance Display \\(ENG\\)",
-      "bindings": [
-        {
-          "shop": "crispycards",
-          "handle": "yu-gi-oh-duelists-advance-display-eng-1",
-          "variant_id": "61950103814474",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://crispycards.de/products/yu-gi-oh-duelists-advance-display-eng-1",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 44.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
-        }
-      ],
-      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
-      "gtins": []
-    },
-    {
       "id": "pokemon-reisegefaehrten-etb-de",
       "group": "pokemon-reisegefaehrten-etb-9",
       "language": "DE",
@@ -1018,97 +926,6 @@
         {
           "url": "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038",
           "note": "65 EUR, englisches 12-Pack-Display, aktuell ausverkauft; direkter Produktseitenabruf am 18.09.2026."
-        }
-      ]
-    },
-    {
-      "id": "digimon-bt26-en-24",
-      "group": "digimon-bt26-24",
-      "language": "EN",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "89.95",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Digimon.*Timeless Bonds.*(?:BT[ -]?26|Display)",
-      "bindings": [
-        {
-          "shop": "eu-primeprotector-at",
-          "handle": "digimon-card-game-timeless-bonds-bt-26-booster-display-englisch",
-          "variant_id": "58648087626060",
-          "variant_pattern": "^Default\\ Title$"
-        },
-        {
-          "shop": "cardbuddys",
-          "handle": "digimon-card-game-timeless-bonds-booster-display-bt26",
-          "variant_id": "58336628080971",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://primeprotector.at/products/digimon-card-game-timeless-bonds-bt-26-booster-display-englisch",
-          "note": "Händlerkatalog 18.09.2026: 99.99 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
-        },
-        {
-          "url": "https://cardbuddys.de/products/digimon-card-game-timeless-bonds-booster-display-bt26",
-          "note": "Händlerkatalog 18.09.2026: 89.95 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
-        }
-      ]
-    },
-    {
-      "id": "yugioh-glorious-gallery-de-24",
-      "group": "yugioh-glorious-gallery-24",
-      "language": "DE",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "64.90",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Yu.Gi.Oh.*Glorious Gallery.*Display",
-      "bindings": [
-        {
-          "shop": "eu-primeprotector-at",
-          "handle": "yu-gi-oh-battles-of-legend-glorious-gallery-booster-display-de",
-          "variant_id": "57634236531020",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://primeprotector.at/products/yu-gi-oh-battles-of-legend-glorious-gallery-booster-display-de",
-          "note": "Händlerkatalog 18.09.2026: 64.90 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
-        }
-      ]
-    },
-    {
-      "id": "yugioh-glorious-gallery-en-24",
-      "group": "yugioh-glorious-gallery-24",
-      "language": "EN",
-      "packs": 24,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "64.90",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Yu.Gi.Oh.*Glorious Gallery.*Display",
-      "bindings": [
-        {
-          "shop": "eu-primeprotector-at",
-          "handle": "yugioh-battles-of-legend-glorious-gallery-booster-display-en",
-          "variant_id": "57634224210252",
-          "variant_pattern": "^Default\\ Title$"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://primeprotector.at/products/yugioh-battles-of-legend-glorious-gallery-booster-display-en",
-          "note": "Händlerkatalog 18.09.2026: 64.90 EUR, available=True; Beschreibung bestätigt 24 Packs und Sprache. Beobachteter Preis, keine Hersteller-UVP."
         }
       ]
     }
@@ -1206,7 +1023,7 @@
     }
   ],
   "discoveries": {
-    "enabled": true,
+    "enabled": false,
     "max_per_run": 10
   },
   "price_guides": [
@@ -1255,5 +1072,71 @@
       "verified_on": "2026-09-18",
       "valid_until": "2026-12-17"
     }
-  ]
+  ],
+  "market": {
+    "enabled": true,
+    "min_comparisons": 2,
+    "min_confidence": 0.9,
+    "discount_pct": 15,
+    "min_saving_eur": 8,
+    "comparison_max_hours": 24,
+    "history_days": 90,
+    "restock_min_hours": 6,
+    "restock_max_live_shops": 2,
+    "alert_cooldown_hours": 24,
+    "price_references": [
+      {
+        "identity": "masters|BT15|unspecified|24|standard|EN",
+        "kind": "observed_retail",
+        "price_eur": "79.99",
+        "verified_on": "2026-09-18",
+        "valid_until": "2026-10-18",
+        "evidence_url": "https://comic-attack.de/produkt/dragon-ball-super-card-game-b15-saiyan-showdown-booster-box/",
+        "note": "Geprüfter Händlerpreis und konservative Obergrenze passend zum Nutzerbeispiel 60–80 EUR. Keine Hersteller-UVP; allein noch kein Deal. Mindestens drei weitere unabhängige Preise erforderlich."
+      },
+      {
+        "identity": "Naruto:mythos|KONOHA-SHIDO|2|24|standard|EN",
+        "kind": "observed_retail",
+        "price_eur": "69.90",
+        "verified_on": "2026-09-18",
+        "valid_until": "2026-10-18",
+        "evidence_url": "https://cardcosmos.de/products/naruto-mythos-tcg-konoha-shido-booster-display-2-edition-englisch",
+        "note": "Am 18.09.2026 geprüfter regulärer Händlerpreis 69,90 EUR für Konoha Shido / First Set, 2nd Edition, 24 Booster, EN. Keine Hersteller-UVP. Identität durch Herstellerhinweis und Händlerbeschreibungen geprüft."
+      }
+    ],
+    "set_aliases": [
+      {
+        "franchise": "Dragon Ball",
+        "pattern": "Saiyan Showdown",
+        "set": "BT15"
+      },
+      {
+        "franchise": "Naruto",
+        "pattern": "\\b(?:konoha\\s+shido|first\\s+set|1st\\s+set)\\b",
+        "set": "KONOHA-SHIDO",
+        "system": "Naruto:mythos",
+        "evidence_url": "https://cardcosmos.de/products/naruto-mythos-tcg-konoha-shido-booster-display-2-edition-englisch"
+      },
+      {
+        "franchise": "Naruto",
+        "pattern": "\\bshinobi\\s+shiren\\b",
+        "set": "SHINOBI-SHIREN",
+        "system": "Naruto:mythos"
+      },
+      {
+        "franchise": "Pokémon",
+        "pattern": "\\bchaos\\s+rising\\b",
+        "set": "CHAOS-RISING"
+      },
+      {
+        "franchise": "Pokémon",
+        "pattern": "\\bpitch\\s+black\\b",
+        "set": "PITCH-BLACK"
+      }
+    ],
+    "anchor_max_days": 30,
+    "near_retail_tolerance_pct": 15,
+    "max_premium_eur": 30,
+    "notify_within_price_range": true
+  }
 }

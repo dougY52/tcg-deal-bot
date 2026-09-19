@@ -8,7 +8,7 @@ class FastWatchTests(unittest.TestCase):
     def test_shipped_config_has_no_extra_delay_or_batch_limit(self):
         c = load_config('config/config.json')
         self.assertEqual(c['restock_cooldown_hours'], 0)
-        self.assertIsNone(c['max_alerts_per_run'])
+        self.assertEqual(c['max_alerts_per_run'], 6)
 
     def test_restock_in_next_check_alerts_without_wait(self):
         c=config(); c['restock_cooldown_hours']=0

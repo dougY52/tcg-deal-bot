@@ -1,119 +1,117 @@
-> Europa-Erweiterung: 14 zusätzliche Quellen (12 EU, 2 UK/CH-Import), 44 Quellen insgesamt; 13 feste Euro-Referenzen und 5 offizielle US-Dollar-Orientierungen. Aktueller Umfang, Versandbelege und Grenzen: [EUROPA.md](EUROPA.md).
+# Anime TCG Deal Watch – Version 3
 
-> Aktualisierung: Jeder geplante Fünf-Minuten-Lauf prüft jetzt alle aktivierten Händlerkataloge innerhalb ihrer konfigurierten Seitenlimits sowie die hinterlegten Produktziele. Keine stündliche Trennung mehr. Blockierte Quellen bleiben blockiert; ungeprüfte Preise sind keine Retail-Bestätigung. GitHub kann Starts verzögern.
+Kostenloser Python-Bot für deutsche Händler: breite Katalog-Discovery, genaue Produktzuordnung, unabhängiger Marktvergleich und konservative Discord-Meldungen. Python 3.12+, Standardbibliothek, keine bezahlte API.
 
-# Anime TCG Retail Watch · Discord · 0 €
+## Wichtigste Regel: keine Scalperpreise
 
-Ein kleiner Python-Bot prüft bekannte Produktziele nach einem Fünf-Minuten-Zeitplan und durchsucht dabei die Händlerkataloge und meldet passende Display-Angebote in deinen Discord-Kanal. Kein bezahlter Suchdienst, keine KI-API, kein n8n-Abo, kein laufender PC. Die einfachen Händlerabfragen verwenden die Python-Standardbibliothek. Ein optionaler isolierter Chromium-Browser für MediaMarkt und Saturn ist vorbereitet; lokal getestet, auf GitHub derzeit durch HTTP 403 blockiert.
+**Eine Ersparnis gegenüber überhöhten Angeboten ist kein Deal.** Jede Meldung braucht eine geprüfte, höchstens 30 Tage alte Hersteller-UVP in EUR oder einen ausdrücklich belegten regulären Händlerpreis. Der gewünschte Preisrahmen liegt jetzt bei **bis zu 30 € über dem belegten Normalpreis/der belegten UVP**. Verifizierte neue Angebote innerhalb dieses Rahmens werden auch ohne Restock gemeldet. Die Bewertung bleibt streng: ein Aufpreis wird ausdrücklich genannt und ist kein Schnäppchen. Hohe aktuelle Marktpreise erhöhen die Grenze niemals. Ein Händlerpreis ist keine UVP; die Nachricht benennt den Unterschied.
 
-**Im Repository dougY52/tcg-deal-bot eingerichtet; Discord-Versand wurde bereits bestätigt.** Für diese Quellenerweiterung ist keine erneute Einrichtung nötig. Die folgenden Schritte gelten für eine Neuinstallation. Das kostenlose Setup verwendet ein **öffentliches** GitHub-Repository und den normalen Linux-Runner. Für private Repositories startet der mitgelieferte Workflow absichtlich nicht.
+Zusätzlich sind mindestens **zwei andere unabhängige Händler** (drei Händler insgesamt), identisches Produktformat, ein konsistenter Vergleichsmarkt und Confidence ≥90 % erforderlich. Confidence ist ein nachvollziehbarer Regelwert, keine statistische Wahrscheinlichkeit.
 
-## Einrichtung in drei Schritten
+- Preisdeal: mindestens 15 % und 8 € unter dem bereinigten Median; außerdem nicht teurer als der günstigste Vergleichshändler.
+- Neue verifizierte Angebote bis Normalpreis + 30 €: Meldung mit Bewertung; pro Produkt nur das günstigste qualifizierte Angebot. Bereits gemeldete Preise werden nicht wiederholt.
+- Restock: bestätigter Ausverkauf mindestens sechs Stunden, letzte Bestandsbeobachtung höchstens zwei Stunden alt, Rückkehr innerhalb des Preisrahmens (höchstens 30 € Aufpreis), höchstens zwei aktuell verfügbare Händler und kein günstigerer aktuell verfügbarer Vergleichshändler. Fehlende Seiten/Fehler sind niemals ein Ausverkauf.
+- Fehlende UVP/Normalpreisreferenz, uneindeutige Variante, Sprache oder Packzahl, Vorbestellung, beschädigte Verpackung: **nur Prüfbericht, niemals Discord**.
+- Beispiel B15: 83,99 € ist bei einem belegten Normalpreis von 79,99 € kein starker Preisdeal. Innerhalb des neuen Preisrahmens darf es mit ehrlicher Bewertung gemeldet werden; die Marktprüfung bleibt erforderlich. Die Beispielpreise 60–80 € in den Tests sind Regressionstestdaten, keine Live-Angebotsliste.
 
-### 1. Discord-Webhook erstellen
+Es gibt bewusst keine Zusage, den gesamten deutschen Markt oder jedes Anime-Set zu finden. Strenge Prüfungen führen insbesondere anfangs zu wenigen oder keinen Meldungen. Das ist besser als ein ungesicherter „Deal“.
 
-Öffne deinen Discord-Server → **Servereinstellungen → Integrationen → Webhooks → Neuer Webhook**. Wähle einen normalen Textkanal, z. B. `#tcg-deals`, und kopiere die Webhook-URL. Dafür brauchst du „Webhooks verwalten“. Eine eigene Bot-Anwendung ist nicht erforderlich. Die URL gehört ausschließlich ins GitHub-Secret aus Schritt 3, nicht in Dateien oder einen Chat.
+## Preisbewertung pro Angebot
 
-### 2. Das Projekt auf GitHub hochladen
+- 🔥 **Sehr guter Preis:** mindestens 15 % und 8 € unter der Vergleichsbasis.
+- 🟢 **Guter / fairer Preis:** auf oder unter der Vergleichsbasis.
+- 🟡 **Noch okay:** maximal 15 % über der Vergleichsbasis, zusätzlich innerhalb der 30-€-Grenze; kein Schnäppchen.
+- 🟠 **Erhöhter Preis:** mehr als 15 % Aufpreis, aber höchstens 30 € über dem geprüften Normalpreis; Meldung mit ausdrücklichem Hinweis „kein Schnäppchen“.
+- 🔴 **Über deinem Preisrahmen:** mehr als 30 € über dem geprüften Normalpreis; keine Meldung.
+- ⚪ **Nicht sicher bewertbar:** fehlende Referenz oder unzureichende Vergleichsdaten; keine Meldung.
 
-- ZIP entpacken, bei GitHub anmelden und über **New repository** ein **öffentliches** Repository `tcg-deal-bot` anlegen. Der kostenlose GitHub-Tarif reicht.
-- Über **uploading an existing file** / **Add file → Upload files** den **Inhalt** des entpackten Ordners hochladen. Wichtig: auch den Ordner `.github` mitnehmen! Keinen zusätzlichen äußeren `tcg-deal-bot`-Ordner im Repository erzeugen.
-- Mit **Commit changes** speichern. Im Repository müssen `README.md`, `config/`, `tcg_bot/`, `tests/` und `.github/workflows/watch.yml` direkt an der richtigen Stelle liegen. `main` bleibt der Standardbranch.
+Die Vergleichsbasis ist der kleinere Wert aus geprüftem Normalpreis (gegebenenfalls historisch abgesenkt) und bereinigtem Marktmedian. Bewertungen werden erst nach bestandener Identitäts-, Referenz- und Confidence-Prüfung vergeben. Es sind automatische Regelbewertungen, keine persönliche KI-Liveprüfung.
 
-### 3. Secret setzen und ersten Lauf starten
+Beispiel: Normalpreis und Marktmedian 70 €, Angebot 80 € → **🟡 Noch okay**, 14,3 % Aufschlag. Verifizierte Angebote innerhalb des 30-€-Rahmens dürfen jetzt auch ohne Preisvorteil oder Restock gemeldet werden. Fehlende Referenzen/Marktdaten bleiben ausgeschlossen. Jede Kandidatenbewertung steht im JSON-Prüfbericht; Discord nennt Bewertung, Begründung und Vergleichspreise.
 
-- Repository → **Settings → Secrets and variables → Actions → New repository secret**.
-- Name exakt **`DISCORD_WEBHOOK_URL`**, als Wert die kopierte Discord-URL einfügen, speichern.
-- **Actions → TCG Deal Watch → Run workflow**. Für den tatsächlichen Start das Häkchen bei **„Nur prüfen, keine Discord-Nachrichten senden“ entfernen** und starten. Mit Häkchen gibt es ausschließlich eine Vorschau im Laufbericht.
-- Bekannte Produkte werden anschließend alle **fünf Minuten** eingeplant (xx:02, :07, :12 usw.). Die Katalogsuche erfolgt bei jedem dieser Läufe. GitHub kann Starts verzögern oder auslassen; dazu kommt die Abrufdauer. Das ist keine garantierte Echtzeitüberwachung. Wenn Actions einen Aktivieren-Button zeigt, einmal aktivieren. Unter dem ersten Lauf findest du erfolgreiche Quellen, Filter und eventuelle Probleme. Ohne passende Angebote bleibt Discord still; es wird keine künstliche Testnachricht gesendet.
+## Ausgeschlossene Spiele
 
-Der Workflow besitzt die nötige `contents: write`-Berechtigung bereits. Verhindert eine Organisationsrichtlinie das Schreiben, muss diese Richtlinie bzw. die Freigabe für Actions angepasst werden; bei einem normalen persönlichen Repository ist keine zusätzliche Einstellung vorgesehen.
+Auf Nutzerwunsch werden **Digimon und Yu-Gi-Oh!** nicht mehr überwacht oder gemeldet. Gemischte Händlerkataloge können die Artikel weiterhin enthalten; der Bot verwirft sie als irrelevant.
 
-## Händlerabdeckung der erweiterten Version
+## Pipeline
 
-**30 konfigurierte Quellen, darunter 20 neu auf GitHub erfolgreich getestete Shopify-Kataloge.** Umfang und Grenzen stehen im [Quellen-Audit](QUELLEN-AUDIT.md). Die bisherigen zehn Quellen umfassen die bisherigen fünf Shops sowie MediaMarkt, Saturn, Otto, Gate to the Games und Ultra Comix. Otto liefert momentan ausschließlich Prüfkandidaten, keine automatisch freigegebenen Angebote. Großhändlerabfragen sind zunächst auf verifizierte Pokémon-Kategorien begrenzt. Fachhändler erkennen zusätzlich die gewünschten Anime-Reihen.
+1. `sources.py` liest paginierte öffentliche Shopify-Kataloge und gezielte Collections. `web_sources.py` liest Such-/Kategorieseiten, strukturierte Angebote und begrenzt verlinkte Produktseiten. Bestehende Spezialadapter bleiben verfügbar.
+2. `market.py` normalisiert Franchise, Spielsystem, Setcode/Setname, Edition, Sprache und Boosterzahl. Masters/Fusion World, 1st/2nd Edition, DE/EN und Displaygrößen bleiben getrennt. Namens-Fallback ist konservativ exakt, kein unsicheres Fuzzy Matching. Unbekannte Editionen werden nicht mit ausdrücklich benannten Editionen gemischt.
+3. Eine Händlergruppe zählt einmal; der Kandidat wird nicht in seinen eigenen Vergleich einbezogen. Ausverkaufspreise gelangen nur über zuvor beobachtete verfügbare Angebote und maximal 24 Stunden in den Vergleich. Fehlende, veraltete und extreme Vergleichswerte scheiden aus.
+4. Fester UVP/Normalpreis-Anker + Median + Mindestvorteil + Bestandswechsel bestimmen die Qualifikation. Historische Preise können die Obergrenze zusätzlich senken, aber nie alleine eine UVP begründen.
+5. DE wird bei qualifizierten Treffern desselben Sets/Formats bevorzugt, sonst EN. Pro Identität nur das günstigste qualifizierte Angebot.
+6. JSON speichert 90 Tage Preis-/Bestandsänderungen, maximal 180 Stichproben je Angebot, Restock-Episoden und bestätigte Meldungen. Erneute Meldung erst nach 24 Stunden und deutlicher weiterer Preissenkung oder neuer Restock-Episode. Alte Versandhistorie wird beim Upgrade übernommen.
+7. Discord enthält Produkt, Sprache, Händler, Preis, Normalpreis/UVP-Beleg, Marktmedian, Vergleichslinks, Grund und Confidence. Nur Produktpreise inkl. MwSt. werden verglichen; Versand wird ausdrücklich als zusätzlich gekennzeichnet. Keine Garantie für günstigsten gelieferten Endpreis.
 
-Die detaillierte, ehrliche Trennung zwischen **automatischer Überwachung**, **Kandidatenerkennung** und **nicht angebundenen Quellen** steht in [QUELLEN.md](QUELLEN.md). Insbesondere Cardmarket, Müller, Smyths und Kaufland sind nach dem aktuellen Zugriffstest nicht aktiv angebunden. Die Filial-Suchregion ist **65934 mit 50 km Umkreis**. Ein verlässlicher Filialadapter ist noch nicht vorhanden; die Standortkonfiguration aktiviert daher noch keine Bestandsmeldungen.
+## Lokal prüfen
 
-Zehn Produkt-/Sprachregeln mit 16 konkreten Händlerbindungen sind vorbereitet. Neu sind Reisegefährten Top-Trainer-Boxen DE bei MediaMarkt/Saturn und Fairy Tail 100 Years Quest 12er-Displays EN bei Gate to the Games/Ultra Comix. Die vollständigen Preise, Belege und Bindungen stehen in `config/config.json`. Referenzen mit gültiger EAN können auch händlerübergreifend greifen, wenn Titel, Sprache, Preis und Verkäufer ebenfalls passen. Es wird keine automatische Hersteller-UVP aus Marktpreisen abgeleitet.
-
-Alle ursprünglichen Reihen bleiben als Suchregeln eingerichtet: Pokémon, Dragon Ball, JoJo, Fairy Tail, Bleach, One Piece, My Hero Academia, Naruto, Digimon und weitere Anime-TCGs. Für JoJo, Bleach und My Hero Academia fehlen weiterhin konkrete freigegebene Preisreferenzen. Neue bestellbare Displays können jetzt trotzdem als ungeprüfte Entdeckung gemeldet werden.
-
-Keine freie Vollwebsuche, keine Garantie aller Händler oder aller Produkte. Händler-Referenzpreise sind keine bestätigten Hersteller-UVPs und kein bundesweiter Bestpreis einschließlich Versand. Katalogabfragen sind begrenzt; explizit beobachtete Produktseiten werden zusätzlich geprüft. Die bestehenden Referenzen laufen am 17.12.2026 ab und müssen anhand aktueller Belege erneuert werden.
-
-## Regeln gegen Fehlalarme
-
-- Exakte Zuordnung über Händler, Produktpfad und Varianten-ID oder freigegebene gültige GTIN; zusätzlich Prüfung von Titel, Variantenbezeichnung, Sprache und Format.
-- Keine Ableitung eines Displaypreises aus dem billigsten Einzelbooster einer Produktseite.
-- Fehlende/ungültige Preise, andere Währungen, Japanisch/Chinesisch/Koreanisch, Einzelkarten, Hüllen, Cases, B-Ware und nicht freigegebene Produktarten werden verworfen.
-- Händlerverfügbarkeit muss explizit `true` sein. Vorbestellhinweise im Titel oder der Beschreibung sperren die Einstufung als sofort lieferbarer Retail-Treffer auch dann. Die separate Entdeckungsmeldung erlaubt bestellbare Vorbestellungen und kennzeichnet sie. Alte Vorbestellhinweise können deshalb einen eigentlich lieferbaren Artikel vorsorglich unterdrücken.
-- Referenzen laufen am **17.12.2026** ab. Danach keine Meldungen für diese Regeln, bis die Belege neu geprüft und Daten verlängert wurden. Der Actions-Lauf weist schon 14 Tage vorher darauf hin und wird als prüfbedürftig markiert.
-- Deutsch wird gegenüber Englisch **für dasselbe Set, dieselbe Edition und Packgröße** bevorzugt, solange ein passendes deutsches Angebot den Preisfilter besteht. Englische Angebote anderer Sets bleiben sichtbar.
-- Produktpreise sind Händler-Endkundenpreise; **Versand kommt dazu und wird nicht automatisch ermittelt**. Die Nachricht benennt das ausdrücklich. Der Bot verspricht keinen günstigsten Gesamtpreis einschließlich Versand.
-- Keine künstliche Obergrenze für passende Meldungen pro Lauf. Discord-Ratelimits werden weiterhin berücksichtigt.
-- Unveränderte Angebote werden nicht wiederholt. Erneute Meldung erst bei beobachtetem Wechsel „ausverkauft → verfügbar“ oder mindestens **5 € und 5 %** Preisrückgang, ohne zusätzliche Wartezeit. Die frühere Sechs-Stunden-Sperre ist deaktiviert; unveränderte verfügbare Angebote bleiben trotzdem still.
-- Ausfall eines Shops oder verschwundene Produkte gelten **nicht** als „ausverkauft“. Ein Restock kann nur erkannt werden, wenn der Bot zuvor ausdrücklich „nicht verfügbar“ gesehen hat.
-
-## Speicherung und Fehler
-
-Der Bot speichert zuletzt beobachtete Bestände und bestätigte Meldungen dauerhaft im separaten Git-Branch **`bot-state`**. Kein flüchtiger Actions-Cache und keine kostenpflichtige Datenbank. Der Branch enthält öffentliche Händler-/Variantenkennungen, Bestandsflags und Discord-Nachrichten-IDs, **keine Webhook-URL**. Er wird nur bei tatsächlichen Änderungen aktualisiert. Nicht löschen, sonst werden bekannte Angebote wieder als neu angesehen.
-
-Parallel laufende Bot-Workflows werden verhindert. Der Versand wartet auf Discord-Bestätigung; erst danach wird ein Angebot als gemeldet gespeichert. Auch nach einem Teilfehler sichert der Workflow bereits bestätigte Meldungen. Bei einem harten Abbruch genau zwischen Discord-Versand und Git-Sicherung oder bei verlorener Versandantwort kann trotzdem eine doppelte Nachricht entstehen. Eine mathematische Exactly-once-Garantie ist mit Webhook und Git nicht möglich.
-
-Ein Shopfehler blockiert die anderen Shops nicht, führt aber zu einem fehlgeschlagenen Actions-Status mit Hinweis im Bericht. Bei vollständigem Ausfall wird nichts gemeldet und kein künstlicher Bestandswechsel erzeugt. 403/429/CAPTCHA oder robots.txt-Sperren werden nicht umgangen. Discord-429 wird begrenzt wiederholt; unsichere Timeouts werden nicht unmittelbar erneut gesendet. Geheimnisse und rohe Fehlermeldungen mit URLs werden nicht ausgegeben.
-
-**GitHub-Grenzen:** Zeitpläne sind Best Effort; Starts können verspätet oder ausgelassen werden. Bei öffentlichen Repositories können geplante Workflows nach 60 Tagen ohne Repository-Aktivität deaktiviert werden. Gelegentlich im Actions-Tab prüfen und nötigenfalls wieder aktivieren. Der Bot erstellt keine künstlichen Keep-alive-Commits. Kostenfreiheit gilt für die mitgelieferte öffentliche Standardrunner-Architektur nach dem unten verlinkten GitHub-Preismodell; es werden weder größere Runner noch bezahlte APIs oder Artefaktarchive angefordert.
-
-## Regeln und Händler erweitern
-
-1. Im Actions-Lauf die Kandidaten ansehen; lokal enthält `report.json` zusätzlich Links, Produktpfade und Varianten-IDs.
-2. Genaues Set, Edition, Sprache, Packzahl und versiegelten Zustand auf der Produktseite prüfen. Eine Hersteller-/Distributoren-UVP in EUR oder einen plausiblen belegten regulären Händlerpreis eintragen. Ein durchgestrichener „Compare-at“-Preis wird nicht als UVP akzeptiert. Keine aktuellen Scalperpreise zur Referenz machen.
-3. `config/reference-template.json` kopieren und ausgefüllt in die Liste `references` von `config/config.json` aufnehmen. Das Template ist absichtlich ungültig, bis Preis, Datum, Identität und Belege ersetzt wurden. `variant_id` bleibt eine Zeichenkette. `variant_pattern` muss genau die verifizierte Variante erlauben.
-4. `group` ist nur bei identischem Set/Edition/Packformat sprachübergreifend gleich. `kind: "msrp"` nur mit echtem Herstellerbeleg; sonst `observed_retail`. Toleranz standardmäßig 0 %, technisch höchstens 5 %.
-5. Für einen weiteren Shopify-Shop einen Eintrag unter `shops` ergänzen. `currency: "EUR"` nur nach Prüfung des Shop-Endpunkts und der deutschen Endkundenpreise eintragen. Das öffentliche Shopify-JSON liefert selbst keine Währungskennung. Händler müssen nach Deutschland liefern. HTML-/Marktplatzadapter stehen in `tcg_bot/web_sources.py`; ihre Grenzen und Konfigurationsfelder sind in `QUELLEN.md` dokumentiert.
-6. Danach den Workflow mit Vorschau-Häkchen ausführen und den Bericht prüfen.
-
-Die Händlerdaten stammen aus öffentlichen JSON-Endpunkten und HTML-Seiten, aber nicht aus garantierten Langzeit-APIs. Anpassungen bei Shop-Umbauten bleiben gelegentlich nötig.
-
-## Lokal testen (optional)
-
-Python 3.12 oder neuer verwenden, im Projektordner (ohne Browsermodus):
-
-```bash
+```sh
 python -m unittest discover -s tests -v
 python -m tcg_bot --check-config
-python -m tcg_bot
+python -m tcg_bot --report report.json
 ```
 
-Der Standardaufruf ist immer **Dry Run**: kein Secret notwendig, keine Nachrichten, kein Schreiben der Statusdatei. `report.json` enthält den Bericht. Nur `python -m tcg_bot --send` sendet; dafür muss `DISCORD_WEBHOOK_URL` als Umgebungsvariable gesetzt sein. `.env.example` erklärt den Namen, echte `.env`-Dateien werden nicht automatisch geladen und dürfen nicht hochgeladen werden.
+Der letzte Befehl ist ein **Dry-run**: keine Discord-Nachrichten, keine Änderungen an der gespeicherten Historie. `--send` aktiviert Versand und atomare Zustandsspeicherung; der Webhook kommt ausschließlich aus `DISCORD_WEBHOOK_URL`. Niemals Webhook oder private PC-Laufzeitdateien ins Repo aufnehmen.
 
-## Prüfstand und Quellen
+`report.json` enthält Gründe für ausgeschlossene Produkte, Quellfehler und Teilabdeckung. Ein unvollständiger Lauf liefert Exitcode 1; gültige Treffer anderer Quellen werden trotzdem bewertet. Exitcode 2 bedeutet Abbruch. Die Diagnose-Workflows haben keine Versandfreigabe.
 
-Offline-Tests decken Preisfilter, Varianten, Sprache, Vorbestellungen, Zubehör, Wiederholungen, Restocks, Teilausfälle, Discord-Rate-Limits und Statusdateien ab. Live-Händlerprüfung erfolgte ohne Discord-Versand. Ein echter GitHub-Actions-Lauf und die Zustellung in deinen Discord-Kanal sind erst nach deiner Einrichtung prüfbar. Details stehen in `PRUEFBERICHT.md`.
+## GitHub Actions: stündlich, ohne Doppelbetrieb
 
-- [GitHub: kostenlose Actions für öffentliche Repositories mit Standardrunnern](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
-- [GitHub: Zeitpläne, Verzögerungen und 60-Tage-Regel](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
-- [Discord: Webhooks, Versandbestätigung und erlaubte Erwähnungen](https://docs.discord.com/developers/resources/webhook#execute-webhook)
-- Händlerbelege pro Produkt: `config/config.json`.
+Der Workflow enthält `17 * * * *`. **Automatische Cloud-Läufe sind zusätzlich durch `TCG_RUNNER=github` gesperrt**, solange der vorhandene PC-Betrieb zuständig ist. Nicht PC und Cloud gleichzeitig aktivieren: ihre getrennten Historien könnten Doppelmeldungen erzeugen.
 
-## Geschwindigkeit
+Zum Wechsel auf GitHub:
 
-Explizit konfigurierte Produktbindungen werden alle fünf Minuten eingeplant. Der Schnelllauf überspringt die Katalogsuche und prüft die bekannten Produktseiten direkt. Nach Abschluss der Prüfung werden passende neue Treffer und Restocks ohne zusätzliche Sammelwartezeit an Discord geschickt. Deutsch-Präferenz wird über die Ergebnisse des Laufs ausgewertet.
+1. Den PC-Zeitplan „TCG Deal Watch PC“ pausieren. Aktuellen privaten `state.json`-Meldungsstand ohne Zugangsdaten auf den Branch `bot-state` übernehmen, falls dort ein älterer Stand liegt.
+2. Projekt einschließlich `.github` im bestehenden **öffentlichen** Repository aktualisieren. Secret `DISCORD_WEBHOOK_URL` setzen/weiterverwenden; Actions muss Repository-Inhalte schreiben dürfen.
+3. Unter Actions Variables `TCG_RUNNER=github` setzen. Zunächst manuell mit `dry_run=true` prüfen; danach übernimmt der Stundenplan.
 
-Nur über Kataloge/EAN neu entdeckte Angebote werden weiterhin stündlich geprüft, bis ihre konkrete Produktseite als Bindung aufgenommen wurde. Es gibt keinen Push-Zugang der Händler. Kurzzeitige Bestände zwischen zwei Abfragen können verpasst werden. Fehlende Filialadapter und blockierte Quellen werden durch den schnelleren Zeitplan nicht verfügbar. GitHub-Konfiguration und Discord-Secret müssen weiterhin eingerichtet sein; dieses ZIP startet allein noch keinen Dienst.
+Der Workflow verweigert private Repositories, damit keine kostenpflichtigen Laufminuten entstehen. Standard-Runner öffentlicher Repositories sind laut [GitHub-Abrechnung](https://docs.github.com/en/actions/concepts/billing-and-usage) kostenlos. Zeitpläne können verspätet starten und nach 60 Tagen Repository-Inaktivität deaktiviert werden: [GitHub-Dokumentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows). Kein Echtzeit-SLA und keine absolute Betriebszusage.
 
-## Neue Produkte automatisch melden
+Der Branch `bot-state` wird nach Versand sowie bei Teilfehlern gesichert; keine flüchtige Cache-Abhängigkeit. Läufe überschneiden sich nicht. Zwischen bestätigtem Discord-Versand und dauerhaftem Git-Push bleibt eine kleine Absturzlücke: exakt-einmalige Zustellung lässt sich über diese beiden Systeme nicht garantieren.
 
-Aktiv unter `discoveries` in `config/config.json`: Neue Displays/Booster-Boxen der konfigurierten Reihen werden auch ohne Preisreferenz gemeldet, mit **„Neu entdeckt – Preis noch ungeprüft“**. Beispiel: Dragon Ball FB10 EN. Voraussetzung: Händler meldet ausdrücklich bestellbar (`available: true`), DE/EN ist erkennbar, EUR-Preis vorhanden und Verkäufer verifiziert. Bestellbare Vorbestellungen sind erlaubt und werden als Vorbestellung gekennzeichnet. Ausverkaufte Artikel und unbekannter Bestand werden nicht gemeldet. Zubehör, Cases, fremde Sprachen und ungeprüfte Marketplace-Verkäufer bleiben ausgeschlossen.
+## Quellen und neue Shops
 
-Das ist eine Produktentdeckung, keine Preisempfehlung: Ohne Vergleichspreis lässt sich ein hoher Preis nicht zuverlässig als Scalperpreis erkennen. Bereits referenzierte zu teure Produkte werden nicht über diese Meldungsart durchgelassen. Geprüfte Retail-Angebote und Restocks behalten ihre bisherigen Regeln.
+Die aktuelle Liste steht in [QUELLEN-V3.md](QUELLEN-V3.md), alle Einstellungen in `config/config.json`. EU-/Importquellen aus Version 2 sind erhalten, aber im Deutschland-Modus deaktiviert. Frühere Prüfberichte dokumentieren Version 2 und sind kein aktueller Betriebsnachweis.
 
-Einmal pro Händler und Variante; derselbe Artikel bei einem anderen Händler kann eine weitere Meldung auslösen. DE-Meldungen werden zuerst versendet; ohne sicher bekannte Set-Identität werden EN-Varianten nicht automatisch unterdrückt. Bis zu zehn neue Produktmeldungen pro Lauf, weitere werden bei späteren Katalogabfragen erneut berücksichtigt. Nur erfolgreich gesendete Meldungen werden in `discovery_seen` auf dem vorhandenen `bot-state`-Branch bestätigt. Der beim Update bereits bekannte verfügbare Bestand dient als Ausgangsstand, ohne alte Produkte nachträglich zu fluten. Eine später hinzugefügte Preisreferenz kann weiterhin eine geprüfte Deal-Meldung auslösen.
+Neuen Shopify-Shop als Objekt in `shops` ergänzen:
 
-Entdeckungen entstehen bei der **stündlichen, begrenzten Katalogsuche**, nicht durch eine Vollwebsuche. Neue ungeprüfte Produkte werden dadurch nicht automatisch in die Fünf-Minuten-Prüfung aufgenommen. Otto bleibt reine Kandidatenquelle. X ist nicht angebunden. Händlerfehler und fehlende Filialadapter bleiben sichtbar.
+```json
+{
+  "id": "neuer-shop", "name": "Neuer Shop",
+  "base_url": "https://shop.example", "adapter": "shopify",
+  "currency": "EUR", "max_pages": 8,
+  "catalog_collections": ["booster-displays"],
+  "retailer_group": "eindeutiger-betreiber"
+}
+```
 
-## Browserabruf für dynamische Händlerseiten
+Nur zuvor geprüfte seriöse Direktverkäufer aufnehmen. Unterschiedliche Domains desselben Betreibers bekommen dieselbe `retailer_group`. Für HTML-Shops `adapter: html_catalog`, geprüfte `catalog_urls`, optional `product_urls`, `max_detail_pages` und `product_link_pattern` verwenden. Der Bot verwendet nur strukturierte exakte Angebotspreise, keine durchgestrichenen Preise oder „ab“-Preise. Die URL im Beispiel ist ein Platzhalter.
 
-Nur mit Repository-Variable `TCG_BROWSER=1` installiert GitHub `requirements-browser.txt` und Chromium. Standardmäßig ist dies deaktiviert: Der Live-Test auf GitHub am 18.09.2026 lieferte für beide Händler Browser HTTP 403. Lokal funktionierte der Browserabruf; ein lokaler Betrieb braucht einen laufenden Rechner. Nur MediaMarkt und Saturn werden dann mit JavaScript in getrennten, frischen Browserkontexten ohne Login geladen. Bestehende Preis-/Bestands-/Verkäuferprüfungen bleiben unverändert. Andere Händler behalten ihren bisherigen Abruf. Keine CAPTCHA-Lösung, keine Proxyrotation und kein Fingerprint-Spoofing. Sperrseiten werden nicht als Produkte ausgewertet.
+Für jede neue Quelle einen Dry-run und Parser-Test ergänzen. Bei fehlender Sprache/Packgröße zuerst Quellenadapter verbessern; nicht die Sicherheitsfilter lockern. Neue Anime-Franchises sind Regexeinträge in `franchises`; Set-Aliase stehen unter `market.set_aliases`. Dubiose nicht lizenzierte Produkte erhalten keine Preisreferenz.
 
-Lokaler Browserbetrieb: `python -m pip install -r requirements-browser.txt`, `python -m playwright install --with-deps chromium`, dann `TCG_BROWSER=1 python -m tcg_bot`. Der zusätzliche Workflow **Browser source check** prüft nach Änderungen die zwei konkreten Produktseiten ohne Discord-Versand. Ein lokaler erfolgreicher Browserabruf garantiert noch keinen erfolgreichen GitHub-Abruf. Browserinstallation und Seitenaufbau verlängern die Laufzeit; fünf Minuten bleiben ein Startzeitplan, keine garantierte Meldefrist.
+## Preisreferenz ergänzen
+
+Die Kandidatenliste liefert die exakte `identity`. Nach Prüfung von Hersteller oder seriösem Normalpreis-Beleg unter `market.price_references` ergänzen:
+
+```json
+{
+  "identity": "masters|BT15|unspecified|24|standard|EN",
+  "kind": "observed_retail",
+  "price_eur": "79.99",
+  "verified_on": "2026-09-18",
+  "valid_until": "2026-10-18",
+  "evidence_url": "https://comic-attack.de/produkt/dragon-ball-super-card-game-b15-saiyan-showdown-booster-box/"
+}
+```
+
+`msrp` ausschließlich für belegte Hersteller-UVP desselben Produkts und Markts. Amerikanische Einzelpack-UVP wird nicht als deutsche Display-UVP umgerechnet. `market_reference` ist nur als Datenkategorie erlaubt und kann keine Normalpreisfreigabe erzeugen. Cardmarket wird nicht aggressiv gescrapt; ein Marktplatz-Tiefstpreis oder Suchsnippet reicht nicht als Retailfreigabe. Ein Prüfer muss veraltete Anker erneuern; das System erhöht sie nicht selbst.
+
+## Rücksicht auf Quellen
+
+robots.txt wird pro Herkunft geladen; 404 wird als fehlende robots-Datei behandelt, andere Fehler sperren die Abfrage. Wildcards, Allow/Disallow, Crawl-delay und Request-rate werden berücksichtigt. Mindestens eine Sekunde Abstand je Host, keine Redirect-Umgehung. HTTP 429/503 beendet weitere Anfragen an den Host im Lauf; Retry-After wird im Versandbetrieb über Läufe hinweg gespeichert. Kein Captcha-/Bot-Schutz-Bypass, keine bezahlte Such-API.
+
+Seiten-/Detailgrenzen sind explizit und erzeugen Warnungen. Sehr große Kataloge müssen über gezielte Collections oder passende Grenzen abgedeckt werden. HTML-Seiten ohne strukturierte Bestandsdaten bleiben Kandidaten oder liefern eine Quellwarnung.
+
+## Reparatur der Produktzuordnung
+
+Am 18.09.2026: geprüfte Set-Aliase verbinden Naruto Konoha Shido/First Set sowie Shinobi Shiren und unterschiedliche Schreibweisen der Edition. Editionsnummern bleiben getrennt, zählen aber nicht doppelt zum Setnamen. Explizite 18er-/36er-Displaygrößen werden erkannt. Drei unabhängige Händler insgesamt genügen nur zusammen mit gültigem geprüftem Normalpreisanker und unverändert mindestens 90 % Confidence. Alte Versandhistorie für umbenannte Identitäten wird übernommen.

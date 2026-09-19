@@ -1,4 +1,5 @@
 """Add additional adapters through ADAPTERS. No browser/search API needed."""
+from .http import FetchError
 from decimal import Decimal, InvalidOperation
 from html import unescape
 import re
@@ -70,12 +71,14 @@ def shopify(shop, client):
                     products.setdefault(p['handle'], p)
                 if len(rows) < 250:
                     break
+                if page == shop.get('max_pages', 20):
+                    warnings.append('Catalog page limit reached; increase max_pages or configure targeted collections')
             except Exception as exc:
-                warnings.append('Catalog discovery incomplete: ' + type(exc).__name__)
+                warnings.append('Catalog discovery incomplete: ' + (str(exc) if isinstance(exc, FetchError) else type(exc).__name__))
                 break
     # Discovery is deliberately bounded. Exact watched products are independent.
     if not products:
-        raise ValueError('No valid products received')
+        return [], warnings + ['No valid products received']
     offers = []
     for product in products.values():
         offers.extend(parse_product(shop, product))

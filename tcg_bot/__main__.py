@@ -81,6 +81,29 @@ def load_config(path):
     assert cfg['price_drop_eur'] > 0 and 0 < cfg['price_drop_pct'] < 100
     if cfg.get('discoveries', {}).get('enabled'):
         assert 1 <= cfg['discoveries']['max_per_run'] <= 50
+    market = cfg.get('market', {})
+    if market.get('enabled'):
+        assert 2 <= market['min_comparisons'] <= 10
+        assert 0.90 <= market['min_confidence'] <= 1
+        assert 10 <= market['discount_pct'] < 60
+        assert market['min_saving_eur'] >= 5
+        assert 0 < market['comparison_max_hours'] <= 24
+        assert 1 <= market['history_days'] <= 180
+        assert market['alert_cooldown_hours'] >= 6
+        assert 0 <= market['near_retail_tolerance_pct'] <= 15
+        if 'max_premium_eur' in market:
+            assert 0 <= market['max_premium_eur'] <= 30
+        assert isinstance(market.get('notify_within_price_range', False), bool)
+        assert 1 <= market['anchor_max_days'] <= 30
+        for alias in market.get('set_aliases', []):
+            assert alias['franchise'] in cfg['franchises'] and alias['set']
+            re.compile(alias['pattern'])
+        for ref in market.get('price_references', []):
+            price = Decimal(ref['price_eur'])
+            assert price.is_finite() and price > 0 and ref['identity']
+            assert ref['evidence_url'].startswith('https://')
+            assert ref['kind'] in ('msrp', 'observed_retail', 'market_reference')
+            assert date.fromisoformat(ref['valid_until']) >= date.fromisoformat(ref['verified_on'])
     return cfg
 
 
@@ -119,6 +142,12 @@ def load_state(path):
             assert Decimal(sent['price']).is_finite() and Decimal(sent['price']) > 0
     if 'discovery_seen' in data and not isinstance(data['discovery_seen'], dict):
         raise ValueError('Invalid discovery state')
+    for h in data.get('market_history', {}).values():
+        assert isinstance(h['samples'], list) and isinstance(h['last_seen'], (int, float))
+        assert isinstance(h['available'], bool) and h['identity'] and h['retailer']
+        for sample in h['samples']:
+            price = Decimal(sample['price'])
+            assert price.is_finite() and price > 0
     return data
 
 
@@ -147,6 +176,32 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
         except Exception as exc:
             # Source errors contain no response body, query secrets, or tracebacks.
             errors.append(shop['id'] + ': ' + type(exc).__name__)
+    if cfg.get('market', {}).get('enabled', False):
+        from .market import evaluate, market_payload
+        deals, skipped, candidates = evaluate(offers, cfg, state, now)
+        report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': skipped,
+                  'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None,
+                  'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0}
+        for deal in deals[:cfg['max_alerts_per_run']]:
+            message = market_payload(deal)
+            report['alerts'].append({'key': deal['key'], 'reason': deal['reason'], 'rating': deal['rating'], 'payload': message})
+            if send:
+                try:
+                    message_id = send(message)
+                except Exception as exc:
+                    errors.append('Discord: ' + type(exc).__name__)
+                    break
+                state.setdefault('market_sent', {})[deal['identity']] = {
+                    'at': now, 'price': deal['price'], 'offer': deal['key'],
+                    'episode': deal['episode'], 'message_id': message_id}
+                report['sent'] += 1
+                if checkpoint:
+                    checkpoint(state)
+        if not any(s['variants'] for s in shops):
+            errors.append('No source data; previous availability preserved')
+        if checkpoint:
+            checkpoint(state)
+        return report
     deals, candidates, skipped = [], [], Counter()
     relevant = [o for o in offers if franchise(o, cfg)]
     observe(state, relevant)
@@ -265,6 +320,7 @@ def main():
             client = BrowserClient()
         else:
             client = Client()
+        client.cooldowns = state.setdefault('http_backoff', {})
         try:
             report = run(cfg, state, client, send, checkpoint)
         finally:

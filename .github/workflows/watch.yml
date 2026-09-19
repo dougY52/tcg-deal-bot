@@ -1,6 +1,8 @@
 name: TCG Deal Watch
 on:
-  # Scheduled cloud runs paused: Windows task TCG Deal Watch PC owns polling.
+  push:
+    branches: [main]
+    paths: ['.github/workflows/watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -51,13 +53,13 @@ jobs:
         env:
           TCG_BROWSER: ${{ vars.TCG_BROWSER }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          DRY_RUN: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
         run: |
           args=()
           if [ "$DRY_RUN" != "true" ]; then args+=(--send); fi
           python -m tcg_bot "${args[@]}"
       - name: Persist state even after partial send or source failure
-        if: ${{ always() && steps.scan.outcome != 'skipped' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        if: ${{ always() && steps.scan.outcome != 'skipped' && !(github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)) }}
         run: |
           set -euo pipefail
           if [ ! -f state.json ] || [ ! -d ../tcg-state ]; then exit 0; fi
@@ -70,3 +72,11 @@ jobs:
             git commit -m 'Update observed stock and delivered alerts'
             git push origin HEAD:refs/heads/bot-state
           fi
+      - name: Upload scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcg-scan-report
+          path: report.json
+          retention-days: 3
+          if-no-files-found: ignore

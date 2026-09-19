@@ -139,16 +139,51 @@ def parse_structured(shop, body, page_url):
 
 def html_catalog(shop, client):
     rows, notes = {}, []
-    pages = list(dict.fromkeys(shop.get('catalog_urls', []) + shop.get('watch_urls', [])))
-    for url in pages:
+    catalog = list(dict.fromkeys(shop.get('catalog_urls', [])))
+    watched = list(dict.fromkeys(shop.get('watch_urls', [])))
+    pages = [(url, True) for url in catalog] + [(url, False) for url in watched]
+    seen, details = set(), set()
+    page_count = 0
+    detail_limit = shop.get('max_detail_pages', 20)
+    for url, is_catalog in pages:
+        if url in seen:
+            continue
+        seen.add(url)
         try:
-            parsed, _ = parse_structured(shop, client.text(url), url)
+            body = client.text(url)
+            parsed, links = parse_structured(shop, body, url)
             for row in parsed:
                 previous = [k for k, old in rows.items() if old['url'] == row['url']]
-                for key in previous: del rows[key]
+                for key in previous:
+                    del rows[key]
                 rows[row['key']] = row
-        except Exception as exc: notes.append('Page unavailable: ' + type(exc).__name__)
-    if not rows: raise ValueError('No usable structured product offers')
+            if is_catalog:
+                page_count += 1
+                for node in Document(body).root.walk():
+                    href = node.attrs.get('href') if node.tag == 'a' else None
+                    if not href:
+                        continue
+                    target = canonical(urljoin(url, href))
+                    if not same_site(target, shop['base_url']):
+                        continue
+                    if node.attrs.get('rel') == 'next' and page_count < shop.get('max_pages', 1) * max(1, len(catalog)):
+                        pages.append((target, True))
+                    if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box', href + ' ' + node.text(), re.I):
+                        links.append(target)
+                for link in dict.fromkeys(links):
+                    if link in seen or link in details or link in watched:
+                        continue
+                    if len(details) >= detail_limit:
+                        if 'Detail page limit reached; discovery incomplete' not in notes:
+                            notes.append('Detail page limit reached; discovery incomplete')
+                        break
+                    if same_site(link, shop['base_url']):
+                        details.add(link)
+                        pages.append((link, False))
+        except Exception as exc:
+            notes.append('Page unavailable: ' + type(exc).__name__)
+    if not rows:
+        return [], notes + ['No usable structured product offers']
     return list(rows.values()), notes
 
 
