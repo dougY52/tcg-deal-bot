@@ -57,13 +57,13 @@ Der letzte Befehl ist ein **Dry-run**: keine Discord-Nachrichten, keine Änderun
 
 ## GitHub Actions: Betrieb ohne eingeschalteten PC
 
-Der öffentliche GitHub-Workflow prüft mit `3-53/10 * * * *` ungefähr alle zehn Minuten. GitHub kann Starts verzögern oder auslassen; dies ist kein garantierter Echtzeitdienst. Ein Update der Workflowdatei startet ebenfalls einen Lauf. Ein manueller Start ist mit oder ohne Versand möglich; standardmäßig ist dabei der Probelauf gewählt.
+Der öffentliche GitHub-Workflow prüft mit `6,16,26,36,46,56 * * * *` ungefähr alle zehn Minuten. GitHub kann Starts verzögern oder auslassen; dies ist kein garantierter Echtzeitdienst. Ein Update der Workflowdatei startet ebenfalls einen Lauf. Ein manueller Start ist mit oder ohne Versand möglich; standardmäßig ist dabei der Probelauf gewählt.
 
 Der Windows-Zeitplan bleibt deaktiviert. Nicht parallel aktivieren: PC und Cloud würden getrennte Meldungshistorien führen. Die bisherige PC-Historie wurde für den Wechsel in den Branch `bot-state` übertragen. Nur der GitHub-Workflow schreibt danach den Meldungsstand weiter.
 
 Der Discord-Zugang kommt ausschließlich aus dem bestehenden GitHub-Secret `DISCORD_WEBHOOK_URL`. Private Repositories werden vom Workflow ausgeschlossen; Standard-Linux-Runner in öffentlichen Repositories sind kostenlos. Der Prüfbericht wird für drei Tage als Actions-Artefakt gespeichert.
 
-Status: Im Repository unter Actions → TCG Deal Watch. Händlerfehler oder unvollständige Kataloge können einen Lauf als fehlgeschlagen markieren, auch wenn andere Händler erfolgreich geprüft und Nachrichten gesendet wurden. Details stehen im Laufprotokoll und Prüfbericht.
+Status: Im Repository unter Actions → TCG Cloud Watch. Händlerfehler oder unvollständige Kataloge können einen Lauf als fehlgeschlagen markieren, auch wenn andere Händler erfolgreich geprüft und Nachrichten gesendet wurden. Details stehen im Laufprotokoll und Prüfbericht.
 
 Quellen: [Kosten](https://docs.github.com/en/billing/concepts/product-billing/github-actions), [Zeitplan-Einschränkungen](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
 
@@ -129,3 +129,5 @@ Bei mindestens fünf Vergleichshändlern wird die Konsistenz an der mittleren Me
 Seit dem 19.09.2026 wird pro Produkt, Sprache und unabhängigem Händler gemeldet. Ein günstigeres Angebot eines anderen Händlers unterdrückt andere Angebote nicht. Deutsche Angebote stehen zuerst; englische werden ebenfalls berücksichtigt. Preisrahmen unverändert: bis zu 30 EUR über dem belegten Normalpreis, mit Bewertung und Aufpreis. Die Prüfung von Bestand, Identität, Preisbelegen und Marktvergleich bleibt aktiv; damit sind nicht sämtliche online auffindbaren Angebote automatisch freigegeben.
 
 Die Versandhistorie wird pro Händler geführt. Vorhandene bestätigte Meldungen werden ausschließlich dem tatsächlich gemeldeten Händler zugeordnet; andere Shops werden dadurch nicht gesperrt. Unveränderte Angebote bleiben stumm, deutliche Preisverbesserungen umgehen die Wiederholungssperre. Pro Lauf werden bis zu 20 Meldungen versendet; übrige qualifizierte Angebote bleiben für weitere Läufe offen. Tests prüfen mehrere Händler, gemeinsame Händlergruppen, die Übernahme alter Meldungen, Versandfehler und das Fortsetzen nach dem Nachrichtenlimit.
+
+Der eigenständige Workflow `.github/workflows/cloud-watch.yml` besitzt den Cloud-Zeitplan. `watch.yml` ist nur noch manuell startbar. Beide teilen dieselbe Sperre gegen parallele Läufe und dieselbe Versandhistorie. Ein erfolgreicher Start per Commit bestätigt den Zeitplan nicht; dafür muss ein Lauf mit Ereignis `schedule` nachgewiesen werden.

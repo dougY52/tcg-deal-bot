@@ -1,6 +1,11 @@
-name: TCG Deal Watch
-# 2026-09-19: notify every qualifying retailer separately
+name: TCG Cloud Watch
+# Independent cloud schedule registered 2026-09-19
 on:
+  schedule:
+    - cron: '6,16,26,36,46,56 * * * *'
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
