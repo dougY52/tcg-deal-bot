@@ -221,7 +221,11 @@ def assess_market(o, state, cfg, now, assessment=None):
     values = sorted(Decimal(h['in_stock_price']) for h in keep.values())
     center = median(values)
     price = Decimal(o['price'])
-    if values[-1] / values[0] > Decimal('1.65'):
+    # With five or more peers, judge spread on the central majority.
+    # A single clearance price or expensive shop must not veto a coherent market.
+    trim = len(values) // 5 if len(values) >= 5 else 0
+    core = values[trim:len(values)-trim] if trim else values
+    if core[-1] / core[0] > Decimal('1.65'):
         return None, 'market_inconsistent'
     if price < center * Decimal('0.50'):
         return None, 'suspicious_low_price'

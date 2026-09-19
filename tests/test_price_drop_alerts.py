@@ -33,3 +33,18 @@ class PriceDropAlerts(unittest.TestCase):
     def test_conflicting_display_counts_still_rejected(self):
         row=offers()[0] | {'description':'24 Booster oder 36 Booster.'}
         self.assertIsNone(normalize(row,cfg())[0])
+
+    def test_full_naruto_price_spread_does_not_veto_improvement(self):
+        c=cfg();c['market']['notify_within_price_range']=True
+        c['shops'] += [dict(id=str(i),name='Shop '+str(i),base_url=f'https://shop{i}.example',adapter='shopify',currency='EUR',max_pages=1) for i in (7,8)]
+        rows=offers(('50','54.99','69.90','69.99','79.95','79.99','84.99','84.99','94.99'))
+        identity=normalize(rows[0],c)[0]['identity'];s=state()
+        s['market_sent']={identity:dict(at=NOW,price='54.99',offer='1:b15',episode=0,message_id='confirmed')}
+        deals,_,_=evaluate(rows,c,s,NOW+60)
+        self.assertEqual([d['price'] for d in deals],['50'])
+
+    def test_small_divided_market_remains_blocked(self):
+        c=cfg(); rows=offers(('50','50','80','90'))
+        deals,skips,_=evaluate(rows,c,state(),NOW)
+        self.assertNotIn('0:b15',[d['key'] for d in deals])
+        self.assertGreater(skips.get('market_inconsistent',0),0)
