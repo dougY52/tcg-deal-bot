@@ -1,5 +1,5 @@
 name: TCG Deal Watch
-# 2026-09-19: robust market spread with full retailer coverage
+# 2026-09-19: notify every qualifying retailer separately
 on:
   schedule:
     - cron: '3-53/10 * * * *'

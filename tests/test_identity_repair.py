@@ -31,7 +31,7 @@ class IdentityRepairTests(unittest.TestCase):
         titles=['Naruto Mythos First Set 2nd Edition Display EN','Naruto Mythos Konoha Shido Display 2. Edition EN','Naruto TCG Konoha Shidō Display 2nd Edition EN']
         rows=[o|{'title':title} for o,title in zip(offers(('54.99','69.90','79.95')),titles)]
         deals,_,_=evaluate(rows,self.c,state(),NOW)
-        self.assertEqual(len(deals),1)
+        self.assertEqual(len(deals),3)
         self.assertEqual(deals[0]['price'],'54.99')
         self.assertEqual(len(deals[0]['comparisons']),2)
         self.assertGreaterEqual(deals[0]['confidence'],0.90)

@@ -15,6 +15,7 @@ def cfg():
     c['franchises']['Digimon'] = 'digimon'
     c['shops'] = [{'id': str(i), 'name': 'Shop '+str(i), 'base_url': f'https://shop{i}.example', 'adapter': 'shopify', 'currency': 'EUR', 'max_pages': 1} for i in range(7)]
     c['references'] = []
+    c['market']['notify_all_shops'] = False
     c['market']['min_comparisons'] = 3
     c['market'].pop('max_premium_eur', None)
     c['market']['notify_within_price_range'] = False

@@ -123,3 +123,9 @@ Ein Preisrückgang von mindestens 3 EUR UND 5 Prozent gegenüber der letzten erf
 Validierung: 112 Tests; Live-Abruf der acht zusätzlichen Quellen. Vergleich mit der Cloud-Historie ergab Naruto 2nd Edition für 50 EUR als neuen qualifizierten Preisrückgang. Das ist noch kein Nachweis eines Discord-Versands. Keine vollständige Händler- oder Marktabdeckung.
 
 Bei mindestens fünf Vergleichshändlern wird die Konsistenz an der mittleren Mehrheit der Preise geprüft (je 20 Prozent an den Rändern ausgenommen). Median und geprüfter Normalpreis bleiben die Bewertungsbasis. Ein einzelner teurer Händler blockiert damit nicht mehr einen belegten Preisrückgang. 114 Tests einschließlich des vollständigen Naruto-Preisbilds bestanden.
+
+## Alle qualifizierten Händlerangebote
+
+Seit dem 19.09.2026 wird pro Produkt, Sprache und unabhängigem Händler gemeldet. Ein günstigeres Angebot eines anderen Händlers unterdrückt andere Angebote nicht. Deutsche Angebote stehen zuerst; englische werden ebenfalls berücksichtigt. Preisrahmen unverändert: bis zu 30 EUR über dem belegten Normalpreis, mit Bewertung und Aufpreis. Die Prüfung von Bestand, Identität, Preisbelegen und Marktvergleich bleibt aktiv; damit sind nicht sämtliche online auffindbaren Angebote automatisch freigegeben.
+
+Die Versandhistorie wird pro Händler geführt. Vorhandene bestätigte Meldungen werden ausschließlich dem tatsächlich gemeldeten Händler zugeordnet; andere Shops werden dadurch nicht gesperrt. Unveränderte Angebote bleiben stumm, deutliche Preisverbesserungen umgehen die Wiederholungssperre. Pro Lauf werden bis zu 20 Meldungen versendet; übrige qualifizierte Angebote bleiben für weitere Läufe offen. Tests prüfen mehrere Händler, gemeinsame Händlergruppen, die Übernahme alter Meldungen, Versandfehler und das Fortsetzen nach dem Nachrichtenlimit.

@@ -177,11 +177,12 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
             # Source errors contain no response body, query secrets, or tracebacks.
             errors.append(shop['id'] + ': ' + type(exc).__name__)
     if cfg.get('market', {}).get('enabled', False):
-        from .market import evaluate, market_payload
+        from .market import evaluate, market_payload, delivery_key
         deals, skipped, candidates = evaluate(offers, cfg, state, now)
         report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': skipped,
                   'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None,
-                  'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0}
+                  'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0,
+                  'pending_alerts': max(0, len(deals) - cfg['max_alerts_per_run']) if cfg['max_alerts_per_run'] else 0}
         for deal in deals[:cfg['max_alerts_per_run']]:
             message = market_payload(deal)
             report['alerts'].append({'key': deal['key'], 'reason': deal['reason'], 'rating': deal['rating'], 'payload': message})
@@ -191,7 +192,9 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
                 except Exception as exc:
                     errors.append('Discord: ' + type(exc).__name__)
                     break
-                state.setdefault('market_sent', {})[deal['identity']] = {
+                delivery_table = 'market_offer_sent' if cfg['market'].get('notify_all_shops', False) else 'market_sent'
+                key = delivery_key(deal) if cfg['market'].get('notify_all_shops', False) else deal['identity']
+                state.setdefault(delivery_table, {})[key] = {
                     'at': now, 'price': deal['price'], 'offer': deal['key'],
                     'episode': deal['episode'], 'message_id': message_id}
                 report['sent'] += 1

@@ -194,6 +194,26 @@ def unknown_rating(reason):
             'explanation': 'Keine ausreichend sichere Preisbewertung; nur Prüfbericht.', 'reason': reason}
 
 
+def delivery_key(offer):
+    return offer['identity'] + '|' + offer['retailer']
+
+
+def migrate_offer_deliveries(state, rows):
+    """Transfer confirmed deliveries only to the actual sending retailer."""
+    delivered = state.setdefault('market_offer_sent', {})
+    for row in rows:
+        candidates = [state.get('market_sent', {}).get(row['identity']),
+                      state.get('offers', {}).get(row['key'], {}).get('sent')]
+        for old in candidates:
+            if not old or not old.get('message_id'):
+                continue
+            if old.get('offer', row['key']) != row['key']:
+                continue
+            key = delivery_key(row)
+            if key not in delivered or old['at'] > delivered[key]['at']:
+                delivered[key] = dict(old, offer=row['key'])
+
+
 def assess_market(o, state, cfg, now, assessment=None):
     policy = cfg['market']
     if not o['available']:
@@ -275,7 +295,9 @@ def assess_market(o, state, cfg, now, assessment=None):
     if not bargain and not restock and not policy.get('notify_within_price_range', False):
         return None, 'normal_price_no_deal'
     reason = 'Preisdeal' if bargain else 'Relevanter Restock' if restock else 'Neues Angebot in deinem Preisrahmen'
-    sent = state.setdefault('market_sent', {}).get(o['identity'])
+    sent = (state.setdefault('market_offer_sent', {}).get(delivery_key(o))
+            if policy.get('notify_all_shops', False)
+            else state.setdefault('market_sent', {}).get(o['identity']))
     if sent:
         age = now - sent['at']
         improved = Decimal(sent['price']) - price >= Decimal(str(cfg['price_drop_eur'])) and price <= Decimal(sent['price']) * (1 - Decimal(str(cfg['price_drop_pct'])) / 100)
@@ -345,6 +367,8 @@ def evaluate(offers, cfg, state, now):
             if reason != 'irrelevant':
                 candidates.append({'shop': o['shop'], 'title': o['title'], 'price': o['price'], 'url': o['url'], 'reason': reason, 'rating': unknown_rating(reason)})
     update_history(state, rows, now, cfg['market'])
+    if cfg['market'].get('notify_all_shops', False):
+        migrate_offer_deliveries(state, rows)
     eligible = []
     for o in rows:
         assessment = {}
@@ -357,7 +381,8 @@ def evaluate(offers, cfg, state, now):
     german = {d['group'] for d in eligible if d['language'] == 'DE'}
     best = {}
     for d in sorted(eligible, key=lambda d: (d['language'] != 'DE', Decimal(d['price']), d['key'])):
-        if d['language'] == 'EN' and d['group'] in german:
+        if not cfg['market'].get('notify_all_shops', False) and d['language'] == 'EN' and d['group'] in german:
             continue
-        best.setdefault(d['identity'], d)
+        key = delivery_key(d) if cfg['market'].get('notify_all_shops', False) else d['identity']
+        best.setdefault(key, d)
     return list(best.values()), dict(skipped), candidates

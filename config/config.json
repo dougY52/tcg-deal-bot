@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "max_alerts_per_run": 6,
+  "max_alerts_per_run": 20,
   "restock_cooldown_hours": 0,
   "price_drop_eur": 3,
   "price_drop_pct": 5,
@@ -1224,6 +1224,7 @@
     "anchor_max_days": 30,
     "near_retail_tolerance_pct": 15,
     "max_premium_eur": 30,
-    "notify_within_price_range": true
+    "notify_within_price_range": true,
+    "notify_all_shops": true
   }
 }
