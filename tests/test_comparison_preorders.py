@@ -81,3 +81,9 @@ class ComparisonTests(unittest.TestCase):
     def test_preorder_notice_in_description_is_not_marked_in_stock(self):
         row,_=normalize(offers()[0]|{'description':'24 Booster. Vorbestellhinweis: Dies ist ein Vorbestellungsprodukt.'},self.config())
         self.assertTrue(row['preorder'])
+
+    def test_dunkelnacht_code_matches_named_preorder(self):
+        c=load_config('config/config.json');base=offers()[0]
+        a=base|{'title':'Pokémon Dunkelnacht Display DE','description':'36 Booster'}
+        b=base|{'title':'Pokémon Mega-Entwicklung Dunkelnacht ME05 Display DE Vorbestellung','description':'36 Booster'}
+        self.assertEqual(normalize(a,c)[0]['identity'],normalize(b,c)[0]['identity'])
