@@ -55,19 +55,17 @@ Der letzte Befehl ist ein **Dry-run**: keine Discord-Nachrichten, keine Änderun
 
 `report.json` enthält Gründe für ausgeschlossene Produkte, Quellfehler und Teilabdeckung. Ein unvollständiger Lauf liefert Exitcode 1; gültige Treffer anderer Quellen werden trotzdem bewertet. Exitcode 2 bedeutet Abbruch. Die Diagnose-Workflows haben keine Versandfreigabe.
 
-## GitHub Actions: stündlich, ohne Doppelbetrieb
+## GitHub Actions: Betrieb ohne eingeschalteten PC
 
-Der Workflow enthält `17 * * * *`. **Automatische Cloud-Läufe sind zusätzlich durch `TCG_RUNNER=github` gesperrt**, solange der vorhandene PC-Betrieb zuständig ist. Nicht PC und Cloud gleichzeitig aktivieren: ihre getrennten Historien könnten Doppelmeldungen erzeugen.
+Der öffentliche GitHub-Workflow prüft mit `3-53/10 * * * *` ungefähr alle zehn Minuten. GitHub kann Starts verzögern oder auslassen; dies ist kein garantierter Echtzeitdienst. Ein Update der Workflowdatei startet ebenfalls einen Lauf. Ein manueller Start ist mit oder ohne Versand möglich; standardmäßig ist dabei der Probelauf gewählt.
 
-Zum Wechsel auf GitHub:
+Der Windows-Zeitplan bleibt deaktiviert. Nicht parallel aktivieren: PC und Cloud würden getrennte Meldungshistorien führen. Die bisherige PC-Historie wurde für den Wechsel in den Branch `bot-state` übertragen. Nur der GitHub-Workflow schreibt danach den Meldungsstand weiter.
 
-1. Den PC-Zeitplan „TCG Deal Watch PC“ pausieren. Aktuellen privaten `state.json`-Meldungsstand ohne Zugangsdaten auf den Branch `bot-state` übernehmen, falls dort ein älterer Stand liegt.
-2. Projekt einschließlich `.github` im bestehenden **öffentlichen** Repository aktualisieren. Secret `DISCORD_WEBHOOK_URL` setzen/weiterverwenden; Actions muss Repository-Inhalte schreiben dürfen.
-3. Unter Actions Variables `TCG_RUNNER=github` setzen. Zunächst manuell mit `dry_run=true` prüfen; danach übernimmt der Stundenplan.
+Der Discord-Zugang kommt ausschließlich aus dem bestehenden GitHub-Secret `DISCORD_WEBHOOK_URL`. Private Repositories werden vom Workflow ausgeschlossen; Standard-Linux-Runner in öffentlichen Repositories sind kostenlos. Der Prüfbericht wird für drei Tage als Actions-Artefakt gespeichert.
 
-Der Workflow verweigert private Repositories, damit keine kostenpflichtigen Laufminuten entstehen. Standard-Runner öffentlicher Repositories sind laut [GitHub-Abrechnung](https://docs.github.com/en/actions/concepts/billing-and-usage) kostenlos. Zeitpläne können verspätet starten und nach 60 Tagen Repository-Inaktivität deaktiviert werden: [GitHub-Dokumentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows). Kein Echtzeit-SLA und keine absolute Betriebszusage.
+Status: Im Repository unter Actions → TCG Deal Watch. Händlerfehler oder unvollständige Kataloge können einen Lauf als fehlgeschlagen markieren, auch wenn andere Händler erfolgreich geprüft und Nachrichten gesendet wurden. Details stehen im Laufprotokoll und Prüfbericht.
 
-Der Branch `bot-state` wird nach Versand sowie bei Teilfehlern gesichert; keine flüchtige Cache-Abhängigkeit. Läufe überschneiden sich nicht. Zwischen bestätigtem Discord-Versand und dauerhaftem Git-Push bleibt eine kleine Absturzlücke: exakt-einmalige Zustellung lässt sich über diese beiden Systeme nicht garantieren.
+Quellen: [Kosten](https://docs.github.com/en/billing/concepts/product-billing/github-actions), [Zeitplan-Einschränkungen](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
 
 ## Quellen und neue Shops
 

@@ -1,5 +1,7 @@
 name: TCG Deal Watch
 on:
+  schedule:
+    - cron: '3-53/10 * * * *'
   push:
     branches: [main]
     paths: ['.github/workflows/watch.yml']
@@ -53,13 +55,13 @@ jobs:
         env:
           TCG_BROWSER: ${{ vars.TCG_BROWSER }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DRY_RUN: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |
           args=()
           if [ "$DRY_RUN" != "true" ]; then args+=(--send); fi
           python -m tcg_bot "${args[@]}"
       - name: Persist state even after partial send or source failure
-        if: ${{ always() && steps.scan.outcome != 'skipped' && !(github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)) }}
+        if: ${{ always() && steps.scan.outcome != 'skipped' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
         run: |
           set -euo pipefail
           if [ ! -f state.json ] || [ ! -d ../tcg-state ]; then exit 0; fi
