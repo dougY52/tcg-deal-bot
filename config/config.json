@@ -1189,6 +1189,24 @@
         "valid_until": "2026-10-18",
         "evidence_url": "https://cardcosmos.de/products/naruto-mythos-tcg-konoha-shido-booster-display-2-edition-englisch",
         "note": "Am 18.09.2026 geprüfter regulärer Händlerpreis 69,90 EUR für Konoha Shido / First Set, 2nd Edition, 24 Booster, EN. Keine Hersteller-UVP. Identität durch Herstellerhinweis und Händlerbeschreibungen geprüft."
+      },
+      {
+        "identity": "Pokémon|ME4|unspecified|36|standard|DE",
+        "kind": "observed_retail",
+        "price_eur": "179.90",
+        "verified_on": "2026-09-22",
+        "valid_until": "2026-10-06",
+        "evidence_url": "https://www.spiele-spezi.de/products/pokemon-wachsendes-chaos-36-booster-display-de-cri-me04",
+        "note": "Live-Produktdaten: deutsche 36-Booster-Displays bestellbar; beobachteter Handelspreis, keine Hersteller-UVP."
+      },
+      {
+        "identity": "Pokémon|ME3|unspecified|36|standard|DE",
+        "kind": "observed_retail",
+        "price_eur": "179.99",
+        "verified_on": "2026-09-22",
+        "valid_until": "2026-10-06",
+        "evidence_url": "https://geeksheaven.de/products/pokemon-me03-optimale-ordnung-booster-display-deutsch-vorbestellung",
+        "note": "Live-Produktdaten: deutsche 36-Booster-Displays bestellbar; beobachteter Handelspreis, keine Hersteller-UVP."
       }
     ],
     "set_aliases": [
@@ -1224,6 +1242,26 @@
         "franchise": "Pokémon",
         "pattern": "\\bdunkelnacht\\b",
         "set": "ME5"
+      },
+      {
+        "franchise": "Pokémon",
+        "pattern": "\\bwachsendes\\s+chaos\\b",
+        "set": "ME4",
+        "search_term": "wachsendes chaos"
+      },
+      {
+        "franchise": "Pokémon",
+        "pattern": "\\boptimale\\s+ordnung\\b",
+        "set": "ME3",
+        "search_term": "optimale ordnung"
+      },
+      {
+        "franchise": "Dragon Ball",
+        "pattern": "\\b(?:ultra\\s+limit|fusion\\s*world\\s*0?4)\\b",
+        "set": "FB4",
+        "system": "fusion-world",
+        "search_term": "ultra limit",
+        "evidence_url": "https://www.dbs-cardgame.com/fw/en/events/02_74.html"
       }
     ],
     "anchor_max_days": 30,
@@ -1237,6 +1275,7 @@
       "Pokémon": [
         "DE"
       ]
-    }
+    },
+    "allow_verified_without_comparisons": true
   }
 }

@@ -36,9 +36,9 @@ class IdentityRepairTests(unittest.TestCase):
         self.assertEqual(len(deals[0]['comparisons']),2)
         self.assertGreaterEqual(deals[0]['confidence'],0.90)
 
-    def test_only_two_total_retailers_or_missing_anchor_still_blocked(self):
+    def test_verified_anchor_allows_two_retailers_but_missing_anchor_blocks(self):
         rows=[o|{'title':'Naruto Mythos First Set 2nd Edition Display EN'} for o in offers(('54.99','69.90','79.95'))]
-        self.assertFalse(evaluate(rows[:2],self.c,state(),NOW)[0])
+        self.assertEqual(len(evaluate(rows[:2],self.c,state(),NOW)[0]),2)
         self.c['market']['price_references']=[]
         self.assertFalse(evaluate(rows,self.c,state(),NOW)[0])
 

@@ -147,3 +147,9 @@ Bekannte Normalpreise werden im selben Lauf anhand bestellbarer Angebote erneut 
 ### Kartensprache
 
 Pokémon wird ausschließlich mit deutschen Karten gemeldet, einschließlich Vorbestellungen. Englische oder sprachlich unklare Pokémon-Angebote werden nicht gemeldet. Entscheidend ist die Kartensprache, nicht der Sitz des Händlers. Andere TCGs bleiben für Deutsch und Englisch zugelassen. Einstellung: `market.franchise_languages`.
+
+### Korrektur der Preisfreigabe (22.09.2026)
+
+Ein gültiger, produktspezifischer UVP-/Normalpreisbeleg kann ein bestellbares Angebot jetzt auch ohne zwei weitere Vergleichshändler freigeben (`allow_verified_without_comparisons`). Preisgrenze, Kartensprache, Produktidentität, Zustand und Dublettenschutz gelten weiter. Ohne Beleg bleiben mindestens drei unabhängige aktuelle Händler für den Marktvergleich nötig. Nachrichten ohne Vergleichshändler nennen den belegten Normalpreis statt eines erfundenen Marktmedians.
+
+Wachsendes Chaos/ME04 und Optimale Ordnung/ME03 werden jeweils zusammengeführt; aktuelle deutsche Händlerpreise sind als beobachtete Handelspreise dokumentiert, nicht als UVP. Fehlende Packzahlen können nur aus einem Angebot derselben gültigen EAN/GTIN und Kartensprache ergänzt werden. Widersprüchliche Packzahlen bleiben ausgeschlossen. Die Zusatzsuche verwendet passende Setnamen bzw. Codes mit führender Null und wechselt zwischen Produkten, damit einzelne Kandidaten nicht das gesamte Suchbudget verbrauchen.

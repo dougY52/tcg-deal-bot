@@ -11,7 +11,7 @@ from statistics import median
 import unicodedata
 from urllib.parse import urlsplit
 
-from .rules import BAD, PREORDER, franchise, language, reference_matches
+from .rules import BAD, PREORDER, franchise, language, reference_matches, gtin_key
 
 
 def folded(text):
@@ -130,6 +130,28 @@ def normalize(o, cfg):
                 condition_normalized='new-retailer-display', reference=ref, preorder=preorder, release_date=release), 'normalized'
 
 
+def complete_pack_counts(offers, cfg):
+    """Fill missing pack facts only from an identical valid GTIN and language."""
+    facts = defaultdict(set)
+    for offer in offers:
+        row, _ = normalize(offer, cfg)
+        code = gtin_key(offer.get('gtin'))
+        if row and code:
+            facts[(code, row['language'])].add(row['packs'])
+    result = []
+    for offer in offers:
+        row, reason = normalize(offer, cfg)
+        code = gtin_key(offer.get('gtin'))
+        text = offer['title'] + ' ' + offer.get('variant', '') + ' ' + offer.get('description', '')
+        # Never override conflicting or explicitly supplied quantities.
+        quantities = {int(n) for n in re.findall(r'(?<![\w-])(\d+)\s*(?:[x×]\s*)?(?:booster|pack)', text, re.I)} - {1}
+        packs = facts.get((code, language(offer)), set())
+        if reason == 'pack_count_uncertain' and not quantities and len(packs) == 1:
+            offer = dict(offer, description=offer.get('description', '') + f" {next(iter(packs))} Booster", pack_count_evidence='matching_gtin')
+        result.append(offer)
+    return result
+
+
 def update_history(state, rows, now, policy):
     history = state.setdefault('market_history', {})
     ttl = policy.get('history_days', 90) * 86400
@@ -226,36 +248,6 @@ def assess_market(o, state, cfg, now, assessment=None):
     if not o['available']:
         return None, 'out_of_stock'
     item = state['market_history'][o['key']]
-    peers = {}
-    for h in state['market_history'].values():
-        if h.get('identity') != o['identity'] or h['retailer'] == o['retailer']:
-            continue
-        # Historical prices support restocks only for 24h, never indefinitely.
-        if now - h.get('in_stock_at', 0) > policy.get('comparison_max_hours', 24) * 3600:
-            continue
-        p = Decimal(h['in_stock_price'])
-        if h['retailer'] not in peers or p < Decimal(peers[h['retailer']]['in_stock_price']):
-            peers[h['retailer']] = h
-    values = sorted(Decimal(h['in_stock_price']) for h in peers.values())
-    minimum = policy.get('min_comparisons', 3)
-    if len(values) < minimum:
-        return None, 'insufficient_independent_prices'
-    center = median(values)
-    # A loose robust fence removes isolated scalpers and obvious parser errors.
-    keep = {k: h for k, h in peers.items() if center * Decimal('0.60') <= Decimal(h['in_stock_price']) <= center * Decimal('1.50')}
-    if len(keep) < minimum:
-        return None, 'insufficient_prices_after_outliers'
-    values = sorted(Decimal(h['in_stock_price']) for h in keep.values())
-    center = median(values)
-    price = Decimal(o['price'])
-    # With five or more peers, judge spread on the central majority.
-    # A single clearance price or expensive shop must not veto a coherent market.
-    trim = len(values) // 5 if len(values) >= 5 else 0
-    core = values[trim:len(values)-trim] if trim else values
-    if core[-1] / core[0] > Decimal('1.65'):
-        return None, 'market_inconsistent'
-    if price < center * Decimal('0.50'):
-        return None, 'suspicious_low_price'
     anchors = []
     anchor_labels = []
     today = date.fromtimestamp(now)
@@ -272,6 +264,37 @@ def assess_market(o, state, cfg, now, assessment=None):
         if r['identity'] == o['identity'] and r['kind'] in ('msrp', 'observed_retail') and date.fromisoformat(r['verified_on']) <= today <= date.fromisoformat(r['valid_until']) and (today - date.fromisoformat(r['verified_on'])).days <= policy.get('anchor_max_days', 30):
             anchors.append(Decimal(r['price_eur']))
             anchor_labels.append({'kind': r['kind'], 'price': r['price_eur'], 'url': r['evidence_url']})
+    verified_route = bool(anchors) and policy.get('allow_verified_without_comparisons', False)
+    peers = {}
+    for h in state['market_history'].values():
+        if h.get('identity') != o['identity'] or h['retailer'] == o['retailer']:
+            continue
+        # Historical prices support restocks only for 24h, never indefinitely.
+        if now - h.get('in_stock_at', 0) > policy.get('comparison_max_hours', 24) * 3600:
+            continue
+        p = Decimal(h['in_stock_price'])
+        if h['retailer'] not in peers or p < Decimal(peers[h['retailer']]['in_stock_price']):
+            peers[h['retailer']] = h
+    values = sorted(Decimal(h['in_stock_price']) for h in peers.values())
+    minimum = policy.get('min_comparisons', 3)
+    if len(values) < minimum and not verified_route:
+        return None, 'insufficient_independent_prices'
+    center = median(values) if values else min(anchors)
+    # A loose robust fence removes isolated scalpers and obvious parser errors.
+    keep = {k: h for k, h in peers.items() if center * Decimal('0.60') <= Decimal(h['in_stock_price']) <= center * Decimal('1.50')}
+    if len(keep) < minimum and not verified_route:
+        return None, 'insufficient_prices_after_outliers'
+    values = sorted(Decimal(h['in_stock_price']) for h in keep.values())
+    center = median(values) if values else min(anchors)
+    price = Decimal(o['price'])
+    # With five or more peers, judge spread on the central majority.
+    # A single clearance price or expensive shop must not veto a coherent market.
+    trim = len(values) // 5 if len(values) >= 5 else 0
+    core = values[trim:len(values)-trim] if trim else values
+    if core and core[-1] / core[0] > Decimal('1.65') and not verified_route:
+        return None, 'market_inconsistent'
+    if price < (min(center, min(anchors)) if verified_route else center) * Decimal('0.50'):
+        return None, 'suspicious_low_price'
     if not anchors and policy.get('automatic_comparison', False):
         # A current market comparison is not evidence of MSRP or normal retail.
         # Require three independent, currently orderable retailers; use the lower
@@ -298,6 +321,8 @@ def assess_market(o, state, cfg, now, assessment=None):
     ceiling = min(anchors) if anchors else center
     fresh = sum(now - h['in_stock_at'] <= 7200 for h in keep.values())
     confidence = round(min(0.98, 0.80 + min(len(keep), 5) * 0.025 + (0.04 if fresh >= minimum else 0) + (0.02 if anchors else 0)), 3)
+    if verified_route:
+        confidence = max(confidence, 0.90)  # Evidence rule, not a statistical probability.
     if confidence < policy.get('min_confidence', 0.90):
         return None, 'low_confidence'
     automatic = all(a['kind'] == 'automatic_market' for a in anchor_labels)
@@ -316,7 +341,7 @@ def assess_market(o, state, cfg, now, assessment=None):
         return None, 'over_normal_retail'
     savings = center - price
     discount = savings / center * 100
-    bargain = rating['code'] in ('very_good', 'fair') and price <= ceiling and discount >= Decimal(str(policy.get('discount_pct', 15))) and savings >= Decimal(str(policy.get('min_saving_eur', 8))) and price <= values[0]
+    bargain = rating['code'] in ('very_good', 'fair') and price <= ceiling and discount >= Decimal(str(policy.get('discount_pct', 15))) and savings >= Decimal(str(policy.get('min_saving_eur', 8))) and bool(values) and price <= values[0]
     available_shops = {h['retailer'] for h in state['market_history'].values()
                        if h['identity'] == o['identity'] and h['available'] and now - h['last_seen'] <= 7200}
     restock = bool(item.get('restocked_at') and now - item['restocked_at'] <= 86400
@@ -339,7 +364,7 @@ def assess_market(o, state, cfg, now, assessment=None):
         # Meaningful price drops bypass the restock cooldown; unchanged offers stay silent.
         if not improved and (age < policy.get('alert_cooldown_hours', 24) * 3600 or not new_episode):
             return None, 'duplicate_or_cooldown'
-    return dict(o, reason=reason, rating=rating, confidence=confidence, median=str(center), savings=str(savings),
+    return dict(o, reason=reason, rating=rating, confidence=confidence, median=str(center), comparison_basis='Marktmedian' if values else 'Belegter Normalpreis', savings=str(savings),
                 discount=str(discount.quantize(Decimal('0.1'))), ceiling=str(ceiling),
                 anchor=min(anchor_labels, key=lambda a: Decimal(a['price'])), comparisons=[{'shop': h['shop'], 'price': h['in_stock_price'], 'url': h['url'], 'at': h['in_stock_at']} for h in keep.values()],
                 episode=item['episode']), 'eligible'
@@ -353,11 +378,11 @@ def market_payload(d):
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
         'title': (d['rating']['label'] + ': ' + d['title'])[:250], 'url': d['url'], 'color': {'acceptable': 0xE5A50A, 'elevated': 0xE66100}.get(d['rating']['code'], 0x26A269),
         'description': f"**{Decimal(d['price']):.2f} €** · {d['language']} · {d['shop_name']}\n{d['packs']} Booster · Edition {d['edition'] if d['edition'] != 'unspecified' else 'nicht angegeben'} · {availability}\n"
-                       f"Marktmedian **{Decimal(d['median']):.2f} €**; **{abs(Decimal(d['discount'])):.1f} %** {'darunter' if Decimal(d['discount']) >= 0 else 'darüber'}.\n"
+                       f"{d.get('comparison_basis', 'Marktmedian')} **{Decimal(d['median']):.2f} €**; **{abs(Decimal(d['discount'])):.1f} %** {'darunter' if Decimal(d['discount']) >= 0 else 'darüber'}.\n"
                        f"{len(d['comparisons'])} unabhängige Vergleichshändler; Confidence **{d['confidence']:.0%}**.\n"
                        '**Produktpreise inkl. MwSt.; Versand zusätzlich, im Checkout prüfen.**',
         'fields': [{'name': 'Hersteller-UVP' if d['anchor']['kind'] == 'msrp' else 'Aktueller Marktvergleich (Normalpreis/UVP unbekannt)' if d['anchor']['kind'] == 'automatic_market' else 'Geprüfter Normalpreis (keine UVP)', 'value': f"{Decimal(d['anchor']['price']):.2f} € · [Beleg]({d['anchor']['url']})"}, {'name': 'Preisbewertung', 'value': d['rating']['explanation']}, {'name': 'Warum qualifiziert?', 'value': d['reason'] + '; identisches Set, Sprache, Edition und Packformat. Keine UVP-Ableitung aus hohen Marktpreisen.'},
-                   {'name': 'Vergleichsmarkt (höchstens 24 Stunden alt)', 'value': comparisons[:1024]}],
+                   {'name': 'Vergleichsmarkt (höchstens 24 Stunden alt)', 'value': comparisons[:1024] or 'Keine weiteren verlässlichen Händlerpreise; Bewertung anhand des verlinkten Normalpreisbelegs.'}],
         'footer': {'text': 'Confidence ist ein Regelwert, keine statistische Wahrscheinlichkeit. Bestand kann sich ändern.'}
     }]}
 
@@ -392,6 +417,7 @@ def migrate_alias_identities(state, policy):
 
 
 def evaluate(offers, cfg, state, now):
+    offers = complete_pack_counts(offers, cfg)
     migrate_alias_identities(state, cfg['market'])
     rows, skipped, candidates = [], Counter(), []
     # Repeated catalog/watch URLs do not create multiple observations or votes.
