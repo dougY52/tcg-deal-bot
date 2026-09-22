@@ -59,9 +59,14 @@ class ComparisonTests(unittest.TestCase):
         self.assertTrue(s['comparison_searches'])
 
     def test_watch_handles_survive_loading(self):
-        c=load_config('config/config.json')
-        lake=next(s for s in c['shops'] if s['id']=='lakecards')
-        self.assertTrue(any('attack-on-titan' in h for h in lake['watch_handles']))
+        import json, tempfile
+        from pathlib import Path
+        c=json.loads(Path('config/config.json').read_text())
+        next(s for s in c['shops'] if s['id']=='lakecards')['watch_handles']=['pokemon-test-tin']
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp)/'config.json';p.write_text(json.dumps(c))
+            loaded=load_config(p)
+        self.assertIn('pokemon-test-tin',next(s for s in loaded['shops'] if s['id']=='lakecards')['watch_handles'])
 
     def test_preorder_title_does_not_change_identity(self):
         o=offers()[0];c=self.config()

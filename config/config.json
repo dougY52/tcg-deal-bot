@@ -7,18 +7,8 @@
   "franchises": {
     "Pokémon": "pok[eé]mon",
     "Dragon Ball": "dragon\\s*ball",
-    "JoJo": "jojo|jo.?jo.?s bizarre",
-    "Fairy Tail": "fairy\\s*tail",
-    "Bleach": "bleach",
     "One Piece": "one\\s*piece",
-    "My Hero Academia": "my hero academia|boku no hero",
-    "Naruto": "naruto",
-    "Hunter x Hunter": "hunter\\s*x\\s*hunter",
-    "Demon Slayer": "demon\\s*slayer|kimetsu",
-    "Jujutsu Kaisen": "jujutsu\\s*kaisen",
-    "Attack on Titan": "attack on titan|shingeki no kyojin",
-    "Black Clover": "black clover",
-    "Sword Art Online": "sword art online"
+    "Naruto": "naruto"
   },
   "shops": [
     {
@@ -155,14 +145,12 @@
       "name": "Ultra Comix",
       "base_url": "https://shop.ultracomix.de",
       "adapter": "html_catalog",
-      "enabled": true,
+      "enabled": false,
       "currency": "EUR",
       "max_pages": 1,
       "catalog_urls": [],
-      "product_urls": [
-        "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038"
-      ],
-      "discovery_scope": "Konkrete Fairy-Tail-12er-Display-Seite; kein Vollkatalog."
+      "product_urls": [],
+      "discovery_scope": "Deaktiviert: bisherige Einzelquellen liegen außerhalb der vier gewünschten Themen."
     },
     {
       "id": "tcgviert",
@@ -722,10 +710,7 @@
       "currency": "EUR",
       "max_pages": 8,
       "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht.",
-      "watch_handles": [
-        "universus-ccg-attack-on-titan-battle-for-humanity-booster-display-24-packs-en",
-        "universus-ccg-attack-on-titan-origins-of-power-booster-display-24-packs-en"
-      ]
+      "watch_handles": []
     },
     {
       "id": "breakthecase",
@@ -735,9 +720,7 @@
       "currency": "EUR",
       "max_pages": 8,
       "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht.",
-      "watch_handles": [
-        "weiss-schwarz-jojos-bizarre-adventure-stone-ocean-premium-booster-display-englisch"
-      ]
+      "watch_handles": []
     },
     {
       "id": "fantasiacards",
@@ -778,10 +761,9 @@
       "currency": "EUR",
       "max_pages": 1,
       "max_detail_pages": 10,
-      "catalog_urls": [
-        "https://www.zuris-shop.de/product-page/my-hero-academia-ccg-booster-display-series-02-crimson-rampage-24-packs-en"
-      ],
-      "discovery_scope": "Live geprüft am 19.09.2026; begrenzter Katalogabruf, Seitenlimits im Bericht."
+      "catalog_urls": [],
+      "discovery_scope": "Deaktiviert: bisherige Einzelquellen liegen außerhalb der vier gewünschten Themen.",
+      "enabled": false
     }
   ],
   "references": [
@@ -973,48 +955,6 @@
           "note": "Direkter Händlerpreis 59,99 EUR und Produkt-EAN aus öffentlicher Seite geprüft. Aktuell online nicht verfügbar. Keine Behauptung eines Filialbestands oder einer Hersteller-UVP."
         }
       ]
-    },
-    {
-      "id": "fairytail-100years-weissschwarz-12-en",
-      "group": "fairytail-100years-weissschwarz-12",
-      "language": "EN",
-      "packs": 12,
-      "sealed": true,
-      "kind": "observed_retail",
-      "retail_eur": "69.90",
-      "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Fairy Tail.*100.*Years?.*Quest.*(?:Booster|Display)",
-      "gtins": [
-        "8885021122038"
-      ],
-      "bindings": [
-        {
-          "shop": "gate",
-          "handle": "web-b86af9ba8dc1a1c5e466",
-          "variant_id": "8885021122038",
-          "variant_pattern": "^Default Title$",
-          "url": "https://www.gate-to-the-games.de/Weiss-Schwarz-Fairy-Tail-100-Years-Quest-Booster-Display-12-Packs-englisch"
-        },
-        {
-          "shop": "ultracomix",
-          "handle": "web-d883068bf7ce48888974",
-          "variant_id": "WS122038",
-          "variant_pattern": "^Default Title$",
-          "url": "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038"
-        }
-      ],
-      "evidence": [
-        {
-          "url": "https://www.gate-to-the-games.de/Weiss-Schwarz-Fairy-Tail-100-Years-Quest-Booster-Display-12-Packs-englisch",
-          "note": "Aktueller Direktpreis 69,90 EUR, englische versiegelte 12-Pack-Box; OutOfStock im Live-HTML. Als Restock-Ziel eingerichtet."
-        },
-        {
-          "url": "https://shop.ultracomix.de/weiss-schwarz-ccg-fairy-tail-100-year-quest-booster-display-12/ws122038",
-          "note": "65 EUR, englisches 12-Pack-Display, aktuell ausverkauft; direkter Produktseitenabruf am 18.09.2026."
-        }
-      ]
     }
   ],
   "local_stores": {
@@ -1138,15 +1078,6 @@
       "usd_per_pack": "4.99",
       "packs": null,
       "url": "https://www.dbs-cardgame.com/fw/en/products/01_422.html",
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17"
-    },
-    {
-      "id": "digimon-bt26-usd",
-      "title_pattern": "Digimon.*\\bBT[ -]?26\\b",
-      "usd_per_pack": "4.99",
-      "packs": 24,
-      "url": "https://world.digimoncard.com/products/pack/ver26/",
       "verified_on": "2026-09-18",
       "valid_until": "2026-12-17"
     },

@@ -165,3 +165,7 @@ Ein ausdrücklich beobachteter Wechsel von ausverkauft zu bestellbar wird als ne
 Es gibt keine flächendeckende kostenlose Web-Preisarchiv-API in diesem Bot: Der automatische Verlauf entsteht aus den öffentlich abgefragten Händlerseiten. Zusätzlich recherchierte externe Belege können mit Datum, Produktidentität, Europreis und Quellenlink hinterlegt werden; unbestätigte Suchtreffer gelten nicht als UVP. Für neu aufgenommene Produkte beginnt die eigene Historie mit dem ersten erfolgreichen Scan.
 
 Teurere Angebote werden jetzt **rot als „Teuer – kein guter Deal“** bzw. orange gekennzeichnet, statt nur wegen des Preisaufschlags verworfen zu werden. Fehlt jede Vergleichsbasis, erscheint **„Preis ungeprüft – kein bestätigter Deal“**. Ein aktueller oder historischer Marktpreis ist keine Hersteller-UVP. Verfügbarkeit/Vorbestellbarkeit, Verkäufer, Zustand und Kartensprache bleiben verpflichtend. Bereits gemeldete unveränderte Angebote werden nicht wiederholt; bestätigte Restocks und relevante Preissenkungen können erneut erscheinen. Höchstens 20 Meldungen je Lauf; noch nicht gesendete Angebote bleiben für nachfolgende Läufe offen.
+
+### Gewünschte Themen
+
+Aktiv sind ausschließlich **Pokémon, One Piece, Naruto und Dragon Ball**. Andere Franchises werden vor Preisrecherche und Meldung ausgeschlossen. Pokémon nur mit deutschen Karten; die übrigen drei Themen auf Deutsch oder Englisch. Die erweiterten versiegelten Produktformate bleiben aktiv.
