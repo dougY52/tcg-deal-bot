@@ -11,6 +11,7 @@ from statistics import median
 import unicodedata
 from urllib.parse import urlsplit
 
+from .product_types import product_kind, product_token
 from .rules import BAD, PREORDER, franchise, language, reference_matches, gtin_key
 
 
@@ -24,8 +25,12 @@ def normalize(o, cfg):
     family = franchise(dict(o, description=''), cfg)
     if not family:
         return None, 'irrelevant'
-    if re.search(BAD, title, re.I) or not re.search(r'display|booster[ -]?box', title, re.I):
+    expanded = cfg.get('market', {}).get('expanded_products', False)
+    kind = product_kind(title) if expanded else 'display'
+    if (expanded and kind is None) or (not expanded and (re.search(BAD, title, re.I) or not re.search(r'display|booster[ -]?box', title, re.I))):
         return None, 'not_sealed_display'
+    if kind == 'box' and not re.search(r'booster|promokart|promo.card', text, re.I):
+        return None, 'contents_uncertain'
     if re.search(r'einzelbooster|single booster|\b1\s*(?:booster|pack)\b|\b[2-9]\s*[x×]\s*(?:display|booster.box)', o.get('variant', ''), re.I):
         return None, 'ambiguous_variant'
     preorder = bool(o.get('preorder') or re.search(PREORDER, title, re.I) or re.search(r'\b(?:vorbestell\w*|pre[ -]?order\w*|vorverkauf|lieferbar ab|versand (?:ab|ca))\b', o.get('description', ''), re.I))
@@ -67,9 +72,13 @@ def normalize(o, cfg):
     packs.discard(1)
     if ref:
         packs.add(ref['packs'])
-    if len(packs) != 1 or not 6 <= next(iter(packs)) <= 60:
-        return None, 'pack_count_uncertain'
-    packs = packs.pop()
+    if kind == 'display':
+        if len(packs) != 1 or not 6 <= next(iter(packs)) <= 60:
+            return None, 'pack_count_uncertain'
+        packs = packs.pop()
+    else:
+        # Contents may list multiple sets; never invent a total booster count.
+        packs = next(iter(packs)) if len(packs) == 1 and 1 <= next(iter(packs)) <= 60 else None
     edition_hits = re.findall(r'\b(1st|2nd|3rd|first|second|third|erste|zweite|dritte|1\.?|2\.?|3\.?)\s*(?:edition|auflage)\b', title, re.I)
     editions = {'1st': '1', 'first': '1', 'erste': '1', '2nd': '2', 'second': '2', 'zweite': '2', '3rd': '3', 'third': '3', 'dritte': '3'}
     edition_set = {editions.get(x.lower(), x.rstrip('.')) for x in edition_hits}
@@ -92,7 +101,7 @@ def normalize(o, cfg):
         if family == 'Dragon Ball' and system == 'masters' and prefix == 'B':
             prefix = 'BT'
         codes.add(prefix + format(Decimal(number).normalize(), 'f'))
-    if len(codes) > 1:
+    if len(codes) > 1 and kind == 'display':
         return None, 'set_uncertain'
     set_name = next(iter(codes), '')
     # Reviewed aliases bridge named sets without allowing arbitrary fuzzy matching.
@@ -117,17 +126,18 @@ def normalize(o, cfg):
         clean = re.sub(cfg['franchises'][family], ' ', clean, flags=re.I)
         clean = re.sub(r'\b\d+\s*(?:booster|packs?)\b|\b(?:default title|trading card game|card game|tcg|booster|display|box|englisch|english|deutsch|german|eng|en|de|ger|ovp|sealed|original|neu)\b', ' ', clean)
         clean = re.sub(r'[^a-z0-9]+', ' ', clean).strip()
-        if len(clean) < 4:
+        if len(clean) < 4 and kind == 'display':
             return None, 'set_unknown'
         set_name = 'name:' + clean
     treatment = 'special' if re.search(r'premium|special|anniversary|collector|reprint|unlimited', title, re.I) else 'standard'
-    group = '|'.join((system, set_name, edition, str(packs), treatment))
+    identity_product = set_name if kind == 'display' else product_token(o, kind)
+    group = '|'.join((system, identity_product, edition, str(packs), treatment))
     identity = group + '|' + lang
     shop = next((s for s in cfg['shops'] if s['id'] == o['shop']), {})
     retailer = shop.get('retailer_group') or urlsplit(shop.get('base_url', o['url'])).hostname
     return dict(o, identity=identity, group=group, language=lang, packs=packs,
                 edition=edition, set=set_name, system=system, retailer=retailer,
-                condition_normalized='new-retailer-display', reference=ref, preorder=preorder, release_date=release), 'normalized'
+                condition_normalized='new-retailer-sealed', product_kind=kind, reference=ref, preorder=preorder, release_date=release), 'normalized'
 
 
 def complete_pack_counts(offers, cfg):
@@ -136,7 +146,7 @@ def complete_pack_counts(offers, cfg):
     for offer in offers:
         row, _ = normalize(offer, cfg)
         code = gtin_key(offer.get('gtin'))
-        if row and code:
+        if row and code and row['packs'] is not None:
             facts[(code, row['language'])].add(row['packs'])
     result = []
     for offer in offers:
@@ -258,12 +268,15 @@ def assess_market(o, state, cfg, now, assessment=None):
     for ref in references:
         if ref and date.fromisoformat(ref['verified_on']) <= today <= date.fromisoformat(ref['valid_until']) and (today - date.fromisoformat(ref['verified_on'])).days <= policy.get('anchor_max_days', 30):
             anchors.append(Decimal(ref['retail_eur']))
-            anchor_labels.append({'kind': ref['kind'], 'price': ref['retail_eur'], 'url': next((e['url'] for e in ref['evidence'] if ref['retail_eur'] in e.get('note', '')), ref['evidence'][0]['url'])})
+            anchor_labels.append({'kind': ref['kind'], 'price': ref['retail_eur'], 'verified_on': ref['verified_on'], 'url': next((e['url'] for e in ref['evidence'] if ref['retail_eur'] in e.get('note', '')), ref['evidence'][0]['url'])})
     # Optional reviewed reference: exact identity + dated evidence, never search snippets.
     for r in policy.get('price_references', []):
-        if r['identity'] == o['identity'] and r['kind'] in ('msrp', 'observed_retail') and date.fromisoformat(r['verified_on']) <= today <= date.fromisoformat(r['valid_until']) and (today - date.fromisoformat(r['verified_on'])).days <= policy.get('anchor_max_days', 30):
+        if r['identity'] == o['identity'] and (r['kind'] in ('msrp', 'observed_retail') or (policy.get('price_context_mode') and r['kind'] == 'market_reference')) and date.fromisoformat(r['verified_on']) <= today <= date.fromisoformat(r['valid_until']) and (today - date.fromisoformat(r['verified_on'])).days <= policy.get('anchor_max_days', 30):
             anchors.append(Decimal(r['price_eur']))
-            anchor_labels.append({'kind': r['kind'], 'price': r['price_eur'], 'url': r['evidence_url']})
+            anchor_labels.append({'kind': r['kind'], 'price': r['price_eur'], 'url': r['evidence_url'], 'verified_on': r['verified_on']})
+    if policy.get('price_context_mode', False):
+        from .price_context import assess_context
+        return assess_context(o, state, cfg, now, anchor_labels, assessment)
     verified_route = bool(anchors) and policy.get('allow_verified_without_comparisons', False)
     peers = {}
     for h in state['market_history'].values():
@@ -375,6 +388,9 @@ def assess_market(o, state, cfg, now, assessment=None):
 
 
 def market_payload(d):
+    if d.get('price_context'):
+        from .price_context import context_payload
+        return context_payload(d)
     availability = ('Vorbestellung bestellbar' if d.get('preorder') else 'laut Händler lieferbar')
     if d.get('preorder'):
         availability += (' · Händlertermin: ' + d['release_date']) if d.get('release_date') else ' · Liefertermin nicht angegeben'
@@ -447,7 +463,7 @@ def evaluate(offers, cfg, state, now):
             candidates.append({'shop': o['shop'], 'title': o['title'], 'price': o['price'], 'url': o['url'], 'identity': o['identity'], 'reason': reason, 'rating': assessment or unknown_rating(reason)})
     german = {d['group'] for d in eligible if d['language'] == 'DE'}
     best = {}
-    for d in sorted(eligible, key=lambda d: (d['language'] != 'DE', Decimal(d['price']), d['key'])):
+    for d in sorted(eligible, key=lambda d: (d['language'] != 'DE', d['rating']['code'] == 'unknown' if d.get('price_context') else False, Decimal(d['price']), d['key'])):
         if not cfg['market'].get('notify_all_shops', False) and d['language'] == 'EN' and d['group'] in german:
             continue
         key = delivery_key(d) if cfg['market'].get('notify_all_shops', False) else d['identity']

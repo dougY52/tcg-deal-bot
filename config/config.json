@@ -1277,6 +1277,9 @@
       ]
     },
     "allow_verified_without_comparisons": true,
-    "notify_confirmed_restocks": true
+    "notify_confirmed_restocks": true,
+    "expanded_products": true,
+    "price_context_mode": true,
+    "price_context_days": 14
   }
 }

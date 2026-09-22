@@ -90,6 +90,9 @@ def load_config(path):
         assert 0 < market['comparison_max_hours'] <= 24
         assert 1 <= market['history_days'] <= 180
         assert market['alert_cooldown_hours'] >= 6
+        assert 1 <= market.get('price_context_days', 14) <= 30
+        for flag in ('expanded_products', 'price_context_mode'):
+            assert isinstance(market.get(flag, False), bool)
         assert 0 <= market['near_retail_tolerance_pct'] <= 15
         if 'max_premium_eur' in market:
             assert 0 <= market['max_premium_eur'] <= 30

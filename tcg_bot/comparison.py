@@ -53,6 +53,8 @@ def enrich(offers, cfg, state, client, now):
         target = rows[0]
         alias = next((a for a in cfg['market'].get('set_aliases', []) if a['set'] == target['set'] and a.get('search_term')), {})
         query = alias.get('search_term') or target['set'].removeprefix('name:')
+        if target.get('product_kind', 'display') != 'display':
+            query = target['title']
         if not alias and target['set'].startswith(('FB', 'OP', 'BT', 'ME', 'EB')):
             import re
             query = re.sub(r'^(FB|OP|BT|ME|EB)(\d+)$', lambda m: m[1] + m[2].zfill(2), query)

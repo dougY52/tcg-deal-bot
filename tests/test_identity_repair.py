@@ -6,6 +6,7 @@ from test_market import offers,state,NOW
 class IdentityRepairTests(unittest.TestCase):
     def setUp(self):
         self.c=load_config('config/config.json')
+        self.c['market']['price_context_mode']=False
         self.c['shops']=[{'id':str(i),'name':f'Shop {i}','base_url':f'https://shop{i}.example'} for i in range(5)]
 
     def test_naruto_same_set_same_edition_across_names(self):
