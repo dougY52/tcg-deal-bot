@@ -349,6 +349,9 @@ def assess_market(o, state, cfg, now, assessment=None):
                    and rating['code'] in ('very_good', 'fair', 'acceptable', 'elevated')
                    and not any(h['available'] and now - h['last_seen'] <= 7200
                                and Decimal(h['in_stock_price']) < price for h in peers.values()))
+    if policy.get('notify_confirmed_restocks', False):
+        restock = bool(item.get('restocked_at') and now - item['restocked_at'] <= 86400
+                       and rating['code'] in ('very_good', 'fair', 'acceptable', 'elevated'))
     if not bargain and not restock and not policy.get('notify_within_price_range', False):
         return None, 'normal_price_no_deal'
     reason = 'Preisdeal' if bargain else 'Relevanter Restock' if restock else 'Neues Angebot in deinem Preisrahmen'
@@ -362,7 +365,8 @@ def assess_market(o, state, cfg, now, assessment=None):
         improved = Decimal(sent['price']) - price >= Decimal(str(cfg['price_drop_eur'])) and price <= Decimal(sent['price']) * (1 - Decimal(str(cfg['price_drop_pct'])) / 100)
         new_episode = restock and (sent.get('offer') != o['key'] or sent.get('episode', 0) < item['episode'])
         # Meaningful price drops bypass the restock cooldown; unchanged offers stay silent.
-        if not improved and (age < policy.get('alert_cooldown_hours', 24) * 3600 or not new_episode):
+        confirmed_restock = new_episode and policy.get('notify_confirmed_restocks', False)
+        if not improved and not confirmed_restock and (age < policy.get('alert_cooldown_hours', 24) * 3600 or not new_episode):
             return None, 'duplicate_or_cooldown'
     return dict(o, reason=reason, rating=rating, confidence=confidence, median=str(center), comparison_basis='Marktmedian' if values else 'Belegter Normalpreis', savings=str(savings),
                 discount=str(discount.quantize(Decimal('0.1'))), ceiling=str(ceiling),

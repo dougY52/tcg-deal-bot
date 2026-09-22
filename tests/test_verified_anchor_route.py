@@ -32,3 +32,15 @@ class VerifiedAnchorTests(unittest.TestCase):
         for r in rows:r['gtin']='4006381333931'
         rows[0]['description']='18 Booster oder 24 Booster'
         self.assertNotIn('pack_count_evidence',complete_pack_counts(rows,self.config())[0])
+
+    def test_confirmed_short_restock_bypasses_old_day_cooldown(self):
+        from tcg_bot.market import delivery_key
+        c=self.config();c['market'].update(notify_all_shops=True,notify_confirmed_restocks=True,restock_min_hours=0)
+        s=state();rows=offers(('79.99',));deal=evaluate(rows,c,s,NOW)[0][0]
+        s['market_offer_sent']={delivery_key(deal):dict(at=NOW,price='79.99',offer=deal['key'],episode=0,message_id='sent')}
+        evaluate([rows[0]|{'available':False}],c,s,NOW+600)
+        deals,_,_=evaluate(rows,c,s,NOW+1200)
+        self.assertEqual(len(deals),1)
+        self.assertIn('Restock',deals[0]['reason'])
+        s['market_offer_sent'][delivery_key(deals[0])].update(at=NOW+1200,episode=deals[0]['episode'])
+        self.assertFalse(evaluate(rows,c,s,NOW+1800)[0])

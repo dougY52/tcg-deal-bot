@@ -1168,7 +1168,7 @@
     "min_saving_eur": 8,
     "comparison_max_hours": 24,
     "history_days": 90,
-    "restock_min_hours": 6,
+    "restock_min_hours": 0,
     "restock_max_live_shops": 2,
     "alert_cooldown_hours": 24,
     "price_references": [
@@ -1276,6 +1276,7 @@
         "DE"
       ]
     },
-    "allow_verified_without_comparisons": true
+    "allow_verified_without_comparisons": true,
+    "notify_confirmed_restocks": true
   }
 }
