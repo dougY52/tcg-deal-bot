@@ -8,6 +8,7 @@ class SealedContextTests(unittest.TestCase):
     def config(self):
         c=cfg();c['market'].update(expanded_products=True,price_context_mode=True,price_context_days=14,notify_all_shops=True,restock_min_hours=0)
         c['market']['price_references']=[]
+        c['market'].pop('allowed_product_types',None)
         return c
     def product(self,title='Pokémon Glurak Tin DE',**fields):
         return offers(('49.99',))[0]|{'title':title,'description':'4 Booster und eine Promokarte',**fields}

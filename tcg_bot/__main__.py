@@ -91,6 +91,13 @@ def load_config(path):
         assert 1 <= market['history_days'] <= 180
         assert market['alert_cooldown_hours'] >= 6
         assert 1 <= market.get('price_context_days', 14) <= 30
+        if 'max_offer_price_eur' in market:
+            maximum = Decimal(str(market['max_offer_price_eur']))
+            assert maximum.is_finite() and maximum > 0
+        if 'allowed_product_types' in market:
+            from .product_types import LABELS
+            assert isinstance(market['allowed_product_types'], list) and market['allowed_product_types']
+            assert set(market['allowed_product_types']) <= set(LABELS)
         for flag in ('expanded_products', 'price_context_mode'):
             assert isinstance(market.get(flag, False), bool)
         assert 0 <= market['near_retail_tolerance_pct'] <= 15

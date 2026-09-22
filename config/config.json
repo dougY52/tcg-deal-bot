@@ -1211,6 +1211,13 @@
     "notify_confirmed_restocks": true,
     "expanded_products": true,
     "price_context_mode": true,
-    "price_context_days": 14
+    "price_context_days": 14,
+    "allowed_product_types": [
+      "display",
+      "etb",
+      "box",
+      "collection"
+    ],
+    "max_offer_price_eur": 200
   }
 }

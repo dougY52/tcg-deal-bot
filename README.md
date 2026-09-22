@@ -169,3 +169,9 @@ Teurere Angebote werden jetzt **rot als „Teuer – kein guter Deal“** bzw. o
 ### Gewünschte Themen
 
 Aktiv sind ausschließlich **Pokémon, One Piece, Naruto und Dragon Ball**. Andere Franchises werden vor Preisrecherche und Meldung ausgeschlossen. Pokémon nur mit deutschen Karten; die übrigen drei Themen auf Deutsch oder Englisch. Die erweiterten versiegelten Produktformate bleiben aktiv.
+
+### Aktuelle Produktauswahl: nur Displays und Original-Boxen
+
+`market.allowed_product_types` beschränkt Meldungen auf Booster-Displays, Top-/Elite-Trainer-Boxen, Kollektionen und Boxen mit Karteninhalt. Tins, Mini-Tins, Blister und Booster-Bundles sind ausgeschlossen. Auch gemischte Angebote mit Tins, erkennbare Stapel, Konvolute, selbst zusammengestellte Pakete und Mehrfach-Boxenangebote werden verworfen. Die Beschränkung gilt sowohl für Katalogfunde als auch für zusätzliche Suchtreffer und verhindert den Versand noch nicht gesendeter Tin-Angebote.
+
+Zusätzlich gilt die feste Angebotsgrenze `market.max_offer_price_eur = 200`: Produktpreise bis einschließlich 200 € sind zulässig, darüber wird kein Angebot gemeldet – auch keine teure Verfügbarkeitsmeldung. Eventuell zusätzliche Versandkosten stehen weiterhin gesondert in der Nachricht.

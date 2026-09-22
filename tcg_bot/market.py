@@ -29,6 +29,17 @@ def normalize(o, cfg):
     kind = product_kind(title) if expanded else 'display'
     if (expanded and kind is None) or (not expanded and (re.search(BAD, title, re.I) or not re.search(r'display|booster[ -]?box', title, re.I))):
         return None, 'not_sealed_display'
+    allowed_kinds = cfg.get('market', {}).get('allowed_product_types')
+    if allowed_kinds is not None:
+        if kind not in allowed_kinds:
+            return None, 'product_type_excluded'
+        # Mixed packs must not pass because their title also says ETB or Box.
+        if 'tin' not in allowed_kinds and re.search(r'\b(?:mini[ -]*)?tin(?:s|box(?:en)?|stapel|stack|tower|turm|türme)?\b', title, re.I):
+            return None, 'product_type_excluded'
+    if re.search(r'\b(?:stapel|stack|konvolut|mystery|repack|repacked)\b|selbst\s+zusammengestellt|von\s+uns\s+zusammengestellt|händler[ -]?bundle', text, re.I):
+        return None, 'custom_assortment'
+    if re.search(r'\b(?:[2-9]|\d{2,})\s*[x×]\s*(?:etbs?\b|ttbs?\b|top[ -]?trainer|elite[ -]?trainer|box(?:en|es)?\b|displays?\b|booster[ -]?(?:display|box))', title, re.I):
+        return None, 'custom_assortment'
     if kind == 'box' and not re.search(r'booster|promokart|promo.card', text, re.I):
         return None, 'contents_uncertain'
     if re.search(r'einzelbooster|single booster|\b1\s*(?:booster|pack)\b|\b[2-9]\s*[x×]\s*(?:display|booster.box)', o.get('variant', ''), re.I):
@@ -52,6 +63,9 @@ def normalize(o, cfg):
             raise ValueError()
     except (ValueError, InvalidOperation):
         return None, 'invalid_price'
+    max_price = cfg.get('market', {}).get('max_offer_price_eur')
+    if max_price is not None and price > Decimal(str(max_price)):
+        return None, 'over_user_budget'
     if not isinstance(o.get('available'), bool):
         return None, 'availability_unknown'
     refs = [(r, b) for r, b in reference_matches(o, cfg)
