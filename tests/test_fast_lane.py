@@ -131,3 +131,17 @@ class FastLane(unittest.TestCase):
         f.bootstrap(cfg,state,NOW)
         self.assertIn('sapphire-cards:57145',state['fast_targets'])
         self.assertEqual(f.priority(state['fast_targets']['sapphire-cards:57145']['offer']),0)
+
+    def test_changed_parser_key_keeps_single_watch_target(self):
+        f.remember([self.offer],self.cfg,self.state,NOW)
+        f.remember([dict(self.offer,key='example:123:new-parser')],self.cfg,self.state,NOW+1)
+        self.assertEqual(list(self.state['fast_targets']),[self.offer['key']])
+        self.assertEqual(self.state['fast_targets'][self.offer['key']]['offer']['key'],self.offer['key'])
+
+    def test_duplicate_variant_aliases_send_once_in_same_scan(self):
+        cfg=copy.deepcopy(self.cfg)
+        cfg['_fast_lane']=True
+        cfg['_fast_keys']=[self.offer['key'],'alias']
+        cfg['_fast_groups']={self.offer['key']:0,'alias':0}
+        deals=p.scan([self.offer,dict(self.offer,key='alias')],cfg,self.state,self.client,NOW)[1]
+        self.assertEqual(len(deals),1)

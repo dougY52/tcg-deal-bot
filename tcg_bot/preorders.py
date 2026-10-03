@@ -445,7 +445,8 @@ def scan(offers, cfg, state, client, now):
         o['priority_score'] = (100 if o['set_code'] == 'FB11' else 0) + (30 if o['product_type'] == 'display' else 10) + (20 if o['edition'] == 'first' else -10 if o['edition'] == 'second' else 0) + (30 if pricing['strong'] else 0) + o['seller_confidence']['score'] // 10
         deals.append(o)
     report['rejected'] = dict(rejected)
-    return ordinary, sorted(deals, key=lambda o: (-o['priority_score'], Decimal(o['price']))), report
+    unique = {o['product_key']: o for o in deals}
+    return ordinary, sorted(unique.values(), key=lambda o: (-o['priority_score'], Decimal(o['price']))), report
 
 
 def delivered(state, deal, now, message_id):

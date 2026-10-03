@@ -27,6 +27,14 @@ def remember(rows, cfg, state, now):
     for o in rows:
         obj, _ = preorders.identity(o, cfg)
         if obj:
+            # Parser keys can change; a seller's concrete variant is still one target.
+            aliases = [k for k, r in table.items() if r['offer']['shop'] == o['shop'] and
+                       str(r['offer']['variant_id']) == str(o['variant_id']) and
+                       r['offer'].get('seller') == o.get('seller')]
+            alias = aliases[0] if aliases else o['key']
+            for duplicate in aliases[1:]:
+                del table[duplicate]
+            o = dict(o, key=alias)
             old = table.get(o['key'], {})
             table[o['key']] = dict(old, offer=o, discovered_at=now)
 
@@ -156,7 +164,8 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         report['skipped'][item['reason'].replace('REJECTED - ', 'REJECTED_')] = report['skipped'].get(item['reason'].replace('REJECTED - ', 'REJECTED_'), 0) + 1
     # Only actually attempted targets move to the back of the rotation.
     for key in live_cfg.get('_fast_attempted', []):
-        state['fast_targets'][key]['checked_at'] = now
+        if key in state['fast_targets']:
+            state['fast_targets'][key]['checked_at'] = now
     report['fast_watch'] = {'targets': len(state.get('fast_targets', {})), 'selected': len(selected), 'checked': audit['checked']}
     limit = cfg.get('max_alerts_per_run') or len(deals)
     report['pending_alerts'] = max(0, len(deals)-limit)
