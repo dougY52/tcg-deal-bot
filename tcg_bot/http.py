@@ -27,7 +27,7 @@ class Client:
         self.cooldowns = {}
         self.deadline = time.monotonic() + 600
 
-    def raw(self, url):
+    def raw(self, url, _redirects=0):
         if time.monotonic() >= self.deadline:
             raise FetchError('Run request budget exhausted')
         host = urllib.parse.urlsplit(url).netloc
@@ -49,6 +49,18 @@ class Client:
                     raise FetchError('Response too large')
                 return data.decode('utf-8')
         except urllib.error.HTTPError as exc:
+            if exc.code in (301, 302, 303, 307, 308):
+                target = urllib.parse.urljoin(url, exc.headers.get('Location', ''))
+                old, new = urllib.parse.urlsplit(url), urllib.parse.urlsplit(target)
+                if (_redirects >= 3 or not exc.headers.get('Location') or new.scheme != 'https'
+                        or new.netloc != old.netloc or new.username or new.password or target == url):
+                    raise FetchError('Unsafe or repeated redirect') from None
+                if old.path.endswith('/robots.txt'):
+                    if not new.path.endswith('/robots.txt'):
+                        raise FetchError('Unexpected robots redirect') from None
+                else:
+                    self.check_allowed(target)
+                return self.raw(target, _redirects + 1)
             if exc.code in (429, 503):
                 self.blocked.add(host)
                 retry = exc.headers.get('Retry-After', '') if exc.headers else ''

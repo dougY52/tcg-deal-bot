@@ -28,7 +28,7 @@ def inspect(body):
     result["details"]=[n.text().strip()[:3000] for n in doc.root.walk() if n.tag=="main"][:1]
     result["product_attributes"]=[n.attrs for n in doc.root.walk() if any(re.search(r"product|article|sku|availability",k,re.I) for k in n.attrs)][:30]
     result["tcg_links"]=[{"name":p.get("name"),"url":p.get("url")} for p in structured_products(doc)
-                         if re.search(r"pok.mon.*(?:trainer|booster|kollektion|display|tin)",p.get("name",""),re.I)][:10]
+                         if re.search(r"pok.mon.*(?:top.trainer|booster|kollektion|display|tin.box)",p.get("name",""),re.I)][:10]
     result["stock_text"]=[m.group(0) for m in re.finditer(r".{0,70}(?:keine Lieferung|nicht lieferbar|lieferbar|ausverkauft|vorrätig|sold out|Client Challenge).{0,90}",doc.root.text(),re.I)][:8]
     return result
 
@@ -74,7 +74,7 @@ def main():
                         print("RETAILER_AUDIT "+json.dumps(detail,ensure_ascii=False),flush=True)
                         output.append(detail)
                     except Exception as e:
-                        print("DETAIL_ERROR "+type(e).__name__,flush=True)
+                        print("DETAIL_ERROR "+(str(e)[:120] if type(e).__name__=="FetchError" else type(e).__name__),flush=True)
         browser.close()
     Path("retailer-audit-report.json").write_text(json.dumps(output,ensure_ascii=False,indent=2))
 
