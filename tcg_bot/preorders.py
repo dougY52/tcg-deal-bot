@@ -16,7 +16,7 @@ from urllib.parse import quote, urlsplit
 
 from .rules import language
 from .sources import plain
-from .product_types import product_kind, product_token
+from .product_types import product_kind, product_token, EXCLUDED
 
 PREORDER = re.compile(r'vorbestell|pre[ -]?order|vorverkauf|coming soon|waitlist|notify me|benachrichtigen|lieferbar ab|versand ab', re.I)
 BLOCK = re.compile(r'waitlist|warteliste|notify me|benachrichtigen|einladungskauf|coming soon|backorder|nachbestellung', re.I)
@@ -52,6 +52,9 @@ def identity(o, cfg):
         return None, 'CONTENT_EXCLUDED'
     if family == 'Naruto' and not re.search(r'mythos', text, re.I) and not any(re.search(pattern, text, re.I) for pattern in cfg.get('preorder_watch', {}).get('official_naruto_patterns', [])):
         return None, 'UNVERIFIED_LICENSE'
+    exclusion_text = re.sub(r'deck.?sets?', '', text, flags=re.I) if family == 'One Piece' else text
+    if re.search(EXCLUDED, exclusion_text, re.I) or re.search(r'selbst zusammengestellt|von uns zusammengestellt|händler.bundle|\bstacks?\b', text + ' ' + o.get('description', ''), re.I):
+        return None, 'UNSUPPORTED_PRODUCT'
     kind = product_kind(text)
     if family == 'One Piece' and re.search(r'deck.?set', text, re.I):
         kind = 'deck_set'
@@ -84,13 +87,13 @@ class Forms(HTMLParser):
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         if tag == 'form':
-            self.form = {'action': a.get('action', ''), 'method': a.get('method', '').lower(), 'ids': [], 'buttons': [], 'text': ''}
+            self.form = {'action': a.get('action', ''), 'method': a.get('method', '').lower(), 'ids': [], 'buttons': [], 'text': '', 'hidden': 'hidden' in a or a.get('aria-hidden') == 'true'}
         if self.form is None:
             return
         if tag == 'input' and a.get('name') == 'id' and 'disabled' not in a:
             self.form['ids'].append(a.get('value', ''))
         if tag in ('button', 'input') and a.get('type', 'submit' if tag == 'button' else '').lower() == 'submit':
-            self.button = {'enabled': 'disabled' not in a and a.get('aria-disabled') != 'true', 'text': a.get('value', '')}
+            self.button = {'enabled': 'disabled' not in a and 'hidden' not in a and a.get('aria-disabled') != 'true' and a.get('aria-hidden') != 'true', 'text': a.get('value', '')}
             self.form['buttons'].append(self.button)
         if tag == 'input':
             self.button = None
@@ -145,7 +148,7 @@ def live(o, shop, client, now):
     row['currency'] = active_currency[1]
     parser = Forms()
     parser.feed(page)
-    matching = [f for f in parser.forms if f['ids'] == [vid] and f['method'] == 'post' and
+    matching = [f for f in parser.forms if not f['hidden'] and f['ids'] == [vid] and f['method'] == 'post' and
                 urlsplit(f['action']).path.rstrip('/').endswith('/cart/add') and
                 (not urlsplit(f['action']).netloc or urlsplit(f['action']).netloc == urlsplit(base).netloc)]
     if not matching:

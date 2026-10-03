@@ -286,6 +286,20 @@ class Preorders(unittest.TestCase):
         self.assertIsNone(error)
         self.assertEqual(obj['product_type'], 'deck_set')
 
+    def test_premium_accessory_not_collection(self):
+        self.client.product['title'] = 'Pokémon Premium Collection Schutzhülle Deutsch Preorder'
+        self.rejected('UNSUPPORTED_PRODUCT')
+
+    def test_self_assembled_tin_stack_rejected(self):
+        self.client.product['title'] = 'Pokémon Premium Tin Deutsch Preorder'
+        self.client.product['description'] = 'Von uns zusammengestellt'
+        self.rejected('UNSUPPORTED_PRODUCT')
+
+    def test_hidden_cart_form_rejected(self):
+        original = self.client.text
+        self.client.text = lambda u: original(u).replace('<form ', '<form hidden ')
+        self.rejected('AMBIGUOUS_VARIANT')
+
 
 if __name__ == '__main__':
     unittest.main()
