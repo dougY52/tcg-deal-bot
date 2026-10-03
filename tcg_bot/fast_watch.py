@@ -106,7 +106,7 @@ def fetch_live(selected, cfg, client, now):
             for o in selected:
                 if priority(o) == group:
                     batches.setdefault(o['shop'], []).append(o)
-            work = [dict(shops[sid], adapter='fast_live', _targets=rows) for sid, rows in batches.items()]
+            work = [dict(shops[sid], adapter='mms' if shops[sid]['adapter'] == 'mms' else 'fast_live', _targets=rows) for sid, rows in batches.items()]
             def fetch(shop, transport):
                 rows = []
                 for o in shop['_targets']:
@@ -118,7 +118,7 @@ def fetch_live(selected, cfg, client, now):
                         row, error = None, 'LIVE_CHECK_FAILED_'+type(exc).__name__
                     rows.append({'key': o['key'], 'row': row, 'error': error})
                 return rows, []
-            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch}, 4, 20):
+            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, 4, 20):
                 for record in rows:
                     result[record['key']] = (record['row'], record['error'])
     finally:
@@ -206,6 +206,8 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     finally:
         if original is not None:
             client.deadline = original
+    from .retailer_coverage import check_sources
+    report['retailer_coverage'] = check_sources(cfg, state, client, now)
     from .retailer_discovery import discover
     report['retailer_discovery'] = discover(cfg, state, client, now)
     report['fast_watch']['targets_after_discovery'] = len(state.get('fast_targets', {}))

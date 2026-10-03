@@ -138,6 +138,17 @@ def load_config(path):
         assert 900 <= fast['catalog_interval_seconds'] <= 10800
         assert 1 <= fast['catalog_shops_per_run'] <= 16
         assert 20 <= fast['catalog_seconds'] <= 90
+    coverage = cfg.get('retailer_coverage', {})
+    if coverage.get('enabled'):
+        assert 1 <= coverage['max_checks'] <= 6
+        assert 5 <= coverage['budget_seconds'] <= 20
+        assert coverage['recheck_seconds'] >= 3600
+        source_ids = set()
+        for source in cfg.get('retailer_sources', []):
+            u = urlsplit(source['url'])
+            assert u.scheme == 'https' and u.hostname and not u.username and not u.password
+            assert source['id'] not in source_ids
+            source_ids.add(source['id'])
     return cfg
 
 
@@ -347,6 +358,11 @@ def summary(report):
     if report.get('local_stores'):
         text += '## Filialbestände\n\n' + report['local_stores']['status'] + '\n\n'
     text += '## Filter\n\n' + '\n'.join(f'- {k}: {v}' for k, v in report['skipped'].items()) + '\n\n'
+    if report.get('retailer_coverage'):
+        coverage = report['retailer_coverage']
+        text += '\n## Händlerzugänge (kein Bestandsnachweis)\n\n'
+        for source in coverage.get('sources', []):
+            text += '- ' + source['id'] + ': ' + source['status'] + (' — ' + source['reason'] if source.get('reason') else '') + '\n'
     if report.get('preorder_watch'):
         pw = report['preorder_watch']
         text += f"## Preorder-Watch\n\nLive geprüft: {pw['checked']} · verschoben: {pw['deferred']} · gesendet: {pw['sent']}\n\n"

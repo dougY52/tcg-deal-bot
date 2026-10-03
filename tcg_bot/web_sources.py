@@ -7,6 +7,11 @@ import re
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from .sources import plain
+from .http import FetchError
+
+
+def source_error(exc):
+    return str(exc)[:140] if isinstance(exc, FetchError) else type(exc).__name__
 
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
 
@@ -188,7 +193,7 @@ def html_catalog(shop, client):
                         details.add(link)
                         pages.append((link, False))
         except Exception as exc:
-            notes.append('Page unavailable: ' + type(exc).__name__)
+            notes.append('Page unavailable: ' + source_error(exc))
     if not rows:
         return [], notes + ['No usable structured product offers']
     return list(rows.values()), notes
@@ -232,7 +237,12 @@ def parse_mms(shop, body, url):
                          preorder=bool(delivery.get('releaseDate') and delivery['releaseDate'][:10] > __import__('datetime').date.today().isoformat()),
                          store_status='selected' if pickup.get('storeId') else 'selection_required',
                          pickup_status=pickup.get('pickupStatus'), store_id=pickup.get('storeId'),
-                         is_pickable=pickup.get('isProductPickable'))
+                         is_pickable=pickup.get('isProductPickable'),
+                         variant_validated=True, live_validated=True,
+                         add_to_cart_available=stock is True and online.get('isAvailableAndBuyable') is True,
+                         preorder_status=bool(delivery.get('releaseDate') and delivery['releaseDate'][:10] > __import__('datetime').date.today().isoformat()),
+                         availability_status='in_stock' if stock is True else 'out_of_stock' if stock is False else 'unknown',
+                         shipping_cost=None, stock_text=status or '')
         # Source must explicitly identify marketplace/direct seller; unknown is never trusted.
         if market is None: row['seller_verified'] = False
         rows.append(row)
@@ -246,7 +256,7 @@ def mms(shop, client):
         try:
             _, links = parse_structured(shop, client.text(catalog), catalog)
             discovered.extend(links)
-        except Exception as exc: notes.append('Catalog unavailable: ' + type(exc).__name__)
+        except Exception as exc: notes.append('Catalog unavailable: ' + source_error(exc))
     # Rotate discovery slices each hour so a fixed first page cannot starve other products.
     import time
     discovered = list(dict.fromkeys(discovered))
@@ -258,8 +268,8 @@ def mms(shop, client):
     for url in urls:
         try:
             for row in parse_mms(shop, client.text(url), url): rows[row['key']] = row
-        except Exception as exc: notes.append('Product page unavailable ' + urlsplit(url).path + ': ' + type(exc).__name__)
-    if not rows: raise ValueError('No valid retailer products')
+        except Exception as exc: notes.append('Product page unavailable ' + urlsplit(url).path + ': ' + source_error(exc))
+    if not rows: notes.append('No valid retailer products; see access/parser diagnostics above')
     return list(rows.values()), notes
 
 
@@ -292,8 +302,8 @@ def otto(shop, client):
     for url in shop.get('catalog_urls', []):
         try:
             for row in parse_otto(shop, client.text(url)): rows[row['key']] = row
-        except Exception as exc: notes.append('Catalog unavailable: ' + type(exc).__name__)
-    if not rows: raise ValueError('No OTTO catalog offers')
+        except Exception as exc: notes.append('Catalog unavailable: ' + source_error(exc))
+    if not rows: notes.append('No OTTO catalog offers; see access/parser diagnostics above')
     return list(rows.values()), notes
 
 

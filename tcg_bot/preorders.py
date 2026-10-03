@@ -133,6 +133,24 @@ class Forms(HTMLParser):
 
 def live(o, shop, client, now):
     """Fresh Shopify product endpoint plus exact product form; never use snippets."""
+    if shop['adapter'] == 'mms':
+        from .web_sources import parse_mms, same_site
+        if not same_site(o['url'], shop['base_url']):
+            return None, 'AMBIGUOUS_VARIANT'
+        rows = parse_mms(shop, client.text(o['url']), o['url'])
+        selected = [r for r in rows if str(r['variant_id']) == str(o['variant_id'])]
+        if len(selected) != 1:
+            return None, 'AMBIGUOUS_VARIANT'
+        row = selected[0]
+        if row.get('seller') != o.get('seller'):
+            return None, 'SELLER_RISK'
+        if row['available'] is False:
+            return row, 'OUT_OF_STOCK'
+        if row.get('add_to_cart_available') is not True:
+            return row, 'NO_CHECKOUT'
+        if row.get('preorder_status'):
+            row['availability_status'] = 'preorder'
+        return row, None
     if shop['adapter'] == 'woocommerce' and not shop.get('marketplace'):
         from .web_sources import parse_woocommerce
         if urlsplit(o['url']).netloc != urlsplit(shop['base_url']).netloc:

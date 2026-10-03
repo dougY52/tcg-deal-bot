@@ -67,7 +67,7 @@ def main():
             output.append(record)
             print("RETAILER_AUDIT "+json.dumps(record,ensure_ascii=False),flush=True)
             if name=="mueller":
-                for link in record.get("http",{}).get("tcg_links",[])[:3]:
+                for link in (record.get("http",{}).get("tcg_links",[]) or record.get("http",{}).get("products",[]))[:1]:
                     try:
                         client.deadline=time.monotonic()+25
                         detail={"retailer":"mueller-detail","url":link["url"],"http":inspect(client.text(link["url"]))}
@@ -76,6 +76,12 @@ def main():
                     except Exception as e:
                         print("DETAIL_ERROR "+(str(e)[:120] if type(e).__name__=="FetchError" else type(e).__name__),flush=True)
         browser.close()
+    from tcg_bot.retailer_coverage import check_sources
+    cfg=json.loads(Path("config/config.json").read_text())
+    cfg['retailer_coverage'].update(max_checks=24,budget_seconds=120)
+    coverage=check_sources(cfg,{},client,time.time())
+    for record in coverage['sources']:
+        print("COVERAGE_AUDIT "+json.dumps(record,ensure_ascii=False),flush=True)
     Path("retailer-audit-report.json").write_text(json.dumps(output,ensure_ascii=False,indent=2))
 
 if __name__=="__main__":

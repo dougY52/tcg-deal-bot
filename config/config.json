@@ -1111,6 +1111,22 @@
       ],
       "product_link_pattern": "/produkt/",
       "discovery_scope": "WooCommerce: konkrete Sprache/Variation mit is_in_stock, is_purchasable, aktiver Variante und passendem Bestellformular."
+    },
+    {
+      "id": "mueller",
+      "name": "Müller",
+      "base_url": "https://www.mueller.de",
+      "adapter": "html_catalog",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "max_detail_pages": 8,
+      "catalog_urls": [
+        "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
+        "https://www.mueller.de/b/pokemon/"
+      ],
+      "product_link_pattern": "/p/",
+      "discovery_scope": "Erreichbare Sammelkarten-/Pokémon-Kataloge; direkte Produktprüfung erforderlich. Noch kein bestätigter Bestelladapter."
     }
   ],
   "references": [
@@ -1366,9 +1382,9 @@
       "id": "mueller",
       "name": "Müller",
       "url": "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
-      "reason": "robots.txt im Browser lesbar; Sammelkarten-Katalog HTTP 403 / Client Challenge mit CAPTCHA. Keine Online-/Filialüberwachung.",
-      "status": "blocked",
-      "checked_on": "2026-09-18"
+      "reason": "Katalog am 03.10.2026 vom GitHub Runner lesbar. Discovery aktiv; noch keine bestätigte TCG-Bestellvalidierung.",
+      "status": "discovery_only",
+      "checked_on": "2026-10-03"
     },
     {
       "id": "smyths",
@@ -1663,7 +1679,9 @@
       "teamlunti-de",
       "yonko-tcg-de",
       "zenocards-com",
-      "sapphire-cards"
+      "sapphire-cards",
+      "mediamarkt",
+      "saturn"
     ],
     "seller_evidence": {},
     "shop_rules": {
@@ -1725,5 +1743,157 @@
     "catalog_interval_seconds": 1800,
     "catalog_shops_per_run": 12,
     "catalog_seconds": 80
+  },
+  "retailer_sources": [
+    {
+      "id": "cardmarket",
+      "name": "Cardmarket",
+      "url": "https://www.cardmarket.com/de/Pokemon/Products/Booster-Boxes",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "mueller",
+      "name": "Müller",
+      "url": "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "smyths",
+      "name": "Smyths Toys",
+      "url": "https://www.smythstoys.com/de/de-de/spielzeug/action-spielzeug/pokemon/pokemon-karten/c/SM1001012002",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "fantasywelt",
+      "name": "FantasyWelt",
+      "url": "https://www.fantasywelt.de/Pokemon",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "gamesisland",
+      "name": "Games Island",
+      "url": "https://games-island.eu/Pokemon",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "galaxus",
+      "name": "Galaxus",
+      "url": "https://www.galaxus.de/search?q=pokemon%20display",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "rofu",
+      "name": "ROFU",
+      "url": "https://www.rofu.de/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "ideeundspiel",
+      "name": "idee+spiel",
+      "url": "https://www.ideeundspiel.com/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "kaufland",
+      "name": "Kaufland Marketplace",
+      "url": "https://www.kaufland.de/product/564681995/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "rossmann",
+      "name": "Rossmann",
+      "url": "https://www.rossmann.de/de/ideenwelt-amigo-pokemon-tcg-wachsendes-chaos-3-booster-blister/p/0196214140189",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "mediamarkt",
+      "name": "MediaMarkt",
+      "url": "https://www.mediamarkt.de/de/category/pokemon-karten-8444.html",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "url": "https://www.saturn.de/de/brand/pokemon-sammelkartenspiel/neuheiten",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "otto",
+      "name": "OTTO",
+      "url": "https://www.otto.de/spielzeug/spiele/sammelkarten/?marke=pokemon",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "edeka",
+      "name": "Edeka",
+      "url": "https://www.edeka.de/angebote/",
+      "kind": "local_offers"
+    },
+    {
+      "id": "galeria",
+      "name": "Galeria",
+      "url": "https://www.galeria.de/kinder/spielzeug/spiele-und-puzzles/gesellschaftsspiele-und-co/pokemon-karten",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "rewe",
+      "name": "REWE",
+      "url": "https://www.rewe.de/angebote/nationale-angebote/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "lidl",
+      "name": "Lidl",
+      "url": "https://www.lidl.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "aldi-sued",
+      "name": "ALDI Süd",
+      "url": "https://www.aldi-sued.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "aldi-nord",
+      "name": "ALDI Nord",
+      "url": "https://www.aldi-nord.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "netto",
+      "name": "Netto",
+      "url": "https://www.netto-online.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "globus",
+      "name": "Globus",
+      "url": "https://www.globus.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "thalia",
+      "name": "Thalia",
+      "url": "https://www.thalia.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "amazon-de",
+      "name": "Amazon DE",
+      "url": "https://www.amazon.de/",
+      "kind": "discovery_homepage"
+    },
+    {
+      "id": "jpc",
+      "name": "JPC",
+      "url": "https://www.jpc.de/",
+      "kind": "discovery_homepage"
+    }
+  ],
+  "retailer_coverage": {
+    "enabled": true,
+    "max_checks": 4,
+    "budget_seconds": 15,
+    "recheck_seconds": 21600
   }
 }
