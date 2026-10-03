@@ -39,3 +39,9 @@ Der Produktions-State zeigte beim Audit 2.845 Ziele, davon 2.227 nicht verfügba
 Eine Katalogwarnung allein (z.B. Pagination-Limit) lässt den CLI-Lauf nicht mehr fehlschlagen. Sie bleibt im Report sichtbar. Echte Fehler führen weiterhin zu einem Fehlerstatus.
 
 Cloud-Nachweis vom 04.10.2026: ANI KUNI 163 Varianten / 20 relevante Angebote bis 200 EUR, drei konkrete bestellbare Varianten validiert. DAESU CARDS 37 Varianten / fünf relevante bis 200 EUR; eine One-Piece-Vorbestellung validiert, zwei ausverkaufte Angebote abgewiesen. Bestellbarkeit allein bedeutet keinen qualifizierenden Preis.
+
+## Kataloge hinter dem Seitenlimit
+
+Shopify-Katalogfenster speichern ihre nächste ungelesene Seite in fast_catalog_cursors. Bei späteren Prüfungen wird Seite 1 plus das nächste Seitenfenster gelesen. Ein bestätigtes Katalogende setzt den Cursor auf Seite 1 zurück. Ein Abruffehler überspringt die ungelesene Seite nicht. Dadurch bleiben große Shops nicht dauerhaft auf ihre ersten 2.000 Produkte beschränkt. Die Anzahl der Requests pro Fenster bleibt begrenzt.
+
+Der separate Katalogcheck prüft aktive Quellen, kennzeichnet Pagination explizit mit catalog_complete=false und unterscheidet eine erfolgreiche Teilabfrage von einem Abruffehler.

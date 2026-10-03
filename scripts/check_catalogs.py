@@ -14,7 +14,8 @@ def check(shop):
     client = Client()
     try:
         offers, warnings = shopify(shop, client)
-        return {'shop': shop['name'], 'id': shop['id'], 'ok': not warnings, 'offers': len(offers),
+        return {'shop': shop['name'], 'id': shop['id'], 'ok': bool(offers) and all(w.startswith('Catalog page limit reached;') for w in warnings),
+                'catalog_complete': not warnings, 'offers': len(offers),
                 'orderable_display_candidates': sum(discovery(o, cfg) is not None for o in offers), 'warnings': warnings}
     except Exception as exc:
         return {'shop': shop['name'], 'id': shop['id'], 'ok': False, 'error': type(exc).__name__}
@@ -24,7 +25,7 @@ def check(shop):
 
 if __name__ == '__main__':
     cfg = load_config(Path(__file__).resolve().parents[1] / 'config/config.json')
-    shops = [s for s in cfg['shops'] if s.get('audit_checked_on')]
+    shops = [s for s in cfg['shops'] if s.get('enabled', True) and (s.get('audit_checked_on') or s['id'] in ('ani-kuni','daesu-cards'))]
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         results = list(pool.map(check, shops))
     Path('catalog-check.json').write_text(json.dumps(results, ensure_ascii=False, indent=2)+'\n')

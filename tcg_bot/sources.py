@@ -61,7 +61,14 @@ def shopify(shop, client):
     endpoints = [shop['base_url'] + '/products.json']
     endpoints.extend(shop['base_url'] + '/collections/' + name + '/products.json' for name in shop.get('catalog_collections', []))
     for endpoint in endpoints:
-        for page in range(1, shop.get('max_pages', 20) + 1):
+        limit = shop.get('max_pages', 20)
+        cursor = shop.get('_catalog_pages', {}).get(endpoint, 1)
+        cursor = cursor if isinstance(cursor, int) and 1 <= cursor <= 1000 else 1
+        pages = list(range(cursor, cursor + limit))
+        if cursor > 1 and limit > 1:
+            pages = [1] + pages[:max(0, limit - 1)]
+        next_pages = shop.setdefault('_catalog_next_pages', {})
+        for index, page in enumerate(pages):
             try:
                 data = client.get(f"{endpoint}?limit=250&page={page}")
                 rows = data['products']
@@ -70,8 +77,11 @@ def shopify(shop, client):
                 for p in rows:
                     products.setdefault(p['handle'], p)
                 if len(rows) < 250:
+                    next_pages[endpoint] = 1
+                    # A short first page proves there is no remaining catalog.
                     break
-                if page == shop.get('max_pages', 20):
+                next_pages[endpoint] = min(page + 1, 1000) if page != 1 or cursor == 1 else cursor
+                if index == len(pages) - 1:
                     warnings.append('Catalog page limit reached; increase max_pages or configure targeted collections')
             except Exception as exc:
                 warnings.append('Catalog discovery incomplete: ' + (str(exc) if isinstance(exc, FetchError) else type(exc).__name__))

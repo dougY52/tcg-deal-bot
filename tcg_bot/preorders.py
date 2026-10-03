@@ -348,7 +348,9 @@ def scan(offers, cfg, state, client, now):
         client.deadline = min(original_deadline + settings.get('validation_seconds', 90), deadline)
     def reject(o, reason):
         rejected[reason] += 1
-        report['candidates'].append({'key': o['key'], 'reason': 'REJECTED - ' + reason})
+        report['candidates'].append({'key': o['key'], 'reason': 'REJECTED - ' + reason,
+                                     'title': o.get('title', ''), 'shop': o.get('shop', ''),
+                                     'price': o.get('price'), 'live_validated': o.get('live_validated') is True})
         LOG.info('REJECTED - %s (%s)', reason, o['key'])
     phase = None
     phase_deadline = deadline

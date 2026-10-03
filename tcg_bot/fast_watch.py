@@ -203,6 +203,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     _, deals, audit = preorders.scan(selected, live_cfg, state, client, now)
     report['preorder_watch'] = audit
     remember(live_cfg.get('_fast_observed', []), cfg, state, now)
+    report['candidates'].extend(audit['candidates'])
     for item in audit['candidates']:
         report['skipped'][item['reason'].replace('REJECTED - ', 'REJECTED_')] = report['skipped'].get(item['reason'].replace('REJECTED - ', 'REJECTED_'), 0) + 1
     # Only actually attempted targets move to the back of the rotation.
@@ -243,13 +244,16 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     due = [s for s in cfg['shops'] if s.get('enabled', True) and
            now-catalog_state.get(s['id'], 0) >= settings['catalog_interval_seconds']]
     due.sort(key=lambda s: catalog_state.get(s['id'], 0))
-    due = due[:settings['catalog_shops_per_run']]
+    cursors = state.setdefault('fast_catalog_cursors', {})
+    due = [dict(s, _catalog_pages=dict(cursors.get(s['id'], {}))) for s in due[:settings['catalog_shops_per_run']]]
     original = getattr(client, 'deadline', None)
     if original is not None:
         client.deadline = time.monotonic() + settings['catalog_seconds']
     try:
         for shop, rows, notes, error, seconds in collect(due, client, adapters, 4, 20):
             catalog_state[shop['id']] = now
+            if shop.get('_catalog_next_pages'):
+                cursors[shop['id']] = shop['_catalog_next_pages']
             report['shops'].append({'shop': shop['id'], 'variants': len(rows), 'seconds': seconds})
             if error:
                 report['errors'].append(shop['id']+': '+error)
@@ -279,6 +283,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         for key in fresh_cfg.get('_fast_attempted', []):
             if key in state['fast_targets']:
                 state['fast_targets'][key]['checked_at'] = now
+        report['candidates'].extend(fresh_audit['candidates'])
         for item in fresh_audit['candidates']:
             reason = item['reason'].replace('REJECTED - ', 'REJECTED_')
             report['skipped'][reason] = report['skipped'].get(reason, 0) + 1
