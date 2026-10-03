@@ -107,3 +107,13 @@ class FastDiscoveryTests(unittest.TestCase):
         cache.text('https://example.test/products/fb11?variant=123')
         cache.text('https://example.test/products/fb11?variant=123')
         self.assertEqual(len(client.urls), 4)
+
+    def test_available_targets_and_closed_windows_both_get_slots(self):
+        self.cfg['fast_watch']['quotas'][0] = 6
+        rows = [dict(self.offer, key='example:'+str(i), variant_id=str(i),
+                     title='Dragon Ball Fusion World FB04 Display EN', available=i>=12)
+                for i in range(24)]
+        f.remember(rows, self.cfg, self.state, NOW)
+        chosen = f.select(self.cfg, self.state)
+        self.assertEqual(sum(o['available'] is True for o in chosen), 4)
+        self.assertEqual(sum(o['available'] is False for o in chosen), 2)

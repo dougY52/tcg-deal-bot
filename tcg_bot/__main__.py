@@ -429,7 +429,7 @@ def main():
         if os.environ.get('GITHUB_STEP_SUMMARY'):
             with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
                 fh.write(text)
-        return 1 if report['errors'] or report['warnings'] else 0
+        return 1 if report['errors'] else 0
     except Exception as exc:
         # Deliberately no exception text: secrets must never be echoed.
         print('Abbruch (' + type(exc).__name__ + '): Konfiguration, Status oder Discord-Secret prüfen.', file=sys.stderr)

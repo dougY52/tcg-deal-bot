@@ -1,5 +1,6 @@
 """Bounded live watch ahead of rotating catalog discovery; no catalog-only alerts."""
 import copy
+from decimal import Decimal
 import re
 import time
 from urllib.parse import urlsplit, parse_qs
@@ -91,13 +92,20 @@ def select(cfg, state):
     selected = []
     for group, (bucket, quota) in enumerate(zip(buckets, quotas)):
         bucket.sort(key=lambda r: (r.get('checked_at', 0), r['offer']['key']))
-        # A large catalog from one host must not consume a franchise's quota.
-        hosts = {}
-        for record in bucket:
-            host = urlsplit(shops[record['offer']['shop']]['base_url']).netloc
-            hosts.setdefault(host, []).append(record)
-        bucket = [row for index in range(max((len(rows) for rows in hosts.values()), default=0))
-                  for rows in hosts.values() for row in rows[index:index+1]]
+        # Reserve background checks for closed windows, but do not spend the
+        # entire quota rechecking thousands of unchanged unavailable products.
+        def spread(rows):
+            hosts = {}
+            for record in rows:
+                host = urlsplit(shops[record['offer']['shop']]['base_url']).netloc
+                hosts.setdefault(host, []).append(record)
+            return [row for index in range(max((len(v) for v in hosts.values()), default=0))
+                    for values in hosts.values() for row in values[index:index+1]]
+        active = spread([r for r in bucket if r['offer'].get('available') is True
+                         and Decimal(str(r['offer']['price'])) <= Decimal(str(cfg['preorder_watch'].get('max_price_eur', 200)))])
+        background = spread([r for r in bucket if r not in active])
+        head = active[:max(1, quota * 2 // 3)] + background[:max(1, quota // 3)]
+        bucket = head + [r for r in spread(bucket) if r not in head]
         if group == 0:
             hot = [r for r in bucket if re.search(r'\bFB[ -]?11\b', r['offer']['title'], re.I)][:4]
             bucket = hot + [r for r in bucket if r not in hot]
@@ -148,7 +156,9 @@ def fetch_live(selected, cfg, client, now):
                     try:
                         row, error = preorders.live(o, shops[o['shop']], transport, now)
                     except Exception as exc:
-                        row, error = None, 'LIVE_CHECK_FAILED_'+type(exc).__name__
+                        from .http import FetchError
+                        detail = str(exc).replace(' ', '_') if isinstance(exc, FetchError) else type(exc).__name__
+                        row, error = None, 'LIVE_CHECK_FAILED_'+detail
                     rows.append({'key': o['key'], 'row': row, 'error': error})
                 return rows, []
             for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, 4, 20):

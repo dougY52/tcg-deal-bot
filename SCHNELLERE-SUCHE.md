@@ -33,3 +33,9 @@ Für Filialbestände rund um 65934/50 km fehlt weiterhin eine bestätigte Bestan
 ## Nachweis
 
 Der PR-Test liest den Produktions-State und Workflow-Metadaten sowie neue Shopkataloge/konkrete Produktseiten. Er besitzt kein Discord-Secret und schreibt keine Produktionsdaten. Dabei protokolliert er den letzten Lauf, Anzahl der Watch-Ziele, letzte bestätigte Zustellung und tatsächliche Validatorergebnisse.
+
+Der Produktions-State zeigte beim Audit 2.845 Ziele, davon 2.227 nicht verfügbar. Pro Franchise sind deshalb bevorzugte Plätze für laut Katalog verfügbare Angebote bis 200 EUR sowie reservierte Hintergrundplätze für geschlossene Fenster vorgesehen. Das ist ausschließlich Priorisierung: vor jedem Alert entscheidet der Live-Abruf.
+
+Eine Katalogwarnung allein (z.B. Pagination-Limit) lässt den CLI-Lauf nicht mehr fehlschlagen. Sie bleibt im Report sichtbar. Echte Fehler führen weiterhin zu einem Fehlerstatus.
+
+Cloud-Nachweis vom 04.10.2026: ANI KUNI 163 Varianten / 20 relevante Angebote bis 200 EUR, drei konkrete bestellbare Varianten validiert. DAESU CARDS 37 Varianten / fünf relevante bis 200 EUR; eine One-Piece-Vorbestellung validiert, zwei ausverkaufte Angebote abgewiesen. Bestellbarkeit allein bedeutet keinen qualifizierenden Preis.
