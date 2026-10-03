@@ -26,7 +26,8 @@ jobs:
           python - <<'PY'
           import json, time
           from pathlib import Path
-          from tcg_bot.__main__ import load_config, run, summary
+          from tcg_bot.__main__ import load_config, run, summary, ADAPTERS
+          from tcg_bot.fast_watch import run as fast_run
           from tcg_bot.http import Client
           cfg = load_config('config/config.json')
           # Include staged sources in this read-only qualification run.
@@ -36,7 +37,8 @@ jobs:
           start = time.monotonic()
           client = Client()
           try:
-              report = run(cfg, {'version': 1, 'offers': {}}, client)
+              audit_state = {'version': 1, 'offers': {}}
+              report = run(cfg, audit_state, client)
           finally:
               client.close()
           elapsed = time.monotonic() - start
@@ -47,11 +49,25 @@ jobs:
           assert len(report['shops']) + len(report['errors']) == len(active), 'Not every source attempted'
           passed = {s['shop'] for s in report['shops']}
           assert all(s['id'] in passed for s in active if s.get('audit_checked_on')), 'New source failed'
-          assert elapsed < 240, 'Scan too slow for five minute cadence'
+          assert elapsed < 360, 'Full catalog audit exceeded six minute budget'
+          # The operational five-minute cadence uses Fast Watch, not the full audit.
+          started = time.monotonic()
+          client = Client()
+          try:
+              fast_report = fast_run(cfg, audit_state, client, ADAPTERS)
+          finally:
+              client.close()
+          fast_elapsed = time.monotonic() - started
+          Path('fast-scan-check.json').write_text(json.dumps(fast_report, ensure_ascii=False, indent=2))
+          print(summary(fast_report))
+          print(f'FAST SCAN SECONDS: {fast_elapsed:.1f}')
+          assert fast_elapsed < 240, 'Fast Watch exceeded four minute budget'
           PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: full-scan-check
-          path: scan-check.json
+          path: |
+            scan-check.json
+            fast-scan-check.json
           retention-days: 7
