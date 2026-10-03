@@ -1709,5 +1709,21 @@
   "scanner": {
     "workers": 4,
     "source_seconds": 60
+  },
+  "fast_watch": {
+    "enabled": true,
+    "min_run_gap_seconds": 240,
+    "quotas": [
+      48,
+      8,
+      8,
+      8,
+      6,
+      4
+    ],
+    "live_seconds": 140,
+    "catalog_interval_seconds": 1800,
+    "catalog_shops_per_run": 12,
+    "catalog_seconds": 80
   }
 }

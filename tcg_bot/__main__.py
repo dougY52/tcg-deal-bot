@@ -129,6 +129,15 @@ def load_config(path):
             assert amount.is_finite() and amount > 0
         for ref in pw.get('price_references', []):
             assert ref['kind'] in ('msrp', 'observed_retail') and ref['evidence_url'].startswith('https://')
+    fast = cfg.get('fast_watch', {})
+    if fast.get('enabled'):
+        assert 30 <= fast['live_seconds'] <= 150
+        assert len(fast['quotas']) == 6 and all(isinstance(n, int) and 1 <= n <= 64 for n in fast['quotas'])
+        assert sum(fast['quotas']) <= 100
+        assert 180 <= fast['min_run_gap_seconds'] <= 300
+        assert 900 <= fast['catalog_interval_seconds'] <= 10800
+        assert 1 <= fast['catalog_shops_per_run'] <= 16
+        assert 20 <= fast['catalog_seconds'] <= 90
     return cfg
 
 
@@ -382,7 +391,11 @@ def main():
             client = Client()
         client.cooldowns = state.setdefault('http_backoff', {})
         try:
-            report = run(cfg, state, client, send, checkpoint)
+            if cfg.get('fast_watch', {}).get('enabled') and not args.watch_only:
+                from .fast_watch import run as fast_run
+                report = fast_run(cfg, state, client, ADAPTERS, send, checkpoint)
+            else:
+                report = run(cfg, state, client, send, checkpoint)
         finally:
             client.close()
         Path(args.report).write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')

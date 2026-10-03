@@ -1,3 +1,7 @@
+# Aktuell: Fast Watch
+
+Der Cloud-Bot verwendet jetzt den [5-Minuten-Fast-Watch](FAST-WATCH.md): Live-Prüfung vor jedem Alert, Fusion World zuerst, strengere Retailpreise. Die folgenden älteren Betriebsbeschreibungen beschreiben teilweise den vorherigen Vollscan; maßgeblich für den aktuellen Cloud-Betrieb ist FAST-WATCH.md.
+
 # Anime TCG Deal Watch – Version 3
 
 Kostenloser Python-Bot für deutsche Händler: breite Katalog-Discovery, genaue Produktzuordnung, unabhängiger Marktvergleich und konservative Discord-Meldungen. Python 3.12+, Standardbibliothek, keine bezahlte API.

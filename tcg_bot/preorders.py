@@ -19,9 +19,10 @@ from .sources import plain
 from .product_types import product_kind, product_token, EXCLUDED, single_pack_variant
 
 PREORDER = re.compile(r'vorbestell|pre[ -]?order|vorverkauf|coming soon|waitlist|notify me|benachrichtigen|lieferbar ab|versand ab', re.I)
-BLOCK = re.compile(r'waitlist|warteliste|notify me|benachrichtigen|einladungskauf|coming soon|backorder|nachbestellung', re.I)
+BLOCK = re.compile(r'waitlist|warteliste|notify me|benachrichtigen|einladungskauf|invitation only|coming soon|backorder|nachbestellung', re.I)
 SHOP_RULES = {'sapphire-cards': {'strict_variant_check': True, 'require_live_stock_validation': True},
-              'galeria': {'strict_cart_check': True}}
+              'galeria': {'strict_cart_check': True},
+              'keepseven': {'strict_variant_check': True, 'require_live_stock_validation': True}}
 LOG = logging.getLogger(__name__)
 
 
@@ -233,6 +234,13 @@ def price_check(o, peers, cfg, now, history=()):
     for ref in settings.get('price_references', []):
         if ref['verified_on'] <= today <= ref['valid_until'] and ref['comparison_key'] == o['comparison_key']:
             anchors.append((Decimal(ref['price_eur']), ref['kind'], ref['note']))
+    if cfg.get('_fast_lane'):
+        from .market import normalize
+        normalized, _ = normalize(o, cfg)
+        if normalized:
+            for ref in cfg.get('market', {}).get('price_references', []):
+                if ref['identity'] == normalized['identity'] and ref['kind'] in ('msrp', 'observed_retail') and ref['verified_on'] <= today <= ref['valid_until']:
+                    anchors.append((Decimal(ref['price_eur']), ref['kind'], 'Geprüfte bestehende Retail-Referenz'))
     for guide in settings.get('user_price_guides', []):
         if (guide['valid_until'] >= today >= guide['verified_on'] and o['franchise'] == guide['franchise'] and
             o['set_code'] == guide['set_code'] and o['product_type'] == 'display' and o['language'] == guide['language']):
@@ -254,7 +262,7 @@ def price_check(o, peers, cfg, now, history=()):
         anchor = median(sorted(groups.values())[:10])
         # A reviewed retail ceiling also prevents a uniformly scalped market median.
         ceilings = [a * Decimal('1.05') if k == 'msrp' else a * Decimal('1.20') for a, k, _ in anchors if k != 'user_reference']
-        if price <= anchor and (not ceilings or price <= min(ceilings)):
+        if price <= anchor and (not cfg.get('_fast_lane') or bool(anchors)) and (not ceilings or price <= min(ceilings)):
             return {'baseline': str(anchor), 'why': f'Nicht über dem Median von {min(len(groups), 10)} innerhalb von 30 Minuten live geprüften Händlern ({anchor:.2f} €).', 'strong': price <= anchor * Decimal('.9')}
     return None
 
@@ -284,7 +292,7 @@ def scan(offers, cfg, state, client, now):
     shops = {s['id']: s for s in cfg['shops'] if s.get('enabled', True)}
     ordinary, pending = [], {}
     for o in offers:
-        if candidate(o) or o['key'] in tracked:
+        if cfg.get('_fast_lane') or candidate(o) or o['key'] in tracked:
             if any(re.search(pattern, o['title'], re.I) for pattern in cfg['franchises'].values()):
                 pending[o['key']] = o
         else:
@@ -292,7 +300,7 @@ def scan(offers, cfg, state, client, now):
     for key, old in list(tracked.items()):
         if now - old['last_discovered'] > 14 * 86400:
             del tracked[key]
-        elif old['offer']['shop'] in shops:
+        elif not cfg.get('_fast_lane') and old['offer']['shop'] in shops:
             pending.setdefault(key, old['offer'])
     # Catalog hints affect scheduling only; every alert still needs live proof.
     oldest = sorted(pending.values(), key=lambda o: tracked.get(o['key'], {}).get('checked_at', 0))
@@ -307,6 +315,9 @@ def scan(offers, cfg, state, client, now):
     # Reserve background checks so cached OOS/wrong-language listings can recover.
     audit = [o for o in oldest if o not in urgent][:min(4, settings.get('max_live_checks', 24) // 4)]
     selected = urgent + audit + [o for o in ranked if o not in urgent and o not in audit]
+    if cfg.get('_fast_lane'):
+        by_key = {o['key']: o for o in pending.values()}
+        selected = [by_key[k] for k in cfg['_fast_keys'] if k in by_key]
     rejected = Counter()
     valid = []
     observed_keys = {o['key'] for o in offers}
@@ -318,25 +329,50 @@ def scan(offers, cfg, state, client, now):
         rejected[reason] += 1
         report['candidates'].append({'key': o['key'], 'reason': 'REJECTED - ' + reason})
         LOG.info('REJECTED - %s (%s)', reason, o['key'])
+    phase = None
+    phase_deadline = deadline
     try:
         for o in selected:
+            if cfg.get('_fast_lane'):
+                group = cfg['_fast_groups'][o['key']]
+                if group != phase:
+                    phase = group
+                    phase_deadline = min(deadline, time.monotonic() + (40, 25, 25, 20, 20, 10)[group])
+                    if original_deadline is not None:
+                        client.deadline = phase_deadline
+                if time.monotonic() >= phase_deadline:
+                    report['deferred'] += 1
+                    continue
             old = tracked.get(o['key'], {})
             tracked[o['key']] = dict(old, offer=o, last_discovered=now if o['key'] in observed_keys else old.get('last_discovered', now))
             if report['checked'] >= settings.get('max_live_checks', 24) or time.monotonic() >= deadline:
                 report['deferred'] += 1
                 continue
+            if '_fast_preloaded' in cfg and o['key'] not in cfg['_fast_preloaded']:
+                report['deferred'] += 1
+                continue
             report['checked'] += 1
+            cfg.setdefault('_fast_attempted', []).append(o['key'])
             tracked[o['key']]['checked_at'] = now
             shop = shops[o['shop']]
             try:
-                row, error = live(o, shop, client, now)
+                if '_fast_preloaded' in cfg:
+                    row, error = cfg['_fast_preloaded'][o['key']]
+                else:
+                    row, error = live(o, shop, client, now)
             except Exception as exc:
                 reject(o, 'LIVE_CHECK_FAILED_' + type(exc).__name__)
                 continue  # A timeout is NOT an observed outage.
             if row is None:
                 reject(o, error)
                 continue
+            if cfg.get('_fast_lane'):
+                cfg.setdefault('_fast_observed', []).append(row)
             normalized, identity_error = identity(row, cfg)
+            if cfg.get('_fast_lane') and normalized:
+                before, _ = identity(o, cfg)
+                if before and any(before[k] != normalized[k] for k in ('language', 'edition', 'product_type', 'set_code')):
+                    identity_error = 'WRONG_VARIANT'
             key = normalized['product_key'] if normalized else old.get('product_key')
             if key:
                 record = table.setdefault(key, {'history': [], 'episode': 0})
@@ -348,7 +384,7 @@ def scan(offers, cfg, state, client, now):
                     if old_alerts:
                         sent = max(old_alerts, key=lambda a: a['at'])
                         record['last_alert'] = dict(sent, episode=record['episode'])
-                if status == 'preorder' and previous in ('out_of_stock', 'waitlist', 'invalid_variant'):
+                if status in ('preorder', 'in_stock') and previous in ('out_of_stock', 'waitlist', 'invalid_variant'):
                     record['episode'] += 1
                 if previous != status or record.get('price') != row['price']:
                     record['history'].append({'timestamp': now, 'price': row['price'], 'status': status})
@@ -360,7 +396,7 @@ def scan(offers, cfg, state, client, now):
                     quotes.pop(key, None)
                 reject(o, error or identity_error)
                 continue
-            if not row['preorder_status']:
+            if not row['preorder_status'] and not cfg.get('_fast_lane'):
                 # Finished preorders return to the unchanged deal lane after live validation.
                 ordinary.append(row)
                 tracked.pop(o['key'], None)
@@ -390,6 +426,9 @@ def scan(offers, cfg, state, client, now):
     deals = []
     for o in valid:
         pricing = price_check(o, list(quotes.values()), cfg, now, table.values())
+        if pricing and cfg.get('_fast_lane') and re.search(r'wachsendes chaos|optimale ordnung|ME[ -]?0[34]\b', o['title'], re.I) and o['franchise'] == 'Pokémon':
+            if Decimal(o['price']) > Decimal(pricing['baseline']) * Decimal('.80'):
+                pricing = None
         if not pricing:
             reject(o, 'PRICE_TOO_HIGH')
             continue
