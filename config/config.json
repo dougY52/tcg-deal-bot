@@ -1130,6 +1130,31 @@
       "allowed_sellers": [
         "Müller Handels GmbH & Co. KG"
       ]
+    },
+    {
+      "id": "ani-kuni",
+      "name": "ANI KUNI",
+      "base_url": "https://www.ani-kuni.de",
+      "trust_evidence": "https://www.ani-kuni.de/policies/legal-notice",
+      "reputation_evidence": "https://www.cardmarket.com/de/DragonBallSuper/Users/ani-kuni",
+      "payment_evidence": "https://www.ani-kuni.de/policies/shipping-policy",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "discovery_scope": "Bis zu 1000 Produkte; exakte Varianten werden separat live validiert. Impressum, Kontakt und Käuferschutz-Zahlungen geprüft."
+    },
+    {
+      "id": "daesu-cards",
+      "name": "DAESU CARDS",
+      "base_url": "https://daesu-cards.de",
+      "trust_evidence": "https://daesu-cards.de/policies/legal-notice",
+      "payment_evidence": "https://daesu-cards.de/policies/terms-of-service",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "discovery_scope": "Bis zu 1000 Produkte; exakte Varianten werden separat live validiert. Impressum, Kontakt und Käuferschutz-Zahlungen geprüft."
     }
   ],
   "references": [
@@ -1685,7 +1710,9 @@
       "sapphire-cards",
       "mediamarkt",
       "saturn",
-      "mueller"
+      "mueller",
+      "ani-kuni",
+      "daesu-cards"
     ],
     "seller_evidence": {},
     "shop_rules": {
@@ -1744,9 +1771,18 @@
       4
     ],
     "live_seconds": 140,
-    "catalog_interval_seconds": 1800,
-    "catalog_shops_per_run": 12,
-    "catalog_seconds": 80
+    "catalog_interval_seconds": 900,
+    "catalog_shops_per_run": 16,
+    "catalog_seconds": 80,
+    "fresh_seconds": 25,
+    "fresh_quotas": [
+      6,
+      3,
+      3,
+      3,
+      2,
+      1
+    ]
   },
   "retailer_sources": [
     {

@@ -138,6 +138,9 @@ def load_config(path):
         assert 900 <= fast['catalog_interval_seconds'] <= 10800
         assert 1 <= fast['catalog_shops_per_run'] <= 16
         assert 20 <= fast['catalog_seconds'] <= 90
+        assert 10 <= fast.get('fresh_seconds', 25) <= 30
+        assert len(fast.get('fresh_quotas', [6,3,3,3,2,1])) == 6
+        assert all(isinstance(n, int) and 1 <= n <= 8 for n in fast.get('fresh_quotas', [6,3,3,3,2,1]))
     coverage = cfg.get('retailer_coverage', {})
     if coverage.get('enabled'):
         assert 1 <= coverage['max_checks'] <= 6
@@ -367,6 +370,12 @@ def summary(report):
         pw = report['preorder_watch']
         text += f"## Preorder-Watch\n\nLive geprüft: {pw['checked']} · verschoben: {pw['deferred']} · gesendet: {pw['sent']}\n\n"
         text += '\n'.join(f'- REJECTED - {k}: {v}' for k, v in pw['rejected'].items()) + '\n\n'
+    if report.get('fast_watch'):
+        fast = report['fast_watch']
+        text += f"## Fast Watch\n\nBekannte Ziele: {fast.get('targets', 0)} · ausgewählt: {fast.get('selected', 0)} · live geprüft: {fast.get('checked', 0)}\n\n"
+    if report.get('fresh_watch'):
+        fresh = report['fresh_watch']
+        text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"
     if report['errors'] or report['warnings']:
         text += '## Hinweise / Fehler\n\n' + '\n'.join('- ' + x for x in report['errors'] + report['warnings']) + '\n\n'
     text += '## Produkte ohne freigegebenen Vergleichspreis (max. 30)\n\n'

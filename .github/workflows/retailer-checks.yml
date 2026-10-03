@@ -5,11 +5,14 @@ on:
       - 'tcg_bot/**'
       - 'tests/**'
       - 'scripts/audit_retailers.py'
+      - 'scripts/audit_fast_discovery.py'
+      - 'config/config.json'
       - 'config/retailer-audit.json'
       - '.github/workflows/retailer-checks.yml'
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   verify:
     if: github.event.repository.private == false
@@ -24,6 +27,10 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
+      - name: Diagnose production state and new shop validators
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -m scripts.audit_fast_discovery
       - name: Install public-page browser
         run: |
           python -m pip install -r requirements-browser.txt

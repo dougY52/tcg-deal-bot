@@ -89,13 +89,37 @@ def select(cfg, state):
     # Reserve checks for each franchise; oldest observation rotates all known sets.
     quotas = cfg['fast_watch'].get('quotas', [12, 8, 8, 8, 6, 4])
     selected = []
-    for bucket, quota in zip(buckets, quotas):
+    for group, (bucket, quota) in enumerate(zip(buckets, quotas)):
         bucket.sort(key=lambda r: (r.get('checked_at', 0), r['offer']['key']))
-        if bucket is buckets[0]:
+        # A large catalog from one host must not consume a franchise's quota.
+        hosts = {}
+        for record in bucket:
+            host = urlsplit(shops[record['offer']['shop']]['base_url']).netloc
+            hosts.setdefault(host, []).append(record)
+        bucket = [row for index in range(max((len(rows) for rows in hosts.values()), default=0))
+                  for rows in hosts.values() for row in rows[index:index+1]]
+        if group == 0:
             hot = [r for r in bucket if re.search(r'\bFB[ -]?11\b', r['offer']['title'], re.I)][:4]
             bucket = hot + [r for r in bucket if r not in hot]
         selected.extend(r['offer'] for r in bucket[:quota])
     return selected
+
+
+class ProductCache:
+    """Share fresh product JSON within one shop batch; never cache cart HTML."""
+    def __init__(self, client):
+        self.client = client
+        self.products = {}
+
+    def __getattr__(self, name):
+        return getattr(self.client, name)
+
+    def get(self, url):
+        if '/products/' not in url or '.js?' not in url:
+            return self.client.get(url)
+        if url not in self.products:
+            self.products[url] = self.client.get(url)
+        return copy.deepcopy(self.products[url])
 
 
 def fetch_live(selected, cfg, client, now):
@@ -106,7 +130,8 @@ def fetch_live(selected, cfg, client, now):
     end = time.monotonic() + cfg['fast_watch']['live_seconds']
     try:
         for group in range(6):
-            phase_end = min(end, time.monotonic() + (45, 25, 25, 20, 15, 10)[group])
+            phase_seconds = (45, 25, 25, 20, 15, 10)[group] * min(1, cfg['fast_watch']['live_seconds'] / 140)
+            phase_end = min(end, time.monotonic() + phase_seconds)
             if original is not None:
                 client.deadline = phase_end
             batches = {}
@@ -116,6 +141,7 @@ def fetch_live(selected, cfg, client, now):
             work = [dict(shops[sid], adapter='mms' if shops[sid]['adapter'] == 'mms' else 'fast_live', _targets=rows) for sid, rows in batches.items()]
             def fetch(shop, transport):
                 rows = []
+                transport = ProductCache(transport)
                 for o in shop['_targets']:
                     if time.monotonic() >= getattr(transport, 'deadline', phase_end):
                         break
@@ -174,26 +200,35 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         if key in state['fast_targets']:
             state['fast_targets'][key]['checked_at'] = now
     report['fast_watch'] = {'targets': len(state.get('fast_targets', {})), 'selected': len(selected), 'checked': audit['checked']}
-    limit = cfg.get('max_alerts_per_run') or len(deals)
-    report['pending_alerts'] = max(0, len(deals)-limit)
-    for deal in sorted(deals, key=lambda o: (priority(o), -o['priority_score']))[:limit]:
-        message = payload(deal)
-        report['alerts'].append({'key': deal['key'], 'reason': 'preorder_live' if deal['preorder_status'] else 'retail_restock', 'payload': message})
-        if send:
-            try:
-                message_id = send(message)
-            except Exception as exc:
-                report['errors'].append('Discord: '+type(exc).__name__)
+    delivery_failed = False
+    def deliver(found, lane_audit):
+        nonlocal delivery_failed
+        limit = cfg.get('max_alerts_per_run') or 1000
+        remaining = max(0, limit - len(report['alerts']))
+        report['pending_alerts'] += max(0, len(found) - remaining)
+        for deal in sorted(found, key=lambda o: (priority(o), -o['priority_score']))[:remaining]:
+            if delivery_failed:
                 break
-            preorders.delivered(state, deal, now, message_id)
-            report['sent'] += 1
-            audit['sent'] += 1
-            if checkpoint:
-                checkpoint(state)
+            message = payload(deal)
+            report['alerts'].append({'key': deal['key'], 'reason': 'preorder_live' if deal['preorder_status'] else 'retail_restock', 'payload': message})
+            if send:
+                try:
+                    message_id = send(message)
+                except Exception as exc:
+                    report['errors'].append('Discord: '+type(exc).__name__)
+                    delivery_failed = True
+                    break
+                preorders.delivered(state, deal, now, message_id)
+                report['sent'] += 1
+                lane_audit['sent'] += 1
+                if checkpoint:
+                    checkpoint(state)
+    deliver(deals, audit)
     state['fast_last_run'] = now
     if checkpoint:
         checkpoint(state)
     # Slow work follows delivery, has its own bounded budget, and never posts snippets.
+    before_catalog = {k: (r['offer'].get('price'), r['offer'].get('available'), r['offer'].get('title')) for k, r in state.get('fast_targets', {}).items()}
     catalog_state = state.setdefault('fast_catalog_checks', {})
     due = [s for s in cfg['shops'] if s.get('enabled', True) and
            now-catalog_state.get(s['id'], 0) >= settings['catalog_interval_seconds']]
@@ -213,6 +248,33 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     finally:
         if original is not None:
             client.deadline = original
+    # Newly discovered/changed catalog entries must not wait for next rotation.
+    # The catalog is only a hint: the same exact-variant live validator is required.
+    attempted = set(live_cfg.get('_fast_attempted', []))
+    changed = {k: r for k, r in state.get('fast_targets', {}).items()
+               if k not in attempted and before_catalog.get(k) !=
+               (r['offer'].get('price'), r['offer'].get('available'), r['offer'].get('title'))}
+    fresh_cfg = copy.deepcopy(cfg)
+    fresh_cfg['fast_watch']['quotas'] = settings.get('fresh_quotas', [6, 3, 3, 3, 2, 1])
+    fresh_cfg['fast_watch']['live_seconds'] = settings.get('fresh_seconds', 25)
+    fresh = select(fresh_cfg, {'fast_targets': changed})
+    if fresh:
+        fresh_cfg['_fast_lane'] = True
+        fresh_cfg['_fast_keys'] = [o['key'] for o in fresh]
+        fresh_cfg['_fast_groups'] = {o['key']: priority(o) for o in fresh}
+        fresh_cfg['preorder_watch'].update(max_live_checks=len(fresh), validation_seconds=25)
+        fresh_cfg['_fast_preloaded'] = fetch_live(fresh, fresh_cfg, client, now)
+        _, new_deals, fresh_audit = preorders.scan(fresh, fresh_cfg, state, client, now)
+        remember(fresh_cfg.get('_fast_observed', []), cfg, state, now)
+        for key in fresh_cfg.get('_fast_attempted', []):
+            if key in state['fast_targets']:
+                state['fast_targets'][key]['checked_at'] = now
+        for item in fresh_audit['candidates']:
+            reason = item['reason'].replace('REJECTED - ', 'REJECTED_')
+            report['skipped'][reason] = report['skipped'].get(reason, 0) + 1
+        deliver(new_deals, fresh_audit)
+        report['fresh_watch'] = fresh_audit
+    report['fast_watch']['new_or_changed'] = len(changed)
     from .retailer_coverage import check_sources
     report['retailer_coverage'] = check_sources(cfg, state, client, now)
     from .retailer_discovery import discover
