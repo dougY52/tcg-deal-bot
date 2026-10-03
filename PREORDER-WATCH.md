@@ -99,8 +99,11 @@ Erst ein erfolgreicher Discord-Versand setzt `last_alert`; Fehler und Dry-Runs
 verbrauchen keinen Alert. Der bestehende Checkpoint sichert nach jedem Versand.
 
 Pro Lauf gelten 24 Live-Kandidaten, höchstens 90 zusätzliche Sekunden und das
-bestehende gemeinsame Meldelimit. FB11 hat zwei reservierte Prüfplätze, die übrigen
-rotieren nach ältester Prüfung. Nicht geprüfte Kandidaten bleiben ausstehend.
+bestehende gemeinsame Meldelimit. FB11 hat zwei priorisierte Prüfplätze, bis zu vier weitere prüfen die ältesten
+Kandidaten unabhängig vom Katalogstatus. Die übrigen bevorzugen laut Katalog
+bestellbare Angebote mit passender Sprache und Produktart, besonders bei
+Statuswechseln. Innerhalb dieser Gruppen rotiert die älteste Prüfung.
+Kataloghinweise bestimmen nur die Reihenfolge, niemals die Alert-Freigabe. Nicht geprüfte Kandidaten bleiben ausstehend.
 Bei vielen Kandidaten wird daher **nicht jedes Produkt alle zehn Minuten** geprüft.
 Nicht mehr im Katalog sichtbare bekannte Kandidaten werden bis 14 Tage nachgeprüft.
 

@@ -264,10 +264,19 @@ def scan(offers, cfg, state, client, now):
             del tracked[key]
         elif old['offer']['shop'] in shops:
             pending.setdefault(key, old['offer'])
-    # Fair rotation within a priority tier; FB11 checked first without consuming all slots.
-    ranked = sorted(pending.values(), key=lambda o: tracked.get(o['key'], {}).get('checked_at', 0))
-    urgent = [o for o in ranked if re.search(r'\bFB[ -]?11\b', o['title'], re.I)]
-    selected = urgent[:2] + [o for o in ranked if o not in urgent[:2]]
+    # Catalog hints affect scheduling only; every alert still needs live proof.
+    oldest = sorted(pending.values(), key=lambda o: tracked.get(o['key'], {}).get('checked_at', 0))
+    def promising(o):
+        obj, _ = identity(o, cfg)
+        old = tracked.get(o['key'], {})
+        changed = old.get('offer', {}).get('available') != o.get('available')
+        return (not (o.get('available') is True and obj is not None), not changed,
+                old.get('checked_at', 0))
+    ranked = sorted(oldest, key=promising)
+    urgent = [o for o in ranked if re.search(r'\bFB[ -]?11\b', o['title'], re.I)][:2]
+    # Reserve background checks so cached OOS/wrong-language listings can recover.
+    audit = [o for o in oldest if o not in urgent][:min(4, settings.get('max_live_checks', 24) // 4)]
+    selected = urgent + audit + [o for o in ranked if o not in urgent and o not in audit]
     rejected = Counter()
     valid = []
     observed_keys = {o['key'] for o in offers}

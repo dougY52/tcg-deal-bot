@@ -300,6 +300,33 @@ class Preorders(unittest.TestCase):
         self.client.text = lambda u: original(u).replace('<form ', '<form hidden ')
         self.rejected('AMBIGUOUS_VARIANT')
 
+    def test_orderable_candidate_prioritized_without_starving_old_stock(self):
+        self.cfg['preorder_watch']['max_live_checks'] = 4
+        stale = [dict(self.offer, key='old:' + str(i), variant_id=str(i),
+                      title='Dragon Ball FB04 Display EN Preorder', available=False) for i in range(10)]
+        good = dict(self.offer, key='new:999', variant_id='999', title='Dragon Ball FB04 Display EN Preorder')
+        checked = []
+        def validator(o, *args):
+            checked.append(o['key'])
+            return None, 'OUT_OF_STOCK'
+        with patch('tcg_bot.preorders.live', side_effect=validator):
+            p.scan(stale + [good], self.cfg, self.state, self.client, NOW)
+        self.assertIn(good['key'], checked)
+        self.assertIn('old:0', checked)
+        self.assertEqual(len(checked), 4)
+
+    def test_catalog_wrong_language_deprioritized_not_trusted_as_final(self):
+        self.cfg['preorder_watch']['max_live_checks'] = 4
+        wrong = [dict(self.offer, key='wrong:' + str(i), title='Dragon Ball FB04 Display DE Preorder') for i in range(10)]
+        checked = []
+        def validator(o, *args):
+            checked.append(o['key'])
+            return None, 'OUT_OF_STOCK'
+        with patch('tcg_bot.preorders.live', side_effect=validator):
+            p.scan(wrong + [self.offer], self.cfg, self.state, self.client, NOW)
+        self.assertEqual(checked[0], self.offer['key'])
+        self.assertIn('wrong:0', checked)
+
 
 if __name__ == '__main__':
     unittest.main()
