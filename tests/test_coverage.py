@@ -122,3 +122,6 @@ class Coverage(unittest.TestCase):
     def test_woo_conflicting_stock_text_rejected(self):
         page=self.woo(availability_html='Ausverkauft')
         self.assertFalse(parse_woocommerce(self.woo_shop(),page,'https://sapphire.test/produkt/fb04/')[0]['available'])
+
+    def test_displaybreak_not_sealed_display(self):
+        self.assertIsNone(product_kind('Pokemon Optimale Ordnung Displaybreak am 09.04.2026'))

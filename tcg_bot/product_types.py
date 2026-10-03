@@ -6,7 +6,7 @@ from .rules import gtin_key
 LABELS = {'display': 'Booster-Display', 'etb': 'Top-Trainer-Box', 'tin': 'Tin',
           'mini_tin': 'Mini-Tin', 'bundle': 'Booster-Bundle', 'collection': 'Kollektion / Box',
           'blister': 'Blister', 'box': 'Sammelbox'}
-EXCLUDED = r'\b(?:psa|bgs|cgc|graded|grading|slab|gem mint|acryl\w*|acrylic\w*|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|decks?|deckbox|storage|aufbewahrung\w*|storagebox|boxbreak|case|hülle\w*|schutz\w*|beschädigt|damaged|einzelkarte\w*|single cards?|gebraucht|refurbished|b-ware|sticker|mystery|überraschung)\b'
+EXCLUDED = r'\b(?:display[ -]?break|case[ -]?break|psa|bgs|cgc|graded|grading|slab|gem mint|acryl\w*|acrylic\w*|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|decks?|deckbox|storage|aufbewahrung\w*|storagebox|boxbreak|case|hülle\w*|schutz\w*|beschädigt|damaged|einzelkarte\w*|single cards?|gebraucht|refurbished|b-ware|sticker|mystery|überraschung)\b'
 
 
 def product_kind(title):
