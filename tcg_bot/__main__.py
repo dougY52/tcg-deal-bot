@@ -15,7 +15,7 @@ from .discovery import discovery, discovery_payload
 from .rules import assess, prefer_german, observe, alert_reason, payload, franchise
 from .sources import ADAPTERS
 from .web_sources import html_catalog, mms, otto
-ADAPTERS.update(html_catalog=html_catalog, mms=mms, otto=otto)
+ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog, mms=mms, otto=otto)
 
 
 def load_config(path):
@@ -114,6 +114,8 @@ def load_config(path):
             assert ref['evidence_url'].startswith('https://')
             assert ref['kind'] in ('msrp', 'observed_retail', 'market_reference')
             assert date.fromisoformat(ref['valid_until']) >= date.fromisoformat(ref['verified_on'])
+    assert 1 <= cfg.get('scanner', {}).get('workers', 1) <= 4
+    assert 20 <= cfg.get('scanner', {}).get('source_seconds', 60) <= 120
     pw = cfg.get('preorder_watch', {})
     if pw.get('enabled'):
         assert 1 <= pw['max_live_checks'] <= 100
@@ -188,17 +190,17 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
         # Preserve the existing catalog baseline on upgrade, without a backlog flood.
         state['discovery_seen'] = {key: {'baseline': True} for key, item in state['offers'].items() if item.get('available') is True}
     offers, errors, warnings, shops = [], [], [], []
-    for shop in cfg['shops']:
-        if not shop.get('enabled', True):
+    from .scanning import collect
+    scanner = cfg.get('scanner', {})
+    for shop, rows, notes, error, seconds in collect(cfg['shops'], client, ADAPTERS,
+            scanner.get('workers', 1), scanner.get('source_seconds', 60)):
+        if error:
+            errors.append(shop['id'] + ': ' + error)
             continue
-        try:
-            rows, notes = ADAPTERS[shop['adapter']](shop, client)
-            offers.extend(rows)
-            shops.append({'shop': shop['id'], 'variants': len(rows), 'scope': shop.get('discovery_scope', '')})
-            warnings.extend(shop['id'] + ': ' + note for note in notes)
-        except Exception as exc:
-            # Source errors contain no response body, query secrets, or tracebacks.
-            errors.append(shop['id'] + ': ' + type(exc).__name__)
+        offers.extend(rows)
+        shops.append({'shop': shop['id'], 'variants': len(rows), 'seconds': seconds,
+                      'scope': shop.get('discovery_scope', '')})
+        warnings.extend(shop['id'] + ': ' + note for note in notes)
     if cfg.get('market', {}).get('enabled', False):
         from .market import evaluate, market_payload, delivery_key
         from .comparison import enrich

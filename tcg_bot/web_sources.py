@@ -112,6 +112,8 @@ def structured_products(document):
 
 
 def parse_structured(shop, body, page_url):
+    if shop.get('adapter') == 'woocommerce':
+        return parse_woocommerce(shop, body, page_url), []
     rows, links = [], []
     for product in structured_products(Document(body)):
         url = urljoin(page_url, product.get('url') or page_url)
@@ -152,6 +154,11 @@ def html_catalog(shop, client):
         try:
             body = client.text(url)
             parsed, links = parse_structured(shop, body, url)
+            if not is_catalog and shop.get('detail_description_hook'):
+                sections = [n.text() for n in Document(body).root.walk() if n.attrs.get('data-hook') == shop['detail_description_hook']]
+                if sections:
+                    for row in parsed:
+                        row['description'] += ' ' + sections[0]
             for row in parsed:
                 previous = [k for k, old in rows.items() if old['url'] == row['url']]
                 for key in previous:
@@ -288,3 +295,69 @@ def otto(shop, client):
         except Exception as exc: notes.append('Catalog unavailable: ' + type(exc).__name__)
     if not rows: raise ValueError('No OTTO catalog offers')
     return list(rows.values()), notes
+
+
+def parse_woocommerce(shop, body, page_url):
+    """Concrete WooCommerce variations, never a parent price/stock assumption."""
+    doc = Document(body)
+    titles = [n.text().strip() for n in doc.root.walk() if n.tag == 'h1']
+    if len(titles) != 1 or not any(plain(p.get('name', '')).strip() == titles[0] for p in structured_products(doc)):
+        return []
+    description = ' '.join(n.text() for n in doc.root.walk() if n.attrs.get('id') == 'tab-description')
+    if not description:
+        description = ' '.join(plain(p.get('description','')) for p in structured_products(doc) if plain(p.get('name','')).strip() == titles[0])
+    # Currency must come from this product's structured data, not shop prose.
+    currencies = {str(x.get('priceCurrency')) for p in structured_products(doc) for x in walk_json(p) if x.get('priceCurrency')}
+    if currencies != {'EUR'}:
+        return []
+    result = []
+    for form in doc.root.walk():
+        if form.tag != 'form' or form.attrs.get('method', '').lower() != 'post' or not form.attrs.get('data-product_id'):
+            continue
+        action = urljoin(page_url, form.attrs.get('action') or page_url)
+        if not same_site(action, shop['base_url']):
+            continue
+        try:
+            variations = json.loads(form.attrs.get('data-product_variations', 'null'))
+        except ValueError:
+            continue
+        if not isinstance(variations, list):
+            continue
+        inputs = {n.attrs.get('name'): n.attrs.get('value') for n in form.walk() if n.tag == 'input'}
+        if inputs.get('product_id') != form.attrs['data-product_id'] or inputs.get('add-to-cart') != form.attrs['data-product_id'] or 'variation_id' not in inputs:
+            continue
+        has_submit = any(n.tag == 'button' and n.attrs.get('type') == 'submit' and 'single_add_to_cart_button' in n.attrs.get('class','') and 'disabled' not in n.attrs and n.attrs.get('aria-disabled') != 'true' for n in form.walk())
+        for v in variations:
+            vid = str(v.get('variation_id', ''))
+            attributes = v.get('attributes', {})
+            if not vid.isdigit() or not attributes or any(not x for x in attributes.values()):
+                continue
+            # All attributes must have real selectable options on the product form.
+            selectable = all(any(n.tag == 'select' and 'disabled' not in n.attrs and n.attrs.get('name') == name and any(child.tag == 'option' and child.attrs.get('value') == value and 'disabled' not in child.attrs for child in n.walk()) for n in form.walk()) for name,value in attributes.items())
+            purchasable = has_submit and selectable and all(v.get(k) is True for k in ('is_in_stock','is_purchasable','variation_is_active','variation_is_visible'))
+            stock_text = plain(v.get('availability_html', ''))
+            preorder = v.get('is_pre_order') in (True, 'yes') or bool(re.search(r'vorbestell|pre[ -]?order', stock_text, re.I))
+            if re.search(r'out.of.stock|sold out|ausverkauft|nicht lieferbar|nicht vorrätig|notify|waitlist|benachrichtigen', stock_text, re.I):
+                purchasable = False
+            if v.get('backorders_allowed') and not preorder:
+                purchasable = False
+            if v.get('max_qty') in (0, '0'):
+                purchasable = False
+            from urllib.parse import urlencode
+            target = page_url.split('?')[0] + '?' + urlencode(dict(attributes, variation_id=vid))
+            try:
+                row = normalized(shop, target, titles[0], v.get('display_price'), bool(purchasable), sku=vid,
+                                 description=description + ' ' + plain(v.get('variation_description','')),
+                                 currency='EUR', preorder=preorder,
+                                 variant_validated=True, live_validated=True,
+                                 add_to_cart_available=bool(purchasable), cart_validated=False,
+                                 stock_text=plain(v.get('availability_html', '')),
+                                 availability_status='preorder' if preorder and purchasable else 'in_stock' if purchasable else 'out_of_stock',
+                                 preorder_status=preorder, shipping_cost=None, release_date=None)
+            except ValueError:
+                continue
+            row['variant'] = ' / '.join(attributes.values())
+            row['current_price'] = row['price']
+            row['product_url'] = target
+            result.append(row)
+    return result

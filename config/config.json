@@ -764,6 +764,353 @@
       "catalog_urls": [],
       "discovery_scope": "Deaktiviert: bisherige Einzelquellen liegen außerhalb der vier gewünschten Themen.",
       "enabled": false
+    },
+    {
+      "id": "brofessoreich-de",
+      "name": "Brofessor Eich",
+      "base_url": "https://brofessoreich.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://brofessoreich.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "cardgames24-de",
+      "name": "CardGames24",
+      "base_url": "https://cardgames24.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://cardgames24.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "gemcards-de",
+      "name": "GemCards",
+      "base_url": "https://gemcards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://gemcards.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "johtomarket-de",
+      "name": "JohtoMarket",
+      "base_url": "https://johtomarket.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://johtomarket.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Webshop führt aktuell nur Zubehör. Cardmarket-Bestand ist separat und damit nicht automatisch abgedeckt."
+    },
+    {
+      "id": "kartenkoloss-de",
+      "name": "Kartenkoloss",
+      "base_url": "https://kartenkoloss.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": false,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://kartenkoloss.de/pages/impressum",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Aktuell ausschließlich unpassende Sprachsortimente im geprüften Katalog; nicht als aktive Abdeckung gezählt."
+    },
+    {
+      "id": "liontcg-de",
+      "name": "LionTCG",
+      "base_url": "https://liontcg.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://liontcg.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "majincards-de",
+      "name": "MajinCards",
+      "base_url": "https://majincards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://majincards.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "newera-tcg-shop",
+      "name": "New Era TCG",
+      "base_url": "https://newera-tcg.shop",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://newera-tcg.shop/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "nikacards-de",
+      "name": "Nika Cards",
+      "base_url": "https://nikacards.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://nikacards.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "pirogamma-cards",
+      "name": "Pirogamma",
+      "base_url": "https://pirogamma.cards",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://pirogamma.cards/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "popatcg-de",
+      "name": "PoPa TCG",
+      "base_url": "https://popatcg.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://popatcg.de/pages/impressum",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "card-knights-de",
+      "name": "Card Knights",
+      "base_url": "https://www.card-knights.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.card-knights.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "crazycards-eu",
+      "name": "Crazy Cards",
+      "base_url": "https://www.crazycards.eu",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.crazycards.eu/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "mucollectibles-de",
+      "name": "MUCollectibles",
+      "base_url": "https://www.mucollectibles.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.mucollectibles.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "pokitrio-de",
+      "name": "Pokitrio",
+      "base_url": "https://www.pokitrio.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.pokitrio.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "rocketcardstore-de",
+      "name": "RocketCardStore",
+      "base_url": "https://www.rocketcardstore.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.rocketcardstore.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "teamlunti-de",
+      "name": "Team Lunti",
+      "base_url": "https://www.teamlunti.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.teamlunti.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "yonko-tcg-de",
+      "name": "YONKO TCG",
+      "base_url": "https://yonko-tcg.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://yonko-tcg.de/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "zenocards-com",
+      "name": "ZenoCards",
+      "base_url": "https://zenocards.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 4,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://zenocards.com/policies/legal-notice",
+        "verified_on": "2026-10-03",
+        "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
+      },
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+    },
+    {
+      "id": "yomirucards",
+      "name": "YomiruCards",
+      "base_url": "https://www.yomirucards.com",
+      "adapter": "html_catalog",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 20,
+      "catalog_urls": [
+        "https://www.yomirucards.com/shop"
+      ],
+      "product_urls": [
+        "https://www.yomirucards.com/product-page/dragon-ball-super-fusion-world-ultra-limit-fb04-display-englisch"
+      ],
+      "product_link_pattern": "/product-page/",
+      "allowed_sellers": [
+        "Yomiru inh. Michel Bleier",
+        "YomiruCards"
+      ],
+      "detail_description_hook": "info-section-description",
+      "discovery_scope": "Wix-Katalog zur Discovery, anschließend konkrete Produktseiten; bekannte FB04-Seite immer prüfen."
+    },
+    {
+      "id": "sapphire-cards",
+      "name": "Sapphire-Cards",
+      "base_url": "https://sapphire-cards.de",
+      "adapter": "woocommerce",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 24,
+      "catalog_urls": [
+        "https://sapphire-cards.de/dragonball-super/booster-displays-draft-boxen/",
+        "https://sapphire-cards.de/produkt-schlagwort/one-piece/",
+        "https://sapphire-cards.de/produkt-schlagwort/pokemon/"
+      ],
+      "product_urls": [
+        "https://sapphire-cards.de/produkt/dragon-ball-ultra-limit-fb-04-booster-box-display-fusion-world-en/"
+      ],
+      "product_link_pattern": "/produkt/",
+      "discovery_scope": "WooCommerce: konkrete Sprache/Variation mit is_in_stock, is_purchasable, aktiver Variante und passendem Bestellformular."
     }
   ],
   "references": [
@@ -953,6 +1300,45 @@
         {
           "url": "https://www.saturn.de/de/product/_the-pokemon-company-int-41079-pokemon-kp09-top-trainer-box-sammelkarten-2974734.html",
           "note": "Direkter Händlerpreis 59,99 EUR und Produkt-EAN aus öffentlicher Seite geprüft. Aktuell online nicht verfügbar. Keine Behauptung eines Filialbestands oder einer Hersteller-UVP."
+        }
+      ]
+    },
+    {
+      "id": "fb04-en-display24-retail-oct03",
+      "group": "fusion-fb04-display-en-24",
+      "language": "EN",
+      "packs": 24,
+      "sealed": true,
+      "retail_eur": "79.99",
+      "tolerance_pct": 0,
+      "kind": "observed_retail",
+      "verified_on": "2026-10-03",
+      "valid_until": "2026-10-17",
+      "title_pattern": "(?:Dragon\\s*Ball).*?(?:FB[ -]?04|Ultra Limit)",
+      "bindings": [
+        {
+          "shop": "yomirucards",
+          "handle": "web-05829035aa30a875685c",
+          "variant_id": "24814892332812935",
+          "variant_pattern": "Default\\ Title",
+          "url": "https://www.yomirucards.com/product-page/dragon-ball-super-fusion-world-ultra-limit-fb04-display-englisch"
+        },
+        {
+          "shop": "sapphire-cards",
+          "handle": "web-8ba8265675fa227ce59a",
+          "variant_id": "57145",
+          "variant_pattern": "englisch",
+          "url": "https://sapphire-cards.de/produkt/dragon-ball-ultra-limit-fb-04-booster-box-display-fusion-world-en/?attribute_pa_sprache=englisch&variation_id=57145"
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.yomirucards.com/product-page/dragon-ball-super-fusion-world-ultra-limit-fb04-display-englisch",
+          "note": "79,99 EUR, EN, 24 Booster auf Produktseite und Product-JSON-LD; Bestand wird je Scan erneut geprüft."
+        },
+        {
+          "url": "https://sapphire-cards.de/produkt/dragon-ball-ultra-limit-fb-04-booster-box-display-fusion-world-en/?attribute_pa_sprache=englisch&variation_id=57145",
+          "note": "84,99 EUR, englische Variation 57145 serverseitig kaufbar; beobachteter Händlerpreis, keine UVP."
         }
       ]
     }
@@ -1222,8 +1608,8 @@
   },
   "preorder_watch": {
     "enabled": true,
-    "max_live_checks": 24,
-    "validation_seconds": 90,
+    "max_live_checks": 96,
+    "validation_seconds": 120,
     "price_drop_pct": 5,
     "max_price_eur": 200,
     "trusted_shop_ids": [
@@ -1259,7 +1645,25 @@
       "lakecards",
       "breakthecase",
       "fantasiacards",
-      "spiele-spezi"
+      "spiele-spezi",
+      "brofessoreich-de",
+      "cardgames24-de",
+      "gemcards-de",
+      "liontcg-de",
+      "majincards-de",
+      "newera-tcg-shop",
+      "nikacards-de",
+      "pirogamma-cards",
+      "popatcg-de",
+      "card-knights-de",
+      "crazycards-eu",
+      "mucollectibles-de",
+      "pokitrio-de",
+      "rocketcardstore-de",
+      "teamlunti-de",
+      "yonko-tcg-de",
+      "zenocards-com",
+      "sapphire-cards"
     ],
     "seller_evidence": {},
     "shop_rules": {
@@ -1301,5 +1705,9 @@
         "source": "Nutzer-Preisorientierung vom 03.10.2026, keine Hersteller-UVP"
       }
     ]
+  },
+  "scanner": {
+    "workers": 4,
+    "source_seconds": 60
   }
 }

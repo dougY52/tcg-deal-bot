@@ -11,7 +11,7 @@ from statistics import median
 import unicodedata
 from urllib.parse import urlsplit
 
-from .product_types import product_kind, product_token
+from .product_types import product_kind, product_token, single_pack_variant
 from .rules import BAD, PREORDER, franchise, language, reference_matches, gtin_key
 
 
@@ -42,9 +42,13 @@ def normalize(o, cfg):
         return None, 'custom_assortment'
     if kind == 'box' and not re.search(r'booster|promokart|promo.card', text, re.I):
         return None, 'contents_uncertain'
+    if single_pack_variant(o.get('variant', '')):
+        return None, 'ambiguous_variant'
     if re.search(r'einzelbooster|single booster|\b1\s*(?:booster|pack)\b|\b[2-9]\s*[x×]\s*(?:display|booster.box)', o.get('variant', ''), re.I):
         return None, 'ambiguous_variant'
     preorder = bool(o.get('preorder') or re.search(PREORDER, title, re.I) or re.search(r'\b(?:vorbestell\w*|pre[ -]?order\w*|vorverkauf|lieferbar ab|versand (?:ab|ca))\b', o.get('description', ''), re.I))
+    if o.get('live_validated') and o.get('preorder_status') is False:
+        preorder = False
     release = o.get('release_date', '')
     if not release:
         match = re.search(r'(?:Release|Erscheinungsdatum|Liefertermin|Veröffentlichung)\s*[:–-]?\s*(\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{2}-\d{2})', text, re.I)

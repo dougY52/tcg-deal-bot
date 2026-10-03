@@ -16,7 +16,7 @@ from urllib.parse import quote, urlsplit
 
 from .rules import language
 from .sources import plain
-from .product_types import product_kind, product_token, EXCLUDED
+from .product_types import product_kind, product_token, EXCLUDED, single_pack_variant
 
 PREORDER = re.compile(r'vorbestell|pre[ -]?order|vorverkauf|coming soon|waitlist|notify me|benachrichtigen|lieferbar ab|versand ab', re.I)
 BLOCK = re.compile(r'waitlist|warteliste|notify me|benachrichtigen|einladungskauf|coming soon|backorder|nachbestellung', re.I)
@@ -29,11 +29,27 @@ def token(s):
     return re.sub(r'[^a-z0-9]+', '-', str(s).lower()).strip('-')
 
 
+def release_day(text):
+    match = re.search(r'(?:release(?:datum)?|erschein\w*|lieferbar ab|versand ab|vorverkauf)\s*(?:ist der|am|ab|:)?\s*(\d{4}-\d{2}-\d{2}|\d{1,2}\.\d{1,2}\.\d{4})', text, re.I)
+    if not match:
+        return None
+    try:
+        return datetime.strptime(match[1], '%Y-%m-%d' if '-' in match[1] else '%d.%m.%Y').date()
+    except ValueError:
+        return None
+
+
 def candidate(o):
     if o.get('live_validated') and o.get('availability_status') == 'in_stock' and not o.get('preorder_status'):
         return False
     text = o.get('title', '') + ' ' + o.get('description', '')
-    return bool(o.get('preorder') or o.get('release_date') or PREORDER.search(text) or re.search(r'(?:release|erschein\w*)\s*:?\s*\d', text, re.I))
+    released = release_day(text)
+    if o.get('release_date'):
+        try:
+            released = date.fromisoformat(str(o['release_date'])[:10])
+        except ValueError:
+            pass
+    return bool(o.get('preorder') or PREORDER.search(text) or (released and released > datetime.now(timezone.utc).date()))
 
 
 def identity(o, cfg):
@@ -55,6 +71,8 @@ def identity(o, cfg):
     exclusion_text = re.sub(r'deck.?sets?', '', text, flags=re.I) if family == 'One Piece' else text
     if re.search(EXCLUDED, exclusion_text, re.I) or re.search(r'selbst zusammengestellt|von uns zusammengestellt|händler.bundle|\bstacks?\b', text + ' ' + o.get('description', ''), re.I):
         return None, 'UNSUPPORTED_PRODUCT'
+    if single_pack_variant(o.get('variant', '')):
+        return None, 'AMBIGUOUS_VARIANT'
     kind = product_kind(text)
     if family == 'One Piece' and re.search(r'deck.?set', text, re.I):
         kind = 'deck_set'
@@ -114,6 +132,17 @@ class Forms(HTMLParser):
 
 def live(o, shop, client, now):
     """Fresh Shopify product endpoint plus exact product form; never use snippets."""
+    if shop['adapter'] == 'woocommerce' and not shop.get('marketplace'):
+        from .web_sources import parse_woocommerce
+        if urlsplit(o['url']).netloc != urlsplit(shop['base_url']).netloc:
+            return None, 'AMBIGUOUS_VARIANT'
+        url = o['url'] + ('&' if '?' in o['url'] else '?') + '_preorder_check=' + str(int(now))
+        rows = parse_woocommerce(shop, client.text(url), o['url'])
+        selected = [r for r in rows if r['variant_id'] == str(o['variant_id'])]
+        if len(selected) != 1:
+            return None, 'AMBIGUOUS_VARIANT'
+        row = selected[0]
+        return row, None if row['available'] else 'OUT_OF_STOCK'
     if shop['adapter'] != 'shopify' or shop.get('marketplace'):
         return None, 'UNSUPPORTED_LIVE_CHECK'
     handle, vid = o.get('handle', ''), str(o.get('variant_id', ''))
@@ -163,14 +192,15 @@ def live(o, shop, client, now):
     # Notify widgets elsewhere on the page do not override an exact active cart form.
     text = row['title'] + ' ' + row['description'] + ' ' + row['stock_text']
     preorder = bool(re.search(r'vorbestell|pre[ -]?order|vorverkauf|lieferbar ab|versand ab', text, re.I))
-    release = re.search(r'(?:release|erschein\w*|lieferbar ab|versand ab)\s*:?[\s]*(\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})', text, re.I)
-    if release:
-        try:
-            d = datetime.strptime(release[1], '%Y-%m-%d' if '-' in release[1] else '%d.%m.%Y').date()
-            row['release_date'] = d.isoformat()
-            preorder = preorder or d > datetime.fromtimestamp(now, timezone.utc).date()
-        except ValueError:
-            pass
+    released = release_day(text)
+    if released:
+        row['release_date'] = released.isoformat()
+        today = datetime.fromtimestamp(now, timezone.utc).date()
+        if released > today:
+            preorder = True
+        elif not re.search(r'vorbestell|pre[ -]?order', row['stock_text'] + ' ' + row['description'], re.I):
+            # Old release labels in a title must not quarantine normal stock forever.
+            preorder = False
     row.update(preorder=preorder, preorder_status=preorder, availability_status='preorder' if preorder else 'in_stock')
     return row, None
 
@@ -184,10 +214,10 @@ def seller_confidence(o, shop, settings):
     reviewed = evidence.get('legal_entity_verified') is True and evidence.get('buyer_protection') is True and evidence.get('evidence_url', '').startswith('https://') and evidence.get('review_count', 0) >= 20 and evidence.get('rating', 0) >= 4
     if not known and not reviewed:
         return None
-    return {'score': 90 if known else 80, 'known_retailer': known,
+    return {'score': shop.get('seller_score', 90) if known else 80, 'known_retailer': known,
             'buyer_protection': evidence.get('buyer_protection'), 'review_count': evidence.get('review_count'),
             'rating': evidence.get('rating'), 'red_flags': evidence.get('red_flags', []),
-            'note': 'Händler auf der konfigurierten Vertrauensliste.' if known else 'Geprüfte Firmendaten, Käuferschutz und Händlerhistorie laut hinterlegtem Nachweis.'}
+            'note': ('Händler-Basisprüfung: Impressum und Kontakt geprüft.' if shop.get('trust_evidence') else 'Händler auf der konfigurierten Vertrauensliste.') if known else 'Geprüfte Firmendaten, Käuferschutz und Händlerhistorie laut hinterlegtem Nachweis.'}
 
 
 def price_check(o, peers, cfg, now, history=()):

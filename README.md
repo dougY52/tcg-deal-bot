@@ -184,3 +184,5 @@ Deduplizierung. Einrichtung und bestehender Workflow bleiben erhalten.
 Regeln, unterstützte Checkout-Systeme und bewusste Grenzen stehen in
 [PREORDER-WATCH.md](PREORDER-WATCH.md). Einstellungen: `preorder_watch` in
 `config/config.json`. Die bestehenden normalen Deal-Filter bleiben bestehen.
+
+Händlererweiterung vom 03.10.2026: [aktive Quellen, Prüfungen und Grenzen](HAENDLER-ABDECKUNG.md).

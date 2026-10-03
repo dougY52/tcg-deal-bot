@@ -26,7 +26,9 @@ und [Cart API](https://shopify.dev/docs/api/ajax/reference/cart).
 Sapphire-Cards verlangt ausdrücklich konkrete Variante und frische Stock-Prüfung.
 Galeria verlangt zusätzlich eine technisch bestätigte Warenkorb-Funktion. Dafür
 existiert derzeit **kein Galeria-Adapter**, daher bleibt Galeria geschlossen.
-Auch andere Nicht-Shopify- und Marketplace-Checkout-Systeme bleiben im
+WooCommerce besitzt jetzt einen eigenen Validator für explizite Variation-Daten,
+Währung, auswählbare Sprache, Warenkorb-Formular und konkrete Kaufbarkeit.
+Sapphire-Cards nutzt diesen Adapter. Andere nicht unterstützte Checkout-Systeme bleiben im
 Preorder-Pfad `UNSUPPORTED_LIVE_CHECK`, bis ein überprüfter spezifischer Adapter
 existiert. Ihre bestehenden gewöhnlichen Scanner werden nicht entfernt.
 Ein beliebiger Shop lässt sich nicht zuverlässig durch einen universellen
@@ -98,7 +100,7 @@ beobachtete kurze Schließung oder nur behauptete neue „Welle“ wird nicht er
 Erst ein erfolgreicher Discord-Versand setzt `last_alert`; Fehler und Dry-Runs
 verbrauchen keinen Alert. Der bestehende Checkpoint sichert nach jedem Versand.
 
-Pro Lauf gelten 24 Live-Kandidaten, höchstens 90 zusätzliche Sekunden und das
+Pro Lauf gelten 96 Live-Kandidaten, höchstens 120 zusätzliche Sekunden und das
 bestehende gemeinsame Meldelimit. FB11 hat zwei priorisierte Prüfplätze, bis zu vier weitere prüfen die ältesten
 Kandidaten unabhängig vom Katalogstatus. Die übrigen bevorzugen laut Katalog
 bestellbare Angebote mit passender Sprache und Produktart, besonders bei
