@@ -1,0 +1,38 @@
+name: Retailer integration checks
+on:
+  pull_request:
+    paths:
+      - 'tcg_bot/**'
+      - 'tests/**'
+      - 'scripts/audit_retailers.py'
+      - 'config/retailer-audit.json'
+      - '.github/workflows/retailer-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Offline tests and config
+        run: |
+          python -m unittest discover -s tests -v
+          python -m tcg_bot --check-config
+      - name: Install public-page browser
+        run: |
+          python -m pip install -r requirements-browser.txt
+          python -m playwright install --with-deps chromium
+      - name: Audit retailer access without notifications
+        run: python -m scripts.audit_retailers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retailer-access-report
+          path: retailer-audit-report.json
+          retention-days: 7
