@@ -1219,5 +1219,87 @@
       "collection"
     ],
     "max_offer_price_eur": 200
+  },
+  "preorder_watch": {
+    "enabled": true,
+    "max_live_checks": 24,
+    "validation_seconds": 90,
+    "price_drop_pct": 5,
+    "max_price_eur": 200,
+    "trusted_shop_ids": [
+      "kartenzeche",
+      "cardbuddys",
+      "cardcosmos",
+      "skashcards",
+      "crispycards",
+      "tcgviert",
+      "webbas-kartenecke",
+      "celestial-gameshop",
+      "pokeminati",
+      "geeksheaven",
+      "card-collector",
+      "pushdich",
+      "vanessastcg-shop",
+      "mocards",
+      "crocus-cards",
+      "play-maniac",
+      "kartenschatz",
+      "cards-uniques",
+      "adventurecardz",
+      "tenkaichi",
+      "card-centre",
+      "toy-treasure",
+      "battle-bear",
+      "variety-cards",
+      "opasladen",
+      "cardsrfun",
+      "cardlegends",
+      "tcg-garden",
+      "moon-shadow",
+      "lakecards",
+      "breakthecase",
+      "fantasiacards",
+      "spiele-spezi"
+    ],
+    "seller_evidence": {},
+    "shop_rules": {
+      "sapphire-cards": {
+        "strict_variant_check": true,
+        "require_live_stock_validation": true
+      },
+      "galeria": {
+        "strict_cart_check": true
+      }
+    },
+    "price_references": [],
+    "user_price_guides": [
+      {
+        "franchise": "Dragon Ball",
+        "set_code": "FB02",
+        "language": "EN",
+        "ceiling_eur": "95",
+        "verified_on": "2026-10-03",
+        "valid_until": "2026-11-03",
+        "source": "Nutzer-Preisorientierung vom 03.10.2026, keine Hersteller-UVP"
+      },
+      {
+        "franchise": "Dragon Ball",
+        "set_code": "FB04",
+        "language": "EN",
+        "ceiling_eur": "85",
+        "verified_on": "2026-10-03",
+        "valid_until": "2026-11-03",
+        "source": "Nutzer-Preisorientierung vom 03.10.2026, keine Hersteller-UVP"
+      },
+      {
+        "franchise": "Dragon Ball",
+        "set_code": "FB11",
+        "language": "EN",
+        "ceiling_eur": "120",
+        "verified_on": "2026-10-03",
+        "valid_until": "2026-11-03",
+        "source": "Nutzer-Preisorientierung vom 03.10.2026, keine Hersteller-UVP"
+      }
+    ]
   }
 }

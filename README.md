@@ -175,3 +175,12 @@ Aktiv sind ausschließlich **Pokémon, One Piece, Naruto und Dragon Ball**. Ande
 `market.allowed_product_types` beschränkt Meldungen auf Booster-Displays, Top-/Elite-Trainer-Boxen, Kollektionen und Boxen mit Karteninhalt. Tins, Mini-Tins, Blister und Booster-Bundles sind ausgeschlossen. Auch gemischte Angebote mit Tins, erkennbare Stapel, Konvolute, selbst zusammengestellte Pakete und Mehrfach-Boxenangebote werden verworfen. Die Beschränkung gilt sowohl für Katalogfunde als auch für zusätzliche Suchtreffer und verhindert den Versand noch nicht gesendeter Tin-Angebote.
 
 Zusätzlich gilt die feste Angebotsgrenze `market.max_offer_price_eur = 200`: Produktpreise bis einschließlich 200 € sind zulässig, darüber wird kein Angebot gemeldet – auch keine teure Verfügbarkeitsmeldung. Eventuell zusätzliche Versandkosten stehen weiterhin gesondert in der Nachricht.
+
+## Eigenständiger Preorder-Watch
+
+Der normale Scan enthält einen separaten Preorder-Watch mit konkreter
+Live-Variantenprüfung, strenger Preisfreigabe, eigener Statushistorie und
+Deduplizierung. Einrichtung und bestehender Workflow bleiben erhalten.
+Regeln, unterstützte Checkout-Systeme und bewusste Grenzen stehen in
+[PREORDER-WATCH.md](PREORDER-WATCH.md). Einstellungen: `preorder_watch` in
+`config/config.json`. Die bestehenden normalen Deal-Filter bleiben bestehen.

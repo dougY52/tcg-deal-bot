@@ -114,6 +114,19 @@ def load_config(path):
             assert ref['evidence_url'].startswith('https://')
             assert ref['kind'] in ('msrp', 'observed_retail', 'market_reference')
             assert date.fromisoformat(ref['valid_until']) >= date.fromisoformat(ref['verified_on'])
+    pw = cfg.get('preorder_watch', {})
+    if pw.get('enabled'):
+        assert 1 <= pw['max_live_checks'] <= 100
+        assert 10 <= pw['validation_seconds'] <= 120
+        assert 5 <= pw['price_drop_pct'] <= 10
+        assert 0 < Decimal(str(pw['max_price_eur'])) <= 200
+        assert set(pw['trusted_shop_ids']) <= ids
+        for ref in pw.get('price_references', []) + pw.get('user_price_guides', []):
+            assert date.fromisoformat(ref['verified_on']) <= date.fromisoformat(ref['valid_until'])
+            amount = Decimal(str(ref.get('price_eur', ref.get('ceiling_eur'))))
+            assert amount.is_finite() and amount > 0
+        for ref in pw.get('price_references', []):
+            assert ref['kind'] in ('msrp', 'observed_retail') and ref['evidence_url'].startswith('https://')
     return cfg
 
 
@@ -189,13 +202,39 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
     if cfg.get('market', {}).get('enabled', False):
         from .market import evaluate, market_payload, delivery_key
         from .comparison import enrich
+        from . import preorders
+        offers, preorder_deals, preorder_report = preorders.scan(offers, cfg, state, client, now)
         research = enrich(offers, cfg, state, client, now)
+        if cfg.get('preorder_watch', {}).get('enabled'):
+            # Newly researched preorders must pass the live lane on a subsequent scan.
+            for offer in offers:
+                if preorders.candidate(offer):
+                    state.setdefault('preorder_tracking', {}).setdefault(offer['key'], {'offer': offer, 'last_discovered': now})
+            offers = [o for o in offers if not preorders.candidate(o)]
         deals, skipped, candidates = evaluate(offers, cfg, state, now)
         report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': skipped, 'price_research': research,
                   'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None,
                   'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0,
                   'pending_alerts': max(0, len(deals) - cfg['max_alerts_per_run']) if cfg['max_alerts_per_run'] else 0}
-        for deal in deals[:cfg['max_alerts_per_run']]:
+        report['preorder_watch'] = preorder_report
+        report['pending_alerts'] = max(0, len(deals) + len(preorder_deals) - (cfg['max_alerts_per_run'] or (len(deals) + len(preorder_deals))))
+        queue = [('preorder', d) for d in preorder_deals] + [('deal', d) for d in deals]
+        for lane, deal in queue[:cfg['max_alerts_per_run']]:
+            if lane == 'preorder':
+                message = preorders.payload(deal)
+                report['alerts'].append({'key': deal['key'], 'reason': 'preorder_live', 'rating': 'near_retail', 'payload': message})
+                if send:
+                    try:
+                        message_id = send(message)
+                    except Exception as exc:
+                        errors.append('Discord: ' + type(exc).__name__)
+                        break
+                    preorders.delivered(state, deal, now, message_id)
+                    report['sent'] += 1
+                    preorder_report['sent'] += 1
+                    if checkpoint:
+                        checkpoint(state)
+                continue
             message = market_payload(deal)
             report['alerts'].append({'key': deal['key'], 'reason': deal['reason'], 'rating': deal['rating'], 'payload': message})
             if send:
@@ -297,6 +336,10 @@ def summary(report):
     if report.get('local_stores'):
         text += '## Filialbestände\n\n' + report['local_stores']['status'] + '\n\n'
     text += '## Filter\n\n' + '\n'.join(f'- {k}: {v}' for k, v in report['skipped'].items()) + '\n\n'
+    if report.get('preorder_watch'):
+        pw = report['preorder_watch']
+        text += f"## Preorder-Watch\n\nLive geprüft: {pw['checked']} · verschoben: {pw['deferred']} · gesendet: {pw['sent']}\n\n"
+        text += '\n'.join(f'- REJECTED - {k}: {v}' for k, v in pw['rejected'].items()) + '\n\n'
     if report['errors'] or report['warnings']:
         text += '## Hinweise / Fehler\n\n' + '\n'.join('- ' + x for x in report['errors'] + report['warnings']) + '\n\n'
     text += '## Produkte ohne freigegebenen Vergleichspreis (max. 30)\n\n'
