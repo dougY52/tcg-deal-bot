@@ -25,8 +25,15 @@ def priority(o):
 def remember(rows, cfg, state, now):
     table = state.setdefault('fast_targets', {})
     for o in rows:
-        obj, _ = preorders.identity(o, cfg)
-        if obj:
+        obj, reason = preorders.identity(o, cfg)
+        # Retail catalog hints may omit language. Only a supported detail validator
+        # can promote these hints; unknown language never becomes an alert.
+        detail_hint = o['shop'] in ('mueller','mediamarkt','saturn') and reason == 'WRONG_LANGUAGE'
+        if detail_hint:
+            from .rules import language
+            from .product_types import product_kind
+            detail_hint = language(o) is None and product_kind(o.get('title','')) in ('display','etb','bundle','box','collection','tin')
+        if obj or detail_hint:
             # Parser keys can change; a seller's concrete variant is still one target.
             aliases = [k for k, r in table.items() if r['offer']['shop'] == o['shop'] and
                        str(r['offer']['variant_id']) == str(o['variant_id']) and

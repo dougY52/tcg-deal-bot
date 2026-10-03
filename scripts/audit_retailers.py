@@ -71,6 +71,13 @@ def main():
                     try:
                         client.deadline=time.monotonic()+25
                         detail={"retailer":"mueller-detail","url":link["url"],"http":inspect(client.text(link["url"]))}
+                        from tcg_bot.retailers import mueller_product
+                        sku=detail["http"]["products"][0].get("sku") if detail["http"].get("products") else None
+                        if sku:
+                            source={"id":"mueller","name":"Müller","base_url":"https://www.mueller.de","allowed_sellers":["Müller Handels GmbH & Co. KG"]}
+                            raw=client.text(link["url"])
+                            checked,reason=mueller_product(source,raw,link["url"],str(sku))
+                            detail["live_validator"]={"reason":reason,"available":checked.get("available") if checked else None}
                         print("RETAILER_AUDIT "+json.dumps(detail,ensure_ascii=False),flush=True)
                         output.append(detail)
                     except Exception as e:

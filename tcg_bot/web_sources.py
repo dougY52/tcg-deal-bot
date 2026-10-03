@@ -137,7 +137,7 @@ def parse_structured(shop, body, page_url):
             seller = seller.get('name') if isinstance(seller, dict) else seller
             try:
                 rows.append(normalized(shop, offer.get('url') or url, product['name'], offer['price'], stock,
-                                       sku=product.get('sku'), description=product.get('description', ''),
+                                       sku=product.get('sku') or (re.search(r'-(?:PPN|IPN)(\d+)', url).group(1) if shop.get('id') == 'mueller' and re.search(r'-(?:PPN|IPN)(\d+)', url) else None), description=product.get('description', ''),
                                        gtin=product.get('gtin13') or product.get('gtin') or '', seller=seller,
                                        currency=offer.get('priceCurrency', ''), condition=offer.get('itemCondition', product.get('itemCondition', '')), preorder=avail in ('PreOrder', 'BackOrder'), release_date=offer.get('availabilityStarts') or product.get('releaseDate') or ''))
             except ValueError: continue

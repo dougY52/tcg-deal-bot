@@ -1126,7 +1126,10 @@
         "https://www.mueller.de/b/pokemon/"
       ],
       "product_link_pattern": "/p/",
-      "discovery_scope": "Erreichbare Sammelkarten-/Pokémon-Kataloge; direkte Produktprüfung erforderlich. Noch kein bestätigter Bestelladapter."
+      "discovery_scope": "Katalog-Discovery plus exakte Produkt-ID-/Warenkorbprüfung. Filiallieferung ohne ausgewählte Filiale meldet keinen Onlinebestand.",
+      "allowed_sellers": [
+        "Müller Handels GmbH & Co. KG"
+      ]
     }
   ],
   "references": [
@@ -1681,7 +1684,8 @@
       "zenocards-com",
       "sapphire-cards",
       "mediamarkt",
-      "saturn"
+      "saturn",
+      "mueller"
     ],
     "seller_evidence": {},
     "shop_rules": {

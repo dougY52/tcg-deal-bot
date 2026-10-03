@@ -133,6 +133,9 @@ class Forms(HTMLParser):
 
 def live(o, shop, client, now):
     """Fresh Shopify product endpoint plus exact product form; never use snippets."""
+    if shop['id'] == 'mueller':
+        from .retailers import mueller_product
+        return mueller_product(shop, client.text(o['url']), o['url'], str(o['variant_id']))
     if shop['adapter'] == 'mms':
         from .web_sources import parse_mms, same_site
         if not same_site(o['url'], shop['base_url']):
@@ -229,7 +232,7 @@ def seller_confidence(o, shop, settings):
     evidence = settings.get('seller_evidence', {}).get(actual, {})
     if 'serious_scam_signal' in evidence.get('red_flags', []) or evidence.get('payment_only') in ('crypto', 'bank_transfer'):
         return None
-    known = shop['id'] in settings.get('trusted_shop_ids', []) and actual == shop['name'] and o.get('seller_verified') is True
+    known = shop['id'] in settings.get('trusted_shop_ids', []) and actual in shop.get('allowed_sellers', [shop['name']]) and o.get('seller_verified') is True
     reviewed = evidence.get('legal_entity_verified') is True and evidence.get('buyer_protection') is True and evidence.get('evidence_url', '').startswith('https://') and evidence.get('review_count', 0) >= 20 and evidence.get('rating', 0) >= 4
     if not known and not reviewed:
         return None

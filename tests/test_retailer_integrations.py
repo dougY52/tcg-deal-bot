@@ -60,3 +60,32 @@ class RetailerIntegrationTests(unittest.TestCase):
         self.assertEqual(report['checked'],2)
         self.assertEqual(report['sources'][0]['reason'],'HTTP 403')
         self.assertEqual(report['sources'][1]['status'],'reachable_discovery_only')
+
+class MuellerTests(unittest.TestCase):
+    def fixture(self,disabled=False,sku='42',home=True):
+        product={'@type':'Product','name':'Pokémon Test Top-Trainer-Box DE','sku':'42','description':'Deutsch',
+                 'offers':[{'price':54.99,'priceCurrency':'EUR','availability':'https://schema.org/InStock','url':'https://www.mueller.de/p/test-PPN42/?itemId=42','seller':{'name':'Müller Handels GmbH & Co. KG'}}]}
+        return '<main><h1>Pokémon Test Top-Trainer-Box DE</h1><script type="application/ld+json">'+json.dumps(product)+'</script><script>{"translation":"Dieses Produkt ist derzeit nicht nach Hause lieferbar"}</script>'+('Dieses Produkt ist derzeit nicht nach Hause lieferbar' if not home else 'Lieferung nach Hause: Lieferbar in 2 - 3 Werktagen')+'<button data-testid="pdp-addToCart-button" data-product-id="'+sku+'" aria-disabled="'+('true' if disabled else 'false')+'">In den Warenkorb</button></main>'
+    def parse(self,body):
+        from tcg_bot.retailers import mueller_product
+        source={'id':'mueller','name':'Müller','base_url':'https://www.mueller.de','allowed_sellers':['Müller Handels GmbH & Co. KG']}
+        return mueller_product(source,body,'https://www.mueller.de/p/test-PPN42/', '42')
+    def test_exact_product_button_and_live_price(self):
+        row,error=self.parse(self.fixture())
+        self.assertIsNone(error)
+        self.assertTrue(row['add_to_cart_available'])
+        self.assertEqual(row['price'],'54.99')
+    def test_disabled_or_other_variant_does_not_qualify(self):
+        for body in [self.fixture(disabled=True),self.fixture(sku='99')]:
+            self.assertEqual(self.parse(body)[1],'NO_CHECKOUT')
+    def test_branch_delivery_is_not_online_stock(self):
+        row,error=self.parse(self.fixture(home=False))
+        self.assertEqual(error,'LOCAL_STOCK_UNCONFIRMED')
+        self.assertFalse(row['available'])
+    def test_product_and_offer_id_must_match(self):
+        self.assertEqual(self.parse(self.fixture().replace('itemId=42','itemId=99'))[1],'AMBIGUOUS_VARIANT')
+    def test_discovery_uses_actual_mueller_id(self):
+        from tcg_bot.web_sources import parse_structured
+        data={'@type':'Product','name':'Pokémon Box DE','url':'https://www.mueller.de/p/test-PPN42/','offers':{'price':54.99,'priceCurrency':'EUR'}}
+        rows,_=parse_structured({'id':'mueller','name':'Müller','base_url':'https://www.mueller.de'},'<script type="application/ld+json">'+json.dumps(data)+'</script>','https://www.mueller.de/b/pokemon/')
+        self.assertEqual(rows[0]['variant_id'],'42')
