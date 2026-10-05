@@ -290,6 +290,16 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         deliver(new_deals, fresh_audit)
         report['fresh_watch'] = fresh_audit
     report['fast_watch']['new_or_changed'] = len(changed)
+    # Price information is daily per seller/variant, even without a retail anchor.
+    # Instant-deal deduplication remains separate and can still alert on a drop.
+    if not delivery_failed:
+        from . import daily_prices
+        daily = daily_prices.run(cfg, state, now, send, checkpoint,
+                                 max(0, (cfg.get('max_alerts_per_run') or 1000) - len(report['alerts'])))
+        report['daily_prices'] = daily
+        report['alerts'].extend(daily['alerts'])
+        report['sent'] += daily['sent']
+        report['errors'].extend(daily['errors'])
     from .retailer_coverage import check_sources
     report['retailer_coverage'] = check_sources(cfg, state, client, now)
     from .retailer_discovery import discover

@@ -141,6 +141,11 @@ def load_config(path):
         assert 10 <= fast.get('fresh_seconds', 25) <= 30
         assert len(fast.get('fresh_quotas', [6,3,3,3,2,1])) == 6
         assert all(isinstance(n, int) and 1 <= n <= 8 for n in fast.get('fresh_quotas', [6,3,3,3,2,1]))
+    daily = cfg.get('daily_prices', {})
+    if daily.get('enabled'):
+        assert 0 < Decimal(str(daily.get('max_price_eur', 200))) <= 200
+        assert 1 <= daily.get('offers_per_message', 4) <= 6
+        assert 1 <= daily.get('max_messages_per_run', 2) <= 3
     coverage = cfg.get('retailer_coverage', {})
     if coverage.get('enabled'):
         assert 1 <= coverage['max_checks'] <= 6
@@ -376,6 +381,9 @@ def summary(report):
     if report.get('fresh_watch'):
         fresh = report['fresh_watch']
         text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"
+    if report.get('daily_prices'):
+        daily = report['daily_prices']
+        text += f"Tägliche Preisinfo: {daily['eligible']} passende Live-Angebote · {daily['offers_sent']} Angebote in {daily['sent']} Nachrichten gesendet\n\n"
     if report['errors'] or report['warnings']:
         text += '## Hinweise / Fehler\n\n' + '\n'.join('- ' + x for x in report['errors'] + report['warnings']) + '\n\n'
     text += '## Produkte ohne freigegebenen Vergleichspreis (max. 30)\n\n'
