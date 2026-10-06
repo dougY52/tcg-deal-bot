@@ -46,6 +46,8 @@ def shopify(shop, client):
     shop.setdefault('_catalog_next_pages', dict(shop.get('_catalog_pages', {})))
     # Exact approved handles are always checked, even if discovery pagination stops.
     for handle in shop.get('watch_handles', []):
+        if shop.get('seed_watch_handles_once') and shop.get('_catalog_pages', {}).get('seeded:' + handle):
+            continue
         try:
             product = client.get(shop['base_url'] + '/products/' + quote(handle, safe='-') + '.js')
             product['body_html'] = product.get('description', '')
@@ -57,15 +59,17 @@ def shopify(shop, client):
             if product['handle'] != handle:
                 raise ValueError('Product identity mismatch')
             products[product['handle']] = product
+            if shop.get('seed_watch_handles_once'):
+                shop['_catalog_next_pages']['seeded:' + handle] = 1
         except Exception as exc:
             warnings.append('Watched product unavailable: ' + handle + ' (' + type(exc).__name__ + ')')
     endpoints = [shop['base_url'] + '/products.json']
     endpoints.extend(shop['base_url'] + '/collections/' + name + '/products.json' for name in shop.get('catalog_collections', []))
     if shop.get('rotate_collections') and len(endpoints) > 1:
-        targets = endpoints[1:]
+        targets = endpoints[1:] + endpoints[:1]
         index = shop.get('_catalog_pages', {}).get('_collection_index', 0) % len(targets)
         shop['_catalog_next_pages']['_collection_index'] = index + 1
-        endpoints = [targets[index], endpoints[0]]
+        endpoints = [targets[index]]
     for endpoint in endpoints:
         limit = shop.get('max_pages', 20)
         cursor = shop.get('_catalog_pages', {}).get(endpoint, 1)

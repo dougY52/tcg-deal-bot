@@ -187,6 +187,27 @@ class DiscoveryTests(unittest.TestCase):
         urls.clear()
         shopify(source,Client())
         self.assertIn('/collections/pokemon/',urls[0])
+        source={k:v for k,v in source.items() if k!='_catalog_next_pages'}|{'_catalog_pages':dict(source['_catalog_next_pages'])}
+        urls.clear()
+        shopify(source,Client())
+        self.assertEqual(urls[0],'https://example.test/products.json?limit=250&page=1')
+    def test_known_handle_seeds_once_then_allows_catalog_budget(self):
+        from tcg_bot.sources import shopify
+        source=shop('shopify')|{'max_pages':1,'watch_handles':['fb11'],'seed_watch_handles_once':True}
+        calls=[]
+        class Transport:
+            def get(self,url):
+                calls.append(url)
+                if '.js' in url and '.json' not in url:
+                    return {'handle':'fb11','title':'Dragon Ball FB11 Display EN','description':'',
+                            'variants':[{'id':123,'price':10000,'available':True}]}
+                return {'products':[]}
+        self.assertEqual(len(shopify(source,Transport())[0]),1)
+        source={k:v for k,v in source.items() if k!='_catalog_next_pages'}|{'_catalog_pages':dict(source['_catalog_next_pages'])}
+        calls.clear()
+        shopify(source,Transport())
+        self.assertEqual(calls,['https://example.test/products.json?limit=250&page=1'])
+
 
     def test_html_catalog_and_details_rotate(self):
         source=shop()|{'catalog_urls':['https://example.test/a','https://example.test/b'],

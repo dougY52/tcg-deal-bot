@@ -6,7 +6,7 @@ Die Kartenwacht-Händlerliste dient als Recherchequelle. Der Bot prüft direkt b
 
 Zehn neue Einträge im bestehenden Scanner: TobisToys, Kroko Games, Animeboy, Mulligan TCG, Feenturm, Card Club, Nerdbank, CardCatcher, KEEPSEVEN und Freispiel Freiburg.
 
-- Shopify: rotierende gezielte TCG-Kategorie plus allgemeiner Katalog. Produkt-JSON und konkrete Variante/Formular werden vor einem Alert neu gelesen. Ausgewählte `select name=id`-Varianten (TobisToys) und „Zum Warenkorb“ (Nerdbank) werden unterstützt.
+- Shopify: gezielte TCG-Kategorien und allgemeiner Katalog in Rotation. Produkt-JSON und konkrete Variante/Formular werden vor einem Alert neu gelesen. Ausgewählte `select name=id`-Varianten (TobisToys) und „Zum Warenkorb“ (Nerdbank) werden unterstützt.
 - CardCatcher/JTL: eigene Produktseite, übereinstimmende Überschrift/SKU, EUR-Angebot, eindeutiges `buy_form`, Artikel-ID und dazugehöriges Mengenfeld. Variantenwahlen und fremde Warenkorbformulare werden abgelehnt.
 - WooCommerce: zusätzlich zu bestehenden konkreten Variationen auch einfache Produkte mit passendem Bestellformular. Artikel ohne Formular bleiben unbestätigt; explizit ausverkaufte Produkte bleiben ausverkauft.
 - HTML-Kategorien und Produktlinks rotieren mit persistenten Cursorn. Boxen, Bundles und Kollektionen werden ebenfalls entdeckt. Fehlende Katalogsprache darf eine Live-Prüfung auslösen, aber niemals die Sprachregel für einen Alert ersetzen.
@@ -26,7 +26,7 @@ Ein konfigurierter Katalog ist keine Garantie, dass jeder Artikel live verifizie
 | CardCatcher | One Piece Premium Card Collection Vol. 6 EN, 54,99 € mit Produktformular bestätigt. |
 | Freispiel Freiburg | OP-Displays erfasst; geprüfte Beispiele ausverkauft, korrekt kein Alert. Positiver Checkout zusätzlich per Regressionstest abgedeckt. |
 | Kroko Games | Katalog erreichbar; viele Angaben ohne explizite Kartensprache. Live-Prüfung muss die Sprache bestätigen. |
-| Nerdbank | Katalog erreichbar; Crawl-/Zeitbudget begrenzt einzelne Läufe. Gezielte Kategorien rotieren, bekannte Naruto-Seite wird zusätzlich geprüft. |
+| Nerdbank | Katalog erreichbar; Crawl-/Zeitbudget begrenzt einzelne Läufe. Gezielte Kategorien rotieren, bekannte Naruto-Seite wird einmalig in den schnellen Watch übernommen. |
 | Card Club | Katalog erreichbar; deaktivierte Varianten-ID im HTML verhindert derzeit die Checkout-Freigabe bei geprüften Produkten. Kein blindes Annehmen einer JavaScript-Freischaltung. |
 | KEEPSEVEN | Adapter vorbereitet und regelmäßig im Scan, derzeit HTTP 403 bei Kategorieseiten. |
 | Collect-it / Comicplanet | HTTP 503 beim automatisierten Zugriff; weiterhin Erreichbarkeits-/Discovery-Quellen, keine freigegebenen Alerts. |
