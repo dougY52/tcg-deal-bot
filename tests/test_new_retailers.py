@@ -82,6 +82,26 @@ class CheckoutTests(unittest.TestCase):
         p.delivered(state,wave,NOW+300,'id3')
         client.body=page(price=90)
         self.assertEqual(len(scan(NOW+360)),1)
+    def test_fast_watch_only_sends_first_confirmed_offer(self):
+        from tcg_bot import fast_watch as f
+        cfg=load_config('config/config.json')
+        cfg['shops']=[shop()]
+        cfg['preorder_watch']['trusted_shop_ids']=['example']
+        cfg['daily_prices']['enabled']=False
+        cfg['retailer_coverage']['enabled']=False
+        cfg['retailer_sources']=[]
+        state={'version':1,'offers':{},'fast_bootstrapped':True,'retailer_discovery_at':NOW}
+        row=single_product(shop(),page(),URL)[0]
+        f.remember([row],cfg,state,NOW)
+        client=type('Client',(),{'text':lambda self,url:page()})()
+        sent=[]
+        for at in [NOW,NOW+300]:
+            report=f.run(cfg,state,client,{'jtl':lambda *_:([],[])},send=lambda msg:sent.append(msg) or 'id',now=at)
+        self.assertEqual(len(sent),1)
+        self.assertEqual(report['sent'],0)
+    def test_zero_quantity_not_orderable(self):
+        body=page().replace('name="anzahl"','name="anzahl" max="0"')
+        self.assertFalse(single_product(shop(),body,URL)[0]['add_to_cart_available'])
     def test_wrong_live_language(self):
         body=page().replace('Display EN','Display JP')
         row=single_product(shop(),body,URL)[0]
@@ -121,6 +141,37 @@ class ShopifyCartTests(unittest.TestCase):
         self.assertEqual(p.identity(row,load_config('config/config.json'))[0]['edition'],'second')
 
 class DiscoveryTests(unittest.TestCase):
+    def test_missing_language_is_only_a_hint(self):
+        from tcg_bot.fast_watch import remember
+        cfg=load_config('config/config.json')
+        cfg['shops']=[shop('shopify')|{'live_language_discovery':True}]
+        row=dict(key='example:1',shop='example',shop_name='Example Cards',seller='Example Cards',
+                 variant_id='1',title='Pokémon Booster Display',variant='Default Title',description='',
+                 price='100',currency='EUR',available=True)
+        state={}
+        remember([row],cfg,state,NOW)
+        self.assertIn('example:1',state['fast_targets'])
+        self.assertEqual(p.identity(row,cfg)[1],'WRONG_LANGUAGE')
+        state={}
+        remember([row|{'title':'Pokémon Booster Display Englisch'}],cfg,state,NOW)
+        self.assertEqual(state['fast_targets'],{})
+    def test_targeted_shopify_collection_rotation_keeps_other_cursors(self):
+        from tcg_bot.sources import shopify
+        source=shop('shopify')|{'max_pages':1,'catalog_collections':['dragon-ball','pokemon'],'rotate_collections':True,
+                              '_catalog_pages':{'untouched':7}}
+        urls=[]
+        class Client:
+            def get(self,url):
+                urls.append(url)
+                return {'products':[]}
+        shopify(source,Client())
+        self.assertIn('/collections/dragon-ball/',urls[0])
+        self.assertEqual(source['_catalog_next_pages']['untouched'],7)
+        source={k:v for k,v in source.items() if k!='_catalog_next_pages'}|{'_catalog_pages':dict(source['_catalog_next_pages'])}
+        urls.clear()
+        shopify(source,Client())
+        self.assertIn('/collections/pokemon/',urls[0])
+
     def test_html_catalog_and_details_rotate(self):
         source=shop()|{'catalog_urls':['https://example.test/a','https://example.test/b'],
                        'rotate_catalogs':True,'max_detail_pages':1,'product_link_pattern':'/Dragon-Ball-'}
@@ -133,11 +184,11 @@ class DiscoveryTests(unittest.TestCase):
         html_catalog(source,Client())
         self.assertEqual(calls[0],'https://example.test/a')
         self.assertIn(URL+'0',calls)
-        source['_catalog_pages']=source['_catalog_next_pages']
+        source={k:v for k,v in source.items() if k != '_catalog_next_pages'} | {'_catalog_pages':dict(source['_catalog_next_pages'])}
         calls.clear()
         html_catalog(source,Client())
         self.assertEqual(calls[0],'https://example.test/b')
-        source['_catalog_pages']=source['_catalog_next_pages']
+        source={k:v for k,v in source.items() if k != '_catalog_next_pages'} | {'_catalog_pages':dict(source['_catalog_next_pages'])}
         calls.clear()
         html_catalog(source,Client())
         self.assertIn(URL+'1',calls)

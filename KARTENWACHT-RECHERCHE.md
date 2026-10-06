@@ -1,6 +1,6 @@
 # Kartenwacht: Quellen und Nutzen für unseren Bot
 
-Recherche: 06.10.2026. Konfigurationsabgleich mit main, Commit 2638d26fd75a5403eacb446fcfc0fbe292918dac. Keine neuen Scanner oder Preisfreigaben durch dieses Dokument.
+Recherche: 06.10.2026. Konfigurationsabgleich mit main, Commit 2638d26fd75a5403eacb446fcfc0fbe292918dac. Historischer Rechercheabgleich; anschließende Anbindung und aktuelle Einschränkungen stehen in [NEUE-HAENDLER.md](NEUE-HAENDLER.md).
 
 ## Öffentlich belegte Arbeitsweise
 
@@ -13,7 +13,7 @@ Die aktuelle Startseite nennt 49 deutsche Händler und führt One Piece und Naru
 Die [Händlerübersicht](https://kartenwacht.de/haendler) nennt für unsere Recherche unter anderem Games Island, Hiveworld, Collect-it, Nerdbank, TobisToys, Comicplanet, Kroko Games, Card Club, CardCatcher, Animeboy, Mulligan TCG, KEEPSEVEN, Feenturm, Freispiel Freiburg und bb-spiele.
 
 Abgleich mit unserem Repository:
-- Keiner dieser 15 Namen ist derzeit als eigener Katalogscanner in `shops` hinterlegt.
+- Zum Zeitpunkt des Rechercheabgleichs war keiner dieser 15 Namen als eigener Katalogscanner in `shops` hinterlegt.
 - Games Island ist bereits unter `retailer_sources` als `online_unvalidated` hinterlegt. Das ist eine vorhandene Quelle zur Erreichbarkeitsprüfung, keine bestätigte vollständige Produkterfassung.
 - Andere Kartenwacht-Händler wie CardCosmos, CrispyCards, CardBuddys, Battle Bear, Gate, GeeksHeaven, Fantasia, TCG Garden und Sapphire sind bei uns schon als Shops konfiguriert. Ihre bloße erneute Nennung vergrößert unsere Abdeckung nicht.
 - TobisToys/Comicplanet waren bereits Recherchehinweise; der Unterschied zwischen Hinweis und Scanner bleibt ausdrücklich sichtbar.
@@ -26,6 +26,6 @@ Bei Games Island zeigt das Profil viele Einträge ohne numerischen Preis. Auch K
 
 Die öffentliche Übersicht eignet sich zur Auswahl zusätzlicher Händler und konkreter Produkt-URLs. Für unseren schnellen Watch anschließend direkt beim Händler prüfen: korrekte Variante/Sprache, Preis, Versand, Checkout und Verkäufernachweise. Betreibergruppen und bestehende Quellen deduplizieren.
 
-Keine ungeprüfte Weiterleitung fremder Dealmeldungen; keine Umgehung der Mitglieder-/Veröffentlichungsverzögerung. Eine Händlerliste ersetzt keinen getesteten Adapter. Die tatsächliche Anbindung erfordert pro Shop Produktprüfung, passende Erfassung und Tests und wurde in dieser Recherche noch nicht vorgenommen.
+Keine ungeprüfte Weiterleitung fremder Dealmeldungen; keine Umgehung der Mitglieder-/Veröffentlichungsverzögerung. Eine Händlerliste ersetzt keinen getesteten Adapter. Die tatsächliche Anbindung erfordert pro Shop Produktprüfung, passende Erfassung und Tests und wurde anschließend für zehn Kataloge umgesetzt; die Grenzen je Händler stehen in [NEUE-HAENDLER.md](NEUE-HAENDLER.md).
 
 Aktueller Nutzerfokus: Deutschland; keine Erweiterung um ausländische Händler. Bestehende 14 Auslandseinträge bleiben aus.

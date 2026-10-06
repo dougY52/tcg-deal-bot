@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from tcg_bot.__main__ import load_config, ADAPTERS
 from tcg_bot.http import Client
 from tcg_bot.preorders import identity, live, seller_confidence, price_check
-from tcg_bot.fast_watch import priority
+from tcg_bot.fast_watch import priority, remember
 
 def inspect(body):
     doc=Document(body)
@@ -46,7 +46,9 @@ def audit(target, cfg):
         client.deadline=time.monotonic()+20
         rows, notes=ADAPTERS[shop['adapter']](shop,client)
         client.deadline=time.monotonic()+40
-        eligible=[o for o in rows if identity(o,cfg)[0] and float(o['price'])<=200]
+        hints={}
+        remember(rows,cfg,hints,time.time())
+        eligible=[r['offer'] for r in hints.get('fast_targets',{}).values() if float(r['offer']['price'])<=200]
         out.update(variants=len(rows), relevant=len(eligible), notes=notes)
         # Exercise an open and a closed product when available. No snippets are promoted.
         eligible.sort(key=lambda o:(not o.get('available'), priority(o)))

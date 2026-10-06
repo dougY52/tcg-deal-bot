@@ -252,7 +252,7 @@ def live(o, shop, client, now):
     row['stock_text'] = ' '.join(b['text'].strip() for b in buttons)[:300]
     if not order:
         reason = 'WAITLIST' if BLOCK.search(row['stock_text']) else 'OUT_OF_STOCK' if re.search(r'sold out|ausverkauft|nicht lieferbar|out of stock', row['stock_text'], re.I) else 'NO_CHECKOUT'
-        return dict(row, availability_status='out_of_stock' if reason == 'OUT_OF_STOCK' else 'waitlist', preorder_status=False), reason
+        return dict(row, availability_status='out_of_stock' if reason == 'OUT_OF_STOCK' else 'waitlist' if reason == 'WAITLIST' else 'unknown', preorder_status=False), reason
     row['add_to_cart_available'] = True
     # Notify widgets elsewhere on the page do not override an exact active cart form.
     text = row['title'] + ' ' + row['description'] + ' ' + row['stock_text']

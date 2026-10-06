@@ -1175,7 +1175,8 @@
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "kroko-games",
@@ -1196,7 +1197,8 @@
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "animeboy",
@@ -1219,7 +1221,8 @@
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "mulligan-tcg",
@@ -1241,7 +1244,8 @@
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "feenturm",
@@ -1264,7 +1268,8 @@
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert. 30-Jahre-/Bund-Zirkelprodukte vorerst gesperrt, da nur für freigeschaltete Mitglieder.",
       "checkout_exclude_pattern": "30(?:th|\\s*jahre)|bund der magischen|nur.{0,30}(?:mitglied|zirkel)|ausschließlich.{0,40}(?:mitglied|zirkel)",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "card-club",
@@ -1286,7 +1291,8 @@
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true
     },
     {
       "id": "nerdbank",
@@ -1310,7 +1316,11 @@
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
       "trust_note": "Händler-Basisprüfung: öffentlicher Inhaber, deutsche Anschrift, Kontakt und PayPal; Impressumsabruf gesperrt.",
-      "rotate_collections": true
+      "rotate_collections": true,
+      "live_language_discovery": true,
+      "watch_handles": [
+        "naruto-mythos-tcg-display-1st-edition-en"
+      ]
     },
     {
       "id": "cardcatcher",
@@ -1333,7 +1343,8 @@
         "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
       },
       "seller_score": 75,
-      "discovery_scope": "JTL: Produkt-SKU, eindeutiges buy_form, Artikel-ID und Mengenfeld plus EUR-Preis. Unaufgelöste Varianten bleiben gesperrt."
+      "discovery_scope": "JTL: Produkt-SKU, eindeutiges buy_form, Artikel-ID und Mengenfeld plus EUR-Preis. Unaufgelöste Varianten bleiben gesperrt.",
+      "live_language_discovery": true
     },
     {
       "id": "keepseven",
@@ -1357,7 +1368,8 @@
         "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
       },
       "seller_score": 75,
-      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert."
+      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert.",
+      "live_language_discovery": true
     },
     {
       "id": "freispiel-freiburg",
@@ -1380,7 +1392,8 @@
         "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
       },
       "seller_score": 75,
-      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert."
+      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert.",
+      "live_language_discovery": true
     }
   ],
   "references": [

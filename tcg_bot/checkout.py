@@ -75,6 +75,8 @@ def single_product(shop, body, url):
             continue
         nodes = list(controls(f))
         inputs = {n.attrs.get('name'): n.attrs.get('value', '') for n in nodes if n.tag == 'input'}
+        if any(n.attrs.get('max') in ('0','0.0') for n in nodes if n.attrs.get('name') in ('quantity','anzahl')):
+            continue
         # Variant selectors/configurators require a dedicated variant validator.
         if any(n.tag == 'select' and n.attrs.get('name') not in ('quantity','anzahl') or
                n.tag == 'input' and (n.attrs.get('type') == 'radio' or n.attrs.get('name', '').startswith(('attribute_', 'eigenschaft'))) for n in nodes):
