@@ -17,7 +17,7 @@ def safe(text, limit=150):
     return re.sub(r'[\\*_~`|<>\[\]\r\n]', '', str(text))[:limit]
 
 
-def eligible(cfg, state, now):
+def eligible(cfg, state, now, daily_only=True):
     """Only quotes validated by this run; stale saved stock never becomes a post."""
     settings = cfg.get('daily_prices', {})
     maximum = min(Decimal(str(settings.get('max_price_eur', 200))),
@@ -52,10 +52,10 @@ def eligible(cfg, state, now):
         if url.scheme != 'https' or url.username or url.password:
             continue
         key = row['product_key']
-        if key in sent:
+        if daily_only and key in sent:
             continue
         last = state.get('preorder_products', {}).get(key, {}).get('last_alert', {})
-        if last.get('at') and day(last['at']) == day(now):
+        if daily_only and last.get('at') and day(last['at']) == day(now):
             continue
         pricing = preorders.price_check(row, list(state.get('preorder_quotes', {}).values()),
                                         dict(cfg, _fast_lane=True), now,
@@ -88,7 +88,7 @@ def message(rows, now):
         url = row['url'].replace(')', '%29').replace('(', '%28').replace(' ', '%20')
         lines.append(f"**{safe(row['title'], 125)}**\n"
                      f"{safe(row['seller'], 50)} · {row['language']} · **{money(row['price'])}** · {status}\n"
-                     f"{costs} · {row['daily_note']}\n[Zum Angebot]({url})")
+                     f"{costs} · {row.get('daily_note', 'Preisvergleich offen; kein bestätigter UVP-Deal')}\n[Zum Angebot]({url})")
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
         'title': '📋 Tägliche Preise · ' + local.strftime('%d.%m.%Y'),
         'color': 0x3498DB,
@@ -102,6 +102,23 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
     report = {'eligible': 0, 'sent': 0, 'offers_sent': 0, 'alerts': [], 'errors': []}
     settings = cfg.get('daily_prices', {})
     if not settings.get('enabled'):
+        return report
+    # Central chat reads this observed-price snapshot. It does not itself
+    # schedule ChatGPT messages or claim saved quotes are still live.
+    overview = state.get('daily_price_overview', {})
+    observed = overview.get('offers', {}) if overview.get('day') == day(now) else {}
+    for key, row in list(observed.items()):
+        latest = state.get('preorder_products', {}).get(key, {})
+        if latest.get('last_seen', 0) >= row.get('validated_at', 0) and (
+                latest.get('status') not in ('in_stock', 'preorder') or
+                Decimal(str(latest.get('price', row['price']))) != Decimal(row['price'])):
+            observed.pop(key, None)
+    for row in eligible(cfg, state, now, daily_only=False):
+        observed[row['product_key']] = row
+    state['daily_price_overview'] = {'day': day(now), 'updated_at': now, 'offers': observed}
+    report['overview_offers'] = len(observed)
+    if not settings.get('discord_enabled', False):
+        report['eligible'] = len(observed)
         return report
     rows = eligible(cfg, state, now)
     report['eligible'] = len(rows)

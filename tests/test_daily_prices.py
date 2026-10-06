@@ -10,6 +10,7 @@ class DailyPrices(unittest.TestCase):
     def setUp(self):
         fixtures.Preorders.setUp(self)
         self.cfg['daily_prices']['enabled'] = True
+        self.cfg['daily_prices']['discord_enabled'] = True
         self.cfg['preorder_watch']['user_price_guides'] = []
         self.cfg['references'] = []
         self.client.product['title'] = 'Dragon Ball Fusion World FB03 Raging Roar Display EN Preorder'
@@ -113,6 +114,35 @@ class DailyPrices(unittest.TestCase):
                            send=lambda _: 'message', now=fixtures.NOW)
         self.assertEqual(report['sent'], 1)
         self.assertEqual(report['daily_prices']['offers_sent'], 1)
+
+    def test_central_overview_does_not_send_discord(self):
+        self.cfg['daily_prices']['discord_enabled'] = False
+        self.validate()
+        report = d.run(self.cfg, self.state, fixtures.NOW, lambda _: self.fail('daily Discord disabled'))
+        self.assertEqual(report['sent'], 0)
+        self.assertEqual(report['overview_offers'], 1)
+        row = next(iter(self.state['daily_price_overview']['offers'].values()))
+        self.assertEqual(row['price'], '79.99')
+        self.assertEqual(row['validated_at'], fixtures.NOW)
+
+    def test_overview_removes_confirmed_soldout_or_changed_price(self):
+        self.cfg['daily_prices']['discord_enabled'] = False
+        self.validate()
+        d.run(self.cfg, self.state, fixtures.NOW)
+        self.client.product['variants'][0]['available'] = False
+        self.validate(fixtures.NOW+300)
+        d.run(self.cfg, self.state, fixtures.NOW+300)
+        self.assertEqual(self.state['daily_price_overview']['offers'], {})
+
+    def test_overview_contains_today_instant_alert_and_daily_reset(self):
+        self.validate()
+        row = next(iter(self.state['preorder_quotes'].values()))
+        self.state['preorder_products'][row['product_key']]['last_alert'] = {'at': fixtures.NOW}
+        self.cfg['daily_prices']['discord_enabled'] = False
+        d.run(self.cfg, self.state, fixtures.NOW)
+        self.assertEqual(len(self.state['daily_price_overview']['offers']), 1)
+        d.run(self.cfg, self.state, fixtures.NOW+86400)
+        self.assertEqual(self.state['daily_price_overview']['offers'], {})
 
     def test_discord_length_and_mentions(self):
         self.validate()
