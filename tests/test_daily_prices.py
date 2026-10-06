@@ -19,6 +19,8 @@ class DailyPrices(unittest.TestCase):
         self.cfg['_fast_lane'] = True
 
     def validate(self, now=fixtures.NOW):
+        self.cfg['_fast_keys'] = [self.offer['key']]
+        self.cfg['_fast_groups'] = {self.offer['key']: f.priority(self.offer)}
         return p.scan([self.offer], self.cfg, self.state, self.client, now)
 
     def test_missing_anchor_shown_without_claiming_uvp(self):
@@ -69,7 +71,8 @@ class DailyPrices(unittest.TestCase):
         self.assertEqual(d.eligible(self.cfg, self.state, fixtures.NOW), [])
         self.client.product['variants'][0]['price'] = 17999
         self.client.product['title'] = 'Pokémon Wachsendes Chaos ME04 Display DE'
-        self.validate()
+        self.offer['title'] = self.client.product['title']
+        self.validate(fixtures.NOW+300)
         self.assertEqual(d.eligible(self.cfg, self.state, fixtures.NOW), [])
 
     def test_failed_send_retries_and_dry_run_does_not_mark(self):
