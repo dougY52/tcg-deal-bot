@@ -25,15 +25,17 @@ def priority(o):
 
 def remember(rows, cfg, state, now):
     table = state.setdefault('fast_targets', {})
+    detail_sources = {'mueller','mediamarkt','saturn'} | {s['id'] for s in cfg['shops'] if s.get('live_language_discovery')}
     for o in rows:
         obj, reason = preorders.identity(o, cfg)
         # Retail catalog hints may omit language. Only a supported detail validator
         # can promote these hints; unknown language never becomes an alert.
-        detail_hint = o['shop'] in ('mueller','mediamarkt','saturn') and reason == 'WRONG_LANGUAGE'
+        detail_hint = o['shop'] in detail_sources and reason == 'WRONG_LANGUAGE'
         if detail_hint:
             from .rules import language
             from .product_types import product_kind
-            detail_hint = language(o) is None and product_kind(o.get('title','')) in ('display','etb','bundle','box','collection','tin')
+            detail_hint = (language(o) == 'UNKNOWN' and product_kind(o.get('title','')) in ('display','etb','bundle','box','collection','tin') and
+                           not re.search(r'funko|blindbox|ichiban|history.box|logo.display|sleeves?|acryl|repack|mystery', o.get('title',''), re.I))
         if obj or detail_hint:
             # Parser keys can change; a seller's concrete variant is still one target.
             aliases = [k for k, r in table.items() if r['offer']['shop'] == o['shop'] and

@@ -5,6 +5,8 @@ on:
       - 'tcg_bot/**'
       - 'tests/**'
       - 'scripts/audit_retailers.py'
+      - 'scripts/audit_new_retailers.py'
+      - 'config/new-retailer-targets.json'
       - 'scripts/audit_fast_discovery.py'
       - 'config/config.json'
       - 'config/retailer-audit.json'
@@ -42,4 +44,19 @@ jobs:
         with:
           name: retailer-access-report
           path: retailer-audit-report.json
+          retention-days: 7
+  onboarding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m scripts.audit_new_retailers
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: new-retailer-audit
+          path: new-retailer-audit.json
           retention-days: 7

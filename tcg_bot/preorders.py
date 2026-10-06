@@ -89,7 +89,7 @@ def identity(o, cfg):
     allowed = {'Pokémon': ['DE'], 'Dragon Ball': ['EN'], 'One Piece': ['EN'], 'Naruto': ['DE', 'EN']}
     if lang not in allowed.get(family, []):
         return None, 'WRONG_LANGUAGE'
-    if re.search(r'\b(repack|mystery|proxy|fake|opened|geöffnet|empty|leer|stapel|konvolut|case|acrylic|acryl|sleeves?|binder|einzelkarte)\b', text, re.I):
+    if re.search(r'\b(repack|mystery|funko|blindbox|ichiban|history.box|logo.display|figurine|proxy|fake|opened|geöffnet|empty|leer|stapel|konvolut|case|acrylic|acryl|sleeves?|binder|einzelkarte)\b', text, re.I):
         return None, 'UNSUPPORTED_PRODUCT'
     if family == 'Dragon Ball' and re.search(r'heroes|xeno|time patrol|what.if|alternative.timeline', text, re.I):
         return None, 'CONTENT_EXCLUDED'
@@ -109,7 +109,7 @@ def identity(o, cfg):
         return None, 'UNSUPPORTED_PRODUCT'
     code = re.search(r'\b(FB|BT|OP|EB|PRB|SV|SWSH|ME)[ -]?(\d{1,3})\b', text, re.I)
     code = code[1].upper() + code[2].zfill(2) if code else ''
-    edition = 'first' if re.search(r'first|1st|1\.? edition', text, re.I) else 'second' if re.search(r'2nd|second|2\.? edition', text, re.I) else 'unspecified'
+    edition = 'second' if re.search(r'\b(?:2nd|second|2\.?\s*edition)\b', text, re.I) else 'first' if re.search(r'\b(?:1st|first\s+edition|1\.?\s*edition)\b', text, re.I) else 'unspecified'
     # Cross-shop comparisons require a barcode or an explicitly reviewed product mapping.
     mapped = next((r['id'] for r in cfg.get('references', []) if reference_matches(o, r)), None)
     sku = mapped or product_token(dict(o, variant=o.get('variant', '')), kind)
@@ -127,6 +127,7 @@ class Forms(HTMLParser):
         self.forms = []
         self.form = None
         self.button = None
+        self.select = None
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -134,6 +135,10 @@ class Forms(HTMLParser):
             self.form = {'action': a.get('action', ''), 'method': a.get('method', '').lower(), 'ids': [], 'buttons': [], 'text': '', 'hidden': 'hidden' in a or a.get('aria-hidden') == 'true'}
         if self.form is None:
             return
+        if tag == 'select' and a.get('name') == 'id' and 'disabled' not in a and 'multiple' not in a:
+            self.select = []
+        if tag == 'option' and self.select is not None and 'disabled' not in a:
+            self.select.append((a.get('value', ''), 'selected' in a))
         if tag == 'input' and a.get('name') == 'id' and 'disabled' not in a:
             self.form['ids'].append(a.get('value', ''))
         if tag in ('button', 'input') and a.get('type', 'submit' if tag == 'button' else '').lower() == 'submit':
@@ -149,6 +154,13 @@ class Forms(HTMLParser):
             self.button['text'] += ' ' + data
 
     def handle_endtag(self, tag):
+        if tag == 'select' and self.select is not None:
+            chosen = [value for value, selected in self.select if selected]
+            if not chosen and len(self.select) == 1:
+                chosen = [self.select[0][0]]
+            if self.form is not None:
+                self.form['ids'].extend(chosen if len(chosen) == 1 else [''])
+            self.select = None
         if tag == 'button':
             self.button = None
         if tag == 'form' and self.form is not None:
@@ -179,21 +191,23 @@ def live(o, shop, client, now):
         if row.get('preorder_status'):
             row['availability_status'] = 'preorder'
         return row, None
-    if shop['adapter'] == 'woocommerce' and not shop.get('marketplace'):
+    if shop['adapter'] in ('woocommerce', 'jtl') and not shop.get('marketplace'):
         from .web_sources import parse_woocommerce
         if urlsplit(o['url']).netloc != urlsplit(shop['base_url']).netloc:
             return None, 'AMBIGUOUS_VARIANT'
         url = o['url'] + ('&' if '?' in o['url'] else '?') + '_preorder_check=' + str(int(now))
-        rows = parse_woocommerce(shop, client.text(url), o['url'])
+        from .checkout import single_product
+        parse = single_product if shop['adapter'] == 'jtl' else parse_woocommerce
+        rows = parse(shop, client.text(url), o['url'])
         selected = [r for r in rows if r['variant_id'] == str(o['variant_id'])]
         if len(selected) != 1:
             return None, 'AMBIGUOUS_VARIANT'
         row = selected[0]
-        return row, None if row['available'] else 'OUT_OF_STOCK'
+        return row, 'WAITLIST' if row.get('availability_status') == 'waitlist' else 'OUT_OF_STOCK' if row['available'] is False else None if row.get('add_to_cart_available') is True else 'NO_CHECKOUT'
     if shop['adapter'] != 'shopify' or shop.get('marketplace'):
         return None, 'UNSUPPORTED_LIVE_CHECK'
     handle, vid = o.get('handle', ''), str(o.get('variant_id', ''))
-    if not re.fullmatch(r'[a-z0-9-]+', handle) or not vid.isdigit():
+    if not re.fullmatch(r'[a-z0-9_-]+', handle) or not vid.isdigit():
         return None, 'AMBIGUOUS_VARIANT'
     base = shop['base_url']
     product = client.get(base + '/products/' + quote(handle) + '.js?_preorder_check=' + str(int(now)))
@@ -222,6 +236,10 @@ def live(o, shop, client, now):
     if not active_currency or active_currency[1] != shop['currency']:
         return None, 'CURRENCY_UNCONFIRMED'
     row['currency'] = active_currency[1]
+    from .checkout import BLOCK as RESTRICTED
+    restricted_pattern = shop.get('checkout_exclude_pattern')
+    if RESTRICTED.search(row['description']) or (restricted_pattern and re.search(restricted_pattern, row['title'] + ' ' + row['description'], re.I)):
+        return dict(row, availability_status='waitlist', preorder_status=False), 'WAITLIST'
     parser = Forms()
     parser.feed(page)
     matching = [f for f in parser.forms if not f['hidden'] and f['ids'] == [vid] and f['method'] == 'post' and
@@ -230,11 +248,11 @@ def live(o, shop, client, now):
     if not matching:
         return dict(row, availability_status='unknown', preorder_status=False), 'AMBIGUOUS_VARIANT'
     buttons = [b for f in matching for b in f['buttons']]
-    order = [b for b in buttons if b['enabled'] and re.search(r'add to (?:cart|bag)|in den warenkorb|vorbestell|pre.?order|jetzt kaufen', b['text'], re.I) and not BLOCK.search(b['text'])]
+    order = [b for b in buttons if b['enabled'] and re.search(r'add to (?:cart|bag)|in den warenkorb|zum warenkorb|vorbestell|pre.?order|jetzt kaufen', b['text'], re.I) and not BLOCK.search(b['text'])]
     row['stock_text'] = ' '.join(b['text'].strip() for b in buttons)[:300]
     if not order:
         reason = 'WAITLIST' if BLOCK.search(row['stock_text']) else 'OUT_OF_STOCK' if re.search(r'sold out|ausverkauft|nicht lieferbar|out of stock', row['stock_text'], re.I) else 'NO_CHECKOUT'
-        return dict(row, availability_status='out_of_stock' if reason == 'OUT_OF_STOCK' else 'waitlist', preorder_status=False), reason
+        return dict(row, availability_status='out_of_stock' if reason == 'OUT_OF_STOCK' else 'waitlist' if reason == 'WAITLIST' else 'unknown', preorder_status=False), reason
     row['add_to_cart_available'] = True
     # Notify widgets elsewhere on the page do not override an exact active cart form.
     text = row['title'] + ' ' + row['description'] + ' ' + row['stock_text']
@@ -264,7 +282,7 @@ def seller_confidence(o, shop, settings):
     return {'score': shop.get('seller_score', 90) if known else 80, 'known_retailer': known,
             'buyer_protection': evidence.get('buyer_protection'), 'review_count': evidence.get('review_count'),
             'rating': evidence.get('rating'), 'red_flags': evidence.get('red_flags', []),
-            'note': ('Händler-Basisprüfung: Impressum und Kontakt geprüft.' if shop.get('trust_evidence') else 'Händler auf der konfigurierten Vertrauensliste.') if known else 'Geprüfte Firmendaten, Käuferschutz und Händlerhistorie laut hinterlegtem Nachweis.'}
+            'note': (shop.get('trust_note') or 'Händler-Basisprüfung: Impressum und Kontakt geprüft.' if shop.get('trust_evidence') else 'Händler auf der konfigurierten Vertrauensliste.') if known else 'Geprüfte Firmendaten, Käuferschutz und Händlerhistorie laut hinterlegtem Nachweis.'}
 
 
 def price_check(o, peers, cfg, now, history=(), diagnostics=None):
@@ -426,6 +444,18 @@ def scan(offers, cfg, state, client, now):
                 if before and any(before[k] != normalized[k] for k in ('language', 'edition', 'product_type', 'set_code')):
                     identity_error = 'WRONG_VARIANT'
             key = normalized['product_key'] if normalized else old.get('product_key')
+            if key and key not in table and normalized and normalized['edition'] == 'second':
+                # Repair the former "First Set ... 2nd Edition" classification
+                # without re-alerting the same already delivered seller variant.
+                old_title = old.get('offer', {}).get('title', '')
+                legacy_key = sha256(('|'.join((normalized['franchise'], normalized['product_type'],
+                    normalized['language'], 'first', row['shop'], row.get('seller') or '',
+                    str(row['variant_id'])))).encode()).hexdigest()[:32]
+                if (old.get('product_key') == legacy_key and legacy_key in table and
+                    re.search(r'first\s+set', old_title, re.I) and
+                    re.search(r'2nd|second|2\.?\s*edition', old_title, re.I)):
+                    table[key] = table.pop(legacy_key)
+                    quotes.pop(legacy_key, None)
             if key:
                 record = table.setdefault(key, {'history': [], 'episode': 0})
                 status = row['availability_status'] if not identity_error else 'invalid_variant'

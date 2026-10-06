@@ -117,6 +117,10 @@ def structured_products(document):
 
 
 def parse_structured(shop, body, page_url):
+    if shop.get('adapter') == 'jtl':
+        from .checkout import single_product
+        rows = single_product(shop, body, page_url)
+        return rows, []
     if shop.get('adapter') == 'woocommerce':
         return parse_woocommerce(shop, body, page_url), []
     rows, links = [], []
@@ -146,7 +150,12 @@ def parse_structured(shop, body, page_url):
 
 def html_catalog(shop, client):
     rows, notes = {}, []
+    shop.setdefault('_catalog_next_pages', dict(shop.get('_catalog_pages', {})))
     catalog = list(dict.fromkeys(shop.get('catalog_urls', [])))
+    if catalog and shop.get('rotate_catalogs'):
+        index = shop.get('_catalog_pages', {}).get('_html_catalog', 0) % len(catalog)
+        shop.setdefault('_catalog_next_pages', {})['_html_catalog'] = index + 1
+        catalog = [catalog[index]]
     watched = list(dict.fromkeys(shop.get('watch_urls', [])))
     pages = [(url, True) for url in catalog] + [(url, False) for url in watched]
     seen, details = set(), set()
@@ -180,9 +189,15 @@ def html_catalog(shop, client):
                         continue
                     if node.attrs.get('rel') == 'next' and page_count < shop.get('max_pages', 1) * max(1, len(catalog)):
                         pages.append((target, True))
-                    if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box', href + ' ' + node.text(), re.I):
+                    if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box|trainer.box|collection|kollektion|bundle|premium.box|special.box|deck.set', href + ' ' + node.text(), re.I):
                         links.append(target)
-                for link in dict.fromkeys(links):
+                links = list(dict.fromkeys(links))
+                if links and shop.get('rotate_catalogs'):
+                    cursor_key = '_html_details:' + url
+                    offset = shop.get('_catalog_pages', {}).get(cursor_key, 0) % len(links)
+                    links = links[offset:] + links[:offset]
+                    shop.setdefault('_catalog_next_pages', {})[cursor_key] = (offset + detail_limit) % len(links)
+                for link in links:
                     if link in seen or link in details or link in watched:
                         continue
                     if len(details) >= detail_limit:
@@ -312,7 +327,8 @@ def parse_woocommerce(shop, body, page_url):
     doc = Document(body)
     titles = [n.text().strip() for n in doc.root.walk() if n.tag == 'h1']
     if len(titles) != 1 or not any(plain(p.get('name', '')).strip() == titles[0] for p in structured_products(doc)):
-        return []
+        from .checkout import single_product
+        return single_product(shop, body, page_url)
     description = ' '.join(n.text() for n in doc.root.walk() if n.attrs.get('id') == 'tab-description')
     if not description:
         description = ' '.join(plain(p.get('description','')) for p in structured_products(doc) if plain(p.get('name','')).strip() == titles[0])
@@ -370,4 +386,7 @@ def parse_woocommerce(shop, body, page_url):
             row['current_price'] = row['price']
             row['product_url'] = target
             result.append(row)
+    if not result:
+        from .checkout import single_product
+        return single_product(shop, body, page_url)
     return result

@@ -95,4 +95,4 @@ Der verfügbare Verlauf (11 Gesprächsrunden / 12 Nutzernachrichten) ist mit Que
 
 ## Kartenwacht als Recherchequelle
 
-Am 06.10.2026 öffentlich recherchiert und mit unserer Händlerkonfiguration abgeglichen: [KARTENWACHT-RECHERCHE.md](KARTENWACHT-RECHERCHE.md). Die dort genannten zusätzlichen deutschen Händler sind Prüfziele, keine bereits aktivierten Scanner. Händler direkt validieren; fremde Preis-/Bestandsanzeigen liefern nur Recherchehinweise.
+Am 06.10.2026 öffentlich recherchiert und mit unserer Händlerkonfiguration abgeglichen: [KARTENWACHT-RECHERCHE.md](KARTENWACHT-RECHERCHE.md). Zehn zusätzliche Händlerkataloge sind anschließend angebunden worden; tatsächliche Live-Prüfungen und verbleibende Zugriffshürden stehen in [NEUE-HAENDLER.md](NEUE-HAENDLER.md). Nicht jede Katalogquelle kann bereits einen Checkout bestätigen. Händler direkt validieren; fremde Preis-/Bestandsanzeigen liefern nur Recherchehinweise.
