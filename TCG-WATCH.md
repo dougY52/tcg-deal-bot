@@ -1,7 +1,7 @@
 # Ein gemeinsamer TCG Watch
 
 Stand: 06.10.2026. Zentrale Besprechung: „TCG Watch – Angebote, Preise und Discord“.
-Diese Regeln fassen den bisherigen Bot-Chat sowie „FB11 Brightness Watch“, „Pokémon DB OP Naruto Watch“ und „TCG Preorder Watch“ zusammen. Die drei geteilten URLs waren nicht lesbar; die passenden Chatverläufe wurden direkt gelesen. Frühere Chat-Aussagen zu Preisen und Bestand sind historische Hinweise und keine aktuellen Verfügbarkeitsnachweise.
+Diese Regeln fassen den bisherigen Bot-Chat sowie „FB11 Brightness Watch“, „Pokémon DB OP Naruto Watch“, „TCG Preorder Watch“ und „Erweitere Anime-TCG-Deal-Bot“ zusammen. Die drei geteilten URLs waren nicht lesbar; die passenden Chatverläufe wurden direkt gelesen. Frühere Chat-Aussagen zu Preisen und Bestand sind historische Hinweise und keine aktuellen Verfügbarkeitsnachweise.
 
 ## Zwei Ausgaben, eine gemeinsame Auswahl
 
@@ -82,3 +82,13 @@ Die folgenden Quellen sind zur erneuten Recherche vorgemerkt, ohne aktuelle Prei
 - Gate to the Games: relevante Naruto Special Boxes nur bei starkem Preis.
 - Cardmarket: RaveCardsGbR/FMR-cards und weitere gewerbliche Händler; Schweizer icyhot94 nur mit Gesamtkosten.
 - Smyths NWZ und Kaufland Griesheim: Aktionspreise und tatsächliche Filialbestände strikt unterscheiden.
+
+## Ergänzungen aus „Erweitere Anime-TCG-Deal-Bot“
+
+Der verfügbare Verlauf (11 Gesprächsrunden / 12 Nutzernachrichten) ist mit Quellen, Artefakten, damaligen Test-/Versandbelegen und aktuellen Umsetzungslücken in [CHAT-ERWEITERUNG-UEBERNAHME.md](CHAT-ERWEITERUNG-UEBERNAHME.md) übernommen. Der Quellchat bleibt als Nachweis erhalten; eine gekürzte technische Ausgabe und heute nicht erneut lesbare lokale Dateien sind dort ausdrücklich gekennzeichnet.
+
+- Nutzerpräferenz: Auch 20–30 Euro über belegtem Normalpreis können als Preisinfo relevant sein. 80 statt 70 Euro ist „noch okay“; höherer Aufpreis bis maximal 30 Euro wurde ausdrücklich als „erhöhter Preis – kein Schnäppchen“ zugelassen. Das ist keine automatisch grüne Dealbewertung. Nach der jüngeren Zusammenführung zeigt der Chat auch solche Preise; Discord bleibt selektiv. Artikelgrenze 200 Euro und Live-/Sprachregeln gelten weiter.
+- Die +30-Euro-Regel und 15-%-Bewertungsstufe existieren bereits in `market.py`/Konfiguration. Der schnelle Prüfpfad nutzt eigene Bedingungen in `preorders.price_check`; die Regel wirkt deshalb nicht automatisch in jedem Alert-Pfad. Eine Vereinheitlichung ist ein gesonderter, zu testender Arbeitspunkt.
+- Naruto Konoha Shido/Shidō = First Set als geprüfter Set-Alias; First Set nicht mit First Edition verwechseln. Editions-/Pack-/Sprachdaten separat halten und Meldungsstände bei Aliasänderungen migrieren. Diese Reparaturen sind bereits im Repository vorhanden.
+- Die 14 alten EU-/UK-/CH-Shop-Einträge sind im am 06.10.2026 geprüften Stand weiterhin deaktiviert. EU-Suchauftrag ist nicht gleich aktive EU-Abdeckung; Quellenliste und nötige Prüfung stehen in der Übernahme.
+- Alte Angaben zu zehnminütigem PC-Betrieb, pauschalem Preorder-Ausschluss und nur einem günstigsten Händler sind überholt. Keine alten Pakete über den laufenden Cloudbot kopieren.
