@@ -1176,7 +1176,12 @@
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
       "rotate_collections": true,
-      "live_language_discovery": true
+      "live_language_discovery": true,
+      "watch_handles": [
+        "dragon-ball-super-card-game-fusion-world-fb-03-raging-roar-display-englisch",
+        "dragon-ball-super-card-game-fusion-world-ultra-limit-fb04-display-englisch"
+      ],
+      "seed_watch_handles_once": true
     },
     {
       "id": "kroko-games",
@@ -1222,7 +1227,11 @@
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
       "rotate_collections": true,
-      "live_language_discovery": true
+      "live_language_discovery": true,
+      "watch_handles": [
+        "naruto-mythos-tcg-first-set-2nd-edition-display"
+      ],
+      "seed_watch_handles_once": true
     },
     {
       "id": "mulligan-tcg",
@@ -1269,7 +1278,11 @@
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert. 30-Jahre-/Bund-Zirkelprodukte vorerst gesperrt, da nur für freigeschaltete Mitglieder.",
       "checkout_exclude_pattern": "30(?:th|\\s*jahre)|bund der magischen|nur.{0,30}(?:mitglied|zirkel)|ausschließlich.{0,40}(?:mitglied|zirkel)",
       "rotate_collections": true,
-      "live_language_discovery": true
+      "live_language_discovery": true,
+      "watch_handles": [
+        "dragon-ball-super-card-game-fusion-world-booster-display-fb-11-24-packs-en-jetzt-vorbestellen"
+      ],
+      "seed_watch_handles_once": true
     },
     {
       "id": "card-club",
