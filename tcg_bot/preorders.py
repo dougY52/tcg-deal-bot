@@ -444,6 +444,18 @@ def scan(offers, cfg, state, client, now):
                 if before and any(before[k] != normalized[k] for k in ('language', 'edition', 'product_type', 'set_code')):
                     identity_error = 'WRONG_VARIANT'
             key = normalized['product_key'] if normalized else old.get('product_key')
+            if key and key not in table and normalized and normalized['edition'] == 'second':
+                # Repair the former "First Set ... 2nd Edition" classification
+                # without re-alerting the same already delivered seller variant.
+                old_title = old.get('offer', {}).get('title', '')
+                legacy_key = sha256(('|'.join((normalized['franchise'], normalized['product_type'],
+                    normalized['language'], 'first', row['shop'], row.get('seller') or '',
+                    str(row['variant_id'])))).encode()).hexdigest()[:32]
+                if (old.get('product_key') == legacy_key and legacy_key in table and
+                    re.search(r'first\s+set', old_title, re.I) and
+                    re.search(r'2nd|second|2\.?\s*edition', old_title, re.I)):
+                    table[key] = table.pop(legacy_key)
+                    quotes.pop(legacy_key, None)
             if key:
                 record = table.setdefault(key, {'history': [], 'episode': 0})
                 status = row['availability_status'] if not identity_error else 'invalid_variant'

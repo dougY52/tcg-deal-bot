@@ -136,6 +136,22 @@ class ShopifyCartTests(unittest.TestCase):
     def test_member_only_preorder_rejected(self):
         self.client.product['description']='Nur für Mitglieder des Zirkels'
         self.assertEqual(p.live(self.offer,self.shop,self.client,NOW)[1],'WAITLIST')
+    def test_edition_repair_preserves_delivered_alert(self):
+        from hashlib import sha256
+        cfg=load_config('config/config.json')
+        cfg['shops']=[self.shop]
+        cfg['preorder_watch']['trusted_shop_ids']=['example']
+        self.offer['title']=self.client.product['title']='Dragon Ball FB11 First Set 2nd Edition Display EN Preorder'
+        state={'version':1,'offers':{}}
+        first=p.scan([self.offer],cfg,state,self.client,NOW)[1][0]
+        p.delivered(state,first,NOW,'sent-id')
+        legacy=sha256('|'.join((first['franchise'],first['product_type'],first['language'],'first',
+                               first['shop'],first['seller'],first['variant_id'])).encode()).hexdigest()[:32]
+        state['preorder_products'][legacy]=state['preorder_products'].pop(first['product_key'])
+        state['preorder_tracking'][self.offer['key']]['product_key']=legacy
+        self.assertEqual(p.scan([self.offer],cfg,state,self.client,NOW+300)[1],[])
+        self.assertNotIn(legacy,state['preorder_products'])
+        self.assertIn('last_alert',state['preorder_products'][first['product_key']])
     def test_first_set_is_not_first_edition(self):
         row=dict(self.offer,title='Naruto Mythos First Set Display 2nd Edition EN')
         self.assertEqual(p.identity(row,load_config('config/config.json'))[0]['edition'],'second')
