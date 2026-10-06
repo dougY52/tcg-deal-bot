@@ -1188,6 +1188,12 @@
           "handle": "naruto-mythos-shinobi-shiren-set-2-display-1st-edition-eng",
           "variant_id": "62962896273738",
           "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "cardsrfun",
+          "handle": "naruto-mythos-tcg-shinobi-shiren-set-2",
+          "variant_id": "53517355974922",
+          "variant_pattern": "^Default Title$"
         }
       ],
       "evidence": [
@@ -1202,6 +1208,10 @@
         {
           "url": "https://crispycards.de/products/naruto-mythos-shinobi-shiren-set-2-display-1st-edition-eng",
           "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 84.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+        },
+        {
+          "url": "https://cardsrfun.de/products/naruto-mythos-tcg-shinobi-shiren-set-2?variant=53517355974922",
+          "note": "06.10.2026 im Bot live bestätigt: EN, Set 2 Shinobi Shiren, First Edition, 24 Booster, 82,99 EUR, aktives Varianten-Bestellformular. Produktbeschreibung nennt Sprache, Edition und 24 Packs ausdrücklich."
         }
       ],
       "note": "KartenZeche aktuell mit Vorbestellhinweis: trotz verfügbar=true ausgeschlossen. Skash Cards bestätigt EN, 24 Packs und OVP. Keine B2B-Netto-/Brutto-Ableitung.",
@@ -1214,11 +1224,11 @@
       "packs": 24,
       "sealed": true,
       "kind": "observed_retail",
-      "retail_eur": "59.99",
+      "retail_eur": "85.00",
       "tolerance_pct": 0,
-      "verified_on": "2026-09-18",
-      "valid_until": "2026-12-17",
-      "title_pattern": "Dragon\\s*Ball.*(?:Raging Roar.*FB03|FB03.*Raging Roar).*Display",
+      "verified_on": "2026-10-06",
+      "valid_until": "2026-10-20",
+      "title_pattern": "Dragon\\s*Ball(?=.*FB[ -]?03)(?=.*Raging Roar).*(?:Display|Booster Box)",
       "bindings": [
         {
           "shop": "cardcosmos",
@@ -1231,20 +1241,43 @@
           "handle": "dragonball-super-fb03-fusion-world-raging-roar-display-eng",
           "variant_id": "61016967184714",
           "variant_pattern": "^Default\\ Title$"
+        },
+        {
+          "shop": "sapphire-cards",
+          "handle": "dragon-ball-raging-roar-fb-03-booster-box-display-fusion-world-en-kopie",
+          "variant_id": "57148",
+          "variant_pattern": "^englisch$",
+          "url": "https://sapphire-cards.de/produkt/dragon-ball-raging-roar-fb-03-booster-box-display-fusion-world-en-kopie/?attribute_pa_sprache=englisch&variation_id=57148"
         }
       ],
       "evidence": [
         {
-          "url": "https://cardcosmos.de/products/dragon-ball-super-card-game-raging-roar-fusion-world-fb03-booster-display-englisch",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 59.99 EUR, verfügbar=False. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+          "url": "https://card-collector.net/products/dragon-ball-super-card-game-fusion-world-fb03-display-englisch-ab-16-08-2024?variant=45014645047564",
+          "note": "Produkt/konkrete Variante im GitHub-Produktionsscan am 2026-10-06T17:27:15.980Z bestätigt: 85 EUR, in_stock, Bestellformular aktiv. Beobachteter Händlerpreis, keine UVP."
         },
         {
-          "url": "https://crispycards.de/products/dragonball-super-fb03-fusion-world-raging-roar-display-eng",
-          "note": "Direkt im öffentlichen Händlerkatalog am 2026-09-18 geprüft: 89.99 EUR, verfügbar=True. Exaktes Produkt/Packformat manuell zugeordnet. Beobachteter Händlerpreis, keine bestätigte Hersteller-UVP."
+          "url": "https://sapphire-cards.de/produkt/dragon-ball-raging-roar-fb-03-booster-box-display-fusion-world-en-kopie/?attribute_pa_sprache=englisch&variation_id=57148",
+          "note": "Produkt/konkrete Variante im GitHub-Produktionsscan am 2026-10-06T17:27:15.980Z bestätigt: 79.99 EUR, in_stock, Bestellformular aktiv. Beobachteter Händlerpreis, keine UVP."
+        },
+        {
+          "url": "https://liontcg.de/products/dragon-ball-super-card-game-fusion-world-fb03-raging-roar-englisch?variant=54034233262427",
+          "note": "Produkt/konkrete Variante im GitHub-Produktionsscan am 2026-10-06T17:27:15.980Z bestätigt: 83.99 EUR, in_stock, Bestellformular aktiv. Beobachteter Händlerpreis, keine UVP."
+        },
+        {
+          "url": "https://www.play-maniac.de/products/dragon-ball-super-card-game-fusion-world-fb03-raging-roar-booster-display-24-packs-englisch?variant=45109502738696",
+          "note": "Produkt/konkrete Variante im GitHub-Produktionsscan am 2026-10-06T17:27:15.980Z bestätigt: 83.99 EUR, in_stock, Bestellformular aktiv. Beobachteter Händlerpreis, keine UVP."
+        },
+        {
+          "url": "https://loco-tcg.de/produkt/dragon-ball-super-card-game-fusion-world-raging-roar-fb03-booster-display-en/",
+          "note": "06.10.2026: Produktseite 79,99 EUR, EN, 24 Booster, vorrätig mit Bestellbutton. Zusätzlicher Retailvergleich; kein automatisch angebundener Anbieter."
         }
       ],
-      "note": "Feste konservative Händler-Referenz; nie automatisch nach oben anpassen.",
-      "gtins": []
+      "note": "Am 06.10. neu geprüft: 85 EUR oberes Ende bestätigter Direktshoppreise, keine Hersteller-UVP. Historische 59,99 EUR vom 18.09. waren bei dem damaligen Anbieter NICHT verfügbar und sind keine aktuelle harte Preisgrenze.",
+      "gtins": [
+        "810059786523"
+      ],
+      "product_type": "display",
+      "cross_shop_variant_pattern": "(?:Default Title|Display|Booster Display|Display \\(24 Packs\\))"
     },
     {
       "id": "onepiece-op10-royal-blood-24",
@@ -1384,7 +1417,12 @@
           "url": "https://sapphire-cards.de/produkt/dragon-ball-ultra-limit-fb-04-booster-box-display-fusion-world-en/?attribute_pa_sprache=englisch&variation_id=57145",
           "note": "84,99 EUR, englische Variation 57145 serverseitig kaufbar; beobachteter Händlerpreis, keine UVP."
         }
-      ]
+      ],
+      "gtins": [
+        "810059787407"
+      ],
+      "product_type": "display",
+      "cross_shop_variant_pattern": "(?:Default Title|Display|Booster Display|Display \\(24 Packs\\))"
     }
   ],
   "local_stores": {

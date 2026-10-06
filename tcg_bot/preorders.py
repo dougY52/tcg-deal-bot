@@ -53,6 +53,32 @@ def candidate(o):
     return bool(o.get('preorder') or PREORDER.search(text) or (released and released > datetime.now(timezone.utc).date()))
 
 
+def reference_matches(o, ref):
+    """Share reviewed display references only across proven equivalent SKUs."""
+    if ref['language'] != language(o) or not re.search(ref['title_pattern'], o['title'], re.I):
+        return False
+    bound = any(b['shop'] == o['shop'] and str(b['variant_id']) == str(o['variant_id'])
+                for b in ref['bindings'])
+    if bound:
+        return True
+    from .rules import gtin_key
+    gtin = gtin_key(o.get('gtin'))
+    if not gtin or gtin not in {gtin_key(g) for g in ref.get('gtins', [])}:
+        return False
+    # Barcodes can be reused across selectable packaging. Explicitly constrain
+    # the selected display variant and reject quantities contradicting the ref.
+    if ref.get('product_type') != 'display' or product_kind(o['title']) != 'display':
+        return False
+    variant = o.get('variant', '')
+    if not re.fullmatch(ref.get('cross_shop_variant_pattern', r'Default Title'), variant, re.I):
+        return False
+    text = o['title'] + ' ' + variant
+    if re.search(r'\b(?:[2-9]|[1-9]\d+)\s*[x×]\s*(?:display|box)|\b(?:case|bundle|set of)\b', text, re.I):
+        return False
+    counts = re.findall(r'\b(\d+)\s*(?:booster(?:packs?)?|packs?)\b', text, re.I)
+    return all(int(n) == ref['packs'] for n in counts)
+
+
 def identity(o, cfg):
     """Use only variant-specific title/language; a set code alone is not a SKU."""
     text = o['title'] + ' ' + o.get('variant', '')
@@ -85,8 +111,7 @@ def identity(o, cfg):
     code = code[1].upper() + code[2].zfill(2) if code else ''
     edition = 'first' if re.search(r'first|1st|1\.? edition', text, re.I) else 'second' if re.search(r'2nd|second|2\.? edition', text, re.I) else 'unspecified'
     # Cross-shop comparisons require a barcode or an explicitly reviewed product mapping.
-    mapped = next((r['id'] for r in cfg.get('references', []) if r['language'] == lang and
-                   any(b['shop'] == o['shop'] and str(b['variant_id']) == str(o['variant_id']) for b in r['bindings'])), None)
+    mapped = next((r['id'] for r in cfg.get('references', []) if reference_matches(o, r)), None)
     sku = mapped or product_token(dict(o, variant=o.get('variant', '')), kind)
     comparison_key = '|'.join((family, code, kind, lang, edition, sku))
     # Keep distinct art/pack quantities and seller variants separate, even with the same set.
@@ -220,7 +245,7 @@ def live(o, shop, client, now):
         today = datetime.fromtimestamp(now, timezone.utc).date()
         if released > today:
             preorder = True
-        elif not re.search(r'vorbestell|pre[ -]?order', row['stock_text'] + ' ' + row['description'], re.I):
+        elif not re.search(r'\b(?:vorbestell(?:bar|en|ung)|pre[ -]?order)\b', row['stock_text'] + ' ' + row['description'], re.I):
             # Old release labels in a title must not quarantine normal stock forever.
             preorder = False
     row.update(preorder=preorder, preorder_status=preorder, availability_status='preorder' if preorder else 'in_stock')
@@ -242,15 +267,17 @@ def seller_confidence(o, shop, settings):
             'note': ('Händler-Basisprüfung: Impressum und Kontakt geprüft.' if shop.get('trust_evidence') else 'Händler auf der konfigurierten Vertrauensliste.') if known else 'Geprüfte Firmendaten, Käuferschutz und Händlerhistorie laut hinterlegtem Nachweis.'}
 
 
-def price_check(o, peers, cfg, now, history=()):
+def price_check(o, peers, cfg, now, history=(), diagnostics=None):
     settings = cfg['preorder_watch']
+    if diagnostics is not None:
+        diagnostics['reason'] = 'PRICE_TOO_HIGH'
     price = Decimal(o['price'])
     if not price.is_finite() or price <= 0 or o['currency'] != 'EUR' or price > Decimal(str(settings.get('max_price_eur', 200))):
         return None
     today = datetime.fromtimestamp(now, timezone.utc).date().isoformat()
     anchors = []
     for ref in cfg.get('references', []):
-        if ref['verified_on'] <= today <= ref['valid_until'] and ref['language'] == o['language'] and re.search(ref['title_pattern'], o['title'], re.I) and any(b['shop'] == o['shop'] and str(b['variant_id']) == str(o['variant_id']) for b in ref['bindings']):
+        if ref['verified_on'] <= today <= ref['valid_until'] and reference_matches(o, ref):
             anchors.append((Decimal(ref['retail_eur']), ref['kind'], 'Geprüfter Retail-Referenzpreis'))
     for ref in settings.get('price_references', []):
         if ref['verified_on'] <= today <= ref['valid_until'] and ref['comparison_key'] == o['comparison_key']:
@@ -273,6 +300,8 @@ def price_check(o, peers, cfg, now, history=()):
     for anchor, kind, note in sorted(anchors):
         if price <= anchor * (Decimal('1.05') if kind == 'msrp' else Decimal('1')):
             return {'baseline': str(anchor), 'why': note + f': {anchor:.2f} €.', 'strong': price <= anchor * Decimal('.9')}
+    if diagnostics is not None and not anchors:
+        diagnostics['reason'] = 'MISSING_PRICE_REFERENCE'
     # Use at most one live price per independently configured retailer group.
     groups = {}
     for p in peers:
@@ -448,12 +477,13 @@ def scan(offers, cfg, state, client, now):
             client.deadline = original_deadline
     deals = []
     for o in valid:
-        pricing = price_check(o, list(quotes.values()), cfg, now, table.values())
+        diagnostic = {}
+        pricing = price_check(o, list(quotes.values()), cfg, now, table.values(), diagnostic)
         if pricing and cfg.get('_fast_lane') and re.search(r'wachsendes chaos|optimale ordnung|ME[ -]?0[34]\b', o['title'], re.I) and o['franchise'] == 'Pokémon':
             if Decimal(o['price']) > Decimal(pricing['baseline']) * Decimal('.80'):
                 pricing = None
         if not pricing:
-            reject(o, 'PRICE_TOO_HIGH')
+            reject(o, diagnostic.get('reason', 'PRICE_TOO_HIGH'))
             continue
         record = table[o['product_key']]
         # Do not perpetually renew a historical anchor from its own derived verdict.
