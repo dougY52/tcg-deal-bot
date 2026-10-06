@@ -5,6 +5,8 @@ on:
       - 'tcg_bot/**'
       - 'tests/**'
       - 'scripts/audit_retailers.py'
+      - 'scripts/audit_new_retailers.py'
+      - 'config/new-retailer-targets.json'
       - 'scripts/audit_fast_discovery.py'
       - 'config/config.json'
       - 'config/retailer-audit.json'
@@ -27,6 +29,8 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
+      - name: Audit new retailer product and checkout evidence
+        run: python -m scripts.audit_new_retailers
       - name: Diagnose production state and new shop validators
         env:
           GH_TOKEN: ${{ github.token }}
