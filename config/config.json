@@ -1155,6 +1155,225 @@
       "enabled": true,
       "max_pages": 4,
       "discovery_scope": "Bis zu 1000 Produkte; exakte Varianten werden separat live validiert. Impressum, Kontakt und Käuferschutz-Zahlungen geprüft."
+    },
+    {
+      "id": "tobistoys",
+      "name": "TobisToys",
+      "base_url": "https://tobistoys.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "pokemon",
+        "one-piece"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://tobistoys.de/pages/impressum",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert."
+    },
+    {
+      "id": "kroko-games",
+      "name": "Kroko Games",
+      "base_url": "https://www.kroko-games.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "pokemon",
+        "one-piece"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.kroko-games.com/policies/legal-notice",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert."
+    },
+    {
+      "id": "animeboy",
+      "name": "Animeboy",
+      "base_url": "https://animeboy.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "dragon-ball",
+        "naruto",
+        "one-piece",
+        "pokemon"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://animeboy.de/policies/legal-notice",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert."
+    },
+    {
+      "id": "mulligan-tcg",
+      "name": "Mulligan TCG",
+      "base_url": "https://mulligantcg.com",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "db",
+        "op",
+        "pkm"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://mulligantcg.com/policies/legal-notice",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert."
+    },
+    {
+      "id": "feenturm",
+      "name": "Feenturm",
+      "base_url": "https://feenturm.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "dragon-ball",
+        "one-piece-tcg-1",
+        "pokemon-gesamtes-sortiment"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://feenturm.de/policies/legal-notice",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert. 30-Jahre-/Bund-Zirkelprodukte vorerst gesperrt, da nur für freigeschaltete Mitglieder.",
+      "checkout_exclude_pattern": "30(?:th|\\s*jahre)|bund der magischen|nur.{0,30}(?:mitglied|zirkel)|ausschließlich.{0,40}(?:mitglied|zirkel)"
+    },
+    {
+      "id": "card-club",
+      "name": "Card Club",
+      "base_url": "https://www.cardclub.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "dragonball-super-fusion-world",
+        "one-piece",
+        "pokemon"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.cardclub.de/policies/legal-notice",
+        "verified_on": "2026-10-06",
+        "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert."
+    },
+    {
+      "id": "nerdbank",
+      "name": "Nerdbank",
+      "base_url": "https://nerdbank.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "one-piece-displays",
+        "pokemon-displays",
+        "pokemon-elite-trainer-box",
+        "pokemon-collections"
+      ],
+      "seller_score": 75,
+      "trust_evidence": {
+        "contact_url": "https://nerdbank.de/",
+        "verified_on": "2026-10-06",
+        "scope": "Inhaber Sebastian Voigt, Adresse Salzgasse 6 Amberg und Kontakt öffentlich auf Startseite; PayPal im Shop. Impressumsabruf robots-gesperrt."
+      },
+      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
+      "trust_note": "Händler-Basisprüfung: öffentlicher Inhaber, deutsche Anschrift, Kontakt und PayPal; Impressumsabruf gesperrt."
+    },
+    {
+      "id": "cardcatcher",
+      "name": "CardCatcher",
+      "base_url": "https://www.cardcatcher.de",
+      "adapter": "jtl",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 8,
+      "rotate_catalogs": true,
+      "catalog_urls": [
+        "https://www.cardcatcher.de/one-piece",
+        "https://www.cardcatcher.de/pokemon"
+      ],
+      "product_link_pattern": "/(?:Pokemon|One-Piece|Dragon-Ball|Naruto)[^/?]+",
+      "trust_evidence": {
+        "legal_url": "https://www.cardcatcher.de/Impressum",
+        "verified_on": "2026-10-06",
+        "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
+      },
+      "seller_score": 75,
+      "discovery_scope": "JTL: Produkt-SKU, eindeutiges buy_form, Artikel-ID und Mengenfeld plus EUR-Preis. Unaufgelöste Varianten bleiben gesperrt."
+    },
+    {
+      "id": "keepseven",
+      "name": "KEEPSEVEN",
+      "base_url": "https://keepseven.de",
+      "adapter": "woocommerce",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 8,
+      "rotate_catalogs": true,
+      "catalog_urls": [
+        "https://keepseven.de/product-category/pre-order/",
+        "https://keepseven.de/product-category/pokemon/booster-display-pokemon/",
+        "https://keepseven.de/product-category/pokemon/boxen/"
+      ],
+      "product_link_pattern": "/product/",
+      "trust_evidence": {
+        "legal_url": "https://keepseven.de/impressum/",
+        "verified_on": "2026-10-06",
+        "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
+      },
+      "seller_score": 75,
+      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert."
+    },
+    {
+      "id": "freispiel-freiburg",
+      "name": "Freispiel Freiburg",
+      "base_url": "https://shop.freispiel-freiburg.de",
+      "adapter": "woocommerce",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 8,
+      "rotate_catalogs": true,
+      "catalog_urls": [
+        "https://shop.freispiel-freiburg.de/produkt-kategorie/sammelkartenspiele/one-piece/",
+        "https://shop.freispiel-freiburg.de/produkt-kategorie/sammelkartenspiele/pokemon/"
+      ],
+      "product_link_pattern": "/produkt/",
+      "trust_evidence": {
+        "legal_url": "https://www.freispiel-freiburg.de/impressum/",
+        "verified_on": "2026-10-06",
+        "scope": "Deutscher Inhaber/Firma und Kontakt geprüft. PayPal in öffentlicher Shopseite. Keine externen Bewertungen behauptet."
+      },
+      "seller_score": 75,
+      "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert."
     }
   ],
   "references": [
@@ -1750,7 +1969,17 @@
       "saturn",
       "mueller",
       "ani-kuni",
-      "daesu-cards"
+      "daesu-cards",
+      "tobistoys",
+      "kroko-games",
+      "animeboy",
+      "mulligan-tcg",
+      "feenturm",
+      "card-club",
+      "nerdbank",
+      "cardcatcher",
+      "keepseven",
+      "freispiel-freiburg"
     ],
     "seller_evidence": {},
     "shop_rules": {
@@ -1850,7 +2079,7 @@
     {
       "id": "gamesisland",
       "name": "Games Island",
-      "url": "https://games-island.eu/Pokemon",
+      "url": "https://games-island.eu/",
       "kind": "online_unvalidated"
     },
     {
@@ -1966,6 +2195,30 @@
       "name": "JPC",
       "url": "https://www.jpc.de/",
       "kind": "discovery_homepage"
+    },
+    {
+      "id": "hiveworld",
+      "name": "Hiveworld",
+      "url": "https://www.hiveworld.de/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "collect-it",
+      "name": "Collect-it",
+      "url": "https://www.collect-it.de/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "comicplanet",
+      "name": "Comicplanet",
+      "url": "https://www.comicplanet.de/",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "bb-spiele",
+      "name": "BB-Spiele",
+      "url": "https://www.bb-spiele.de/",
+      "kind": "online_unvalidated"
     }
   ],
   "retailer_coverage": {
