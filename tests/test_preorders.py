@@ -36,6 +36,7 @@ class Client:
 class Preorders(unittest.TestCase):
     def setUp(self):
         self.cfg = load_config('config/config.json')
+        self.cfg['daily_prices']['enabled'] = False  # These tests exercise instant alerts only.
         self.shop = {'id': 'example', 'name': 'Example Cards', 'base_url': 'https://example.test', 'adapter': 'shopify', 'currency': 'EUR', 'max_pages': 1}
         self.cfg['shops'] = [self.shop]
         self.cfg['preorder_watch']['trusted_shop_ids'] = ['example']

@@ -1935,5 +1935,12 @@
     "max_checks": 4,
     "budget_seconds": 15,
     "recheck_seconds": 21600
+  },
+  "daily_prices": {
+    "enabled": true,
+    "max_price_eur": 200,
+    "offers_per_message": 4,
+    "max_messages_per_run": 2,
+    "discord_enabled": false
   }
 }
