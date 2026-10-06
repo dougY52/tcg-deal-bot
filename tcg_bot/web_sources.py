@@ -150,6 +150,7 @@ def parse_structured(shop, body, page_url):
 
 def html_catalog(shop, client):
     rows, notes = {}, []
+    shop.setdefault('_catalog_next_pages', dict(shop.get('_catalog_pages', {})))
     catalog = list(dict.fromkeys(shop.get('catalog_urls', [])))
     if catalog and shop.get('rotate_catalogs'):
         index = shop.get('_catalog_pages', {}).get('_html_catalog', 0) % len(catalog)

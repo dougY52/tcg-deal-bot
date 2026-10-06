@@ -110,7 +110,7 @@ def single_product(shop, body, url):
                          description=description, gtin=product.get('gtin13') or product.get('gtin') or '',
                          currency='EUR', live_validated=True, variant_validated=allowed,
                          add_to_cart_available=orderable, cart_validated=False,
-                         availability_status='out_of_stock' if sold else 'preorder' if orderable and preorder else 'in_stock' if orderable else 'unknown',
+                         availability_status='out_of_stock' if sold else 'waitlist' if restricted else 'preorder' if orderable and preorder else 'in_stock' if orderable else 'unknown',
                          preorder=preorder, preorder_status=preorder, stock_text=stock_text[:300],
                          shipping_cost=None, release_date=None)
     except ValueError:

@@ -203,7 +203,7 @@ def live(o, shop, client, now):
         if len(selected) != 1:
             return None, 'AMBIGUOUS_VARIANT'
         row = selected[0]
-        return row, 'OUT_OF_STOCK' if row['available'] is False else None if row.get('add_to_cart_available') is True else 'NO_CHECKOUT'
+        return row, 'WAITLIST' if row.get('availability_status') == 'waitlist' else 'OUT_OF_STOCK' if row['available'] is False else None if row.get('add_to_cart_available') is True else 'NO_CHECKOUT'
     if shop['adapter'] != 'shopify' or shop.get('marketplace'):
         return None, 'UNSUPPORTED_LIVE_CHECK'
     handle, vid = o.get('handle', ''), str(o.get('variant_id', ''))
