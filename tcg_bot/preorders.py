@@ -89,7 +89,7 @@ def identity(o, cfg):
     allowed = {'Pokémon': ['DE'], 'Dragon Ball': ['EN'], 'One Piece': ['EN'], 'Naruto': ['DE', 'EN']}
     if lang not in allowed.get(family, []):
         return None, 'WRONG_LANGUAGE'
-    if re.search(r'\b(repack|mystery|funko|blindbox|ichiban|figurine|proxy|fake|opened|geöffnet|empty|leer|stapel|konvolut|case|acrylic|acryl|sleeves?|binder|einzelkarte)\b', text, re.I):
+    if re.search(r'\b(repack|mystery|funko|blindbox|ichiban|history.box|logo.display|figurine|proxy|fake|opened|geöffnet|empty|leer|stapel|konvolut|case|acrylic|acryl|sleeves?|binder|einzelkarte)\b', text, re.I):
         return None, 'UNSUPPORTED_PRODUCT'
     if family == 'Dragon Ball' and re.search(r'heroes|xeno|time patrol|what.if|alternative.timeline', text, re.I):
         return None, 'CONTENT_EXCLUDED'

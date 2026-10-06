@@ -35,7 +35,7 @@ def remember(rows, cfg, state, now):
             from .rules import language
             from .product_types import product_kind
             detail_hint = (language(o) == 'UNKNOWN' and product_kind(o.get('title','')) in ('display','etb','bundle','box','collection','tin') and
-                           not re.search(r'funko|blindbox|ichiban|sleeves?|acryl|repack|mystery', o.get('title',''), re.I))
+                           not re.search(r'funko|blindbox|ichiban|history.box|logo.display|sleeves?|acryl|repack|mystery', o.get('title',''), re.I))
         if obj or detail_hint:
             # Parser keys can change; a seller's concrete variant is still one target.
             aliases = [k for k, r in table.items() if r['offer']['shop'] == o['shop'] and

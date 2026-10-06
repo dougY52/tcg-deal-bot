@@ -152,6 +152,11 @@ class ShopifyCartTests(unittest.TestCase):
         self.assertEqual(p.scan([self.offer],cfg,state,self.client,NOW+300)[1],[])
         self.assertNotIn(legacy,state['preorder_products'])
         self.assertIn('last_alert',state['preorder_products'][first['product_key']])
+    def test_anime_merchandise_box_is_not_sealed_tcg(self):
+        cfg=load_config('config/config.json')
+        for title in ['Dragon Ball Z History Box Majin Buu Figur EN','One Piece Logo Display Figur EN']:
+            self.assertEqual(p.identity(self.offer|{'title':title},cfg)[1],'UNSUPPORTED_PRODUCT')
+        self.assertIsNotNone(p.identity(self.offer|{'title':'Pokémon Glurak Super Premium Kollektion mit Figur DE'},cfg)[0])
     def test_first_set_is_not_first_edition(self):
         row=dict(self.offer,title='Naruto Mythos First Set Display 2nd Edition EN')
         self.assertEqual(p.identity(row,load_config('config/config.json'))[0]['edition'],'second')
