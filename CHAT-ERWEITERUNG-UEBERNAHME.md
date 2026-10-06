@@ -2,6 +2,10 @@
 
 Stand: 06.10.2026. Quellchat: `01a0b489-9b2e-74f3-ad72-05ec903387cc`, Titel **Erweitere Anime-TCG-Deal-Bot**. Zentrale Regeln: [TCG-WATCH.md](TCG-WATCH.md).
 
+## Nachträgliche Nutzerkorrektur vom 06.10.2026
+
+Ausland ist wegen Versandkosten nicht mehr gewünscht. Alle folgenden Hinweise auf EU-/UK-/CH-Ausbau dokumentieren den vorherigen Auftrag und sind überholt; die 14 deaktivierten Einträge bleiben deaktiviert. Maßgeblich ist der aktuelle Deutschland-Fokus in TCG-WATCH.md.
+
 ## Umfang und Nachweisgrenze
 
 Beide verfügbaren Verlaufsseiten bis `hasMore=false` gelesen: **11 Gesprächsrunden, 12 Nutzernachrichten, 83 Shell-Ausführungen** im bereitgestellten Verlauf. Die enthaltenen Gesprächsrunden stammen vom 18.09.2026. Anforderungen, spätere Korrekturen, Quellen, Codearbeiten, Tests, Laufbelege und offene Grenzen sind hier zusammengeführt. Technische Ausgaben wurden nach Themen ausgewertet; dies ist keine wortgetreue Rohkopie.

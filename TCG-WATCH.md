@@ -24,7 +24,7 @@ Maximal 200 Euro Produktpreis, Versand und etwaige Importkosten gesondert auswei
 
 ## Händler und Regionen
 
-Deutschland priorisieren, EU-Shops mit bestätigter Lieferung nach Deutschland einschließen. Schweiz und UK nur als gekennzeichnete Import-Ausnahmen mit nachvollziehbaren Zusatzkosten; niedriger Artikelpreis allein genügt nicht.
+**Aktuelle Nutzerentscheidung vom 06.10.2026: nur Händler in Deutschland.** Auslandsshops einschließlich EU, UK und Schweiz nicht weiter ausbauen oder für Angebote priorisieren; der Nutzer möchte die zusätzlichen Versandkosten vermeiden. Die 14 alten Auslandseinträge bleiben deaktiviert. Frühere EU-/Import-Wünsche sind damit überholt. Deutsche Händler nicht allein anhand einer .eu-Domain ausschließen; Händlerstandort und Versandbedingungen prüfen.
 
 Große und kleine seriöse Shops, lokale Händler mit Onlineangebot, Restposten, professionelle Cardmarket-Verkäufer und gewerbliche Marketplace-Händler berücksichtigen. Unter anderem Smyths, Müller, MediaMarkt/Saturn, Otto, Kaufland, Rossmann, Edeka, Galeria, Limitedmarket und spezialisierte TCG-Shops. Eine Nennung ist keine Behauptung funktionierender automatischer Abdeckung.
 
@@ -73,14 +73,14 @@ Die inhaltlichen Regeln sind gemeinsam; eine automatische Übergabe jedes zusät
 
 Die folgenden Quellen sind zur erneuten Recherche vorgemerkt, ohne aktuelle Preis-/Stock-Freigabe:
 - Loco TCG: FB03/FB04 EN und Mega-Zygarde DE.
-- CarteMagic: FB12 EN, EU-Lieferung, Anzahlung versus vollständiger Displaypreis prüfen.
+- CarteMagic: früherer FB12-Recherchehinweis; durch den aktuellen Deutschland-Fokus kein aktives Ausbauziel.
 - TCG Garden: Naruto Set 3 Akatsuki First Edition, konkrete Variante und Release prüfen.
 - Glitzerpappe: Shinobi Shiren Set 2 First Edition; irreführenden URL-Namen nicht als Produktidentität verwenden.
 - TobisToys: Naruto First Set Second Edition; widersprüchliche 36-/24-Pack-Beschreibung klären.
 - CardLegends: Naruto First Set Second Edition; Sprache und Verkäuferhistorie erneut prüfen.
 - Comic Planet: Dragon Ball Masters BT10 Second Edition.
 - Gate to the Games: relevante Naruto Special Boxes nur bei starkem Preis.
-- Cardmarket: RaveCardsGbR/FMR-cards und weitere gewerbliche Händler; Schweizer icyhot94 nur mit Gesamtkosten.
+- Cardmarket: RaveCardsGbR/FMR-cards und weitere gewerbliche Händler in Deutschland; Schweizer icyhot94 nur historischer Hinweis, kein aktives Ziel.
 - Smyths NWZ und Kaufland Griesheim: Aktionspreise und tatsächliche Filialbestände strikt unterscheiden.
 
 ## Ergänzungen aus „Erweitere Anime-TCG-Deal-Bot“
@@ -90,5 +90,9 @@ Der verfügbare Verlauf (11 Gesprächsrunden / 12 Nutzernachrichten) ist mit Que
 - Nutzerpräferenz: Auch 20–30 Euro über belegtem Normalpreis können als Preisinfo relevant sein. 80 statt 70 Euro ist „noch okay“; höherer Aufpreis bis maximal 30 Euro wurde ausdrücklich als „erhöhter Preis – kein Schnäppchen“ zugelassen. Das ist keine automatisch grüne Dealbewertung. Nach der jüngeren Zusammenführung zeigt der Chat auch solche Preise; Discord bleibt selektiv. Artikelgrenze 200 Euro und Live-/Sprachregeln gelten weiter.
 - Die +30-Euro-Regel und 15-%-Bewertungsstufe existieren bereits in `market.py`/Konfiguration. Der schnelle Prüfpfad nutzt eigene Bedingungen in `preorders.price_check`; die Regel wirkt deshalb nicht automatisch in jedem Alert-Pfad. Eine Vereinheitlichung ist ein gesonderter, zu testender Arbeitspunkt.
 - Naruto Konoha Shido/Shidō = First Set als geprüfter Set-Alias; First Set nicht mit First Edition verwechseln. Editions-/Pack-/Sprachdaten separat halten und Meldungsstände bei Aliasänderungen migrieren. Diese Reparaturen sind bereits im Repository vorhanden.
-- Die 14 alten EU-/UK-/CH-Shop-Einträge sind im am 06.10.2026 geprüften Stand weiterhin deaktiviert. EU-Suchauftrag ist nicht gleich aktive EU-Abdeckung; Quellenliste und nötige Prüfung stehen in der Übernahme.
+- Die 14 alten EU-/UK-/CH-Shop-Einträge bleiben auf aktuellen Nutzerwunsch deaktiviert. Der frühere EU-Ausbauauftrag ist aufgehoben.
 - Alte Angaben zu zehnminütigem PC-Betrieb, pauschalem Preorder-Ausschluss und nur einem günstigsten Händler sind überholt. Keine alten Pakete über den laufenden Cloudbot kopieren.
+
+## Kartenwacht als Recherchequelle
+
+Am 06.10.2026 öffentlich recherchiert und mit unserer Händlerkonfiguration abgeglichen: [KARTENWACHT-RECHERCHE.md](KARTENWACHT-RECHERCHE.md). Die dort genannten zusätzlichen deutschen Händler sind Prüfziele, keine bereits aktivierten Scanner. Händler direkt validieren; fremde Preis-/Bestandsanzeigen liefern nur Recherchehinweise.
