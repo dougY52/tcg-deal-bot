@@ -95,3 +95,23 @@ class RetailReferences(unittest.TestCase):
         self.assertEqual(self.scan(NOW+600)[1], [])
         self.client.product['variants'][0]['available'] = True
         self.assertEqual(len(self.scan(NOW+900)[1]), 1)
+
+    def test_past_release_price_guarantee_is_not_an_open_preorder(self):
+        self.client.product['description'] = 'Release: 2026-09-04. Dein Vorbestellpreis ist durch unsere Preisgarantie geschützt.'
+        row, error = p.live(self.offer, self.shop, self.client, NOW)
+        self.assertIsNone(error)
+        self.assertFalse(row['preorder_status'])
+        self.assertEqual(row['availability_status'], 'in_stock')
+
+    def test_explicit_preorder_button_wins_over_past_release_label(self):
+        self.client.product['description'] = 'Release: 2026-09-04. Neue Welle.'
+        self.client.button = '<button>Vorbestellen</button>'
+        row, error = p.live(self.offer, self.shop, self.client, NOW)
+        self.assertIsNone(error)
+        self.assertTrue(row['preorder_status'])
+
+    def test_first_offer_is_not_labeled_a_restock(self):
+        from tcg_bot.fast_watch import payload
+        deal = self.scan()[1][0]
+        self.assertIn('ANGEBOT', payload(deal)['embeds'][0]['title'])
+        self.assertIn('RESTOCK', payload(deal | {'episode': 1})['embeds'][0]['title'])

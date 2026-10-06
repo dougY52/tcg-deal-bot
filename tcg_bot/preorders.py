@@ -245,7 +245,7 @@ def live(o, shop, client, now):
         today = datetime.fromtimestamp(now, timezone.utc).date()
         if released > today:
             preorder = True
-        elif not re.search(r'vorbestell|pre[ -]?order', row['stock_text'] + ' ' + row['description'], re.I):
+        elif not re.search(r'\b(?:vorbestell(?:bar|en|ung)|pre[ -]?order)\b', row['stock_text'] + ' ' + row['description'], re.I):
             # Old release labels in a title must not quarantine normal stock forever.
             preorder = False
     row.update(preorder=preorder, preorder_status=preorder, availability_status='preorder' if preorder else 'in_stock')

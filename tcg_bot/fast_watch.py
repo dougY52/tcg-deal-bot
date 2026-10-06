@@ -174,7 +174,10 @@ def payload(o):
     msg = preorders.payload(o)
     embed = msg['embeds'][0]
     if not o.get('preorder_status'):
-        embed['title'] = '🔥 DRAGON BALL RESTOCK' if o['franchise'] == 'Dragon Ball' else '🔥 RETAIL / RESTOCK'
+        if o.get('episode', 0) > 0:
+            embed['title'] = '🔥 DRAGON BALL RESTOCK' if o['franchise'] == 'Dragon Ball' else '🔥 RETAIL / RESTOCK'
+        else:
+            embed['title'] = '💶 DRAGON BALL ANGEBOT' if o['franchise'] == 'Dragon Ball' else '💶 RETAIL-ANGEBOT'
         embed['description'] = embed['description'].replace('Direkt vorbestellbar', 'Laut Live-Prüfung direkt bestellbar')
     if o['pricing']['strong']:
         embed['title'] = '🔥🔥 BESTPREIS ALERT · ' + ('PREORDER' if o.get('preorder_status') else 'RESTOCK')
