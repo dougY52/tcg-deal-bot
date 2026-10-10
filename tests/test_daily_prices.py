@@ -165,7 +165,7 @@ class DailyPrices(unittest.TestCase):
         self.validate()
         reports = []
         self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW, lambda x: reports.append(x) or 'one')['offers_sent'], 1)
-        self.assertIn('Nahe Retail', reports[0]['embeds'][0]['title'])
+        self.assertIn('nahe Retail', reports[0]['embeds'][0]['title'])
         self.validate(fixtures.NOW + 86400)
         self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 86400, lambda _: self.fail('duplicate'))['sent'], 0)
         self.client.product['variants'][0]['price'] = 7000
