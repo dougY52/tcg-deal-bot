@@ -55,7 +55,7 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
         if daily_only and key in sent:
             continue
         last = state.get('preorder_products', {}).get(key, {}).get('last_alert', {})
-        if daily_only and last.get('at') and day(last['at']) == day(now):
+        if daily_only and not near_retail_only and last.get('at') and day(last['at']) == day(now):
             continue
         pricing = preorders.price_check(row, list(state.get('preorder_quotes', {}).values()),
                                         dict(cfg, _fast_lane=True), now,
@@ -69,13 +69,20 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
                 continue  # Keep reference-less prices in chat, not as a Discord retail deal.
             record = state.get('preorder_products', {}).get(key, {})
             episode = record.get('episode', 0)
-            prior_alerts = (state.get('near_retail_discord_sent', {}).get(key),
-                            record.get('last_alert'))
-            # Seller/product variants differ by key. Unchanged offers are never re-sent;
-            # a 5% drop or a genuine new availability episode may be sent again.
-            if any(old and old.get('episode', episode) == episode and
-                   price > Decimal(str(old['price'])) * Decimal('.95')
-                   for old in prior_alerts):
+            prior = state.get('near_retail_discord_sent', {}).get(key)
+            # One-time initial inventory catch-up: old instant deal notifications
+            # belong to a separate channel and must not silence this newly enabled
+            # near-retail feed forever. Do not re-send a deal alerted minutes ago.
+            instant = record.get('last_alert')
+            if instant and 0 <= now - instant['at'] < 900 and (
+                    instant.get('episode', episode) == episode and
+                    price > Decimal(str(instant['price'])) * Decimal('.95')):
+                continue
+            # Once the near-retail feed delivered this exact seller/variant,
+            # suppress unchanged prices across calendar days. Re-alert only a
+            # >= 5% price drop or genuinely new availability episode.
+            if prior and prior.get('episode', episode) == episode and (
+                    price > Decimal(str(prior['price'])) * Decimal('.95')):
                 continue
         row['daily_note'] = (pricing['why'] if pricing
                              else 'Preisvergleich offen; kein bestätigter UVP-Deal')
