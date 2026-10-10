@@ -54,7 +54,7 @@ Der vorhandene GitHub-Workflow und cron-job.org-Start bleiben der PC-unabhängig
 
 Die zentrale Preisübersicht wird als `daily_price_overview` im vorhandenen State gesammelt. Jeder Datensatz behält seinen Prüfzeitpunkt. Ein gespeicherter Preis muss vor einer aktuellen Empfehlung erneut geprüft werden. Bestätigte Ausverkäufe/Preisänderungen entfernen alte Einträge.
 
-`daily_prices.discord_enabled=false`: Tagespreise bleiben aus Discord heraus. Der bestehende selektive Alert-Pfad bleibt aktiv.
+`daily_prices.discord_enabled=true` zusammen mit `discord_near_retail_only=true`: Discord erhält neue, frisch auf der exakten Variante validierte Angebote nahe einem datierten Retail-Referenzpreis (standardmäßig bis 10 % darüber) oder mit unabhängiger Live-Preisbestätigung. Unveränderte Preise dürfen NICHT täglich erneut nach Discord gesendet werden. Der tägliche unveränderte Preisüberblick bleibt exklusiv im zentralen Chat. Kein fehlender UVP-Beleg wird als geprüfte UVP ausgegeben. Händler- und Varianten-Deduplizierung, Rückläufer und Preisverbesserungen bleiben erhalten. Diese Konfigurationsänderung kann nicht automatisch die Verfügbarkeit aller deutschen Shops garantieren.
 
 ChatGPT-Zeitpläne sind nicht dasselbe wie Codex-Automationen oder GitHub-Workflows. Nach ausdrücklicher Freigabe wurde der gemeinsame Auftrag an den bestehenden Chat „Pokémon DB OP Naruto Watch“ übergeben. Dieser bestätigte am 06.10.2026 folgende Änderungen:
 - Bestehende Aufgabe zu „Central TCG Watch“ aktualisiert, ID `6aaceed1f90c8191af7925d5106efed9`; stündlich zur vollen Stunde Europe/Berlin, Tagesüberblick im selben Zeitplan um 18 Uhr.
