@@ -314,10 +314,19 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
     for record in history:
         observed = record.get('retail_observation')
         if observed and observed['comparison_key'] == o['comparison_key'] and 0 <= now - observed['at'] <= 14 * 86400:
-            anchors.append((Decimal(observed['price']), 'observed_retail', 'Zuletzt qualifizierter Retailpreis (höchstens 14 Tage alt)'))
+            anchors.append((Decimal(observed['price']), 'historical_only', 'Zuletzt qualifizierter Retailpreis (höchstens 14 Tage alt)'))
+    near_pct = Decimal(str(settings.get('near_retail_tolerance_pct', 10)))
+    if not Decimal('0') <= near_pct <= Decimal('15'):
+        raise ValueError('near_retail_tolerance_pct must be 0..15')
     for anchor, kind, note in sorted(anchors):
-        if price <= anchor * (Decimal('1.05') if kind == 'msrp' else Decimal('1')):
-            return {'baseline': str(anchor), 'why': note + f': {anchor:.2f} €.', 'strong': price <= anchor * Decimal('.9')}
+        ceiling = anchor * (Decimal('1.05') if kind == 'msrp' else
+                            (Decimal('1') + near_pct / 100) if kind == 'observed_retail' else
+                            Decimal('1'))
+        if price <= ceiling:
+            near_note = (f' (bis {near_pct}% über belegtem Händler-Retailpreis; keine UVP)'
+                         if kind == 'observed_retail' and price > anchor else '')
+            return {'baseline': str(anchor), 'why': note + f': {anchor:.2f} €.' + near_note,
+                    'strong': price <= anchor * Decimal('.9')}
     if diagnostics is not None and not anchors:
         diagnostics['reason'] = 'MISSING_PRICE_REFERENCE'
     # Use at most one live price per independently configured retailer group.
@@ -327,11 +336,17 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
             group = p['retailer_group']
             groups[group] = min(groups.get(group, Decimal('Infinity')), Decimal(p['price']))
     if len(groups) >= 3:
-        anchor = median(sorted(groups.values())[:10])
-        # A reviewed retail ceiling also prevents a uniformly scalped market median.
-        ceilings = [a * Decimal('1.05') if k == 'msrp' else a * Decimal('1.20') for a, k, _ in anchors if k != 'user_reference']
-        if price <= anchor and (not cfg.get('_fast_lane') or bool(anchors)) and (not ceilings or price <= min(ceilings)):
-            return {'baseline': str(anchor), 'why': f'Nicht über dem Median von {min(len(groups), 10)} innerhalb von 30 Minuten live geprüften Händlern ({anchor:.2f} €).', 'strong': price <= anchor * Decimal('.9')}
+        values = sorted(groups.values())[:10]
+        anchor = median(values)
+        cheapest = values[0]
+        # Without a recorded retail price, use only offers within 5% of the cheapest
+        # among at least three independent, freshly validated retailers. Not an MSRP.
+        ceilings = [a * (Decimal('1.05') if k == 'msrp' else Decimal('1.20'))
+                    for a, k, _ in anchors if k not in ('user_reference', 'historical_only')]
+        if price <= anchor and price <= cheapest * Decimal('1.05') and (not ceilings or price <= min(ceilings)):
+            return {'baseline': str(anchor),
+                    'why': f'Nahe dem günstigsten von {len(groups)} frisch geprüften Händlern (ab {cheapest:.2f} €); keine Hersteller-UVP.',
+                    'strong': price <= anchor * Decimal('.9')}
     return None
 
 
