@@ -11,6 +11,7 @@ class DailyPrices(unittest.TestCase):
         fixtures.Preorders.setUp(self)
         self.cfg['daily_prices']['enabled'] = True
         self.cfg['daily_prices']['discord_enabled'] = True
+        self.cfg['daily_prices']['discord_near_retail_only'] = False  # legacy info-mode unit tests
         self.cfg['preorder_watch']['user_price_guides'] = []
         self.cfg['references'] = []
         self.client.product['title'] = 'Dragon Ball Fusion World FB03 Raging Roar Display EN Preorder'
@@ -146,6 +147,30 @@ class DailyPrices(unittest.TestCase):
         self.assertEqual(len(self.state['daily_price_overview']['offers']), 1)
         d.run(self.cfg, self.state, fixtures.NOW+86400)
         self.assertEqual(self.state['daily_price_overview']['offers'], {})
+
+    def test_near_retail_discord_keeps_unanchored_prices_out(self):
+        self.cfg['daily_prices']['discord_near_retail_only'] = True
+        self.validate()
+        r = d.run(self.cfg, self.state, fixtures.NOW, lambda _: self.fail('unknown price'))
+        self.assertEqual(r['sent'], 0)
+        self.assertEqual(len(self.state['daily_price_overview']['offers']), 1)
+
+    def test_near_retail_discord_sent_once_but_real_drop_realerts(self):
+        self.cfg['daily_prices']['discord_near_retail_only'] = True
+        self.cfg['preorder_watch']['user_price_guides'] = [{
+            'franchise': 'Dragon Ball', 'set_code': 'FB03', 'language': 'EN',
+            'ceiling_eur': '85', 'verified_on': '2026-10-03',
+            'valid_until': '2026-11-03', 'source': 'test'
+        }]
+        self.validate()
+        reports = []
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW, lambda x: reports.append(x) or 'one')['offers_sent'], 1)
+        self.assertIn('Nahe Retail', reports[0]['embeds'][0]['title'])
+        self.validate(fixtures.NOW + 86400)
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 86400, lambda _: self.fail('duplicate'))['sent'], 0)
+        self.client.product['variants'][0]['price'] = 7000
+        self.validate(fixtures.NOW + 86400 + 300)
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 86400 + 300, lambda _: 'new')['offers_sent'], 1)
 
     def test_discord_length_and_mentions(self):
         self.validate()
