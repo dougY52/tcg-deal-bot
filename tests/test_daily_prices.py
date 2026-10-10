@@ -172,6 +172,32 @@ class DailyPrices(unittest.TestCase):
         self.validate(fixtures.NOW + 86400 + 300)
         self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 86400 + 300, lambda _: 'new')['offers_sent'], 1)
 
+    def test_near_retail_bootstrap_recovers_old_instant_alert_without_repeating(self):
+        self.cfg['daily_prices']['discord_near_retail_only'] = True
+        self.cfg['preorder_watch']['user_price_guides'] = [{
+            'franchise': 'Dragon Ball', 'set_code': 'FB03', 'language': 'EN',
+            'ceiling_eur': '85', 'verified_on': '2026-10-03',
+            'valid_until': '2026-11-03', 'source': 'test'
+        }]
+        self.validate()
+        record = next(iter(self.state['preorder_products'].values()))
+        record['last_alert'] = {'at': fixtures.NOW - 86400, 'price': '79.99', 'episode': 0}
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW, lambda _: 'initial')['offers_sent'], 1)
+        self.validate(fixtures.NOW + 300)
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 300, lambda _: self.fail('duplicate'))['sent'], 0)
+
+    def test_near_retail_avoids_double_post_from_instant_alert(self):
+        self.cfg['daily_prices']['discord_near_retail_only'] = True
+        self.cfg['preorder_watch']['user_price_guides'] = [{
+            'franchise': 'Dragon Ball', 'set_code': 'FB03', 'language': 'EN',
+            'ceiling_eur': '85', 'verified_on': '2026-10-03',
+            'valid_until': '2026-11-03', 'source': 'test'
+        }]
+        self.validate()
+        record = next(iter(self.state['preorder_products'].values()))
+        record['last_alert'] = {'at': fixtures.NOW, 'price': '79.99', 'episode': 0}
+        self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW, lambda _: self.fail('double post'))['sent'], 0)
+
     def test_discord_length_and_mentions(self):
         self.validate()
         row = next(iter(self.state['preorder_quotes'].values()))
