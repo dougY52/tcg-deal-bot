@@ -17,7 +17,7 @@ def safe(text, limit=150):
     return re.sub(r'[\\*_~`|<>\[\]\r\n]', '', str(text))[:limit]
 
 
-def eligible(cfg, state, now, daily_only=True):
+def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
     """Only quotes validated by this run; stale saved stock never becomes a post."""
     settings = cfg.get('daily_prices', {})
     maximum = min(Decimal(str(settings.get('max_price_eur', 200))),
@@ -64,7 +64,20 @@ def eligible(cfg, state, now, daily_only=True):
         if row['franchise'] == 'Pokémon' and re.search(r'wachsendes chaos|optimale ordnung|ME[ -]?0[34]\b', row['title'], re.I):
             if not pricing or price > Decimal(pricing['baseline']) * Decimal('.80'):
                 continue
-        row['daily_note'] = ('Innerhalb der hinterlegten Preisorientierung' if pricing
+        if near_retail_only:
+            if not pricing:
+                continue  # Keep reference-less prices in chat, not as a Discord retail deal.
+            record = state.get('preorder_products', {}).get(key, {})
+            episode = record.get('episode', 0)
+            prior_alerts = (state.get('near_retail_discord_sent', {}).get(key),
+                            record.get('last_alert'))
+            # Seller/product variants differ by key. Unchanged offers are never re-sent;
+            # a 5% drop or a genuine new availability episode may be sent again.
+            if any(old and old.get('episode', episode) == episode and
+                   price > Decimal(str(old['price'])) * Decimal('.95')
+                   for old in prior_alerts):
+                continue
+        row['daily_note'] = (pricing['why'] if pricing
                              else 'Preisvergleich offen; kein bestätigter UVP-Deal')
         rows.append(row)
     # Each franchise gets space; within it show the lowest product prices first.
@@ -76,7 +89,7 @@ def eligible(cfg, state, now, daily_only=True):
             for g in groups if i < len(g)]
 
 
-def message(rows, now):
+def message(rows, now, near_retail=False):
     local = datetime.fromtimestamp(now, BERLIN)
     lines = []
     for row in rows:
@@ -90,7 +103,7 @@ def message(rows, now):
                      f"{safe(row['seller'], 50)} · {row['language']} · **{money(row['price'])}** · {status}\n"
                      f"{costs} · {row.get('daily_note', 'Preisvergleich offen; kein bestätigter UVP-Deal')}\n[Zum Angebot]({url})")
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
-        'title': '📋 Tägliche Preise · ' + local.strftime('%d.%m.%Y'),
+        'title': ('✅ Neue Angebote nahe Retail · ' if near_retail else '📋 Tägliche Preise · ') + local.strftime('%d.%m.%Y'),
         'color': 0x3498DB,
         'description': '\n\n'.join(lines),
         'footer': {'text': 'Live geprüft ' + local.strftime('%H:%M') +
@@ -120,7 +133,8 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
     if not settings.get('discord_enabled', False):
         report['eligible'] = len(observed)
         return report
-    rows = eligible(cfg, state, now)
+    near_retail = bool(settings.get('discord_near_retail_only', False))
+    rows = eligible(cfg, state, now, near_retail_only=near_retail)
     report['eligible'] = len(rows)
     size = settings.get('offers_per_message', 4)
     limit = min(budget, settings.get('max_messages_per_run', 2))
@@ -128,16 +142,16 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
     for row in rows:
         candidate = batch + [row]
         # Stay below Discord's 4096-char embed description limit.
-        if batch and (len(candidate) > size or len(message(candidate, now)['embeds'][0]['description']) > 3900):
+        if batch and (len(candidate) > size or len(message(candidate, now, near_retail)['embeds'][0]['description']) > 3900):
             batches.append(batch)
             batch = []
-        if len(message([row], now)['embeds'][0]['description']) > 3900:
+        if len(message([row], now, near_retail)['embeds'][0]['description']) > 3900:
             continue
         batch.append(row)
     if batch:
         batches.append(batch)
     for batch in batches[:max(0, limit)]:
-        payload = message(batch, now)
+        payload = message(batch, now, near_retail)
         report['alerts'].append({'key': 'daily-prices:' + day(now) + ':' + batch[0]['product_key'],
                                  'reason': 'daily_prices', 'payload': payload})
         if send is None:
@@ -152,6 +166,11 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
         for row in batch:
             state['daily_price_delivery']['products'][row['product_key']] = {
                 'at': now, 'price': row['price'], 'message_id': message_id}
+            if near_retail:
+                record = state.get('preorder_products', {}).get(row['product_key'], {})
+                state.setdefault('near_retail_discord_sent', {})[row['product_key']] = {
+                    'at': now, 'price': row['price'],
+                    'episode': record.get('episode', 0), 'message_id': message_id}
         report['sent'] += 1
         report['offers_sent'] += len(batch)
         if checkpoint:
