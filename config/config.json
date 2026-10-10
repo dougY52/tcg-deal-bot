@@ -2054,7 +2054,8 @@
         "valid_until": "2026-11-03",
         "source": "Nutzer-Preisorientierung vom 03.10.2026, keine Hersteller-UVP"
       }
-    ]
+    ],
+    "near_retail_tolerance_pct": 10
   },
   "scanner": {
     "workers": 4,
@@ -2266,6 +2267,7 @@
     "max_price_eur": 200,
     "offers_per_message": 4,
     "max_messages_per_run": 2,
-    "discord_enabled": false
+    "discord_enabled": true,
+    "discord_near_retail_only": true
   }
 }
