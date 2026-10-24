@@ -1121,17 +1121,19 @@
       "adapter": "html_catalog",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 2,
-      "max_detail_pages": 8,
+      "max_pages": 1,
+      "max_detail_pages": 3,
       "catalog_urls": [
         "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
         "https://www.mueller.de/b/pokemon/"
       ],
       "product_link_pattern": "/p/",
-      "discovery_scope": "Katalog-Discovery plus exakte Produkt-ID-/Warenkorbprüfung. Filiallieferung ohne ausgewählte Filiale meldet keinen Onlinebestand.",
+      "discovery_scope": "Browser: rotierende Kataloge und beobachtete Folgeseiten, maximal 3 relevante Produktseiten pro Besuch; exakte Variante und Lieferung nach Hause vor Alert erforderlich.",
       "allowed_sellers": [
         "Müller Handels GmbH & Co. KG"
-      ]
+      ],
+      "pagination_mode": "mueller",
+      "rotate_catalogs": true
     },
     {
       "id": "ani-kuni",
@@ -2288,6 +2290,14 @@
         "url": "https://www.pokemoncenter.com/en-de",
         "interval_seconds": 300,
         "priority": 0
+      },
+      {
+        "id": "pokemon-official-press-de",
+        "name": "Pokémon – offizielle Pressemitteilungen",
+        "url": "https://pokemon.gamespress.com/de",
+        "interval_seconds": 3600,
+        "priority": 0,
+        "follow_center_articles": true
       }
     ]
   }

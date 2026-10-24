@@ -11,6 +11,8 @@ on:
   pull_request:
     paths: ['tcg_bot/**', 'scripts/check_browser.py', '.github/workflows/browser-check.yml', 'requirements-browser.txt']
   workflow_dispatch:
+env:
+  PYTHONUTF8: '1'
 permissions:
   contents: read
 jobs:

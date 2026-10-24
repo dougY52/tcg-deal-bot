@@ -75,6 +75,13 @@ class MuellerTests(unittest.TestCase):
         self.assertIsNone(error)
         self.assertTrue(row['add_to_cart_available'])
         self.assertEqual(row['price'],'54.99')
+    def test_responsive_duplicate_buttons_for_same_variant_are_valid(self):
+        body = self.fixture()
+        button = '<button data-testid="pdp-addToCart-button" data-product-id="42" aria-disabled="false">In den Warenkorb</button>'
+        row, error = self.parse(body.replace('</main>', button+'</main>'))
+        self.assertIsNone(error)
+        self.assertTrue(row['add_to_cart_available'])
+
     def test_disabled_or_other_variant_does_not_qualify(self):
         for body in [self.fixture(disabled=True),self.fixture(sku='99')]:
             self.assertEqual(self.parse(body)[1],'NO_CHECKOUT')

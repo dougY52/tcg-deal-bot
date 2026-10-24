@@ -42,7 +42,7 @@ def mueller_product(shop, body, url, variant_id):
     local_only=bool(re.search(r'nicht nach Hause lieferbar|nur in (?:der )?Filiale',main,re.I))
     blocked=bool(re.search(r'aktuell nicht lieferbar|ausverkauft|benachrichtigen|warteliste|coming soon', ' '.join(n.text() for n in buttons),re.I))
     home_delivery=bool(re.search(r'Lieferung nach Hause',main,re.I))
-    available=bool(stock in ('InStock','PreOrder') and len(controls)==1 and home_delivery and not local_only and not blocked)
+    available=bool(stock in ('InStock','PreOrder') and len(controls)>=1 and home_delivery and not local_only and not blocked)
     preorder=stock=='PreOrder' or any(re.search('vorbestell',n.text(),re.I) for n in controls)
     row=normalized(shop,offer['url'],product['name'],offer.get('price'),available,
                    sku=variant_id,description=product.get('description',''),gtin=product.get('gtin') or product.get('gtin13',''),

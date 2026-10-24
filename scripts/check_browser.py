@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from tcg_bot.__main__ import load_config
 from tcg_bot.browser import BrowserClient
 from tcg_bot.http import FetchError
-from tcg_bot.web_sources import parse_mms, parse_structured, Document, structured_products
+from tcg_bot.web_sources import parse_mms, parse_structured, Document, structured_products, mueller_candidate
 from tcg_bot.retailers import mueller_product
 from tcg_bot.drop_watch import inspect
 
@@ -20,7 +20,8 @@ def main():
     results = []
     targets = [(sid, shops[sid]['watch_urls'][0]) for sid in ('mediamarkt', 'saturn')]
     targets += [('mueller', 'https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/'),
-                ('pokemon-center-de', 'https://www.pokemoncenter.com/en-de')]
+                ('pokemon-center-de', 'https://www.pokemoncenter.com/en-de'),
+                ('pokemon-press-de', 'https://pokemon.gamespress.com/de')]
     try:
         for sid, url in targets:
             record = dict(shop=sid, url=url, platform=platform.system(), readable=False, checkout_confirmed=False)
@@ -36,7 +37,15 @@ def main():
                 elif sid == 'mueller':
                     rows, _ = parse_structured(shops[sid], body, url)
                     record.update(readable=bool(rows), catalog_products=len(rows))
-                    candidates = [r for r in rows if 'pok' in r['title'].lower() and any(x in r['title'].lower() for x in ('booster','trainer-box','kollektion'))]
+                    candidates = [r for r in rows if mueller_candidate(r['title'])]
+                    if not candidates:
+                        from urllib.parse import urljoin
+                        nxt = next((urljoin(url,n.attrs['href']) for n in Document(body).root.walk()
+                                    if n.tag=='a' and n.attrs.get('data-testid')=='pageLink-2' and n.attrs.get('href')), None)
+                        if nxt:
+                            rows, _ = parse_structured(shops[sid], client.text(nxt), nxt)
+                            candidates = [r for r in rows if mueller_candidate(r['title'])]
+                            record['second_page_candidates'] = len(candidates)
                     # Category entries are discovery only. Validate an actual product page.
                     if candidates:
                         candidate = candidates[0]
@@ -46,6 +55,11 @@ def main():
                         row, reason = mueller_product(shops[sid], detail, candidate['url'], sku)
                         record['detail'] = {'url': candidate['url'], 'reason':reason, 'product':{k:row.get(k) for k in ('title','price','available','variant_id','add_to_cart_available')} if row else None}
                         record['checkout_confirmed'] = bool(row and row.get('add_to_cart_available') and not reason)
+                    # Stable non-TCG positive control tests the transport/parser only.
+                    # It can never enter the bot's deal pipeline or send a notification.
+                    control_url = 'https://www.mueller.de/p/zanzoon-pokemon-trainer-expert-PPN3159053/'
+                    control, reason = mueller_product(shops[sid], client.text(control_url), control_url, '3159053')
+                    record['non_tcg_control'] = {'reason':reason, 'checkout_confirmed':bool(control and control.get('add_to_cart_available') and not reason)}
                 else:
                     status, events = inspect(body, {}, time.time())
                     record.update(readable=status != 'blocked_or_unreadable', status=status, signals=len(events))
