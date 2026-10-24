@@ -8,13 +8,19 @@ on:
       - 'scripts/check_browser.py'
       - 'requirements-browser.txt'
       - '.github/workflows/browser-check.yml'
+  pull_request:
+    paths: ['tcg_bot/**', 'scripts/check_browser.py', '.github/workflows/browser-check.yml', 'requirements-browser.txt']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   check:
     if: github.event.repository.private == false
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
@@ -26,3 +32,9 @@ jobs:
           python -m playwright install --with-deps chromium
       - run: python -m unittest discover -s tests -q
       - run: python scripts/check_browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-access-${{ matrix.os }}
+          path: browser-report.json
+          retention-days: 7

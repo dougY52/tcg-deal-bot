@@ -25,7 +25,7 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
     for s in browser_shops:
         groups.pop(urlsplit(s['base_url']).netloc, None)
     def group(batch):
-        child = Client(client.delay)
+        child = type(client)(client.delay)
         child.deadline = min(client.deadline, time.monotonic()+source_seconds)
         host = urlsplit(batch[0]['base_url']).netloc
         child.cooldowns = {host: client.cooldowns.get(host, 0)}
