@@ -1707,14 +1707,6 @@
       "evidence_url": "https://help.cardmarket.com/de/cardmarket-api"
     },
     {
-      "id": "mueller",
-      "name": "Müller",
-      "url": "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
-      "reason": "Katalog am 03.10.2026 vom GitHub Runner lesbar. Discovery aktiv; noch keine bestätigte TCG-Bestellvalidierung.",
-      "status": "discovery_only",
-      "checked_on": "2026-10-03"
-    },
-    {
       "id": "smyths",
       "name": "Smyths Toys",
       "url": "https://www.smythstoys.com/de/de-de/spielzeug/action-spielzeug/pokemon/pokemon-karten/c/SM1001012002",
@@ -1777,6 +1769,22 @@
       "status": "blocked",
       "checked_on": "2026-09-18",
       "reason": "Einfacher Abruf liefert Client Challenge. Browser-Katalog lesbar, aber noch keine verifizierte Online-/Filialbestandsanbindung."
+    },
+    {
+      "id": "mediamarkt",
+      "name": "MediaMarkt",
+      "url": "https://www.mediamarkt.de",
+      "reason": "Browser-Adapter aktiv; GitHub-Linux- und Windows-Runner am 25.10.2026 mit HTTP 403 gesperrt. Lokal erreichbar, derzeit keine bestätigte Cloud-Bestandsabdeckung.",
+      "status": "cloud_access_blocked",
+      "checked_on": "2026-10-25"
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "url": "https://www.saturn.de",
+      "reason": "Browser-Adapter aktiv; GitHub-Linux- und Windows-Runner am 25.10.2026 mit HTTP 403 gesperrt. Lokal erreichbar, derzeit keine bestätigte Cloud-Bestandsabdeckung.",
+      "status": "cloud_access_blocked",
+      "checked_on": "2026-10-25"
     }
   ],
   "discoveries": {
