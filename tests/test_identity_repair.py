@@ -6,6 +6,10 @@ from test_market import offers,state,NOW
 class IdentityRepairTests(unittest.TestCase):
     def setUp(self):
         self.c=load_config('config/config.json')
+        # Historical fixture, independent of current production revalidation.
+        for ref in self.c['market']['price_references']:
+            if ref['identity'].startswith('Naruto:mythos'):
+                ref.update(verified_on='2026-09-18', valid_until='2026-10-18')
         self.c['market']['price_context_mode']=False
         self.c['shops']=[{'id':str(i),'name':f'Shop {i}','base_url':f'https://shop{i}.example'} for i in range(5)]
 

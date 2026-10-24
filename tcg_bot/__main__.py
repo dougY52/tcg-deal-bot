@@ -157,6 +157,17 @@ def load_config(path):
             assert u.scheme == 'https' and u.hostname and not u.username and not u.password
             assert source['id'] not in source_ids
             source_ids.add(source['id'])
+    drops = cfg.get('drop_watch', {})
+    if drops.get('enabled'):
+        assert 1 <= drops['max_sources_per_run'] <= 6
+        assert 5 <= drops['budget_seconds'] <= 20
+        seen = set()
+        for source in drops.get('sources', []):
+            u = urlsplit(source['url'])
+            assert u.scheme == 'https' and u.hostname and not u.username and not u.password
+            assert source['id'] not in seen and source['name']
+            assert source.get('interval_seconds', 1800) >= 300
+            seen.add(source['id'])
     return cfg
 
 
@@ -384,6 +395,10 @@ def summary(report):
     if report.get('daily_prices'):
         daily = report['daily_prices']
         text += f"Tägliche Preisinfo: {daily['eligible']} passende Live-Angebote · {daily['offers_sent']} Angebote in {daily['sent']} Nachrichten gesendet\n\n"
+    if report.get('drop_watch'):
+        drops = report['drop_watch']
+        text += f"## Drop- und Warteschlangen-Hinweise\n\nGesendet: {drops['sent']} (keine Kaufbestätigung)\n\n"
+        text += '\n'.join('- '+s['id']+': '+s['status'] for s in drops['sources'])+'\n\n'
     if report['errors'] or report['warnings']:
         text += '## Hinweise / Fehler\n\n' + '\n'.join('- ' + x for x in report['errors'] + report['warnings']) + '\n\n'
     text += '## Produkte ohne freigegebenen Vergleichspreis (max. 30)\n\n'

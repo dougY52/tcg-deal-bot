@@ -10,6 +10,10 @@ NOW = datetime(2026, 10, 6, 17, 30, tzinfo=timezone.utc).timestamp()
 class RetailReferences(unittest.TestCase):
     def setUp(self):
         fixtures.Preorders.setUp(self)
+        # Keep this regression's historical price fixture independent of later
+        # live revalidation dates in the production config.
+        ref = next(r for r in self.cfg['references'] if r['id'] == 'dragonball-fb03-raging-roar-24')
+        ref.update(verified_on='2026-10-06', valid_until='2026-10-20')
         self.cfg['_fast_lane'] = True
         self.cfg['_fast_keys'] = [self.offer['key']]
         self.cfg['_fast_groups'] = {self.offer['key']: 0}

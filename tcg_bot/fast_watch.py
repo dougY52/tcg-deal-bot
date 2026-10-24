@@ -182,7 +182,7 @@ def payload(o):
             embed['title'] = '💶 DRAGON BALL ANGEBOT' if o['franchise'] == 'Dragon Ball' else '💶 RETAIL-ANGEBOT'
         embed['description'] = embed['description'].replace('Direkt vorbestellbar', 'Laut Live-Prüfung direkt bestellbar')
     if o['pricing']['strong']:
-        embed['title'] = '🔥🔥 BESTPREIS ALERT · ' + ('PREORDER' if o.get('preorder_status') else 'RESTOCK')
+        embed['title'] = '🔥🔥 BESTPREIS ALERT · ' + ('PREORDER' if o.get('preorder_status') else 'RESTOCK' if o.get('episode', 0) else 'ANGEBOT')
     if o.get('shipping_cost') is not None:
         from decimal import Decimal
         embed['description'] += '\n💰 Gesamt: ' + str(Decimal(o['price']) + Decimal(o['shipping_cost'])) + ' €'
@@ -197,6 +197,20 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     if now - state.get('fast_last_run', 0) < settings.get('min_run_gap_seconds', 240):
         report['fast_watch'] = {'skipped_recent_run': True}
         return report
+    previous_run = state.get('fast_last_run')
+    if previous_run and now - previous_run > 900:
+        report['warnings'].append(f'SCHEDULER_GAP: {(now-previous_run)/60:.0f} Minuten seit letztem Scan; externen Zeitgeber prüfen.')
+    from datetime import datetime, timezone
+    today = datetime.fromtimestamp(now, timezone.utc).date().isoformat()
+    expired = [r for r in cfg.get('references', []) + cfg.get('market', {}).get('price_references', []) if r['valid_until'] < today]
+    if expired:
+        report['warnings'].append(f'PRICE_REFERENCE_EXPIRED: {len(expired)} Vergleichspreise abgelaufen; neu validieren, nicht stillschweigend verlängern.')
+    from . import drop_watch
+    drops = drop_watch.run(cfg, state, client, now, send, checkpoint)
+    report['drop_watch'] = drops
+    report['alerts'].extend(drops['alerts'])
+    report['sent'] += drops['sent']
+    report['errors'].extend(drops['errors'])
     bootstrap(cfg, state, now)
     selected = select(cfg, state)
     live_cfg = copy.deepcopy(cfg)
@@ -216,7 +230,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         if key in state['fast_targets']:
             state['fast_targets'][key]['checked_at'] = now
     report['fast_watch'] = {'targets': len(state.get('fast_targets', {})), 'selected': len(selected), 'checked': audit['checked']}
-    delivery_failed = False
+    delivery_failed = bool(drops['errors'])
     def deliver(found, lane_audit):
         nonlocal delivery_failed
         limit = cfg.get('max_alerts_per_run') or 1000
