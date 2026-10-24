@@ -4,7 +4,7 @@ from hashlib import sha256
 from html.parser import HTMLParser
 import json
 import re
-from urllib.parse import urljoin, urlsplit, urlunsplit
+from urllib.parse import urljoin, urlsplit, urlunsplit, parse_qs
 
 from .sources import plain
 from .http import FetchError
@@ -148,6 +148,12 @@ def parse_structured(shop, body, page_url):
     return rows, list(dict.fromkeys(links))
 
 
+def mueller_candidate(title):
+    return bool(re.search(r'pok[eé]mon|dragon.?ball|one.?piece|naruto', title, re.I)
+                and re.search(r'booster|trainer.box|display|collection|kollektion|bundle|premium|tin|deck.set', title, re.I)
+                and not re.search(r'acryl|acrylic|playmat|sleeves?|portfolio|album|ordner|binder|trainer (?:guess|expert)', title, re.I))
+
+
 def html_catalog(shop, client):
     rows, notes = {}, []
     shop.setdefault('_catalog_next_pages', dict(shop.get('_catalog_pages', {})))
@@ -156,6 +162,10 @@ def html_catalog(shop, client):
         index = shop.get('_catalog_pages', {}).get('_html_catalog', 0) % len(catalog)
         shop.setdefault('_catalog_next_pages', {})['_html_catalog'] = index + 1
         catalog = [catalog[index]]
+    if shop.get('pagination_mode') == 'mueller':
+        # Follow only previously observed page links, rotating one page per catalog run.
+        catalog = [shop.get('_catalog_pages', {}).get('_mueller_next:' + url, url) for url in catalog]
+        catalog = [url for url in catalog if same_site(url, shop['base_url'])]
     watched = list(dict.fromkeys(shop.get('watch_urls', [])))
     pages = [(url, True) for url in catalog] + [(url, False) for url in watched]
     seen, details = set(), set()
@@ -168,6 +178,15 @@ def html_catalog(shop, client):
         try:
             body = client.text(url)
             parsed, links = parse_structured(shop, body, url)
+            if is_catalog and shop.get('pagination_mode') == 'mueller':
+                base = urlunsplit((*urlsplit(url)[:3], '', ''))
+                current = int(parse_qs(urlsplit(url).query).get('page', ['1'])[0])
+                next_page = next((urljoin(url, n.attrs['href']) for n in Document(body).root.walk()
+                                  if n.tag == 'a' and n.attrs.get('data-testid') == f'pageLink-{current+1}' and n.attrs.get('href')), base)
+                if same_site(next_page, shop['base_url']):
+                    shop['_catalog_next_pages']['_mueller_next:' + base] = next_page
+                parsed = [r for r in parsed if mueller_candidate(r['title'])]
+                links = [r['url'] for r in parsed]
             if not is_catalog and shop.get('detail_description_hook'):
                 sections = [n.text() for n in Document(body).root.walk() if n.attrs.get('data-hook') == shop['detail_description_hook']]
                 if sections:
@@ -189,6 +208,8 @@ def html_catalog(shop, client):
                         continue
                     if node.attrs.get('rel') == 'next' and page_count < shop.get('max_pages', 1) * max(1, len(catalog)):
                         pages.append((target, True))
+                    if shop.get('pagination_mode') == 'mueller' and not mueller_candidate(href + ' ' + node.text()):
+                        continue
                     if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box|trainer.box|collection|kollektion|bundle|premium.box|special.box|deck.set', href + ' ' + node.text(), re.I):
                         links.append(target)
                 links = list(dict.fromkeys(links))

@@ -40,6 +40,19 @@ GitHub-Schedule bleibt ein zusätzlicher Auslöser. Starts bei Codeänderungen a
 ## Prüfung
 
 `python -m unittest discover -s tests -q` und `python -m tcg_bot --check-config`.
-Live-Browser benötigt die bereits vorhandene `requirements-browser.txt` sowie `python -m playwright install --with-deps chromium`. Der Cloud-Workflow installiert sie jetzt für die konfigurierten Checkout-Prüfungen unabhängig vom optionalen MMS-Schalter.
+Live-Browser benötigt die bereits vorhandene `requirements-browser.txt` sowie `python -m playwright install --with-deps chromium`. Der Cloud-Workflow installiert sie jetzt für die konfigurierten Checkout-Prüfungen mit aktivierter Browser-Anbindung (`TCG_BROWSER=1`).
 
 Neue Tests prüfen unter anderem externe Formularzuordnung, falsche/deaktivierte Varianten, „Einkaufswagen“, Browserfehler, Queue-Dedupe/Wiederöffnung, Sendefehler, abgelaufene/falschsprachige Ankündigungen und Schutzseiten. Kein Test sendet einen erfundenen Deal an Discord.
+
+
+## Browser-Abdeckung – geprüft am 25.10.2026 (Europe/Berlin)
+
+Der Cloud Watch aktiviert den normalen Chromium-Browser für Müller, MediaMarkt/Saturn und die öffentliche Pokémon-Center-DE-Seite. Parallele Händlerprüfungen behalten jetzt diesen Transport; jeder Worker schließt seinen eigenen Browser. Zeitbudgets, robots.txt, Crawl-Abstände und Backoff bleiben aktiv. Es gibt keine Proxies, Stealth-Fingerprints, Login-Übernahme oder Warenkorb-Klicks.
+
+* **Müller:** Kataloge auf Linux- und Windows-GitHub-Runnern erreichbar. Die beobachteten Folgeseiten werden pro Katalog persistent rotiert; Zubehör wird vor Detailabfragen aussortiert. Mehrere responsive Warenkorbbuttons derselben bestätigten Produkt-ID gelten als dieselbe Kaufoption. Sprache, aktueller Preis, Verkäufer, echte Verfügbarkeit und Lieferung nach Hause müssen weiterhin passen. Filialbestände ohne gewählte Filiale bleiben unbestätigt.
+* **MediaMarkt/Saturn:** Lokal erreichbar; beide GitHub-Runner liefern weiterhin HTTP 403. Der Adapter ist eingebunden, aber das ist **keine funktionierende Cloud-Bestandsabdeckung**. Sperren stehen im Bericht und lösen 30 Minuten Backoff aus. Ein Wechsel von Linux zu Windows löst diese Sperre nach dem Test nicht.
+* **Pokémon Center:** Shop und öffentliche Sitemap liefern weiterhin Schutzseiten bzw. leere Inhalte. Keine bestätigte Live-Stock-Abdeckung. Als zusätzliche offizielle Quelle wird `https://pokemon.gamespress.com/de` stündlich geprüft: maximal zwei Artikel zu Pokémon Center pro Besuch; Artikel ohne qualifiziertes Signal höchstens täglich erneut, nur dortige deutsche Artikel. Nur ein konkreter, datierter Verkaufsstart für passende Karten besteht die vorhandenen Ankündigungsregeln. Plüsch, Kleidung, allgemeine News und reine Erscheinungsdaten bleiben still. Der Direktlink führt zur Pressemitteilung, niemals zu einer behaupteten Kaufbestätigung.
+
+`scripts/check_browser.py` prüft die Zugriffswege ohne Secrets und ohne Discord. Ein nicht erreichbarer Shop macht den Probe-Lauf bewusst rot; der JSON-Bericht unterscheidet erreichbare Kataloge, echte Produktvalidierung und einen ausdrücklich als Nicht-TCG markierten positiven Parser-Kontrollartikel. Dieser Kontrollartikel gelangt nie in die Alert-Pipeline. Die bestehenden Bot-Tests und Live-Zugriffstests sind getrennt zu beurteilen.
+
+Der Bot läuft auf GitHub auch bei ausgeschaltetem PC. Die Pünktlichkeit des externen Fünf-Minuten-Auslösers bleibt davon unabhängig: seine zuvor ungültige GitHub-Freigabe muss wie oben beschrieben erneuert werden. Ein öffentlich zugänglicher, kostenloser und garantiert funktionierender Cloud-Zugriff auf alle drei Händler wurde nicht gefunden.

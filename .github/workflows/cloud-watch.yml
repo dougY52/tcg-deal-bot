@@ -53,7 +53,7 @@ jobs:
       - name: Check shops and notify
         id: scan
         env:
-          TCG_BROWSER: ${{ vars.TCG_BROWSER }}
+          TCG_BROWSER: '1'
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |

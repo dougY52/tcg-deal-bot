@@ -190,3 +190,5 @@ Regeln, unterstützte Checkout-Systeme und bewusste Grenzen stehen in
 `config/config.json`. Die bestehenden normalen Deal-Filter bleiben bestehen.
 
 Händlererweiterung vom 03.10.2026: [aktive Quellen, Prüfungen und Grenzen](HAENDLER-ABDECKUNG.md).
+
+Browser-Zugriff für Müller/MediaMarkt und offizielle Pokémon-Center-Hinweise: [aktueller Stand und Zugriffsgrenzen](DROP-WATCH.md#browser-abdeckung--geprüft-am-25102026-europeberlin).

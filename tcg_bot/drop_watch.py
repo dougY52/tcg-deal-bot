@@ -3,7 +3,7 @@ from datetime import datetime
 from hashlib import sha256
 import re
 import time
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urljoin
 from zoneinfo import ZoneInfo
 from .web_sources import Document, Node
 
@@ -89,11 +89,42 @@ def sources(cfg):
                        and s['id'] in trusted and urlsplit(s['base_url']).hostname not in hosts]
 
 
+def read_source(source, old, client, now):
+    body = client.text(source['url'])
+    status, events = inspect(body, source, now)
+    if not source.get('follow_center_articles') or status != 'readable':
+        return status, events
+    checks = old.setdefault('article_checks', {})
+    links = []
+    for n in Document(body).root.walk():
+        if n.tag != 'a' or not re.search(r'pok[eé]mon center', n.text(), re.I):
+            continue
+        url = urljoin(source['url'], n.attrs.get('href', ''))
+        if (urlsplit(url).hostname == urlsplit(source['url']).hostname
+                and urlsplit(url).path.startswith('/de/') and url not in links
+                and now - checks.get(url, 0) >= 86400):
+            links.append(url)
+    for url in links[:2]:
+        try:
+            article_status, found = inspect(client.text(url), source, now)
+        except Exception:
+            continue
+        if article_status == 'readable':
+            if not found:
+                checks[url] = now
+            else:
+                checks.pop(url, None)  # Delivery failures must remain retryable.
+            # Only explicit dated DE-card sales announcements pass inspect().
+            events.extend(dict(event, source_url=url) for event in found if event['kind'] == 'announcement')
+    old['article_checks'] = dict(sorted(checks.items(), key=lambda item:item[1], reverse=True)[:100])
+    return status, events
+
+
 def payload(source, event):
     clean = lambda s: re.sub(r'[@*_`<>\[\]\\]', '', s)
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
         'title': '🚦 WARTESCHLANGE SICHTBAR' if event['kind'] == 'queue' else '📅 DROP ANGEKÜNDIGT',
-        'url': source['url'], 'color': 0x3498DB,
+        'url': event.get('source_url', source['url']), 'color': 0x3498DB,
         'description': f"**{clean(source['name'])}** · Deutschland\n{clean(event['detail'])}\n\n"
                        'Hinweis zur Händlerseite; keine Bestands-, Preis- oder Kaufbestätigung.'}]}
 
@@ -116,7 +147,7 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
             old = table.setdefault(source['id'], {'delivered': {}, 'queue_episode': 0})
             old['checked_at'] = now
             try:
-                status, events = inspect(client.text(source['url']), source, now)
+                status, events = read_source(source, old, client, now)
             except Exception as exc:
                 status, events = 'unavailable:' + type(exc).__name__, []
             old['status'] = status
