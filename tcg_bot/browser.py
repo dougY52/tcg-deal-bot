@@ -52,6 +52,7 @@ class BrowserClient(Client):
             page.close()
 
     def close(self):
+        super().close()
         try:
             if self.browser:
                 self.browser.close()

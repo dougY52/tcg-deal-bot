@@ -318,7 +318,8 @@
       "max_pages": 8,
       "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
-      "cloud_check_run": "35340269350"
+      "cloud_check_run": "35340269350",
+      "browser_checkout": true
     },
     {
       "id": "tenkaichi",
@@ -811,7 +812,8 @@
         "verified_on": "2026-10-03",
         "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
       },
-      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht.",
+      "browser_checkout": true
     },
     {
       "id": "johtomarket-de",
@@ -1305,7 +1307,8 @@
       },
       "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert.",
       "rotate_collections": true,
-      "live_language_discovery": true
+      "live_language_discovery": true,
+      "browser_checkout": true
     },
     {
       "id": "nerdbank",
@@ -1479,8 +1482,8 @@
       "kind": "observed_retail",
       "retail_eur": "85.00",
       "tolerance_pct": 0,
-      "verified_on": "2026-10-06",
-      "valid_until": "2026-10-20",
+      "verified_on": "2026-10-24",
+      "valid_until": "2026-11-23",
       "title_pattern": "Dragon\\s*Ball(?=.*FB[ -]?03)(?=.*Raging Roar).*(?:Display|Booster Box)",
       "bindings": [
         {
@@ -1523,6 +1526,10 @@
         {
           "url": "https://loco-tcg.de/produkt/dragon-ball-super-card-game-fusion-world-raging-roar-fb03-booster-display-en/",
           "note": "06.10.2026: Produktseite 79,99 EUR, EN, 24 Booster, vorrätig mit Bestellbutton. Zusätzlicher Retailvergleich; kein automatisch angebundener Anbieter."
+        },
+        {
+          "url": "https://card-collector.net/products/dragon-ball-super-card-game-fusion-world-fb03-display-englisch-ab-16-08-2024?variant=45014645047564",
+          "note": "24.10.2026: Live-Varianten-JSON und aktives Bestellformular bestätigen EN, FB03 Raging Roar, 24-Booster-Display, 85,00 EUR. Unveränderte beobachtete Retail-Referenz; keine UVP."
         }
       ],
       "note": "Am 06.10. neu geprüft: 85 EUR oberes Ende bestätigter Direktshoppreise, keine Hersteller-UVP. Historische 59,99 EUR vom 18.09. waren bei dem damaligen Anbieter NICHT verfügbar und sind keine aktuelle harte Preisgrenze.",
@@ -1837,10 +1844,10 @@
         "identity": "Naruto:mythos|KONOHA-SHIDO|2|24|standard|EN",
         "kind": "observed_retail",
         "price_eur": "69.90",
-        "verified_on": "2026-09-18",
-        "valid_until": "2026-10-18",
-        "evidence_url": "https://cardcosmos.de/products/naruto-mythos-tcg-konoha-shido-booster-display-2-edition-englisch",
-        "note": "Am 18.09.2026 geprüfter regulärer Händlerpreis 69,90 EUR für Konoha Shido / First Set, 2nd Edition, 24 Booster, EN. Keine Hersteller-UVP. Identität durch Herstellerhinweis und Händlerbeschreibungen geprüft."
+        "verified_on": "2026-10-24",
+        "valid_until": "2026-11-23",
+        "evidence_url": "https://animeboy.de/products/naruto-mythos-tcg-first-set-2nd-edition-display?variant=54069292237142",
+        "note": "24.10.2026: Live bestätigt bei Animeboy: Konoha Shido, 2nd Edition, 24 Booster, EN, 69,90 EUR, aktives Bestellformular. Keine Hersteller-UVP; unveränderte Preisreferenz."
       },
       {
         "identity": "Pokémon|ME4|unspecified|36|standard|DE",
@@ -2269,5 +2276,19 @@
     "max_messages_per_run": 3,
     "discord_enabled": true,
     "discord_near_retail_only": true
+  },
+  "drop_watch": {
+    "enabled": true,
+    "max_sources_per_run": 5,
+    "budget_seconds": 18,
+    "sources": [
+      {
+        "id": "pokemon-center-de",
+        "name": "Pokémon Center Deutschland",
+        "url": "https://www.pokemoncenter.com/en-de",
+        "interval_seconds": 300,
+        "priority": 0
+      }
+    ]
   }
 }

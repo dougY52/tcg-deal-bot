@@ -138,7 +138,7 @@ Der eigenständige Workflow `.github/workflows/cloud-watch.yml` besitzt den Clou
 
 ## Externer Zeitgeber
 
-cron-job.org löst `cloud-watch.yml` alle zehn Minuten per authentifiziertem `workflow_dispatch` aus. GitHub-Schedule- und Push-Auslöser sind aus diesem Workflow entfernt. Der GitHub-Token ist auf Actions für dieses Repository beschränkt; der Discord-Webhook bleibt ausschließlich im GitHub-Secret. Die PC-Aufgabe bleibt deaktiviert. Im Ausführungsverlauf von cron-job.org lassen sich Startzeit und HTTP-Ergebnis prüfen; in GitHub stehen die eigentlichen Scanergebnisse. Ein erfolgreicher Zeitgeberaufruf bestätigt nur den Start, nicht den Erfolg aller Händlerabrufe.
+`cloud-watch.yml` enthält den Fünf-Minuten-Zeitplan, manuelle Starts und einen Start bei Änderungen am Bot auf `main`. Der externe cron-job.org-Job 8473281 ist ebenfalls auf fünf Minuten konfiguriert, war aber bei der Prüfung am 24.10.2026 deaktiviert; sein gespeicherter GitHub-Token antwortete mit HTTP 401. Er muss nach Erneuerung des Tokens reaktiviert und durch erfolgreiche Dispatches bestätigt werden. GitHub-Schedule allein startete zuletzt nur alle 2–4,5 Stunden. Ein konfigurierter Zeitplan ist keine zugesicherte Laufhäufigkeit. Die PC-Aufgabe bleibt deaktiviert. Details: [Drop-Watch und Betriebsdiagnose](DROP-WATCH.md).
 
 ### Automatische Preisrecherche und Vorbestellungen
 

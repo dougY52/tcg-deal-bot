@@ -26,6 +26,7 @@ class Client:
         self.blocked = set()
         self.cooldowns = {}
         self.deadline = time.monotonic() + 600
+        self.product_renderer = None
 
     def raw(self, url, _redirects=0):
         if time.monotonic() >= self.deadline:
@@ -113,7 +114,16 @@ class Client:
         return self.raw(url)
 
     def close(self):
-        pass
+        if self.product_renderer:
+            self.product_renderer.close()
+            self.product_renderer = None
+
+    def render_product(self, url, variant_id):
+        self.check_allowed(url)
+        if self.product_renderer is None:
+            from .product_browser import ProductRenderer
+            self.product_renderer = ProductRenderer()
+        return self.product_renderer.read(url, variant_id, self.deadline)
 
     def get(self, url):
         return json.loads(self.text(url))

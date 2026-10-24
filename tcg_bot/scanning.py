@@ -34,7 +34,10 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
         child.host_delay = dict(client.host_delay)
         if host in client.blocked:
             child.blocked.add(host)
-        result = [one(s, child) for s in batch]
+        try:
+            result = [one(s, child) for s in batch]
+        finally:
+            child.close()
         return result, child
     results = []
     with ThreadPoolExecutor(max_workers=workers) as executor:

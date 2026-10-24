@@ -128,11 +128,18 @@ class Forms(HTMLParser):
         self.form = None
         self.button = None
         self.select = None
+        self.external_buttons = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         if tag == 'form':
-            self.form = {'action': a.get('action', ''), 'method': a.get('method', '').lower(), 'ids': [], 'buttons': [], 'text': '', 'hidden': 'hidden' in a or a.get('aria-hidden') == 'true'}
+            self.form = {'id': a.get('id'), 'action': a.get('action', ''), 'method': a.get('method', '').lower(), 'ids': [], 'buttons': [], 'text': '', 'hidden': 'hidden' in a or a.get('aria-hidden') == 'true'}
+        if tag in ('button', 'input') and a.get('form') and a.get('type', 'submit' if tag == 'button' else '').lower() == 'submit':
+            self.button = {'enabled': 'disabled' not in a and 'hidden' not in a and a.get('aria-disabled') != 'true' and a.get('aria-hidden') != 'true', 'text': a.get('value', '')}
+            self.external_buttons.append((a['form'], self.button))
+            if tag == 'input':
+                self.button = None
+            return
         if self.form is None:
             return
         if tag == 'select' and a.get('name') == 'id' and 'disabled' not in a and 'multiple' not in a:
@@ -231,7 +238,12 @@ def live(o, shop, client, now):
         return dict(row, availability_status='out_of_stock', preorder_status=False), 'OUT_OF_STOCK'
     if v.get('available') is not True:
         return None, 'AMBIGUOUS_VARIANT'
-    page = client.text(base + '/products/' + quote(handle) + '?variant=' + vid + '&_preorder_check=' + str(int(now)))
+    page_url = base + '/products/' + quote(handle) + '?variant=' + vid + '&_preorder_check=' + str(int(now))
+    page = client.text(page_url)
+    # Some Shopify themes enable their variant input only after JS initialization.
+    # Never promote disabled IDs from raw HTML; render only explicitly enabled shops.
+    if shop.get('browser_checkout'):
+        page = client.render_product(page_url, vid)
     active_currency = re.search(r'Shopify\.currency\s*=\s*\{[^}]*[\"\']active[\"\']\s*:\s*[\"\']([A-Z]{3})[\"\']', page)
     if not active_currency or active_currency[1] != shop['currency']:
         return None, 'CURRENCY_UNCONFIRMED'
@@ -242,13 +254,17 @@ def live(o, shop, client, now):
         return dict(row, availability_status='waitlist', preorder_status=False), 'WAITLIST'
     parser = Forms()
     parser.feed(page)
+    for owner, button in parser.external_buttons:
+        owners = [f for f in parser.forms if f['id'] == owner]
+        if len(owners) == 1:
+            owners[0]['buttons'].append(button)
     matching = [f for f in parser.forms if not f['hidden'] and f['ids'] == [vid] and f['method'] == 'post' and
                 urlsplit(f['action']).path.rstrip('/').endswith('/cart/add') and
                 (not urlsplit(f['action']).netloc or urlsplit(f['action']).netloc == urlsplit(base).netloc)]
     if not matching:
         return dict(row, availability_status='unknown', preorder_status=False), 'AMBIGUOUS_VARIANT'
     buttons = [b for f in matching for b in f['buttons']]
-    order = [b for b in buttons if b['enabled'] and re.search(r'add to (?:cart|bag)|in den warenkorb|zum warenkorb|vorbestell|pre.?order|jetzt kaufen', b['text'], re.I) and not BLOCK.search(b['text'])]
+    order = [b for b in buttons if b['enabled'] and re.search(r'add to (?:cart|bag)|in den (?:warenkorb|einkaufswagen)|zum warenkorb|vorbestell|pre.?order|jetzt kaufen', b['text'], re.I) and not BLOCK.search(b['text'])]
     row['stock_text'] = ' '.join(b['text'].strip() for b in buttons)[:300]
     if not order:
         reason = 'WAITLIST' if BLOCK.search(row['stock_text']) else 'OUT_OF_STOCK' if re.search(r'sold out|ausverkauft|nicht lieferbar|out of stock', row['stock_text'], re.I) else 'NO_CHECKOUT'
