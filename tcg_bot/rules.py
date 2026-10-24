@@ -24,9 +24,16 @@ def language(offer):
     return 'UNKNOWN'
 
 
+def excluded_franchise(text, config):
+    return any(re.search(config['franchises'][name], text, re.I)
+               for name in config.get('disabled_franchises', []) if name in config['franchises'])
+
+
 def franchise(offer, config):
+    if excluded_franchise(offer['title'] + ' ' + offer.get('variant', ''), config):
+        return None
     text = offer['title'] + ' ' + offer.get('description', '')[:500]
-    return next((name for name, pattern in config['franchises'].items() if re.search(pattern, text, re.I)), None)
+    return next((name for name, pattern in config['franchises'].items() if name not in config.get('disabled_franchises', []) and re.search(pattern, text, re.I)), None)
 
 
 def gtin_key(value):

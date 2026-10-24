@@ -6,6 +6,7 @@ import time
 from urllib.parse import urlsplit, parse_qs
 from . import preorders
 from .scanning import collect
+from .rules import excluded_franchise
 
 
 def priority(o):
@@ -27,6 +28,8 @@ def remember(rows, cfg, state, now):
     table = state.setdefault('fast_targets', {})
     detail_sources = {'mueller','mediamarkt','saturn'} | {s['id'] for s in cfg['shops'] if s.get('live_language_discovery')}
     for o in rows:
+        if excluded_franchise(o['title'] + ' ' + o.get('variant', ''), cfg):
+            continue
         obj, reason = preorders.identity(o, cfg)
         # Retail catalog hints may omit language. Only a supported detail validator
         # can promote these hints; unknown language never becomes an alert.
@@ -87,7 +90,7 @@ def select(cfg, state):
     buckets = [[] for _ in range(6)]
     for record in state.get('fast_targets', {}).values():
         o = record['offer']
-        if o['shop'] in shops:
+        if o['shop'] in shops and not excluded_franchise(o['title'] + ' ' + o.get('variant', ''), cfg):
             buckets[priority(o)].append(record)
     # Reserve checks for each franchise; oldest observation rotates all known sets.
     quotas = cfg['fast_watch'].get('quotas', [12, 8, 8, 8, 6, 4])

@@ -159,7 +159,7 @@ class ShopifyCartTests(unittest.TestCase):
         self.assertIsNotNone(p.identity(self.offer|{'title':'Pokémon Glurak Super Premium Kollektion mit Figur DE'},cfg)[0])
     def test_first_set_is_not_first_edition(self):
         row=dict(self.offer,title='Naruto Mythos First Set Display 2nd Edition EN')
-        self.assertEqual(p.identity(row,load_config('config/config.json'))[0]['edition'],'second')
+        self.assertEqual(p.identity(row,dict(load_config('config/config.json'),disabled_franchises=[]))[0]['edition'],'second')
 
 class DiscoveryTests(unittest.TestCase):
     def test_missing_language_is_only_a_hint(self):

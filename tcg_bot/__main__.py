@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 
 from .http import Client, send_discord, webhook_url
 from .discovery import discovery, discovery_payload
-from .rules import assess, prefer_german, observe, alert_reason, payload, franchise
+from .rules import assess, prefer_german, observe, alert_reason, payload, franchise, excluded_franchise
 from .sources import ADAPTERS
 from .web_sources import html_catalog, mms, otto
 ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog,jtl=html_catalog, mms=mms, otto=otto)
@@ -168,6 +168,11 @@ def load_config(path):
             assert source['id'] not in seen and source['name']
             assert source.get('interval_seconds', 1800) >= 300
             seen.add(source['id'])
+    assert set(cfg.get('disabled_franchises', [])) <= set(cfg['franchises'])
+    for shop in cfg['shops']:
+        for key in ('watch_handles', 'watch_urls', 'catalog_collections', 'catalog_urls'):
+            if key in shop:
+                shop[key] = [v for v in shop[key] if not excluded_franchise(v, cfg)]
     return cfg
 
 

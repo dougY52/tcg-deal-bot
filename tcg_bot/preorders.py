@@ -14,7 +14,7 @@ from statistics import median
 import time
 from urllib.parse import quote, urlsplit
 
-from .rules import language
+from .rules import language, franchise
 from .sources import plain
 from .product_types import product_kind, product_token, EXCLUDED, single_pack_variant
 
@@ -82,7 +82,7 @@ def reference_matches(o, ref):
 def identity(o, cfg):
     """Use only variant-specific title/language; a set code alone is not a SKU."""
     text = o['title'] + ' ' + o.get('variant', '')
-    family = next((f for f, p in cfg['franchises'].items() if re.search(p, o['title'], re.I)), None)
+    family = franchise(dict(o, description=''), cfg)
     if not family:
         return None, 'UNSUPPORTED_PRODUCT'
     lang = language(dict(o, variant=o.get('variant', ''), description=o.get('description', '')))

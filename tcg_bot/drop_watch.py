@@ -6,6 +6,7 @@ import time
 from urllib.parse import urlsplit, urljoin
 from zoneinfo import ZoneInfo
 from .web_sources import Document, Node
+from .rules import excluded_franchise
 
 BERLIN = ZoneInfo('Europe/Berlin')
 EVENT = re.compile(r'\bdrop\b|verkaufsstart|vorverkaufsstart|vorbestellstart|pre.?orders? (?:open|start)|sale (?:starts|opens)', re.I)
@@ -161,6 +162,8 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
                 old.update(clear_count=0, queue_active=True)
             # Unknown/blocked observations do not manufacture a queue reopening.
             for event in events:
+                if excluded_franchise(event.get('detail', ''), cfg):
+                    continue
                 identity = event['key'] + (':'+str(old['queue_episode']) if event['kind'] == 'queue' else '')
                 key = sha256(identity.encode()).hexdigest()[:24]
                 if key in old['delivered']:

@@ -6,6 +6,7 @@ from test_market import offers,state,NOW
 class IdentityRepairTests(unittest.TestCase):
     def setUp(self):
         self.c=load_config('config/config.json')
+        self.c['disabled_franchises']=[]  # Test retained identity support independently of the production pause.
         # Historical fixture, independent of current production revalidation.
         for ref in self.c['market']['price_references']:
             if ref['identity'].startswith('Naruto:mythos'):

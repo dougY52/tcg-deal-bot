@@ -1,3 +1,5 @@
+> Aktuell pausiert: Naruto (Suche, Fast Watch, Preorders, Preisübersicht und Drop-Alerts). Über `disabled_franchises` wieder aktivierbar; gespeicherte Historie bleibt erhalten.
+
 # Aktuell: Fast Watch
 
 Der Cloud-Bot verwendet jetzt den [5-Minuten-Fast-Watch](FAST-WATCH.md): Live-Prüfung vor jedem Alert, Fusion World zuerst, strengere Retailpreise. Die folgenden älteren Betriebsbeschreibungen beschreiben teilweise den vorherigen Vollscan; maßgeblich für den aktuellen Cloud-Betrieb ist FAST-WATCH.md.
