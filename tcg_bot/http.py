@@ -28,7 +28,7 @@ class Client:
         self.deadline = time.monotonic() + 600
         self.product_renderer = None
 
-    def raw(self, url, _redirects=0):
+    def raw(self, url, _redirects=0, _headers=None):
         if time.monotonic() >= self.deadline:
             raise FetchError('Run request budget exhausted')
         host = urllib.parse.urlsplit(url).netloc
@@ -41,7 +41,7 @@ class Client:
         time.sleep(wait)
         self.last[host] = time.monotonic()
         try:
-            request = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/json,text/plain,*/*'})
+            request = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/json,text/plain,*/*', **(_headers or {})})
             with urllib.request.build_opener(NoRedirect()).open(request, timeout=max(1, min(25, self.deadline - time.monotonic()))) as response:
                 if urllib.parse.urlsplit(response.url).hostname != urllib.parse.urlsplit(url).hostname:
                     raise FetchError('Unexpected redirect host')
@@ -61,7 +61,7 @@ class Client:
                         raise FetchError('Unexpected robots redirect') from None
                 else:
                     self.check_allowed(target)
-                return self.raw(target, _redirects + 1)
+                return self.raw(target, _redirects + 1, _headers=_headers)
             if exc.code in (429, 503):
                 self.blocked.add(host)
                 retry = exc.headers.get('Retry-After', '') if exc.headers else ''
@@ -112,6 +112,26 @@ class Client:
     def text(self, url):
         self.check_allowed(url)
         return self.raw(url)
+
+    def public_catalog_json(self, url, headers):
+        """Only the observed public MMS catalog GET operations; no cookie/auth headers."""
+        parts = urllib.parse.urlsplit(url)
+        query = urllib.parse.parse_qs(parts.query)
+        if (parts.scheme != 'https' or parts.hostname not in ('www.mediamarkt.de','www.saturn.de')
+                or parts.username or parts.password or parts.port or parts.fragment
+                or parts.path != '/api/v1/graphql'
+                or query.get('operationName') not in (['CategoryV4'], ['SearchV4'])):
+            raise FetchError('Unsupported public catalog request')
+        allowed = {'x-operation','x-mms-salesline','x-mms-country','x-mms-language','x-cacheable',
+                   'apollographql-client-name','apollographql-client-version'}
+        if set(headers)-allowed:
+            raise FetchError('Unsupported public catalog headers')
+        self.check_allowed(url)
+        body = self.raw(url, _headers=dict(headers, **{'Accept':'application/json','Content-Type':'application/json'}))
+        data = json.loads(body)
+        if not isinstance(data, dict) or data.get('errors') or not data.get('data'):
+            raise FetchError('Public catalog query unavailable or changed')
+        return data
 
     def close(self):
         if self.product_renderer:

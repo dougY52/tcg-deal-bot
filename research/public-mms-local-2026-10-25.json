@@ -1,0 +1,26 @@
+[
+  {
+    "host": "www.mediamarkt.de",
+    "operation": "CategoryV4",
+    "inventory_confirmed": false,
+    "http_status": 200,
+    "data_keys": [
+      "categoryV4"
+    ],
+    "error_codes": [],
+    "product_count": 12,
+    "status": "catalog_json_received"
+  },
+  {
+    "host": "www.saturn.de",
+    "operation": "SearchV4",
+    "inventory_confirmed": false,
+    "http_status": 200,
+    "data_keys": [
+      "searchV4"
+    ],
+    "error_codes": [],
+    "product_count": 12,
+    "status": "catalog_json_received"
+  }
+]

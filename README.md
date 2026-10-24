@@ -194,3 +194,7 @@ Regeln, unterstützte Checkout-Systeme und bewusste Grenzen stehen in
 Händlererweiterung vom 03.10.2026: [aktive Quellen, Prüfungen und Grenzen](HAENDLER-ABDECKUNG.md).
 
 Browser-Zugriff für Müller/MediaMarkt und offizielle Pokémon-Center-Hinweise: [aktueller Stand und Zugriffsgrenzen](DROP-WATCH.md#browser-abdeckung--geprüft-am-25102026-europeberlin).
+
+## Öffentliche Händler-Schnittstellen
+
+Die [Recherche vom 25.10.2026](RETAILER-RESEARCH.md) dokumentiert 38 lokal und auf GitHub geprüfte Quellen, öffentliche Katalogabfragen und bestehende Zugangsgrenzen. Saturns zusätzliche API-Suche liefert nur Produktlinks; Alerts benötigen weiterhin Live-Validierung der Produktseite. Die öffentliche API-Profil-Datei `config/public-mms-queries.json` gehört zur Konfiguration und muss bei einer Kopie mitgenommen werden.

@@ -31,6 +31,23 @@ class ActiveThemeTests(unittest.TestCase):
         c['disabled_franchises']=[]
         self.assertIsNotNone(preorders.identity(row,c)[0])
 
+    def test_pause_removes_saved_daily_overview_but_preserves_history(self):
+        from tcg_bot import daily_prices
+        from unittest.mock import Mock
+        c=load_config('config/config.json')
+        row={'title':'Naruto Mythos Display EN','franchise':'Naruto',
+             'price':'99.99','validated_at':900}
+        history={'status':'preorder','price':'99.99','last_seen':900,
+                 'history':[{'status':'preorder','timestamp':900}]}
+        state={'daily_price_overview':{'day':daily_prices.day(1000),'offers':{'old':row}},
+               'preorder_products':{'old':history.copy()}}
+        send=Mock()
+        report=daily_prices.run(c,state,1000,send)
+        self.assertEqual(report['overview_offers'],0)
+        self.assertEqual(state['daily_price_overview']['offers'],{})
+        self.assertEqual(state['preorder_products']['old'],history)
+        send.assert_not_called()
+
     def test_no_naruto_drop_alert_or_explicit_crawl(self):
         from tcg_bot import drop_watch
         from unittest.mock import Mock

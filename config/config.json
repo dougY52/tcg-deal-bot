@@ -104,7 +104,14 @@
       ],
       "max_product_pages": 16,
       "discovery_scope": "Pokemon-Kategorien, max. 16 rotierende Produktseiten pro Stunde plus feste Beobachtung. Drittanbieter nur als Kandidaten; Filialbestand nicht bestätigt.",
-      "retailer_group": "ceconomy"
+      "retailer_group": "ceconomy",
+      "public_catalog_enabled": true,
+      "public_catalog_searches": [
+        "Pokemon Sammelkarten",
+        "Dragon Ball Display",
+        "One Piece Display"
+      ],
+      "public_catalog_max_pages": 5
     },
     {
       "currency": "EUR",
@@ -387,11 +394,12 @@
       "base_url": "https://opasladen.de",
       "adapter": "shopify",
       "currency": "EUR",
-      "enabled": true,
+      "enabled": false,
       "max_pages": 8,
       "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
       "audit_checked_on": "2026-09-18",
-      "cloud_check_run": "35340269350"
+      "cloud_check_run": "35340269350",
+      "disabled_reason": "Catalog JSON returns 404; retailer announces move of singles/slabs to TCG Elite. No supported sealed checkout validator there; retain history and track migration separately."
     },
     {
       "id": "eu-geekie-be",
@@ -2149,7 +2157,7 @@
     {
       "id": "ideeundspiel",
       "name": "idee+spiel",
-      "url": "https://www.ideeundspiel.com/",
+      "url": "https://www.ideeundspiel.com/produkte/spielzeug/sammelkarten/",
       "kind": "online_unvalidated"
     },
     {
@@ -2221,7 +2229,7 @@
     {
       "id": "netto",
       "name": "Netto",
-      "url": "https://www.netto-online.de/",
+      "url": "https://www.netto-online.de/sammelkarten/c-N06081404",
       "kind": "discovery_homepage"
     },
     {
@@ -2233,7 +2241,7 @@
     {
       "id": "thalia",
       "name": "Thalia",
-      "url": "https://www.thalia.de/",
+      "url": "https://www.thalia.de/kategorie/sammelkartenspiele-8205/",
       "kind": "discovery_homepage"
     },
     {
@@ -2271,6 +2279,36 @@
       "name": "BB-Spiele",
       "url": "https://www.bb-spiele.de/",
       "kind": "online_unvalidated"
+    },
+    {
+      "id": "kaufland-filiale",
+      "name": "Kaufland Filialangebote",
+      "url": "https://filiale.kaufland.de/angebote/uebersicht.html",
+      "kind": "local_offers"
+    },
+    {
+      "id": "kartenwacht-onepiece",
+      "name": "Kartenwacht One Piece",
+      "url": "https://kartenwacht.de/onepiece",
+      "kind": "third_party_discovery"
+    },
+    {
+      "id": "tabletop-dragon",
+      "name": "Tabletop Dragon",
+      "url": "https://www.tabletop-dragon.de/shop_de/trading-card-games/pokemon/vorbestellung.html",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "kartenmeier",
+      "name": "Kartenmeier",
+      "url": "https://kartenmeier.de/collections/pokemon-deutsch-top-trainer-box",
+      "kind": "online_unvalidated"
+    },
+    {
+      "id": "opasladen-migration",
+      "name": "OpasLaden Umzug",
+      "url": "https://opasladen.de/collections/pokemon",
+      "kind": "discovery_homepage"
     }
   ],
   "retailer_coverage": {
@@ -2311,5 +2349,6 @@
   },
   "disabled_franchises": [
     "Naruto"
-  ]
+  ],
+  "public_catalog_queries_file": "public-mms-queries.json"
 }

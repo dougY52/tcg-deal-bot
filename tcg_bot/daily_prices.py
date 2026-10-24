@@ -5,6 +5,7 @@ import re
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 from . import preorders
+from .rules import excluded_franchise
 
 BERLIN = ZoneInfo('Europe/Berlin')
 
@@ -128,6 +129,10 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
     overview = state.get('daily_price_overview', {})
     observed = overview.get('offers', {}) if overview.get('day') == day(now) else {}
     for key, row in list(observed.items()):
+        if (row.get('franchise') in cfg.get('disabled_franchises', []) or
+                excluded_franchise(row.get('title', '') + ' ' + row.get('variant', ''), cfg)):
+            observed.pop(key, None)
+            continue
         latest = state.get('preorder_products', {}).get(key, {})
         if latest.get('last_seen', 0) >= row.get('validated_at', 0) and (
                 latest.get('status') not in ('in_stock', 'preorder') or
