@@ -5,6 +5,10 @@ on:
       - 'tcg_bot/**'
       - 'tests/**'
       - 'scripts/audit_retailers.py'
+      - 'scripts/audit_public_interfaces.py'
+      - 'scripts/audit_mms_queries.py'
+      - 'config/public-interface-targets.json'
+      - 'config/public-mms-queries.json'
       - 'scripts/audit_new_retailers.py'
       - 'config/new-retailer-targets.json'
       - 'scripts/audit_fast_discovery.py'
@@ -59,4 +63,30 @@ jobs:
         with:
           name: new-retailer-audit
           path: new-retailer-audit.json
+          retention-days: 7
+
+  public-interfaces:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe public catalog JSON without credentials
+        run: python -m scripts.audit_mms_queries
+      - name: Install normal browser
+        run: |
+          python -m pip install -r requirements-browser.txt
+          python -m playwright install --with-deps chromium
+      - name: Audit public sources and network metadata
+        run: python -m scripts.audit_public_interfaces
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-interface-audit
+          path: |
+            public-interface-audit.json
+            public-mms-query-audit.json
           retention-days: 7
