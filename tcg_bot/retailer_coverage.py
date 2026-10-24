@@ -1,9 +1,33 @@
 """Periodic source coverage checks, distinct from verified inventory."""
 import re
 import time
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urljoin, urlunsplit, parse_qsl, urlencode
 from .http import FetchError
 from .web_sources import Document, structured_products
+from .rules import franchise
+from .product_types import product_kind
+
+def candidate_links(doc, source, cfg):
+    """Persist public product links as hints, never price/stock confirmation."""
+    scope=dict(cfg)
+    scope.setdefault('franchises', {'Pokémon':r'pok[eé]mon','Dragon Ball':r'dragon.?ball','One Piece':r'one.?piece'})
+    candidates=[(p.get('name',''),p.get('url','')) for p in structured_products(doc)]
+    candidates.extend((n.text().strip(),n.attrs.get('href','')) for n in doc.root.walk() if n.tag=='a')
+    links={}
+    for name,href in candidates:
+        if not isinstance(name,str) or not isinstance(href,str) or not href:
+            continue
+        if not franchise({'title':name},scope) or product_kind(name) is None:
+            continue
+        url=urlsplit(urljoin(source['url'],href))
+        if url.scheme!='https' or url.netloc!=urlsplit(source['url']).netloc or url.username or url.password:
+            continue
+        # Keep concrete variant selectors; discard tracking and fragments.
+        query=urlencode([(k,v) for k,v in parse_qsl(url.query) if k in ('variant','itemId','variationId')])
+        target=urlunsplit((url.scheme,url.netloc,url.path,query,''))
+        links[target]={'name':name[:240],'url':target}
+    return list(links.values())[:50]
+
 
 def check_sources(cfg, state, client, now):
     settings=cfg.get('retailer_coverage',{})
@@ -16,7 +40,9 @@ def check_sources(cfg, state, client, now):
     due.sort(key=lambda s:table.get(s['id'],{}).get('checked_at',0))
     original=getattr(client,'deadline',None)
     end=time.monotonic()+settings.get('budget_seconds',15)
-    if original is not None: client.deadline=end
+    if original is not None:
+        end=min(end,original)
+        client.deadline=end
     try:
         for source in due[:settings.get('max_checks',4)]:
             if time.monotonic()>=end: break
@@ -29,15 +55,22 @@ def check_sources(cfg, state, client, now):
                 if re.search(r'access denied|client challenge|just a moment|captcha|zugriff verweigert',title,re.I):
                     record['status']='challenge'
                 else:
-                    products=structured_products(doc)
-                    links=[{'name':p.get('name',''),'url':p.get('url')} for p in products
-                           if re.search(r'pok.mon|dragon.ball|one.piece|naruto',p.get('name',''),re.I)
-                           and p.get('url') and urlsplit(p['url']).netloc==urlsplit(source['url']).netloc][:50]
+                    links=candidate_links(doc,source,cfg)
                     record.update(status='reachable_discovery_only',candidate_links=links,
                                   candidate_count=len(links),kind=source.get('kind'))
             except Exception as exc:
                 record['status']='blocked_or_unavailable'
                 record['reason']=str(exc)[:140] if isinstance(exc,FetchError) else type(exc).__name__
+            queue=state.setdefault('retailer_product_candidates',{})
+            for link in record.get('candidate_links',[]):
+                key=source['id']+'|'+link['url']
+                old=queue.get(key,{})
+                queue[key]=dict(link,source_id=source['id'],source_url=source['url'],
+                    first_seen=old.get('first_seen',now),last_seen=now,
+                    status='needs_live_variant_seller_price_validation',inventory_confirmed=False)
+            state['retailer_product_candidates']=dict(sorted(
+                ((k,v) for k,v in queue.items() if now-v['last_seen']<30*86400),
+                key=lambda pair:pair[1]['last_seen'],reverse=True)[:500])
             table[source['id']]=record
             result['sources'].append(record)
     finally:

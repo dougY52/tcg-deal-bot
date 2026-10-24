@@ -65,6 +65,7 @@ class ComparisonTests(unittest.TestCase):
         next(s for s in c['shops'] if s['id']=='lakecards')['watch_handles']=['pokemon-test-tin']
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'config.json';p.write_text(json.dumps(c))
+            (Path(tmp)/'public-mms-queries.json').write_text(Path('config/public-mms-queries.json').read_text())
             loaded=load_config(p)
         self.assertIn('pokemon-test-tin',next(s for s in loaded['shops'] if s['id']=='lakecards')['watch_handles'])
 

@@ -168,6 +168,17 @@ def load_config(path):
             assert source['id'] not in seen and source['name']
             assert source.get('interval_seconds', 1800) >= 300
             seen.add(source['id'])
+    public_queries = []
+    if cfg.get('public_catalog_queries_file'):
+        query_path = Path(cfg['public_catalog_queries_file'])
+        assert query_path.name == str(query_path), 'Public catalog profile must be in config directory'
+        public_queries = json.loads((Path(path).parent / query_path).read_text(encoding='utf-8'))
+    for shop in cfg['shops']:
+        shop['_franchise_patterns'] = [p for f,p in cfg['franchises'].items() if f not in cfg.get('disabled_franchises', [])]
+        if shop.get('public_catalog_enabled'):
+            matches = [q for q in public_queries if q['host'] == urlsplit(shop['base_url']).hostname]
+            assert len(matches) == 1 and shop['adapter'] == 'mms'
+            shop['_public_catalog_query'] = matches[0]
     assert set(cfg.get('disabled_franchises', [])) <= set(cfg['franchises'])
     for shop in cfg['shops']:
         for key in ('watch_handles', 'watch_urls', 'catalog_collections', 'catalog_urls'):

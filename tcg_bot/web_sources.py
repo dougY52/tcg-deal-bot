@@ -288,6 +288,12 @@ def parse_mms(shop, body, url):
 def mms(shop, client):
     notes, urls, rows = [], list(shop.get('watch_urls', [])), {}
     discovered = []
+    if shop.get('_public_catalog_query') and shop.get('catalog_urls'):
+        try:
+            from .public_catalog import discover
+            discovered.extend(discover(shop,client))
+        except Exception as exc:
+            notes.append('Public catalog unavailable: ' + source_error(exc))
     for catalog in shop.get('catalog_urls', []):
         try:
             _, links = parse_structured(shop, client.text(catalog), catalog)
