@@ -24,7 +24,7 @@ def settings():
         return None
     p = urllib.parse.urlsplit(endpoint)
     if (p.scheme != 'https' or not re.fullmatch(r'[a-z0-9-]+\.[a-z0-9-]+\.workers\.dev', p.netloc)
-            or p.path != '/read' or p.query or p.fragment or len(token) < 32
+            or p.path != '/read' or p.query or p.fragment or (token and len(token) < 32)
             or '\r' in token or '\n' in token):
         raise FetchError('Cloud reader configuration invalid')
     return endpoint, token
@@ -40,6 +40,8 @@ def read(url, timeout):
     if not target_allowed(url) or config is None:
         raise FetchError('Unsupported cloud reader target')
     endpoint, token = config
+    if not token:
+        token = github_token(urllib.parse.urlsplit(endpoint)._replace(path='').geturl(), timeout)
     request = urllib.request.Request(endpoint + '?' + urllib.parse.urlencode({'url': url}),
         headers={'Authorization': 'Bearer ' + token, 'Cache-Control': 'no-cache'})
     try:
@@ -70,3 +72,35 @@ def read(url, timeout):
         raise FetchError('Cloud reader transport HTTP ' + str(exc.code)) from None
     except (ValueError, TypeError, AttributeError, urllib.error.URLError, TimeoutError):
         raise FetchError('Cloud reader response unavailable or invalid') from None
+
+
+_token_cache = None
+
+
+def github_token(audience, timeout):
+    """Request a short-lived job identity; never persist or log either token."""
+    global _token_cache
+    request_url = os.environ.get('ACTIONS_ID_TOKEN_REQUEST_URL', '')
+    credential = os.environ.get('ACTIONS_ID_TOKEN_REQUEST_TOKEN', '')
+    p = urllib.parse.urlsplit(request_url)
+    if (p.scheme != 'https' or not p.hostname or not p.hostname.endswith('.actions.githubusercontent.com')
+            or p.username or p.password or p.port or p.fragment or not credential):
+        raise FetchError('Cloud reader requires GitHub job identity or shared token')
+    cache_key = (audience, request_url)
+    if _token_cache and _token_cache[0] == cache_key and _token_cache[1] > time.time():
+        return _token_cache[2]
+    query = urllib.parse.parse_qsl(p.query)
+    query = [(k,v) for k,v in query if k != 'audience'] + [('audience', audience)]
+    url = urllib.parse.urlunsplit(p._replace(query=urllib.parse.urlencode(query)))
+    req = urllib.request.Request(url, headers={'Authorization':'Bearer '+credential})
+    try:
+        with urllib.request.build_opener(NoRedirect()).open(req,timeout=min(10,timeout)) as response:
+            raw = response.read(100001)
+            if len(raw)>100000: raise ValueError('Too large')
+            token = json.loads(raw).get('value')
+        if not isinstance(token,str) or len(token)>20000 or token.count('.') != 2:
+            raise ValueError('Invalid token')
+        _token_cache = (cache_key, time.time()+180, token)
+        return token
+    except (ValueError, TypeError, AttributeError, urllib.error.URLError, TimeoutError):
+        raise FetchError('GitHub job identity unavailable') from None

@@ -14,6 +14,7 @@ on:
         default: true
 permissions:
   contents: write
+  id-token: write
 concurrency:
   group: tcg-retail-watch
   cancel-in-progress: false
@@ -39,6 +40,12 @@ jobs:
           node cloudflare/mms-reader/test.mjs
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
+      - name: Verify cloud reader on deployment (no Discord)
+        if: github.event_name == 'push'
+        continue-on-error: true
+        env:
+          TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
+        run: python -m scripts.check_cloud_reader
       - name: Restore durable state
         run: |
           set -euo pipefail
@@ -55,7 +62,7 @@ jobs:
         id: scan
         env:
           TCG_BROWSER: '1'
-          TCG_CLOUD_READER_URL: ${{ secrets.TCG_CLOUD_READER_URL }}
+          TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
           TCG_CLOUD_READER_TOKEN: ${{ secrets.TCG_CLOUD_READER_TOKEN }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}

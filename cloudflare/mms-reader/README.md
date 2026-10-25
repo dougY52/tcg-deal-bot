@@ -1,16 +1,18 @@
 # Kostenloser MediaMarkt/Saturn-Zugriff
 
-**Vorbereitet, erst nach Einrichtung aktiv.** Der Bot läuft weiterhin in GitHub Actions. Dieser optionale Worker lädt ausschließlich öffentliche MediaMarkt-/Saturn-Produkt-, Kategorie-, Marken- und robots.txt-Seiten. Kein Browser-Abo, keine kostenpflichtige API, kein laufender PC. Der kostenlose Workers-Tarif erlaubt derzeit 100.000 Requests pro Tag; beim Erreichen der Grenze ausfallen lassen, nicht auf einen kostenpflichtigen Tarif wechseln.
+**Worker veröffentlicht; GitHub-Aktivierung wird separat geprüft.** Der Bot läuft weiterhin in GitHub Actions. Dieser optionale Worker lädt ausschließlich öffentliche MediaMarkt-/Saturn-Produkt-, Kategorie-, Marken- und robots.txt-Seiten. Kein Browser-Abo, keine kostenpflichtige API, kein laufender PC. Der kostenlose Workers-Tarif erlaubt derzeit 100.000 Requests pro Tag; beim Erreichen der Grenze ausfallen lassen, nicht auf einen kostenpflichtigen Tarif wechseln.
 
 Cloud-Probe am 25.10.2026: MediaMarkt zweimal HTTP 200 mit echtem Produktzustand, Saturn einmal ebenso. Bestehender Parser: SKU 2974734, 59,99 EUR, `PERMANENTLY_NOT_AVAILABLE`, Warenkorb false. **Kein Deal und keine Nachricht.** Das ist ein Zugriffsbeleg für diese Seite, keine Garantie für jeden Artikel oder dauerhafte Erreichbarkeit. Pokémon Center blieb eine Challenge und wird ausdrücklich nicht über diesen Worker unterstützt.
 
-## Einmalige Einrichtung im Browser
+## Einmalige Einrichtung
 
-1. Kostenloses [Cloudflare-Konto](https://dash.cloudflare.com/sign-up) erstellen; keine Domain, Zahlungsdaten oder kostenpflichtigen Workers-Tarife notwendig. Unter **Workers & Pages → Create application → Worker** einen Worker erstellen. `worker.mjs` im Code-Editor einfügen und deployen.
-2. Einen zufälligen Schlüssel mit mindestens 32 Zeichen im Passwortmanager erzeugen. Im Worker unter **Settings → Variables and Secrets** als verschlüsseltes Secret `READER_TOKEN` speichern. Nicht in Code, Chat oder Logs einfügen.
-3. Im [GitHub-Repository unter Actions-Secrets](https://github.com/dougY52/tcg-deal-bot/settings/secrets/actions) setzen: `TCG_CLOUD_READER_URL` = `https://WORKER.SUBDOMAIN.workers.dev/read`; `TCG_CLOUD_READER_TOKEN` = derselbe Schlüssel. Bestehenden Discord-Webhook beibehalten. Danach **TCG Cloud Watch → Run workflow → dry_run=true** zum Prüfen, im Bericht MediaMarkt/Saturn kontrollieren. Die folgenden Zeitplanläufe nutzen den Zugang automatisch und senden nur qualifizierte Treffer.
+Der bevorzugte Weg verwendet Cloudflares offizielle CLI (`wrangler deploy`) und die beiliegende `wrangler.jsonc`. Das kostenlose Cloudflare-Konto autorisiert die Einrichtung einmal im Browser. Der Worker prüft danach kurzlebige, kryptografisch signierte GitHub-OIDC-Token statt eines dauerhaft kopierten Schlüssels. Er akzeptiert nur das Repository `dougY52/tcg-deal-bot` mit seiner unveränderlichen Repository-/Owner-ID, Branch `main` und `.github/workflows/cloud-watch.yml` bei schedule/push/workflow_dispatch. Pull Requests und fremde Repositories erhalten keinen Zugang.
 
-Ohne beide Secrets bleibt die bisherige Route erhalten. Unvollständige/ungültige Einrichtung führt bei diesen beiden Händlern zu einem klaren Fehler, nicht zu einem falschen Angebot. Zum Deaktivieren beide optionalen GitHub-Secrets entfernen.
+Die öffentliche URL `https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read` ist als `TCG_CLOUD_READER_URL` im bestehenden Cloud-Workflow eingetragen. `id-token: write` ist dort bereits vorbereitet. Kein Cloudflare-API-Token und kein neuer Discord-Webhook werden in GitHub benötigt. Der laufende Bot braucht weder den PC noch die lokale Wrangler-Anmeldung.
+
+Alternative für andere Clients: Im Worker ein zufälliges Secret `READER_TOKEN` mit mindestens 32 Zeichen und denselben Wert als `TCG_CLOUD_READER_TOKEN` im Client setzen. Diese Alternative ist nicht erforderlich und standardmäßig nicht eingerichtet. Geheimnisse niemals in Chat, Code oder Logs eintragen.
+
+Ohne konfigurierte Reader-URL bleibt die bisherige Route erhalten. Ungültige Einrichtung führt für diese beiden Händler zu einem Fehler, nicht zu einem Angebot. Deaktivierung: Reader-URL aus dem Workflow entfernen. Bestehende Discord-Secrets bleiben unverändert.
 
 ## Grenzen und Prüfungen
 
@@ -21,4 +23,4 @@ Ohne beide Secrets bleibt die bisherige Route erhalten. Unvollständige/ungülti
 - MediaMarkts Katalog-/API-Suche außerhalb der unterstützten HTML-Pfade bleibt auf der bisherigen Route. Bei Seitenänderungen oder neuem Bot-Schutz kann auch dieser Weg ausfallen.
 - Ein Zugriffstest auf Pokémon Center war erfolglos. Offizielle Ankündigungen bleiben separat; kein behaupteter Live-Bestand und keine garantierte Drop-Vorwarnung.
 
-Quellen: [Workers Free Limits](https://developers.cloudflare.com/workers/platform/limits/), [Playground](https://developers.cloudflare.com/workers/playground/).
+Quellen: [GitHub OIDC](https://docs.github.com/en/actions/reference/security/oidc), [Workers Free Limits](https://developers.cloudflare.com/workers/platform/limits/), [Playground](https://developers.cloudflare.com/workers/playground/).

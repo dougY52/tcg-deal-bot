@@ -1,4 +1,4 @@
-import worker, {allowedTarget} from './worker.mjs';
+import worker, {allowedTarget, githubAuthorized} from './worker.mjs';
 const assert = (value, message) => { if (!value) throw new Error(message); };
 const target = 'https://www.mediamarkt.de/de/product/_pokemon-2974734.html';
 const env = {READER_TOKEN: 'synthetic-test-token-0000000000000000'};
@@ -43,3 +43,42 @@ try {
   assert((await worker.fetch(request(),env)).status===502,'bounded response');
   console.log('Cloud reader Worker checks passed');
 } finally { globalThis.fetch = originalFetch; }
+
+// Real RSA signatures, mocked GitHub public-key endpoint; no live credentials.
+const pair = await crypto.subtle.generateKey({name:'RSASSA-PKCS1-v1_5',modulusLength:2048,
+  publicExponent:new Uint8Array([1,0,1]),hash:'SHA-256'},true,['sign','verify']);
+const jwk = {...await crypto.subtle.exportKey('jwk',pair.publicKey), kid:'test-key', alg:'RS256'};
+const oidcEnv = {GITHUB_REPOSITORY:'dougY52/tcg-deal-bot',GITHUB_REPOSITORY_ID:'1375726655',GITHUB_OWNER_ID:'306408342'};
+const now = Math.floor(Date.now()/1000);
+const claims = {iss:'https://token.actions.githubusercontent.com',aud:'https://reader.example.workers.dev',
+  repository:oidcEnv.GITHUB_REPOSITORY,repository_id:oidcEnv.GITHUB_REPOSITORY_ID,
+  repository_owner_id:oidcEnv.GITHUB_OWNER_ID,ref:'refs/heads/main',
+  sub:'repo:dougY52/tcg-deal-bot:ref:refs/heads/main',event_name:'schedule',
+  workflow_ref:'dougY52/tcg-deal-bot/.github/workflows/cloud-watch.yml@refs/heads/main',
+  exp:now+300,iat:now,nbf:now};
+const base64 = value => btoa(String.fromCharCode(...new Uint8Array(value))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+const encoded = obj => base64(new TextEncoder().encode(JSON.stringify(obj)));
+async function sign(changes={}, head={alg:'RS256',kid:'test-key'}) {
+  const value = encoded(head)+'.'+encoded({...claims,...changes});
+  return value+'.'+base64(await crypto.subtle.sign('RSASSA-PKCS1-v1_5',pair.privateKey,new TextEncoder().encode(value)));
+}
+try {
+  globalThis.fetch=async()=>Response.json({keys:[jwk]});
+  assert(await githubAuthorized(await sign(),oidcEnv,claims.aud),'valid signed identity');
+  assert(await githubAuthorized(await sign({sub:'repo:dougY52@306408342/tcg-deal-bot@1375726655:ref:refs/heads/main'}),oidcEnv,claims.aud),'immutable subject');
+  for (const change of [{repository_id:'other'},{repository:'other/repo'},{repository_owner_id:'other'},
+    {ref:'refs/heads/other'},{sub:'repo:other/repo:ref:refs/heads/main'},
+    {event_name:'pull_request'},{workflow_ref:'other-workflow'},
+    {iss:'https://evil.test'},{aud:'other'},{exp:now-1},{iat:now+100},{nbf:now+100},{exp:now+2000}])
+    assert(!await githubAuthorized(await sign(change),oidcEnv,claims.aud),'reject invalid claims '+JSON.stringify(change));
+  assert(!await githubAuthorized(await sign({}, {alg:'none',kid:'test-key'}),oidcEnv,claims.aud),'reject wrong algorithm');
+  const signed=await sign();
+  const [head,body,signature]=signed.split('.');
+  const tampered=head+'.'+encoded({...claims,iat:now-1})+'.'+signature;
+  assert(!await githubAuthorized(tampered,oidcEnv,claims.aud),'reject tampered signature');
+  assert(!await githubAuthorized('bad.token.signature',oidcEnv,claims.aud),'reject malformed token');
+  globalThis.fetch=async()=>new Response('live product');
+  assert((await worker.fetch(request(target,signed),oidcEnv)).status===200,'valid job can read');
+  assert((await worker.fetch(request(target,'bad'),oidcEnv)).status===401,'invalid job denied');
+  console.log('GitHub OIDC signature and authorization checks passed');
+} finally {globalThis.fetch=originalFetch;}

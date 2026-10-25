@@ -46,7 +46,7 @@ class CloudReaderTests(unittest.TestCase):
                          'https://reader.example.workers.dev/read?secret=x']:
             with patch.dict(os.environ, ENV | {'TCG_CLOUD_READER_URL':endpoint}):
                 with self.assertRaises(FetchError): cloud_reader.enabled_for(URL)
-        with patch.dict(os.environ, ENV | {'TCG_CLOUD_READER_TOKEN':''}):
+        with patch.dict(os.environ, ENV | {'TCG_CLOUD_READER_TOKEN':'short'}):
             with self.assertRaises(FetchError): cloud_reader.enabled_for(URL)
 
     def test_unrelated_shop_unchanged_even_if_misconfigured(self):
@@ -102,3 +102,24 @@ class CloudReaderTests(unittest.TestCase):
             return 'User-agent: *\nAllow: /' if url.endswith('/robots.txt') else '<title>Access denied</title>'
         with patch.dict(os.environ,ENV), patch('tcg_bot.cloud_reader.read', side_effect=read):
             with self.assertRaisesRegex(FetchError,'Missing retailer page state'): BrowserClient(0).text(URL)
+
+
+class GitHubIdentityTests(unittest.TestCase):
+    def test_oidc_request_and_cache(self):
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':'https://runner.actions.githubusercontent.com/idtoken?api-version=2',
+             'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'synthetic-job-token'}
+        cloud_reader._token_cache=None
+        with patch.dict(os.environ,env), patch('urllib.request.OpenerDirector.open',return_value=Reply(b'{"value":"test.payload.signature"}')) as opener:
+            self.assertEqual(cloud_reader.github_token('https://reader.example.workers.dev',5),'test.payload.signature')
+            self.assertEqual(cloud_reader.github_token('https://reader.example.workers.dev',5),'test.payload.signature')
+            self.assertEqual(opener.call_count,1)
+            req=opener.call_args.args[0]
+            self.assertIn('audience=https%3A%2F%2Freader.example.workers.dev',req.full_url)
+        cloud_reader._token_cache=None
+
+    def test_identity_request_never_sends_credential_offsite(self):
+        for url in ['https://evil.test/idtoken','http://runner.actions.githubusercontent.com/idtoken',
+                    'https://runner.actions.githubusercontent.com@evil.test/idtoken']:
+            with patch.dict(os.environ,{'ACTIONS_ID_TOKEN_REQUEST_URL':url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'secret'}), patch('urllib.request.OpenerDirector.open') as opener:
+                with self.assertRaises(FetchError): cloud_reader.github_token('audience',5)
+                opener.assert_not_called()
