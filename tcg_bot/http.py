@@ -41,6 +41,9 @@ class Client:
         time.sleep(wait)
         self.last[host] = time.monotonic()
         try:
+            from . import cloud_reader
+            if _headers is None and cloud_reader.enabled_for(url):
+                return cloud_reader.read(url, max(1, min(25, self.deadline - time.monotonic())))
             request = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/json,text/plain,*/*', **(_headers or {})})
             with urllib.request.build_opener(NoRedirect()).open(request, timeout=max(1, min(25, self.deadline - time.monotonic()))) as response:
                 if urllib.parse.urlsplit(response.url).hostname != urllib.parse.urlsplit(url).hostname:

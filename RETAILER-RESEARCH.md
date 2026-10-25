@@ -96,3 +96,16 @@ Shopify hat eine dokumentierte öffentliche [Produkt-JSON-Schnittstelle](https:/
 - Der Audit-Job selbst ist erfolgreich, wenn der Bericht erstellt wurde. Einzelne HTTP-403-/Challenge-Befunde bleiben im Bericht Fehler und werden nicht zu „funktioniert“ umgedeutet.
 
 Öffentlich beobachtete GraphQL-Abfragehashes können sich mit der Shopversion ändern. Die gespeicherten Werte sind keine Zugangsschlüssel. Bei geändertem Schema oder GraphQL-Fehler wird die Abfrage verworfen; der normale Seitenweg bleibt erhalten. Der aktuelle Stand verspricht weder Sekundenstarts von GitHub Actions noch eine garantierte Drop-Vorwarnung für alle Händler.
+
+
+## Kostenloser Alternativzugriff, 25.10.2026
+
+Ein zusätzlicher macOS-Runner half nicht: [Browser-Test 40144153718](https://github.com/dougY52/tcg-deal-bot/actions/runs/40144153718) bestand alle 358 damaligen Tests auf drei Betriebssystemen, erhielt auf allen aber MediaMarkt/Saturn HTTP 403 und Pokémon-Center-Challenges. PR10 wurde deshalb ohne Produktionsänderung geschlossen.
+
+Im offiziellen Cloudflare Workers Playground gelang dagegen ein normaler öffentlicher GET auf die konkrete MediaMarkt-Produktseite zweimal, auf Saturn einmal. robots.txt jeweils 200; echtes `window.__PRELOADED_STATE__` vorhanden. Der vorhandene Parser bestätigte SKU 2974734, 59,99 EUR, `PERMANENTLY_NOT_AVAILABLE`, Kaufbarkeit false. Kein Discord-Testpost. Metadaten und Parserbefunde stehen in `research/cloudflare-mediamarkt-2026-10-25.json` und `research/cloudflare-saturn-2026-10-25.json`. Der Rohseiteninhalt und temporäre Playground-Adressen werden nicht veröffentlicht.
+
+Pokémon Center `/en-de` lieferte auch dort nur eine Challenge mit HTTP 200 (`research/cloudflare-pokemoncenter-2026-10-25.json`). Eine zuverlässige kostenlose Bestandsabfrage ist damit weiterhin nicht bestätigt. Offizielle Ankündigungen sind kein Beleg für einen offenen Checkout.
+
+Der optionale authentifizierte Worker unter `cloudflare/mms-reader/` ist für den kostenlosen Workers-Tarif vorbereitet. Aktivierung benötigt einmalig ein kostenloses Cloudflare-Konto, Deployment und zwei GitHub-Secrets. Ohne diese bleibt die alte Route bestehen. Er ändert nur den Abrufweg für begrenzte öffentliche MediaMarkt-/Saturn-HTML-Pfade; die bestehenden Live-, Preis-, Sprachen-, Verkäufer- und Deduplizierungsprüfungen gelten unverändert. Er ist noch kein in Produktion aktivierter Zugang und keine dauerhafte Zugriffsgarantie.
+
+Weitere kostenlose Händlerquellen: MediaMarkt dokumentiert eigene [Preis-/Verfügbarkeitsbenachrichtigungen](https://www.mediamarkt.de/de/legal/my-mediamarkt), Pokémon Center einen [Newsletter](https://support.pokemoncenter.com/hc/en-us/articles/4405458033812-How-do-I-sign-up-for-the-newsletter). Eine Mail-Anbindung wurde nicht eingerichtet; sie benötigt Zugriff auf ein vom Nutzer gewähltes Postfach und ersetzt die aktuelle Produktvalidierung nicht.

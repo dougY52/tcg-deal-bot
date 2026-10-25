@@ -36,6 +36,7 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Test and validate
         run: |
+          node cloudflare/mms-reader/test.mjs
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
       - name: Restore durable state
@@ -54,6 +55,8 @@ jobs:
         id: scan
         env:
           TCG_BROWSER: '1'
+          TCG_CLOUD_READER_URL: ${{ secrets.TCG_CLOUD_READER_URL }}
+          TCG_CLOUD_READER_TOKEN: ${{ secrets.TCG_CLOUD_READER_TOKEN }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
         run: |
