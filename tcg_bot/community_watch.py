@@ -1,6 +1,6 @@
 """Fresh, explicitly German PC community reports, never verified stock alerts.
 
-Only public feeds and the original MyDealz article are read. No accounts,
+Only public feeds, Telegram previews and original MyDealz articles are read. No accounts,
 private Discord messages, redirect trackers or paid scraping are used.
 """
 from datetime import datetime, timezone
@@ -15,6 +15,7 @@ import xml.etree.ElementTree as ET
 from .web_sources import Document, walk_json
 from .drop_watch import visible, visible_nodes
 from .scanning import collect
+from . import telegram_sources
 
 SOURCES = (
     ('mydealz-pokemon', 'https://www.mydealz.de/rss/gruppe/pokemon', 'rss'),
@@ -146,7 +147,7 @@ def qualify(obj, now, settings):
                 price=price, target=targets[0] if targets else None), None
 
 
-def payload(event, url):
+def payload(event, url, source_name='MyDealz'):
     title = re.sub(r'[@*_`<>\[\]\\]', '', event['title'])[:230]
     reported = datetime.fromtimestamp(event['published'], timezone.utc).isoformat()
     description = ('**' + title + '**\n🇩🇪 Pokémon Center Deutschland laut Originalbeitrag\n'
@@ -159,7 +160,7 @@ def payload(event, url):
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
         'title': '📣 COMMUNITY · POKÉMON CENTER DE', 'url': url, 'color': 0x3498DB,
         'description': description, 'timestamp': reported,
-        'footer': {'text': 'Quelle: MyDealz · Zeit = Veröffentlichung des Originalbeitrags'}}]}
+        'footer': {'text': 'Quelle: '+source_name+' · Zeit = Veröffentlichung des Originalbeitrags'}}]}
 
 
 def run(cfg, state, client, now, send=None, checkpoint=None):
@@ -175,10 +176,21 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
     try:
         def fetch(source, transport):
             body = transport.text(source['url'])
+            if source['kind'] == 'telegram':
+                return telegram_sources.parse(body, source['channel']), []
             return (rss(body) if source['kind'] == 'rss' else radar(body, now)), []
         due = [dict(id=source_id, url=url, base_url=url, kind=kind, adapter='community')
                for source_id, url, kind in SOURCES
                if now-table['sources'].get(source_id, {}).get('checked_at', 0) >= settings.get('interval_seconds', 240)]
+        for channel in settings.get('telegram_channels', []):
+            if not telegram_sources.valid_channel(channel):
+                result['errors'].append('Invalid Telegram channel configuration')
+                continue
+            source_id = 'telegram:'+channel.lower()
+            url = 'https://t.me/s/'+channel
+            if now-table['sources'].get(source_id, {}).get('checked_at', 0) >= settings.get('interval_seconds', 240):
+                due.append(dict(id=source_id, url=url, base_url=url, kind='telegram',
+                                channel=channel, adapter='community'))
         # Separate hosts have separate bounded transports; a timeout at MyDealz
         # cannot stop the Radar fetch. Reserve half the budget for original pages.
         for source, rows, _, error, _ in collect(due, client, {'community':fetch}, workers=2,
@@ -190,14 +202,23 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
             result['sources'].append(dict(id=source_id, status='ok', items=len(rows)))
             table['sources'][source_id] = dict(checked_at=now, status='ok')
             for row in rows:
-                target = article_url(row['url'])
+                is_telegram = source['kind'] == 'telegram'
+                target = row['url'] if is_telegram else article_url(row['url'])
                 if not target or not CENTER.search(row['title']):
                     continue
                 published = row['published']
                 if published is None or not 0 <= now-published <= settings.get('max_age_seconds', 1800):
                     result['rejected']['STALE_OR_UNDATED'] = result['rejected'].get('STALE_OR_UNDATED', 0)+1
                     continue
-                key = 'mydealz:'+target.rsplit('-', 1)[-1]
+                key = 'telegram:'+target.split('t.me/', 1)[1].lower() if is_telegram else 'mydealz:'+target.rsplit('-', 1)[-1]
+                if is_telegram:
+                    # A Telegram mirror linking MyDealz shares its original ID
+                    # and must pass original-article validation, including age.
+                    origin = next((article_url(u) for u in row['links'] if article_url(u)), None)
+                    if origin:
+                        target = origin
+                        key = 'mydealz:'+origin.rsplit('-', 1)[-1]
+                        row = {k:v for k,v in row.items() if k not in ('object', 'source_name')}
                 candidates.setdefault(key, row | {'url': target})
         attempted = 0
         for key, row in sorted(candidates.items(), key=lambda pair: pair[1]['published'], reverse=True):
@@ -208,15 +229,18 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
                 break
             attempted += 1
             try:
-                obj = original(client.text(row['url']), row['url'])
-                event, reason = qualify(obj, now, settings)
+                obj = row.get('object') or original(client.text(row['url']), row['url'])
+                if row.get('object') and not telegram_sources.current_claim(row['title']):
+                    event, reason = None, 'NOT_CURRENT_REPORT'
+                else:
+                    event, reason = qualify(obj, now, settings)
             except Exception as exc:
                 result['errors'].append('Community article: '+type(exc).__name__)
                 continue
             if reason:
                 result['rejected'][reason] = result['rejected'].get(reason, 0)+1
                 continue
-            message = payload(event, row['url'])
+            message = payload(event, row['url'], row.get('source_name', 'MyDealz'))
             result['alerts'].append(dict(key=key, reason='community_report_de', payload=message))
             if send:
                 try:

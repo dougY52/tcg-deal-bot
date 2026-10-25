@@ -174,6 +174,11 @@ def load_config(path):
             seen.add(source['id'])
     community = cfg.get('community_watch', {})
     if community.get('enabled'):
+        from .telegram_sources import valid_channel
+        channels = community.get('telegram_channels', [])
+        assert isinstance(channels, list) and len(channels) <= 5
+        assert all(valid_channel(c) for c in channels)
+        assert len({c.lower() for c in channels}) == len(channels)
         assert 240 <= community.get('interval_seconds', 240) <= 3600
         assert 60 <= community.get('max_age_seconds', 1800) <= 1800
         assert 60 <= community.get('queue_max_age_seconds', 900) <= 900

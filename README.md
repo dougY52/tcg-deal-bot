@@ -260,3 +260,42 @@ geprüfte Deal-, Restock- und Preorder-Alerts behalten ihre Live-Validierung.
 Kostenlose Community-Quellen garantieren weder Vollständigkeit noch sofortige
 Meldung jedes Drops. Wenn Originalbeitrag oder Feed nicht lesbar sind, entsteht
 kein Alert aus unbestätigten Fragmenten.
+
+#### Öffentliche Telegram-Quellen und Discord-Grenzen (25.10.2026)
+
+`community_watch.telegram_channels` enthält derzeit `Bisafans`. Der offizielle
+[Bisafans-Newsstream](https://www.bisafans.de/social.php) ist unter
+<https://t.me/s/Bisafans> ohne Konto und API-Schlüssel öffentlich lesbar. Er wird
+im bestehenden Cloud-Lauf geprüft (240 Sekunden Mindestabstand). Das ist eine
+zusätzliche Nachrichtenquelle, **kein nachgewiesener schneller Restock-Monitor**.
+Der Kanal hat bereits über Pokémon Center Deutschland berichtet; viele seiner
+anderen Meldungen betreffen Spiele oder Merchandise und werden verworfen.
+
+Der Telegram-Parser liest ausschließlich den eigenen Nachrichtentext und dessen
+Originalzeit, keine Linkvorschauen oder Seitentexte. Er akzeptiert nur explizite
+Deutschland-Berichte über aktuell bestellbare sealed Produkte oder eine offene
+Queue. Gerüchte, zukünftige Starts, Fremdregionen, weitergeleitete/undatierte/alte
+Beiträge, Zitate und erkennbare Preise über 200 Euro werden ausgeschlossen.
+Es gelten dieselben Altersgrenzen wie für MyDealz (Produkte 30, Queues 15 Minuten).
+Ein leerer Telegram-Beitrittsbildschirm zählt als Quellenfehler, nicht als
+funktionierender Feed. Fehler lassen die übrigen Händlerprüfungen weiterlaufen.
+
+Jede Nachricht bekommt `telegram:<kanal>/<nachrichten-id>` als persistente
+Identität. Ein Link auf einen MyDealz-Originalbeitrag verwendet stattdessen dessen
+vorhandene Identität und prüft die Originalseite einschließlich Ablaufstatus.
+Erst erfolgreicher Discord-Versand speichert die Meldung als zugestellt; Dry-Runs
+und fehlgeschlagene Sendungen unterdrücken keinen späteren Versuch. Kopien ohne
+gemeinsamen Quelllink aus verschiedenen Kanälen werden nicht semantisch erkannt.
+Neue geprüfte öffentliche Kanäle lassen sich in der Konfiguration ergänzen
+(maximal fünf, Namen ohne `@`; keine privaten Einladungslinks).
+
+**Discord-Quellen sind noch nicht aktiviert.** Ein Discord-Einladungslink oder
+unser ausgehender Webhook erlaubt kein Lesen fremder Server. Dafür braucht es
+entweder einen zugänglichen, geeigneten Ankündigungskanal mit
+[Channel Following](https://support.discord.com/hc/en-us/articles/360028384531-Channel-Following-FAQ)
+(übernimmt alle vom Betreiber veröffentlichten Beiträge ohne unseren Filter)
+oder einen vom Quellserver zugelassenen Bot mit Leserechten. Bei der Recherche
+wurde kein frei auslesbarer, belegter Pokémon-Center-DE-Dropfeed gefunden.
+Kostenpflichtige Quellen und absichtlich verzögerte Gratisfeeds wurden nicht
+als schnelle Drop-Erkennung aktiviert. Es wurden keine Server beigetreten oder
+Betreiber angeschrieben. Für Telegram sind keine neuen Secrets erforderlich.
