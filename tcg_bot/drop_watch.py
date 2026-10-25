@@ -37,7 +37,9 @@ def inspect(page, source, now):
     text = re.sub(r'\s+', ' ', visible(doc.root)).strip()
     title = ' '.join(n.text() for n in doc.root.walk() if n.tag in ('title', 'h1'))
     # HTTP 200 challenges are not normal pages, closed queues, or stock evidence.
-    if len(text) < 30 or (len(text) < 3000 and re.search(r'incapsula|access denied|verify you are human|captcha|request unsuccessful|just a moment|client challenge', text + ' ' + title, re.I)):
+    if (len(text) < 30
+            or re.search(r'additional security check is required|verify you are human|complete the captcha', text + ' ' + title, re.I)
+            or (len(text) < 3000 and re.search(r'incapsula|access denied|captcha|request unsuccessful|just a moment|client challenge', text + ' ' + title, re.I))):
         return 'blocked_or_unreadable', []
     queue_title = re.search(r'virtual queue|waiting room|warteschlange|warteraum|you are (?:now )?in line', title, re.I)
     queue_body = re.search(r'wartezeit|position in|dein(?:e)? (?:platz|position)|estimated wait|you are (?:now )?in line|keep (?:this|the|your).*?(?:window|page) open|bitte.*warten', text, re.I)

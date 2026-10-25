@@ -241,7 +241,10 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report = dict(shops=[], errors=[], warnings=[], skipped={}, candidates=[], alerts=[], sent=0,
                   dry_run=send is None, unavailable_sources=cfg.get('unavailable_sources', []), pending_alerts=0)
     if now - state.get('fast_last_run', 0) < settings.get('min_run_gap_seconds', 240):
-        report['fast_watch'] = {'skipped_recent_run': True}
+        report['fast_watch'] = {'skipped_recent_run': True,
+                                'targets': len(state.get('fast_targets', {})),
+                                'last_run': state['fast_last_run'],
+                                'retry_after_seconds': max(0, int(settings.get('min_run_gap_seconds', 240) - (now-state['fast_last_run'])))}
         return report
     previous_run = state.get('fast_last_run')
     if previous_run and now - previous_run > 900:

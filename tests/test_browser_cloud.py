@@ -10,6 +10,41 @@ from tcg_bot.drop_watch import read_source
 
 
 class BrowserCloudTests(unittest.TestCase):
+    def test_browser_403_does_not_poison_working_cloud_reader(self):
+        from tcg_bot import cloud_reader
+        c = BrowserClient(delay=0)
+        host = 'www.mediamarkt.de'
+        url = 'https://' + host + '/de/product/test.html'
+        c.back_off_browser(host, 403)
+        body = '<script>window.__PRELOADED_STATE__={}</script>'
+        with patch.object(c, 'check_allowed'), patch.object(cloud_reader, 'enabled_for', return_value=True), patch.object(cloud_reader, 'read', return_value=body) as read:
+            self.assertEqual(c.text(url), body)
+            read.assert_called_once()
+        with patch.object(c, 'check_allowed'), patch.object(cloud_reader, 'enabled_for', return_value=False):
+            with self.assertRaises(FetchError): c.text('https://' + host + '/')
+        self.assertIsNone(c.runtime)
+
+    def test_browser_rate_limit_still_blocks_both_routes(self):
+        from tcg_bot import cloud_reader
+        for status in (429, 503):
+            c = BrowserClient(delay=0)
+            c.back_off_browser('www.mediamarkt.de', status)
+            with patch.object(c, 'check_allowed'), patch.object(cloud_reader, 'enabled_for', return_value=True), patch.object(cloud_reader, 'read') as read:
+                with self.assertRaises(FetchError): c.text('https://www.mediamarkt.de/de/product/test.html')
+                read.assert_not_called()
+
+    def test_browser_specific_cooldown_survives_worker_boundary(self):
+        c = BrowserClient(delay=0)
+        c.back_off_browser('www.mediamarkt.de', 403)
+        shop = {'id': 'queue', 'base_url': 'https://www.mediamarkt.de', 'adapter': 'signal'}
+        def check(shop, child):
+            self.assertIn('browser:www.mediamarkt.de', child.blocked)
+            self.assertGreater(child.cooldowns['browser:www.mediamarkt.de'], time.time())
+            self.assertNotIn('www.mediamarkt.de', child.blocked)
+            return [], []
+        result = collect([shop], c, {'signal': check}, workers=2)
+        self.assertIsNone(result[0][3])
+
     def test_worker_preserves_transport_and_closes_it(self):
         seen = []
         class Transport(Client):

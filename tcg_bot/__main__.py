@@ -389,6 +389,11 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
 def summary(report):
     text = '# TCG Retail Watch\n\n'
     text += f"Modus: {'Vorschau – nichts gesendet' if report['dry_run'] else 'Discord aktiv'}\n\n"
+    if report.get('fast_watch', {}).get('skipped_recent_run'):
+        fast = report['fast_watch']
+        text += ('**Doppelstart übersprungen:** Der letzte Scan begann vor weniger als dem konfigurierten Mindestabstand. '
+                 f"Kein neuer Händlerabruf in diesem Lauf. Nächster Scan frühestens in {fast.get('retry_after_seconds', 0)} Sekunden; "
+                 f"{fast.get('targets', 0)} gespeicherte Ziele bleiben erhalten.\n\n")
     text += f"Quellen erfolgreich: {len(report['shops'])} · Meldungen: {report['sent']} · Vorschläge: {len(report['alerts'])}\n\n"
     text += f"Neue Produktmeldungen: {report.get('discovery_sent', 0)} · weitere Kandidaten: {report.get('discovery_pending', 0)}\n\n"
     text += '## Quellen\n\n' + '\n'.join(f"- {s['shop']}: {s['variants']} Varianten — {s.get('scope', '')}" for s in report['shops']) + '\n\n'

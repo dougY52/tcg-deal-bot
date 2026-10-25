@@ -28,12 +28,12 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
         child = type(client)(client.delay)
         child.deadline = min(client.deadline, time.monotonic()+source_seconds)
         host = urlsplit(batch[0]['base_url']).netloc
-        child.cooldowns = {host: client.cooldowns.get(host, 0)}
+        transport_keys = (host, 'browser:' + host)
+        child.cooldowns = {key: client.cooldowns.get(key, 0) for key in transport_keys}
         child.last = dict(client.last)
         child.robots = dict(client.robots)
         child.host_delay = dict(client.host_delay)
-        if host in client.blocked:
-            child.blocked.add(host)
+        child.blocked.update(key for key in transport_keys if key in client.blocked)
         try:
             result = [one(s, child) for s in batch]
         finally:

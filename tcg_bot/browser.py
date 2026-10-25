@@ -8,6 +8,44 @@ MMS_HOSTS = frozenset({'www.mediamarkt.de', 'www.saturn.de'})
 HOSTS = MMS_HOSTS | {'www.mueller.de', 'www.pokemoncenter.com'}
 
 
+def pokemon_queue_document(page, url, statuses, check_allowed):
+    """Read an already loaded, visible same-origin queue frame; never solve it.
+
+    An Incapsula iframe alone is NOT queue evidence: the same container is
+    used for CAPTCHA/error pages. Only positive queue text may leave here.
+    No additional navigation, guessed endpoint, cookies, or paid API calls.
+    """
+    from .drop_watch import inspect
+    parts = urlsplit(url)
+    if (parts.scheme != 'https' or parts.netloc != 'www.pokemoncenter.com'
+            or parts.path.rstrip('/') not in ('/de-de', '/en-de')):
+        return None
+    final = urlsplit(page.url)
+    if final.netloc != parts.netloc or final.path.rstrip('/') not in ('/de-de', '/en-de'):
+        return None
+    # Inspect only the small number of frames already present in this page.
+    for frame in page.frames[:8]:
+        target = urlsplit(frame.url)
+        if (frame == page.main_frame or target.scheme != 'https'
+                or target.netloc != parts.netloc or target.path != '/_Incapsula_Resource'
+                or statuses.get(frame) != 200):
+            continue
+        try:
+            check_allowed(frame.url)
+            if not frame.frame_element().is_visible():
+                continue
+            body = frame.content()
+            if len(body) > 1_000_000:
+                continue
+            if inspect(body, {}, time.time())[0] == 'queue_open':
+                return body, frame.title()
+        except Exception:
+            # Detached, blocked or inaccessible frames are unknown, never a
+            # closed queue. The parent page still undergoes normal validation.
+            continue
+    return None
+
+
 def validate_page(url, final_url, status, title, body):
     if urlsplit(final_url).hostname != urlsplit(url).hostname:
         raise FetchError('Unexpected browser redirect host')
@@ -40,6 +78,14 @@ class BrowserClient(Client):
             raise FetchError('Run request budget exhausted')
         return max(1, int(min(20, left) * 1000))
 
+    def back_off_browser(self, host, status):
+        # A direct browser access denial does not describe the separately
+        # validated Cloudflare reader. Rate limits / overload remain host-wide.
+        if status in (403, 429, 503):
+            key = 'browser:' + host if status == 403 else host
+            self.blocked.add(key)
+            self.cooldowns[key] = time.time() + 1800
+
     def text(self, url):
         from . import cloud_reader
         if cloud_reader.enabled_for(url):
@@ -51,7 +97,8 @@ class BrowserClient(Client):
         if host not in HOSTS or urlsplit(url).path.endswith(('.xml', '.txt')):
             return super().text(url)
         self.check_allowed(url)
-        if host in self.blocked or time.time() < self.cooldowns.get(host, 0):
+        if any(key in self.blocked or time.time() < self.cooldowns.get(key, 0)
+               for key in (host, 'browser:' + host)):
             raise FetchError('Host backed off until next run')
         wait = max(0, max(self.delay, self.host_delay.get(host, 0)) -
                    (time.monotonic() - self.last.get(host, 0)))
@@ -76,13 +123,16 @@ class BrowserClient(Client):
                     r.continue_()
             context.route('**/*', route)
             page = context.new_page()
+            frame_statuses = {}
+            def record_navigation(response):
+                if response.request.is_navigation_request():
+                    frame_statuses[response.frame] = response.status
+            page.on('response', record_navigation)
             self.last[host] = time.monotonic()
             response = page.goto(url, wait_until='domcontentloaded', timeout=self.remaining())
             status = response.status if response else None
             if status != 200:
-                if status in (403, 429, 503):
-                    self.blocked.add(host)
-                    self.cooldowns[host] = time.time() + 1800
+                self.back_off_browser(host, status)
                 raise FetchError('Browser HTTP ' + str(status))
             # Read current DOM after hydration. Never click cart/consent/queue controls.
             predicate = ('Boolean(window.__PRELOADED_STATE__)' if host in MMS_HOSTS else
@@ -91,7 +141,9 @@ class BrowserClient(Client):
                 page.wait_for_function(predicate, timeout=min(4000, self.remaining()))
             except Exception:
                 pass  # Validation below distinguishes empty/challenge from readable pages.
-            return validate_page(url, page.url, status, page.title(), page.content())
+            queue = pokemon_queue_document(page, url, frame_statuses, self.check_allowed)
+            body, title = queue if queue else (page.content(), page.title())
+            return validate_page(url, page.url, status, title, body)
         except FetchError:
             raise
         except Exception:
