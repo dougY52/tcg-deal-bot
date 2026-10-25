@@ -9,7 +9,15 @@ from .product_types import product_kind, single_pack_variant
 from .rules import franchise, language
 
 
-def match_product(o, cfg):
+def match_product(o, cfg, state=None):
+    reviewed = reviewed_match_product(o,cfg)
+    if reviewed or state is None:
+        return reviewed
+    from .cardmarket_catalog import match_offer
+    return match_offer(o,cfg,state)
+
+
+def reviewed_match_product(o, cfg):
     settings = cfg.get('price_comparison', {})
     if not settings.get('enabled') or o.get('currency') != 'EUR':
         return None
@@ -79,7 +87,7 @@ def retail_reference(o, cfg, now, mapping=None):
 
 
 def assess(o, cfg, state, now):
-    mapping = match_product(o,cfg)
+    mapping = match_product(o,cfg,state)
     retail = retail_reference(o,cfg,now,mapping)
     cm = cardmarket.lookup(mapping,state,now) if mapping else None
     price = Decimal(str(o['price']))
@@ -147,6 +155,10 @@ def compact(o, cfg, state, now):
 
 def validate_config(settings):
     assert isinstance(settings.get('enabled'),bool)
+    assert isinstance(settings.get('automatic_catalog',False),bool)
+    for source, aliases in settings.get('name_aliases',{}).items():
+        assert source in ('pokemon','fw','masters','op') and isinstance(aliases,dict)
+        assert all(isinstance(k,str) and isinstance(v,str) and k and v for k,v in aliases.items())
     products = settings.get('products',[])
     assert isinstance(products,list) and len(products)<=500
     ids=set()

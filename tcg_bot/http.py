@@ -133,6 +133,12 @@ class Client:
             raise FetchError('Unsupported Cardmarket export')
         return json.loads(self.raw(url))
 
+    def public_set_json(self, language):
+        """Public documented TCGdex set list only; no API key or arbitrary URL."""
+        if language not in ('en','de'):
+            raise FetchError('Unsupported set catalogue language')
+        return json.loads(self.raw('https://api.tcgdex.net/v2/'+language+'/sets'))
+
     def public_catalog_json(self, url, headers):
         """Only the observed public MMS catalog GET operations; no cookie/auth headers."""
         parts = urllib.parse.urlsplit(url)

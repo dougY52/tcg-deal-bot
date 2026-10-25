@@ -76,26 +76,36 @@ def refresh(cfg, state, client, now):
     table = state.setdefault('cardmarket_daily', {})
     report = {'status':'ok', 'games':[]}
     day = datetime.fromtimestamp(now, timezone.utc).date().isoformat()
+    automatic = settings.get('automatic_catalog', False)
     old_deadline = client.deadline
     client.deadline = min(old_deadline, time.monotonic()+35)
     try:
         for game in GAMES:
             mappings = [m for m in settings['products'] if m['game_id']==game]
-            if not mappings:
+            if not mappings and not automatic:
                 continue
             cache = table.setdefault(str(game), {})
-            if cache.get('checked_day') == day or now < cache.get('retry_after', 0):
-                report['games'].append({'game':game,'status':'cached' if cache.get('checked_day')==day else 'backoff','products':len(cache.get('products',{}))})
+            if (cache.get('checked_day') == day and (not automatic or cache.get('catalogue_version')==1)) or now < cache.get('retry_after', 0):
+                report['games'].append({'game':game,'status':'cached' if cache.get('checked_day')==day else 'backoff','products':len(cache.get('products',{})),'catalogue_products':len(cache.get('catalogue',{}))})
                 continue
             try:
                 catalog_url, guide_url = urls(game)
                 catalog = client.cardmarket_json(catalog_url)
                 guide = client.cardmarket_json(guide_url)
-                products = join(catalog, guide, mappings, now)
+                if automatic:
+                    from .cardmarket_catalog import catalogue
+                    inventory = catalogue(catalog['products'], game)
+                    # Reviewed rows enrich matching/retail evidence, but never limit the import.
+                    products = join(catalog, guide, list(inventory.values()), now)
+                else:
+                    inventory = {}
+                    products = join(catalog, guide, mappings, now)
                 if not products:
                     raise ValueError('No matched Cardmarket products')
                 table[str(game)] = {'checked_day':day, 'checked_at':now, 'products':products}
-                report['games'].append({'game':game,'status':'updated','products':len(products)})
+                if automatic:
+                    table[str(game)].update(catalogue=inventory, catalogue_version=1)
+                report['games'].append({'game':game,'status':'updated','products':len(products),'catalogue_products':len(inventory),'without_price':len(inventory)-len(products) if automatic else 0})
             except Exception as exc:
                 # Retain dated prior data; lookup independently expires it.
                 cache['retry_after'] = now+3600
@@ -103,6 +113,9 @@ def refresh(cfg, state, client, now):
                 report['games'].append({'game':game,'status':'unavailable','error':type(exc).__name__})
     finally:
         client.deadline = old_deadline
+    if automatic:
+        from .cardmarket_catalog import refresh_names
+        report['names'] = refresh_names(cfg,state,client,now)
     return report
 
 

@@ -454,7 +454,10 @@ def summary(report):
         text += '\n'.join('- '+s['id']+': '+s['status'] for s in drops['sources'])+'\n\n'
     if report.get('cardmarket'):
         text += '## Cardmarket Tagesvergleich (keine Liveangebote)\n\n'
-        text += '\n'.join(f"- Spiel {g['game']}: {g['status']} · {g.get('products', 0)} Produkte" for g in report['cardmarket']['games'])+'\n\n'
+        text += '\n'.join(f"- Spiel {g['game']}: {g['status']} · {g.get('products', 0)} Preiswerte · {g.get('catalogue_products', 0)} Katalogprodukte" for g in report['cardmarket']['games'])+'\n\n'
+        for source, result in report['cardmarket'].get('names',{}).items():
+            if isinstance(result,dict):
+                text += f"- Set-Namen {source}: {result['status']} · {result.get('aliases',0)} Zuordnungen\n"
     if report.get('community_watch'):
         community = report['community_watch']
         text += f"## Pokémon Center DE – Community-Hinweise\n\nGesendet: {community['sent']} (keine Live-Bestätigung)\n\n"

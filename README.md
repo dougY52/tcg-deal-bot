@@ -326,13 +326,44 @@ Nicht-Einzelkarten-Katalogen über Produkt-ID, vollständigen Katalognamen und
 Kategorie verknüpft. Cardmarket aktualisiert den Katalog bei neuen Produkten;
 sein Dateidatum darf daher älter sein als das tägliche Preisdatum.
 
-`config/price-comparison.json` enthält zunächst **35 geprüfte Produktzuordnungen**,
-u. a. FB01–FB11, ausgewählte Pokémon-Produkte sowie OP10/EB03. Dies ist keine
-vollständige Cardmarket-Abdeckung. Packanzahl, Sprache, Set-Code und Produktform
-müssen passen; 18er-/36er-Displays und Pokémon-Center-/Standard-ETBs bleiben getrennt.
-Unklare oder noch nicht zugeordnete Produkte zeigen „keine eindeutige Zuordnung“.
-Neue Zuordnungen benötigen die genaue ID, den Originalnamen und die Kategorie
- aus dem offiziellen Katalog sowie eine eindeutige lokale Produktregel.
+Seit 26.10.2026 begrenzen die 35 geprüften Zuordnungen den Import **nicht mehr**.
+Der Bot lädt täglich alle passenden sealed Kategorien aus den drei vollständigen
+Katalogen: Displays, Bundles, ETBs, Tins und Collection-/Special-/Premium-Boxen;
+Bandai-Deckprodukte sind ebenfalls im Vergleichskatalog enthalten. Einzelkarten,
+lose Booster, Zubehör, Cases und explizit fremdsprachige/Asia-Produkte werden
+herausgefiltert. Der Import hat keine Produkt-ID-Whitelist und keine feste
+Produktanzahl. Produkte ohne aktuellen Preis bleiben im Katalog und erhalten
+einen Vergleich, sobald der Tagesexport einen gültigen Preis liefert.
+
+Neue Katalogprodukte werden beim nächsten täglichen Import automatisch erfasst.
+[TCGdex](https://tcgdex.dev/rest/sets) liefert Deutsch-/Englisch-Namen über dieselbe
+Set-ID (ohne digitale Pocket-Sets). Die offiziellen Produktlisten von
+[Dragon Ball Fusion World](https://www.dbs-cardgame.com/fw/en/products/),
+[Masters](https://www.dbs-cardgame.com/us-en/product/) und
+[One Piece](https://en.onepiece-cardgame.com/products/?subcategory=boosters&page=1)
+liefern Set-Codes. Sie werden ebenfalls täglich aktualisiert; bei One Piece
+werden bis zu vier Booster-Seiten gelesen, bei Fusion World bis zu fünf
+Produktseiten des Archivs. Neue Sets stehen auf der ersten Seite;
+bereits gelesene ältere Zuordnungen bleiben erhalten. Ein Grundbestand geprüfter
+Namen in `config/price-comparison.json` überbrückt Quellenausfälle. Es gibt keine
+bezahlte API und keine neuen Secrets oder Abhängigkeiten.
+
+Verglichen wird ausschließlich eine eindeutige Produktidentität: vollständiger
+normalisierter Name, Spiel, Sprache, Produktform und Packvariante. Set-Codes müssen
+zum Namen passen. Eine explizite Edition, Collector-Ausgabe, Volumen-Nummer,
+Pokémon-Center-Ausgabe oder ein anderes Artwork wird nicht entfernt. So bleiben
+18er-/36er-Displays, Standard-/PC-ETBs und reguläre/Collector-Boxen getrennt.
+Deutsche Set-Namen, bekannte deutsche Formatwörter und ausgewählte Pokémon-Namen
+werden deterministisch übersetzt; es gibt keine ungefähre Textähnlichkeits-Suche.
+Mehrere gleich passende Produkte ergeben **keinen** Vergleich.
+
+Das bedeutet keine garantierte Zuordnung jedes Shop-Titels: Fehlen ein Produkt
+im Cardmarket-Katalog, ein offizieller Code/übersetzter Name, eine Packangabe oder
+ein Preis, bleibt der Vergleich ausdrücklich offen. Die Händlerprüfung ist
+weiterhin unabhängig davon und war auch vorher nicht auf 35 Produkte begrenzt.
+Die bestehenden Angebots-, Sprach-, Live-Checkout-, Preis- und Produktfilter
+werden durch einen Katalogeintrag nicht umgangen. Retailbelege bleiben separat;
+ein neuer Cardmarket-Eintrag erzeugt keine UVP und keinen Discord-Alert.
 
 Die Exporte bieten **keinen Sprachfilter, keine deutschen Verkäufer, keinen
 Versand und keine Live-Kaufbestätigung**. Deshalb heißen sie „ungefilterter
@@ -349,10 +380,11 @@ verfallen nach maximal 30 Tagen und müssen anhand ihrer Quellen erneut geprüft
 werden. Cardmarket und historische Marktmediane erhöhen oder ersetzen sie nie.
 
 Im Fast Watch werden dringende Alerts zuerst mit dem gespeicherten Preisstand
-bewertet, danach folgen maximal 35 Sekunden für die Tagesdownloads. Beim ersten
+bewertet, danach folgen maximal 35 Sekunden für die Tagesdownloads und bis zu
+25 Sekunden für die täglichen Namensquellen. Beim ersten
 Lauf kann der Cardmarket-Vergleich daher noch fehlen. Frische Discovery-Alerts und
-Preisinfos desselben Laufs können bereits den neuen Stand verwenden. Nur die
-zugeordneten Datensätze werden in `bot-state` unter `cardmarket_daily` gespeichert;
+Preisinfos desselben Laufs können bereits den neuen Stand verwenden. Die gefilterten Katalog- und
+Preisdatensätze werden in `bot-state` unter `cardmarket_daily` gespeichert;
 die großen Rohdateien werden nicht committed. Preisstände älter als 48 Stunden
 werden nicht angezeigt. Bei einem Fehler bleiben die übrigen Scanner aktiv;
 der Import versucht es nach einer Stunde erneut. Den Importstatus zeigt die

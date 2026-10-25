@@ -141,6 +141,8 @@ class CardmarketPrices(unittest.TestCase):
 
     def client(self, failed_game=None):
         client=Client(delay=0)
+        client.public_set_json=Mock(side_effect=FetchError('offline fixture'))
+        client.text=Mock(side_effect=FetchError('offline fixture'))
         def read(url):
             game=next(g for g in cm.GAMES if url in cm.urls(g))
             if game==failed_game:raise FetchError('HTTP 503')
