@@ -32,6 +32,7 @@ jobs:
       - run: |
           python -m pip install -r requirements-browser.txt
           python -m playwright install --with-deps chromium
+      - run: node cloudflare/mms-reader/test.mjs
       - run: python -m unittest discover -s tests -q
       - run: python scripts/check_browser.py
       - uses: actions/upload-artifact@v4

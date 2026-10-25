@@ -36,6 +36,12 @@ class BrowserClient(Client):
         return max(1, int(min(20, left) * 1000))
 
     def text(self, url):
+        from . import cloud_reader
+        if cloud_reader.enabled_for(url):
+            body = super().text(url)
+            if urlsplit(url).path == '/robots.txt':
+                return body
+            return validate_page(url, url, 200, '', body)
         host = urlsplit(url).hostname
         if host not in HOSTS or urlsplit(url).path.endswith(('.xml', '.txt')):
             return super().text(url)
