@@ -39,6 +39,7 @@ jobs:
           python -m scripts.check_cloud_reader
           python -m scripts.check_local_retail
       - name: Probe public Pokemon Center Germany access (no Discord)
+        if: ${{ !cancelled() }}
         env:
           SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
         run: python -m scripts.check_pokemon_center
