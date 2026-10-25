@@ -193,12 +193,18 @@ def vedes_rows(shop, body, url, statuses, legal_verified=False):
 
 
 def vedes_live(shop, client, url):
-    body=client.text(url);data=vedes_data(body,url)
-    if not data:return [],'AMBIGUOUS_VARIANT'
-    statuses=client.get(data['status_url'])
-    selected=[s for s in statuses if isinstance(s,dict) and str(s.get('value'))==data['sid'] and s.get('productIdentity')==data['uuid']] if isinstance(statuses,list) else []
-    legal=seller_legal(client,data,selected[0],shop) if len(selected)==1 else False
-    return vedes_rows(shop,body,url,statuses,legal)
+    stage='PRODUCT'
+    try:
+        body=client.text(url);data=vedes_data(body,url)
+        if not data:return [],'AMBIGUOUS_VARIANT'
+        stage='STOCK'
+        statuses=client.get(data['status_url'])
+        selected=[s for s in statuses if isinstance(s,dict) and str(s.get('value'))==data['sid'] and s.get('productIdentity')==data['uuid']] if isinstance(statuses,list) else []
+        stage='SELLER'
+        legal=seller_legal(client,data,selected[0],shop) if len(selected)==1 else False
+        return vedes_rows(shop,body,url,statuses,legal)
+    except FetchError as exc:
+        raise FetchError('VEDES_'+stage+': '+str(exc)) from None
 
 
 class QwikDocument(Document):
@@ -296,7 +302,10 @@ def scan(shop,client):
                             match=re.search(r'-([A-Z0-9]{8})/$',urlsplit(u).path)
                             if match:
                                 pid=match[1]
-                                row=normalized(shop,u,re.sub(r'\s+[\d.,]+\s*€\s*$','',text(n).strip()),'1',None,sku='discovery-'+pid,product_id=pid,seller_verified=False,discovery_only=True)
+                                label_text=text(n).strip()
+                                amount=re.search(r'([\d.,]+)\s*€\s*$',label_text)
+                                if not amount:continue
+                                row=normalized(shop,u,label_text[:amount.start()].strip(),amount[1],None,sku='discovery-'+pid,product_id=pid,seller_verified=False,discovery_only=True)
                                 rows[row['key']]=evidence_language(row,shop)
         except Exception as exc:notes.append('catalog: '+source_error(exc))
     if shop['adapter']=='vedes':

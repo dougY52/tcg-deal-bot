@@ -100,6 +100,17 @@ class LocalRetailTests(unittest.TestCase):
         self.assertFalse(any(o['available'] for o in rows))
     def test_duo_unknown_seller_not_trusted(self):
         rows,_=r.duo_rows(DUO|{'seller_evidence':{}},duo_body(),DUOURL);self.assertFalse(rows[0]['seller_verified'])
+    def test_catalog_price_is_only_discovery_and_not_invented(self):
+        class Catalog:
+            def text(self,url):return '<a href="/offers/pokemon-box-32E0448B/">Pokemon Kollektion Deutsch 95,99 €</a>'
+        rows,_=r.scan(DUO|{'catalog_urls':['https://www.duo-shop.de/produkte/spielzeug/sammelkarten/']},Catalog())
+        self.assertEqual(rows[0]['price'],'95.99');self.assertIsNone(rows[0]['available']);self.assertTrue(rows[0]['discovery_only'])
+    def test_catalog_does_not_replace_validated_variant(self):
+        cfg=load_config('config/config.json');row=r.duo_rows(DUO,duo_body(),DUOURL)[0][0];state={}
+        hint=dict(row,key='hint',variant_id='discovery-'+row['product_id'],seller=None,seller_id=None,discovery_only=True,available=None)
+        f.remember([hint],cfg,state,1);f.remember([row],cfg,state,2);f.remember([hint],cfg,state,3)
+        self.assertEqual(len(state['fast_targets']),1)
+        self.assertFalse(next(iter(state['fast_targets'].values()))['offer'].get('discovery_only'))
     def test_cloud_allowlist(self):
         for url in [URL,URL.replace('/p/','/status/json/'),DUOURL,'https://www.faix.de/faix-online-shop-darmstadt/c/impressum']:self.assertTrue(cloud_reader.target_allowed(url),url)
         for url in [URL+'&token=x',URL.replace(SID,'oops'),'https://www.duo-shop.de/account','https://www.vedes.com/basketupdate/addtobasket','https://www.faix.de/other/status/json/x?subsidiary%5B__identity%5D='+SID]:self.assertFalse(cloud_reader.target_allowed(url),url)
