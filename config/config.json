@@ -1777,22 +1777,6 @@
       "status": "blocked",
       "checked_on": "2026-09-18",
       "reason": "Einfacher Abruf liefert Client Challenge. Browser-Katalog lesbar, aber noch keine verifizierte Online-/Filialbestandsanbindung."
-    },
-    {
-      "id": "mediamarkt",
-      "name": "MediaMarkt",
-      "url": "https://www.mediamarkt.de",
-      "reason": "Cloudflare-Reader aktiv: GitHub-Live-Test am 25.10.2026 bestätigt konkrete Produktdaten mit Preis und Bestand. Direkter Runner-Zugriff bleibt gesperrt; keine Garantie für sämtliche Produkte oder Filialbestände.",
-      "status": "cloud_access_blocked",
-      "checked_on": "2026-10-25"
-    },
-    {
-      "id": "saturn",
-      "name": "Saturn",
-      "url": "https://www.saturn.de",
-      "reason": "Cloudflare-Reader aktiv: GitHub-Live-Test am 25.10.2026 bestätigt konkrete Produktdaten mit Preis und Bestand. Direkter Runner-Zugriff bleibt gesperrt; keine Garantie für sämtliche Produkte oder Filialbestände.",
-      "status": "cloud_access_blocked",
-      "checked_on": "2026-10-25"
     }
   ],
   "discoveries": {
