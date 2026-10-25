@@ -1,0 +1,18 @@
+{
+  "name": "tcg-retailer-research",
+  "main": "research-worker.mjs",
+  "compatibility_date": "2026-10-25",
+  "workers_dev": true,
+  "observability": {
+    "enabled": false
+  },
+  "vars": {
+    "GITHUB_REPOSITORY": "dougY52/tcg-deal-bot",
+    "GITHUB_REPOSITORY_ID": "1375726655",
+    "GITHUB_OWNER_ID": "306408342",
+    "AUDIT_EXPIRES": "2026-10-26T00:00:00Z"
+  },
+  "browser": {
+    "binding": "BROWSER"
+  }
+}

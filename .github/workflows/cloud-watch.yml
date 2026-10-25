@@ -23,7 +23,7 @@ jobs:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
     if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     permissions:
       contents: read
       id-token: write
@@ -36,6 +36,15 @@ jobs:
         env:
           TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
         run: python -m scripts.check_cloud_reader
+      - name: One-off free retailer research (no Discord)
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[retailer-audit]')
+        run: python -m scripts.audit_free_cloud
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'push' && contains(github.event.head_commit.message, '[retailer-audit]')
+        with:
+          name: free-cloud-research
+          path: free-cloud-audit.json
+          retention-days: 3
   watch:
     # Public repositories + standard Linux runner: free. Fail closed for private repos.
     if: github.event.repository.private == false
