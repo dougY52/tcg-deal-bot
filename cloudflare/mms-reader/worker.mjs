@@ -64,7 +64,17 @@ async function publicResponse(target,env) {
     }
     headers.Cookie=saved.cookie;
   }
-  return fetch(target,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(20000),headers,cf:{cacheTtl:0,cacheEverything:false}});
+  const response=await fetch(target,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(20000),headers,cf:{cacheTtl:0,cacheEverything:false}});
+  if(u.hostname==='www.vedes.com' && response.status===403 && /^\/(p|m|s|k)\//.test(u.pathname) && env.BROWSER) {
+    await response.body?.cancel();
+    const rendered=await env.BROWSER.quickAction('content',{url:target,gotoOptions:{waitUntil:'networkidle2',timeout:20000},rejectResourceTypes:['image','media','font']});
+    if(!rendered.ok)return rendered;
+    const raw=await rendered.text();if(raw.length>12000000)throw new Error('Too large');
+    const data=raw.trim().startsWith('{')?JSON.parse(raw).result:raw;
+    if(typeof data!=='string')throw new Error('Browser data invalid');
+    return new Response(data,{headers:{'Cache-Control':'no-store'}});
+  }
+  return response;
 }
 
 // GitHub OIDC avoids a long-lived shared secret. Trust only this repository's main scan.

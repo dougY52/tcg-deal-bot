@@ -202,7 +202,7 @@ Die [Recherche vom 25.10.2026](RETAILER-RESEARCH.md) dokumentiert 38 lokal und a
 ### VEDES, Faix und duo – echte Scanner (25.10.2026)
 
 VEDES und Faix prüfen jetzt konkrete Händlerangebote und separate reservierbare
-Filialbestände im 50-km-Luftlinienradius um 65934. duo verwendet den kostenlosen
-Cloudflare-Browser mit begrenztem Takt (ein Produkt frühestens alle 90 Minuten).
+Filialbestände im 50-km-Luftlinienradius um 65934. VEDES und duo verwenden den kostenlosen
+Cloudflare-Browser mit begrenztem Takt (ein Produkt frühestens alle 90 Minuten); Faix bleibt im schnellen Rotator.
 Alle Treffer durchlaufen die bestehenden Preis-, Sprach- und Duplikatfilter.
 Details, tatsächlich bestätigte Filialen und Grenzen: [LOCAL-RETAIL-SCANNERS.md](LOCAL-RETAIL-SCANNERS.md).

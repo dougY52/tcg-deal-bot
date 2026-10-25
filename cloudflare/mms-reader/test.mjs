@@ -128,5 +128,16 @@ try {
   browserEnv.BROWSER.quickAction=async()=>new Response('budget reached',{status:429});
   const limited=await(await worker.fetch(request(duo),browserEnv)).json();
   assert(limited.status===429 && limited.body==='','free quota fails closed');
+  globalThis.fetch=async()=>new Response('unavailable',{status:403});
+  browserEnv.BROWSER.quickAction=async(action,options)=>{
+    assert(action==='content' && options.url===vedes,'VEDES ordinary browser on exact page');
+    return Response.json({result:'<html>public VEDES product</html>'});
+  };
+  const fallback=await(await worker.fetch(request(vedes),browserEnv)).json();
+  assert(fallback.status===200 && fallback.body.includes('public VEDES'),'bounded normal browser fallback');
+  globalThis.fetch=async()=>new Response('rate limit',{status:429});
+  browserEnv.BROWSER.quickAction=async()=>{throw new Error('must not retry rate limit with browser');};
+  const rateLimited=await(await worker.fetch(request(vedes),browserEnv)).json();
+  assert(rateLimited.status===429,'rate limits respected, no browser retry');
   console.log('VEDES region and duo free-browser transport checks passed');
 } finally {globalThis.fetch=originalFetch;}

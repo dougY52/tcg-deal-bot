@@ -8,15 +8,15 @@ keine neue kostenpflichtige API und keine Änderung der Discord-Secrets erforder
 
 | Quelle | Was live geprüft wird | Takt / Begrenzung |
 |---|---|---|
-| VEDES Marktplatz | Konkreter Händler, Produkt-ID, Produktpreis, Artikelbestand, Versand/Reservierung und Händlerimpressum | Bekannte Produkte rotierend im 5-Minuten-Workflow, maximal ein gezielter Check je Lauf; Kataloge separat rotierend |
-| Faix | Versandangebot und separat auswählbare Filialbestände in Darmstadt und Riedstadt | Gleiches Verfahren; nur passende Produktarten/Sprachen und qualifizierte Preise werden gemeldet |
+| VEDES Marktplatz | Konkreter Händler, Produkt-ID, Produktpreis, Artikelbestand, Versand/Reservierung und Händlerimpressum | Ein rotierendes Produkt frühestens alle 90 Minuten; Kataloge alle 6 Stunden. Normaler Cloud-Browser als Fallback bei blockiertem HTML |
+| Faix | Versandangebot und separat auswählbare Filialbestände in Darmstadt und Riedstadt | Bekannte Produkte rotierend im 5-Minuten-Workflow; nur passende Produktarten/Sprachen und qualifizierte Preise werden gemeldet |
 | duo | Tatsächlich an den Warenkorb gebundene Händlerofferte, Produkt-ID, Stückzahl, aktueller Preis und Versand nach Deutschland | Ein rotierendes Produkt frühestens alle 90 Minuten; Katalog alle 6 Stunden |
 
 Ein Workflow-Start bedeutet nicht, dass jedes Produkt alle fünf Minuten geprüft wird.
 GitHub kann Starts verzögern; Kataloge werden über den vorhandenen Shop-Rotator verteilt.
 Weitere Händlerangebote/Produkte werden aus den Katalogen als Kandidaten aufgenommen,
-aber erst nach erfolgreicher Live-Prüfung alarmiert. duo ist ausdrücklich kein
-vollständiger Fünf-Minuten-Scanner: Cloudflare Free stellt zehn Browser-Minuten pro Tag
+aber erst nach erfolgreicher Live-Prüfung alarmiert. VEDES und duo sind ausdrücklich keine
+vollständigen Fünf-Minuten-Scanner: Cloudflare Free stellt zehn Browser-Minuten pro Tag
 bereit und begrenzt Quick Actions auf einen Aufruf pro zehn Sekunden.
 Quellen: https://developers.cloudflare.com/browser-run/limits/
 
@@ -80,3 +80,5 @@ nicht gecacht. Nur robots.txt darf sechs Stunden gecacht werden; Region-Cookies 
 anonyme feste Ortspräferenzen, kurzzeitig pro Worker-Isolat gehalten. Authentifizierung
 bleibt auf das vorhandene GitHub-Repository und dessen Main-Workflow beschränkt.
 HTTP 429/403 oder Quotenende verursachen interne Fehler/Backoff, keine erfundenen Alerts.
+
+Ausführungsort des Workers: Placement Hint `aws:eu-central-1` (Frankfurt), auf dem bestehenden Gratis-Tarif. VEDES benötigt zusätzlich normalen Browser-Zugriff für zeitweise blockierte öffentliche HTML-Seiten. Keine CAPTCHA-Lösung oder Zugriff auf private Schnittstellen.

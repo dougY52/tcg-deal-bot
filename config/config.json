@@ -1428,7 +1428,7 @@
       "max_pages": 1,
       "adapter": "vedes",
       "marketplace": true,
-      "max_product_pages": 1,
+      "max_product_pages": 0,
       "max_live_checks_per_run": 1,
       "live_language_discovery": true,
       "local_region": {
@@ -1458,7 +1458,9 @@
       },
       "discovery_scope": "Reale Händlerangebote aus rotierenden Katalogen; Verkäufer/Variante/Stückzahl/Service live. Keine Aggregat-Ab-Preise. Ortsentfernung nur bei bestätigter 65934-Geolocation.",
       "health_product_url": "https://www.vedes.com/p/pokemon-sammelkartenspiel-top-trainer-box-mega-entwicklung-dunkelnacht-10-10416-103-61214461",
-      "fast_priority": true
+      "fast_priority": true,
+      "min_live_interval_seconds": 5400,
+      "catalog_interval_seconds": 21600
     },
     {
       "currency": "EUR",
