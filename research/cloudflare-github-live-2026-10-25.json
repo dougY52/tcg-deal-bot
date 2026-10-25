@@ -1,0 +1,53 @@
+{
+  "run_url": "https://github.com/dougY52/tcg-deal-bot/actions/runs/40146930828/job/121030160779",
+  "worker_version": "39606f16-b568-43ae-9264-200e865807db",
+  "route": "GitHub Actions -> authenticated Cloudflare Worker -> public retailer page",
+  "discord_test_messages": 0,
+  "records": [
+    {
+      "timestamp": "2026-10-25T00:30:22.5806422Z",
+      "type": "product",
+      "shop": "mediamarkt",
+      "parsed": true,
+      "discord_sent": false,
+      "title": "POKEMON 41079 Pokémon KP09 Top-Trainer-Box (Einzelartikel) Sammelkarten",
+      "variant_id": "2974734",
+      "price": "59.99",
+      "available": false,
+      "stock_text": "PERMANENTLY_NOT_AVAILABLE",
+      "add_to_cart_available": false
+    },
+    {
+      "timestamp": "2026-10-25T00:30:22.5807171Z",
+      "type": "discovery",
+      "shop": "mediamarkt",
+      "product_links": 19,
+      "discord_sent": false
+    },
+    {
+      "timestamp": "2026-10-25T00:30:22.5808118Z",
+      "type": "product",
+      "shop": "saturn",
+      "parsed": true,
+      "discord_sent": false,
+      "title": "POKEMON 41079 Pokémon KP09 Top-Trainer-Box (Einzelartikel) Sammelkarten",
+      "variant_id": "2974734",
+      "price": "59.99",
+      "available": false,
+      "stock_text": "PERMANENTLY_NOT_AVAILABLE",
+      "add_to_cart_available": false
+    },
+    {
+      "timestamp": "2026-10-25T00:30:22.5808749Z",
+      "type": "discovery",
+      "shop": "saturn",
+      "product_links": 16,
+      "discord_sent": false
+    }
+  ],
+  "limits": [
+    "Two catalog pages per retailer tested; product links are discovery candidates, not validated offers.",
+    "Test product was unavailable on both retailers.",
+    "Pokemon Center still returns challenge HTML; no live stock support."
+  ]
+}

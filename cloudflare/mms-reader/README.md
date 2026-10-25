@@ -6,6 +6,8 @@ Cloud-Probe am 25.10.2026: MediaMarkt zweimal HTTP 200 mit echtem Produktzustand
 
 Produktiver Zugriffstest: [GitHub-Job 121029899731](https://github.com/dougY52/tcg-deal-bot/actions/runs/40146408536/job/121029899731), 25.10.2026, 00:28 UTC. Beide Händler lieferten SKU 2974734 für 59,99 EUR als nicht bestellbar. OIDC-Anmeldung, robots.txt, Produktabruf und vorhandener Parser funktionieren zusammen. Der Test versendet keine Discord-Nachrichten.
 
+Erweiterter [Test inklusive Katalogsuche](https://github.com/dougY52/tcg-deal-bot/actions/runs/40146930828/job/121030160779): 19 Produktlinks bei MediaMarkt, 16 bei Saturn aus je zwei geprüften Katalogseiten. Links sind Kandidaten, keine automatisch qualifizierten Angebote. Nachweis: `research/cloudflare-github-live-2026-10-25.json`.
+
 ## Einmalige Einrichtung
 
 Der bevorzugte Weg verwendet Cloudflares offizielle CLI (`wrangler deploy`) und die beiliegende `wrangler.jsonc`. Das kostenlose Cloudflare-Konto autorisiert die Einrichtung einmal im Browser. Der Worker prüft danach kurzlebige, kryptografisch signierte GitHub-OIDC-Token statt eines dauerhaft kopierten Schlüssels. Er akzeptiert nur das Repository `dougY52/tcg-deal-bot` mit seiner unveränderlichen Repository-/Owner-ID, Branch `main` und `.github/workflows/cloud-watch.yml` bei schedule/push/workflow_dispatch. Pull Requests und fremde Repositories erhalten keinen Zugang.
