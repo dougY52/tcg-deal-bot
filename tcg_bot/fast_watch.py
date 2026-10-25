@@ -186,7 +186,7 @@ def fetch_live(selected, cfg, client, now):
                         row, error = None, 'LIVE_CHECK_FAILED_'+detail
                     rows.append({'key': o['key'], 'row': row, 'error': error})
                 return rows, []
-            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, 4, 20):
+            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, cfg['fast_watch'].get('live_workers', 4), 20):
                 for record in rows:
                     result[record['key']] = (record['row'], record['error'])
     finally:
@@ -211,6 +211,28 @@ def payload(o):
         from decimal import Decimal
         embed['description'] += '\n💰 Gesamt: ' + str(Decimal(o['price']) + Decimal(o['shipping_cost'])) + ' €'
     return msg
+
+
+def coverage(cfg, state, selected, results):
+    """Account for each eligible target; a selected/failed request is not validation."""
+    shops = {s['id'] for s in cfg['shops'] if s.get('enabled', True)}
+    targets = {k:r for k,r in state.get('fast_targets', {}).items()
+               if r['offer']['shop'] in shops and not excluded_franchise(
+                   r['offer']['title']+' '+r['offer'].get('variant',''), cfg)}
+    attempted = set(targets) & set(results)
+    confirmed = {k for k in attempted if results[k][0] and results[k][0].get('live_validated') is True}
+    failed = {k for k in attempted if results[k][0] is None}
+    by_shop = {}
+    for key, record in targets.items():
+        counts = by_shop.setdefault(record['offer']['shop'], {'eligible':0, 'attempted':0, 'confirmed':0})
+        counts['eligible'] += 1
+        counts['attempted'] += key in attempted
+        counts['confirmed'] += key in confirmed
+    return {'eligible':len(targets), 'selected':len(selected), 'attempted':len(attempted),
+            'not_attempted':len(targets)-len(attempted), 'failed':len(failed),
+            'confirmed':len(confirmed), 'unconfirmed':len(targets)-len(confirmed),
+            'all_attempted':len(attempted)==len(targets),
+            'all_confirmed':len(confirmed)==len(targets), 'by_shop':by_shop}
 
 
 def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
@@ -335,6 +357,9 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
             report['skipped'][reason] = report['skipped'].get(reason, 0) + 1
         deliver(new_deals, fresh_audit)
         report['fresh_watch'] = fresh_audit
+    live_results = dict(live_cfg['_fast_preloaded'])
+    live_results.update(fresh_cfg.get('_fast_preloaded', {}))
+    report['fast_watch']['coverage'] = coverage(cfg, state, selected+fresh, live_results)
     report['fast_watch']['new_or_changed'] = len(changed)
     # Price information is daily per seller/variant, even without a retail anchor.
     # Instant-deal deduplication remains separate and can still alert on a drop.

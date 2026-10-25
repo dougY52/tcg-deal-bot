@@ -133,8 +133,9 @@ def load_config(path):
     fast = cfg.get('fast_watch', {})
     if fast.get('enabled'):
         assert 30 <= fast['live_seconds'] <= 150
-        assert len(fast['quotas']) == 6 and all(isinstance(n, int) and 1 <= n <= 64 for n in fast['quotas'])
-        assert sum(fast['quotas']) <= 100
+        assert len(fast['quotas']) == 6 and all(isinstance(n, int) and 1 <= n <= 256 for n in fast['quotas'])
+        assert sum(fast['quotas']) <= 512
+        assert 1 <= fast.get('live_workers', 4) <= 8
         assert 180 <= fast['min_run_gap_seconds'] <= 300
         assert 900 <= fast['catalog_interval_seconds'] <= 10800
         assert 1 <= fast['catalog_shops_per_run'] <= 16
@@ -160,8 +161,10 @@ def load_config(path):
             source_ids.add(source['id'])
     drops = cfg.get('drop_watch', {})
     if drops.get('enabled'):
-        assert 1 <= drops['max_sources_per_run'] <= 6
-        assert 5 <= drops['budget_seconds'] <= 20
+        assert 1 <= drops['max_sources_per_run'] <= 16
+        assert 5 <= drops['budget_seconds'] <= 30
+        assert 1 <= drops.get('workers', 4) <= 4
+        assert 1 <= drops.get('source_seconds', 10) <= 15
         seen = set()
         for source in drops.get('sources', []):
             u = urlsplit(source['url'])
@@ -406,6 +409,9 @@ def summary(report):
     if report.get('fast_watch'):
         fast = report['fast_watch']
         text += f"## Fast Watch\n\nBekannte Ziele: {fast.get('targets', 0)} · ausgewählt: {fast.get('selected', 0)} · live geprüft: {fast.get('checked', 0)}\n\n"
+        coverage = fast.get('coverage', {})
+        if coverage:
+            text += f"Aktive Ziele: {coverage['eligible']} · nicht versucht: {coverage['not_attempted']} · fehlgeschlagen: {coverage['failed']} · ohne bestätigte Live-Daten: {coverage['unconfirmed']}\n\n"
     if report.get('fresh_watch'):
         fresh = report['fresh_watch']
         text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"

@@ -7,6 +7,7 @@ from urllib.parse import urlsplit, urljoin
 from zoneinfo import ZoneInfo
 from .web_sources import Document, Node
 from .rules import excluded_franchise
+from .scanning import collect
 
 BERLIN = ZoneInfo('Europe/Berlin')
 EVENT = re.compile(r'\bdrop\b|verkaufsstart|vorverkaufsstart|vorbestellstart|pre.?orders? (?:open|start)|sale (?:starts|opens)', re.I)
@@ -154,22 +155,35 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
     if not settings.get('enabled'):
         return result
     table = state.setdefault('drop_watch_sources', {})
-    due = [s for s in sources(cfg) if now-table.get(s['id'], {}).get('checked_at', 0) >= s.get('interval_seconds', 1800)]
-    due.sort(key=lambda s: (s.get('priority', 1), table.get(s['id'], {}).get('checked_at', 0)))
+    due = [s for s in sources(cfg) if s.get('every_run') or now-table.get(s['id'], {}).get('checked_at', 0) >= s.get('interval_seconds', 1800)]
+    due.sort(key=lambda s: (not s.get('every_run', False), s.get('priority', 1), table.get(s['id'], {}).get('checked_at', 0)))
     original = getattr(client, 'deadline', None)
     if original is not None:
         client.deadline = min(original, time.monotonic()+settings.get('budget_seconds', 18))
     try:
-        for source in due[:settings.get('max_sources_per_run', 5)]:
-            if original is not None and time.monotonic() >= client.deadline:
-                break
-            old = table.setdefault(source['id'], {'delivered': {}, 'queue_episode': 0})
+        chosen = due[:settings.get('max_sources_per_run', 5)]
+        def fetch(source, transport):
+            # collect gives separate hosts their own timeout. An unreadable PC
+            # page must not consume every other retailer's queue-check budget.
+            if original is not None and time.monotonic() >= transport.deadline:
+                return [], []
+            old = dict(table.get(source['id'], {'delivered': {}, 'queue_episode': 0}))
             old['checked_at'] = now
             try:
-                status, events = read_source(source, old, client, now)
+                status, events = read_source(source, old, transport, now)
             except Exception as exc:
                 status, events = 'unavailable:' + type(exc).__name__, []
             old['status'] = status
+            return [{'old':old, 'status':status, 'events':events}], []
+        work = [dict(s, base_url=s['url'], adapter='drop_signal') for s in chosen]
+        for source, rows, _, error, _ in collect(work, client, {'drop_signal':fetch},
+                                                settings.get('workers',4), settings.get('source_seconds',10)):
+            if not rows:
+                result['sources'].append({'id':source['id'], 'status':'not_checked_budget_or_transport'})
+                continue
+            item = rows[0]
+            old, status, events = item['old'], item['status'], item['events']
+            table[source['id']] = old
             result['sources'].append({'id': source['id'], 'status': status})
             if status == 'readable':
                 old['clear_count'] = old.get('clear_count', 0) + 1
@@ -199,6 +213,10 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
                     if checkpoint:
                         checkpoint(state)
             old['delivered'] = {k:v for k,v in old['delivered'].items() if now-v['at'] < 90*86400 or k == sha256(('queue:'+str(old['queue_episode'])).encode()).hexdigest()[:24]}
+        checked = {s['id'] for s in result['sources'] if s['status'] != 'not_checked_budget_or_transport'}
+        result['due'] = len(due)
+        result['not_checked'] = [s['id'] for s in due if s['id'] not in checked]
+        result['critical_not_checked'] = [s['id'] for s in due if s.get('every_run') and s['id'] not in checked]
     finally:
         if original is not None:
             client.deadline = original

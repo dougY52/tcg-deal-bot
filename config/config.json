@@ -2208,12 +2208,12 @@
     "enabled": true,
     "min_run_gap_seconds": 240,
     "quotas": [
-      48,
-      8,
-      8,
-      8,
+      128,
+      32,
+      192,
+      96,
       6,
-      4
+      32
     ],
     "live_seconds": 140,
     "catalog_interval_seconds": 900,
@@ -2227,7 +2227,8 @@
       3,
       2,
       1
-    ]
+    ],
+    "live_workers": 8
   },
   "retailer_sources": [
     {
@@ -2499,16 +2500,19 @@
   },
   "drop_watch": {
     "enabled": true,
-    "max_sources_per_run": 5,
-    "budget_seconds": 18,
+    "max_sources_per_run": 12,
+    "budget_seconds": 30,
     "sources": [
       {
         "id": "pokemon-center-de",
         "name": "Pokémon Center Deutschland",
         "url": "https://www.pokemoncenter.com/de-de/",
-        "alternate_urls": ["https://www.pokemoncenter.com/en-de"],
+        "alternate_urls": [
+          "https://www.pokemoncenter.com/en-de"
+        ],
         "interval_seconds": 300,
-        "priority": 0
+        "priority": 0,
+        "every_run": true
       },
       {
         "id": "pokemon-official-press-de",
@@ -2517,8 +2521,34 @@
         "interval_seconds": 3600,
         "priority": 0,
         "follow_center_articles": true
+      },
+      {
+        "id": "shop:mediamarkt",
+        "name": "MediaMarkt",
+        "url": "https://www.mediamarkt.de",
+        "interval_seconds": 300,
+        "priority": 0,
+        "every_run": true
+      },
+      {
+        "id": "shop:saturn",
+        "name": "Saturn",
+        "url": "https://www.saturn.de",
+        "interval_seconds": 300,
+        "priority": 0,
+        "every_run": true
+      },
+      {
+        "id": "shop:mueller",
+        "name": "Müller",
+        "url": "https://www.mueller.de",
+        "interval_seconds": 300,
+        "priority": 0,
+        "every_run": true
       }
-    ]
+    ],
+    "workers": 4,
+    "source_seconds": 10
   },
   "disabled_franchises": [
     "Naruto"
