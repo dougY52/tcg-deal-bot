@@ -4,6 +4,8 @@ Stand: 25.10.2026. Läuft im bestehenden öffentlichen GitHub-Workflow `TCG Clou
 und dem kostenlosen Cloudflare-Worker `tcg-mms-reader`. Kein eingeschalteter PC,
 keine neue kostenpflichtige API und keine Änderung der Discord-Secrets erforderlich.
 
+**Aktueller Produktionsbefund:** Faix (Versand + zwei Filialen) und duo wurden aus GitHub live validiert. Die direkte VEDES-Produktseite liefert dort weiterhin HTTP 403, auch nach Frankfurt-Placement und normalem Browser-Versuch. Der Adapter ist vorhanden und versucht begrenzt erneut, ist derzeit aber **keine zuverlässige VEDES-Gesamtabdeckung**. Ein früherer erfolgreicher Test aus einem anderen Cloud-Zugriff wird nicht als dauerhafte Erreichbarkeit ausgegeben.
+
 ## Tatsächliche Abdeckung
 
 | Quelle | Was live geprüft wird | Takt / Begrenzung |
@@ -81,4 +83,6 @@ anonyme feste Ortspräferenzen, kurzzeitig pro Worker-Isolat gehalten. Authentif
 bleibt auf das vorhandene GitHub-Repository und dessen Main-Workflow beschränkt.
 HTTP 429/403 oder Quotenende verursachen interne Fehler/Backoff, keine erfundenen Alerts.
 
-Ausführungsort des Workers: Placement Hint `aws:eu-central-1` (Frankfurt), auf dem bestehenden Gratis-Tarif. VEDES benötigt zusätzlich normalen Browser-Zugriff für zeitweise blockierte öffentliche HTML-Seiten. Keine CAPTCHA-Lösung oder Zugriff auf private Schnittstellen.
+Ausführungsort des Workers: Placement Hint `aws:eu-central-1` (Frankfurt), auf dem bestehenden Gratis-Tarif. VEDES benötigt zusätzlich normalen Browser-Zugriff für zeitweise blockierte öffentliche HTML-Seiten. Auch dieser Fallback konnte die Produktionssperre bisher nicht beheben. Keine CAPTCHA-Lösung oder Zugriff auf private Schnittstellen.
+
+Die Deployment-Diagnose prüft Faix und duo weiterhin zwingend. Bekannte HTTP-403/429-Zugriffsfehler der direkten VEDES-Seite erscheinen als explizite GitHub-Warnung plus `LOCAL_RETAIL_PROBE_ERROR`; Parserfehler bleiben fehlschlagende Prüfungen. Die übrigen Scanner arbeiten unabhängig weiter.

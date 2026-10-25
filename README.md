@@ -206,3 +206,6 @@ Filialbestände im 50-km-Luftlinienradius um 65934. VEDES und duo verwenden den 
 Cloudflare-Browser mit begrenztem Takt (ein Produkt frühestens alle 90 Minuten); Faix bleibt im schnellen Rotator.
 Alle Treffer durchlaufen die bestehenden Preis-, Sprach- und Duplikatfilter.
 Details, tatsächlich bestätigte Filialen und Grenzen: [LOCAL-RETAIL-SCANNERS.md](LOCAL-RETAIL-SCANNERS.md).
+
+Aktuelle Grenze: Der direkte VEDES-Marktplatz liefert aus GitHub weiterhin HTTP 403.
+Faix und duo sind live bestätigt; VEDES wird im Diagnosebericht als eingeschränkt geführt.

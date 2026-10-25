@@ -1,7 +1,7 @@
 """Read-only deployment checks using the same adapters as the live watch."""
 import json
 from tcg_bot.__main__ import load_config
-from tcg_bot.http import Client
+from tcg_bot.http import Client, FetchError
 from tcg_bot.local_retail import vedes_live, duo_rows
 
 def main():
@@ -19,7 +19,9 @@ def main():
                     fields=('title','variant_id','seller','price','available','channel','stock_quantity','distance_km','seller_verified','add_to_cart_available')
                     print('LOCAL_RETAIL_PROBE '+json.dumps(dict(shop=sid,discord_sent=False,**{k:row.get(k) for k in fields}),ensure_ascii=False),flush=True)
             except Exception as exc:
-                errors.append(sid)
+                limited=(sid=='vedes' and isinstance(exc,FetchError) and any(code in str(exc) for code in ('HTTP 403','HTTP 429')))
+                if not limited:errors.append(sid)
+                if limited:print('::warning::VEDES public access currently unavailable; scanner remains limited and sends no unvalidated alerts.',flush=True)
                 print('LOCAL_RETAIL_PROBE_ERROR '+json.dumps({'shop':sid,'error':str(exc),'discord_sent':False}),flush=True)
     finally:client.close()
     if errors:raise RuntimeError('Live validation failed: '+', '.join(errors))
