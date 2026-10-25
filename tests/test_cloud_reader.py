@@ -54,7 +54,9 @@ class CloudReaderTests(unittest.TestCase):
             self.assertFalse(cloud_reader.enabled_for('https://example.org/item'))
 
     def test_current_exact_page_returned(self):
-        self.assertEqual(self.call(self.response()), mms_body())
+        with patch.dict(os.environ,ENV), patch('urllib.request.OpenerDirector.open',return_value=Reply(json.dumps(self.response()).encode())) as opener:
+            self.assertEqual(cloud_reader.read(URL,5),mms_body())
+            self.assertEqual(opener.call_args.args[0].get_header('User-agent'),'TCGRetailWatch/1.0')
 
     def test_stale_wrong_url_invalid_shape_rejected(self):
         for change in [dict(fetched_at=time.time()-120),dict(fetched_at=time.time()+120),
@@ -115,6 +117,7 @@ class GitHubIdentityTests(unittest.TestCase):
             self.assertEqual(opener.call_count,1)
             req=opener.call_args.args[0]
             self.assertIn('audience=https%3A%2F%2Freader.example.workers.dev',req.full_url)
+            self.assertEqual(req.get_header('User-agent'),'TCGRetailWatch/1.0')
         cloud_reader._token_cache=None
 
     def test_identity_request_never_sends_credential_offsite(self):

@@ -6,7 +6,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from .http import FetchError, NoRedirect
+from .http import FetchError, NoRedirect, UA
 
 
 def target_allowed(url):
@@ -40,10 +40,14 @@ def read(url, timeout):
     if not target_allowed(url) or config is None:
         raise FetchError('Unsupported cloud reader target')
     endpoint, token = config
+    started = time.monotonic()
     if not token:
         token = github_token(urllib.parse.urlsplit(endpoint)._replace(path='').geturl(), timeout)
+    timeout -= time.monotonic() - started
+    if timeout <= 0:
+        raise FetchError('Run request budget exhausted')
     request = urllib.request.Request(endpoint + '?' + urllib.parse.urlencode({'url': url}),
-        headers={'Authorization': 'Bearer ' + token, 'Cache-Control': 'no-cache'})
+        headers={'Authorization': 'Bearer ' + token, 'Cache-Control': 'no-cache', 'User-Agent': UA})
     try:
         with urllib.request.build_opener(NoRedirect()).open(request, timeout=timeout) as response:
             if response.status != 200:
@@ -92,7 +96,7 @@ def github_token(audience, timeout):
     query = urllib.parse.parse_qsl(p.query)
     query = [(k,v) for k,v in query if k != 'audience'] + [('audience', audience)]
     url = urllib.parse.urlunsplit(p._replace(query=urllib.parse.urlencode(query)))
-    req = urllib.request.Request(url, headers={'Authorization':'Bearer '+credential})
+    req = urllib.request.Request(url, headers={'Authorization':'Bearer '+credential,'User-Agent':UA})
     try:
         with urllib.request.build_opener(NoRedirect()).open(req,timeout=min(10,timeout)) as response:
             raw = response.read(100001)
