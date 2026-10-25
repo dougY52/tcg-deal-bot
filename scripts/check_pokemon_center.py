@@ -24,12 +24,13 @@ def run():
     if not key:
         report['provider'] = 'not_configured'
     else:
-        probe = FreeAccessProbe(key, client, max_credits=375)
-        for mode in [MODES[-1]]:
-            row = {'route': 'scrapingant', 'proxy_type': mode[0], 'browser': mode[1], 'url': TARGETS[0]}
+        probe = FreeAccessProbe(key, client, max_credits=500)
+        for start_url in TARGETS[:2]:
+            mode = MODES[-1]
+            row = {'route': 'scrapingant', 'proxy_type': mode[0], 'browser': mode[1], 'url': start_url}
             try:
-                body, metadata = probe.fetch(TARGETS[0], mode)
-                row.update(metadata, **page_result(body, TARGETS[0], time.time()))
+                body, metadata = probe.fetch(start_url, mode)
+                row.update(metadata, **page_result(body, start_url, time.time()))
             except FetchError as exc:
                 row.update(status='unavailable', reason=str(exc))
             report['results'].append(row)

@@ -134,6 +134,9 @@ class FreeAccessProbe:
         self.reserved += mode[2]
         self.attempted.add((url, mode))
         params = {'url': url, 'proxy_type': mode[0], 'browser': str(mode[1]).lower(), 'timeout': 25}
+        if mode[1]:
+            params['wait_for_selector'] = 'main'
+            params['proxy_country'] = 'DE'
         data, cost = self.request_json('extended', params)
         if cost is not None and (not math.isfinite(cost) or cost < 0 or cost > mode[2]):
             self.reserved = self.max_credits

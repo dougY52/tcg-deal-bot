@@ -19,6 +19,23 @@ class PokemonCenterAccess(unittest.TestCase):
                     'https://user@www.pokemoncenter.com/de-de/']:
             self.assertFalse(pc.public_de_url(url), url)
 
+    def test_encoded_german_slug_and_category_discovery(self):
+        url=pc.ORIGIN+'/de-de/product/123/pok%C3%A9mon-box'
+        self.assertTrue(pc.public_de_url(url))
+        result=pc.page_result(PAGE+'<a href="/de-de/category/trading-card-game?utm_source=test">Sammelkartenspiel</a>',pc.TARGETS[0],time.time())
+        self.assertEqual(result['category_links'][0]['url'],pc.ORIGIN+'/de-de/category/trading-card-game')
+        for segment in ['%252e%252e','%2faccount','%5caccount','%2e%2e']:
+            self.assertFalse(pc.public_de_url(pc.ORIGIN+'/de-de/product/'+segment))
+
+    def test_followup_pages_share_one_bounded_credit_budget(self):
+        p=pc.FreeAccessProbe('test-key',Mock(),max_credits=375)
+        p.request_json=Mock(side_effect=[(FREE,None),({'status_code':200,'html':PAGE},125)]*3)
+        for url in [pc.TARGETS[0],pc.ORIGIN+'/de-de/category/cards',pc.ORIGIN+'/de-de/product/123/box']:
+            p.fetch(url,pc.MODES[-1])
+        self.assertEqual(p.reserved,375)
+        with self.assertRaisesRegex(FetchError,'BUDGET'):
+            p.fetch(pc.ORIGIN+'/de-de/product/456/box',pc.MODES[-1])
+
     def test_http_200_challenge_not_success(self):
         page='<html><iframe src="/_Incapsula_Resource?abc"></iframe></html>'
         self.assertEqual(pc.page_result(page,pc.TARGETS[0],time.time())['status'],'blocked_or_unreadable')
