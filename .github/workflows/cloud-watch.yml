@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
   push:
     branches: [main]
-    paths: ['tcg_bot/**', 'config/config.json', 'cloudflare/mms-reader/**', 'scripts/check_local_retail.py', '.github/workflows/cloud-watch.yml']
+    paths: ['tcg_bot/**', 'config/config.json', 'cloudflare/mms-reader/**', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', '.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,7 +23,7 @@ jobs:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
     if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     permissions:
       contents: read
       id-token: write
@@ -38,6 +38,18 @@ jobs:
         run: |
           python -m scripts.check_cloud_reader
           python -m scripts.check_local_retail
+      - name: Probe public Pokemon Center Germany access (no Discord)
+        env:
+          SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
+        run: python -m scripts.check_pokemon_center
+      - name: Upload Pokemon Center access diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pokemon-center-access
+          path: pokemon-center-access-report.json
+          retention-days: 3
+          if-no-files-found: ignore
   watch:
     needs: cloud-reader-check
     # Public repositories + standard Linux runner: free. Fail closed for private repos.

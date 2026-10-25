@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-10-25T11:49:18.087076+00:00",
+  "route": "Free Cloudflare Worker Frankfurt + Browser Run",
+  "discord_sent": false,
+  "results": [
+    {
+      "url": "https://www.pokemoncenter.com/de-de/",
+      "browser": false,
+      "http_status": 200,
+      "status": "blocked_or_unreadable",
+      "bytes": 1046,
+      "inventory_confirmed": false
+    },
+    {
+      "url": "https://www.pokemoncenter.com/de-de/",
+      "browser": true,
+      "http_status": 200,
+      "status": "blocked_or_unreadable",
+      "bytes": 1586,
+      "inventory_confirmed": false
+    },
+    {
+      "url": "https://www.pokemoncenter.com/en-de",
+      "browser": false,
+      "http_status": 200,
+      "status": "blocked_or_unreadable",
+      "bytes": 1051,
+      "inventory_confirmed": false
+    },
+    {
+      "url": "https://www.pokemoncenter.com/sitemap.xml",
+      "browser": false,
+      "http_status": 200,
+      "status": "blocked_or_unreadable",
+      "bytes": 1048,
+      "inventory_confirmed": false
+    }
+  ]
+}

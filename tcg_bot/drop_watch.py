@@ -91,8 +91,26 @@ def sources(cfg):
 
 
 def read_source(source, old, client, now):
-    body = client.text(source['url'])
-    status, events = inspect(body, source, now)
+    urls = [source['url']]
+    if source.get('id') == 'pokemon-center-de':
+        from .pokemon_center_access import public_de_url
+        urls += [u for u in source.get('alternate_urls', []) if public_de_url(u) and u not in urls]
+    last_error = None
+    for url in urls:
+        try:
+            body = client.text(url)
+            status, events = inspect(body, source, now)
+        except Exception as exc:
+            last_error = exc
+            continue
+        old['checked_url'] = url
+        if status in ('readable', 'queue_open'):
+            events = [dict(event, source_url=url) for event in events]
+            break
+    else:
+        if last_error:
+            raise last_error
+        return 'blocked_or_unreadable', []
     if not source.get('follow_center_articles') or status != 'readable':
         return status, events
     checks = old.setdefault('article_checks', {})

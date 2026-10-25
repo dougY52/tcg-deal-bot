@@ -209,3 +209,7 @@ Details, tatsächlich bestätigte Filialen und Grenzen: [LOCAL-RETAIL-SCANNERS.m
 
 Aktuelle Grenze: Der direkte VEDES-Marktplatz liefert aus GitHub weiterhin HTTP 403.
 Faix und duo sind live bestätigt; VEDES wird im Diagnosebericht als eingeschränkt geführt.
+
+## Pokémon Center Deutschland: zusätzlicher kostenloser Zugangstest
+
+[Zugriffstest, Gratis-Limits und Einrichtung](POKEMON-CENTER-FREE-ACCESS.md). Der vorhandene Cloud-Workflow testet bei Push/manuellem Dry Run die offiziellen DE-Seiten und optional ScrapingAnt mit strengem Gratis-Tarif-Check. Noch keine bestätigte Pokémon-Center-Bestandsabdeckung; keine ungeprüften Discord-Deals.
