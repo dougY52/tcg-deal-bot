@@ -6,7 +6,7 @@ no cookies/account endpoints, no alert sender, no automatic paid upgrade.
 import json
 import math
 import re
-from urllib.parse import urljoin, urlsplit, urlencode
+from urllib.parse import urljoin, urlsplit, urlencode, unquote
 from urllib.request import Request, build_opener
 from urllib.error import HTTPError, URLError
 
@@ -24,9 +24,11 @@ API = 'https://api.scrapingant.com/v2/'
 
 def public_de_url(url):
     p = urlsplit(url)
+    path = unquote(p.path)
     return (p.scheme == 'https' and p.netloc == 'www.pokemoncenter.com'
-            and not p.query and not p.fragment and '%' not in p.path and '..' not in p.path
-            and bool(re.fullmatch(r'/(?:de-de|en-de)(?:/)?|/(?:de-de|en-de)/(?:product|category)/[a-zA-Z0-9_/-]+', p.path)))
+            and not p.query and not p.fragment and '..' not in path
+            and not re.search(r'%2f|%5c|%25', p.path, re.I)
+            and bool(re.fullmatch(r'/(?:de-de|en-de)(?:/)?|/(?:de-de|en-de)/(?:product|category)/[\w/-]+', path)))
 
 
 def page_result(body, url, now):
@@ -37,20 +39,42 @@ def page_result(body, url, now):
     if status == 'blocked_or_unreadable':
         return {'status': status, 'bytes': len(body), 'inventory_confirmed': False}
     doc = Document(body)
-    candidates = []
+    candidates, categories, public_links = [], [], []
     for node in doc.root.walk():
         if node.tag != 'a':
             continue
         target = urljoin(url, node.attrs.get('href', ''))
+        target = urlsplit(target)._replace(query='', fragment='').geturl()
         title = re.sub(r'\s+', ' ', visible(node)).strip()
+        if public_de_url(target) and target not in [x['url'] for x in public_links]:
+            public_links.append({'url': target, 'name': title[:200]})
+        if (public_de_url(target) and '/category/' in target
+                and re.search(r'sammelkart|trading.card|\btcg\b', title + ' ' + target, re.I)
+                and target not in [x['url'] for x in categories]):
+            categories.append({'url': target, 'name': title[:200]})
         if (public_de_url(target) and '/product/' in target
                 and re.search(r'booster|trainer.?box|collection|kollektion|bundle|\betb\b|premium', title, re.I)
                 and target not in [x['url'] for x in candidates]):
             candidates.append({'url': target, 'name': title[:200]})
     products = structured_products(doc)
+    summaries = []
+    for p in products[:30]:
+        entry = {k:p[k] for k in ('name','url','sku','gtin','gtin13','description') if isinstance(p.get(k),str)}
+        entry = {k:v[:1500] for k,v in entry.items()}
+        offers=p.get('offers',[]);offers=[offers] if isinstance(offers,dict) else offers
+        entry['offers']=[{k:o[k] for k in ('@type','url','price','priceCurrency','availability') if isinstance(o.get(k),(str,int,float))} for o in offers[:5] if isinstance(o,dict)] if isinstance(offers,list) else []
+        summaries.append(entry)
+    controls = []
+    for n in doc.root.walk():
+        if n.tag in ('button','select') and re.search(r'cart|warenkorb|preorder|vorbestell|sold|ausverkauft',n.text()+' '+str(n.attrs),re.I):
+            controls.append({'tag':n.tag,'text':n.text().strip()[:180], 'attrs':{k:v for k,v in n.attrs.items() if k in ('id','type','disabled','aria-disabled','data-testid','data-sku','data-product-id')}})
+    mains = [n for n in doc.root.walk() if n.tag == 'main']
     return {'status': 'readable_discovery_only', 'bytes': len(body),
             'headings': [n.text().strip()[:180] for n in doc.root.walk() if n.tag in ('title', 'h1')][:3],
             'structured_product_count': len(products), 'candidate_links': candidates[:12],
+            'category_links': categories[:12], 'public_links': public_links[:50],
+            'products': summaries, 'order_controls': controls[:12],
+            'main_text': re.sub(r'\s+', ' ', visible(mains[0])).strip()[:15000] if mains else '',
             'inventory_confirmed': False}
 
 
@@ -67,11 +91,12 @@ def free_usage(data, reserve):
 
 
 class FreeAccessProbe:
-    def __init__(self, key, policy_client):
+    def __init__(self, key, policy_client, max_credits=MAX_TEST_CREDITS):
         if not key or len(key) > 512 or any(c.isspace() for c in key):
             raise FetchError('PC_PROVIDER_KEY_INVALID')
         self.key = key
         self.policy_client = policy_client
+        self.max_credits = min(500, max_credits)
         self.reserved = 0
         self.attempted = set()
 
@@ -100,18 +125,18 @@ class FreeAccessProbe:
     def fetch(self, url, mode):
         if not public_de_url(url) or mode not in MODES:
             raise FetchError('PC_PROVIDER_UNSUPPORTED_TARGET')
-        if mode in self.attempted or self.reserved + mode[2] > MAX_TEST_CREDITS:
+        if (url, mode) in self.attempted or self.reserved + mode[2] > self.max_credits:
             raise FetchError('PC_PROVIDER_TEST_BUDGET_EXHAUSTED')
         self.policy_client.check_allowed(url)
         usage, _ = self.request_json('usage')
         free_usage(usage, mode[2])
         # Reserve before the request, including failures. No automatic retries.
         self.reserved += mode[2]
-        self.attempted.add(mode)
+        self.attempted.add((url, mode))
         params = {'url': url, 'proxy_type': mode[0], 'browser': str(mode[1]).lower(), 'timeout': 25}
         data, cost = self.request_json('extended', params)
         if cost is not None and (not math.isfinite(cost) or cost < 0 or cost > mode[2]):
-            self.reserved = MAX_TEST_CREDITS
+            self.reserved = self.max_credits
             raise FetchError('PC_PROVIDER_COST_CHANGED_STOPPED')
         if not isinstance(data, dict) or type(data.get('status_code')) is not int or data['status_code'] != 200:
             raise FetchError('PC_PROVIDER_TARGET_NOT_HTTP_200')

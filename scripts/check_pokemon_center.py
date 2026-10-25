@@ -24,8 +24,8 @@ def run():
     if not key:
         report['provider'] = 'not_configured'
     else:
-        probe = FreeAccessProbe(key, client)
-        for mode in MODES:
+        probe = FreeAccessProbe(key, client, max_credits=375)
+        for mode in [MODES[-1]]:
             row = {'route': 'scrapingant', 'proxy_type': mode[0], 'browser': mode[1], 'url': TARGETS[0]}
             try:
                 body, metadata = probe.fetch(TARGETS[0], mode)
@@ -36,6 +36,20 @@ def run():
             if row.get('status') == 'readable_discovery_only':
                 # Successful access still needs an exact product/variant validator.
                 report['provider'] = 'readable_requires_product_validation'
+                current = row
+                for kind in ('category_links', 'candidate_links'):
+                    links = current.get(kind, [])
+                    if not links:
+                        continue
+                    target = links[0]['url']
+                    extra = {'route':'scrapingant', 'proxy_type':mode[0], 'browser':mode[1], 'url':target}
+                    try:
+                        body, metadata = probe.fetch(target, mode)
+                        extra.update(metadata, **page_result(body, target, time.time()))
+                    except FetchError as exc:
+                        extra.update(status='unavailable', reason=str(exc))
+                    report['results'].append(extra)
+                    current = extra
                 break
             if row.get('reason') not in (None, 'PC_PROVIDER_HTTP_423', 'PC_PROVIDER_TARGET_NOT_HTTP_200'):
                 report['provider'] = 'stopped_safely'
