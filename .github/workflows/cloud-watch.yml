@@ -12,6 +12,10 @@ on:
         description: 'Nur prüfen, keine Discord-Nachrichten senden'
         type: boolean
         default: true
+      pc_access_test:
+        description: 'Optionaler Pokémon-Center-Zugriffstest (bis 250 Gratis-Credits)'
+        type: boolean
+        default: false
 permissions:
   contents: write
   id-token: write
@@ -21,7 +25,7 @@ concurrency:
 jobs:
   cloud-reader-check:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
-    if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
+    if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -39,7 +43,7 @@ jobs:
           python -m scripts.check_cloud_reader
           python -m scripts.check_local_retail
       - name: Probe public Pokemon Center Germany access (no Discord)
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && inputs.pc_access_test }}
         env:
           SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
         run: python -m scripts.check_pokemon_center

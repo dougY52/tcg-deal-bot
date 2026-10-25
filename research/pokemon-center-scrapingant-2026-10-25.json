@@ -1,0 +1,984 @@
+{
+  "checked_at": "2026-10-25T18:39:10.598284+00:00",
+  "discord_sent": false,
+  "inventory_confirmed": false,
+  "results": [
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/de-de/",
+      "status": "blocked_or_unreadable",
+      "bytes": 1054,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/en-de",
+      "status": "blocked_or_unreadable",
+      "bytes": 1048,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/sitemap.xml",
+      "status": "blocked_or_unreadable",
+      "bytes": 1047,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "scrapingant",
+      "proxy_type": "residential",
+      "browser": true,
+      "url": "https://www.pokemoncenter.com/de-de/",
+      "reserved_credits": 125,
+      "reported_credits": 125,
+      "public_get_paths": [],
+      "status": "readable_discovery_only",
+      "bytes": 428650,
+      "headings": [
+        "Pokémon Center Deutschland Official Site"
+      ],
+      "structured_product_count": 0,
+      "candidate_links": [],
+      "category_links": [
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/trading-card-game",
+          "name": "Sammelkartenspiel"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tcg-accessories",
+          "name": "Sammelkartenspiel-Accessoires"
+        }
+      ],
+      "public_links": [
+        {
+          "url": "https://www.pokemoncenter.com/de-de/",
+          "name": "Zum Inhalt springen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/new-releases",
+          "name": "Neuerscheinungen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/halloween-collection",
+          "name": "Halloween"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/30th-celebration",
+          "name": "30 Jahre Pokémon"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush",
+          "name": "Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/figures-and-pins",
+          "name": "Figuren & Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/trading-card-game",
+          "name": "Sammelkartenspiel"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/clothing",
+          "name": "Kleidung"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/home",
+          "name": "Wohnen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/lego-pokemon",
+          "name": "LEGO® Pokémon™"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-esa",
+          "name": "Pokémon x ESA"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pet-accessories",
+          "name": "Haustierzubehör"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-dolly-noire",
+          "name": "Pokémon × Dolly Noire"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/sitting-cuties",
+          "name": "Sitzende Cuties"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/large-plush",
+          "name": "Große Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/poke-plush",
+          "name": "Poképlüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/comfy-friends",
+          "name": "Kuschelige Freunde"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush-keychains",
+          "name": "Plüsch-Schlüsselanhänger"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-dolls",
+          "name": "Pokémon-Plüschpuppen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/snuggly-plush",
+          "name": "Knuddelige Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/soda-pop-plush",
+          "name": "Soda Pop Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/comfy-cuddlers",
+          "name": "Kuschelige Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/squishmallows-plush",
+          "name": "Squishmallows Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush-hats-and-costumes",
+          "name": "Plüschhüte & Kostüme"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pikachu-plush",
+          "name": "Pikachu"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/ditto-as-collection",
+          "name": "Ditto als Sammlung"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/eevee-evolutions-plush",
+          "name": "Evoli-Entwicklungen Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/figures",
+          "name": "FIGUREN"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pins",
+          "name": "PINS"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/character-pins",
+          "name": "Charakter-Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/giant-pins",
+          "name": "Gigantische Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/specialty-pins",
+          "name": "Besondere Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tcg-accessories",
+          "name": "Sammelkartenspiel-Accessoires"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/playmats",
+          "name": "Spielunterlagen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/deck-boxes",
+          "name": "Deckboxen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/card-sleeves",
+          "name": "Kartenhüllen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tops",
+          "name": "Oberteile"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/sweatshirts",
+          "name": "Sweatshirts"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/coats-and-jackets",
+          "name": "Mäntel & Jacken"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/bottoms",
+          "name": "Hosen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/shoes",
+          "name": "Schuhe"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/puma-x-pokemon",
+          "name": "PUMA × Pokémon"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-jimmypaul-by-difuzed",
+          "name": "Pokémon × JimmyPaul Von Difuzed"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/accessories",
+          "name": "ZUBEHÖR"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/bags",
+          "name": "Taschen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/hats",
+          "name": "Kappen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/socks",
+          "name": "Socken"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/kitchen",
+          "name": "Küche"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/home-decor",
+          "name": "Deko-Artikel"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/wall-art",
+          "name": "Wandkunst"
+        }
+      ],
+      "products": [],
+      "order_controls": [],
+      "main_text": "",
+      "inventory_confirmed": false
+    },
+    {
+      "route": "scrapingant",
+      "proxy_type": "residential",
+      "browser": true,
+      "url": "https://www.pokemoncenter.com/de-de/category/trading-card-game",
+      "reserved_credits": 125,
+      "reported_credits": 125,
+      "public_get_paths": [],
+      "status": "readable_discovery_only",
+      "bytes": 720622,
+      "headings": [
+        "Trading Card Game | Pokémon Center Deutschland Official Site",
+        "Sammelkartenspiel",
+        "Neu! Pokémon-Sammelkartenspiel: Boosterbundle Mega-Entwicklung – Dunkelnacht (6 Boosterpacks)"
+      ],
+      "structured_product_count": 32,
+      "candidate_links": [
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10422-103/pokemon-sammelkartenspiel-boosterbundle-mega-entwicklung-dunkelnacht-6-boosterpacks",
+          "name": "Neu! Pokémon-Sammelkartenspiel: Boosterbundle Mega-Entwicklung – Dunkelnacht (6 Boosterpacks) 27,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10425-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-dunkelnacht-36-boosterpacks",
+          "name": "Neu! Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Dunkelnacht (36 Boosterpacks) 165,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10446-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-delta-herrschaft-36-boosterpacks",
+          "name": "Neu! Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Delta-Herrschaft (36 Boosterpacks) 165,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10320-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-ordner-mit-reissverschluss",
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Ordner mit Reißverschluss 45,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10322-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-deckbox-fuer-2-decks",
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Deckbox für 2 Decks 45,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10472-101/pokemon-sammelkartenspiel-versengendes-glurak-premium-deckbox-fuer-2-decks",
+          "name": "Pokémon-Sammelkartenspiel: Versengendes Glurak Premium-Deckbox für 2 Decks 45,99 €"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10321-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-spielunterlage",
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Spielunterlage 32,99 €"
+        }
+      ],
+      "category_links": [
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/trading-card-game",
+          "name": "Zum Inhalt springen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tcg-accessories",
+          "name": "Sammelkartenspiel-Accessoires"
+        }
+      ],
+      "public_links": [
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/new-releases",
+          "name": "Jetzt shoppen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/30th-celebration",
+          "name": "Zur Kollektion"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/trading-card-game",
+          "name": "Zum Inhalt springen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/",
+          "name": ""
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/halloween-collection",
+          "name": "Halloween"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush",
+          "name": "Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/figures-and-pins",
+          "name": "Figuren & Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/clothing",
+          "name": "Kleidung"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/home",
+          "name": "Wohnen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/lego-pokemon",
+          "name": "LEGO® Pokémon™"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-esa",
+          "name": "Pokémon x ESA"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pet-accessories",
+          "name": "Haustierzubehör"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-dolly-noire",
+          "name": "Pokémon × Dolly Noire"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/sitting-cuties",
+          "name": "Sitzende Cuties"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/large-plush",
+          "name": "Große Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/poke-plush",
+          "name": "Poképlüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/comfy-friends",
+          "name": "Kuschelige Freunde"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush-keychains",
+          "name": "Plüsch-Schlüsselanhänger"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-dolls",
+          "name": "Pokémon-Plüschpuppen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/snuggly-plush",
+          "name": "Knuddelige Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/soda-pop-plush",
+          "name": "Soda Pop Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/comfy-cuddlers",
+          "name": "Kuschelige Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/squishmallows-plush",
+          "name": "Squishmallows Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/plush-hats-and-costumes",
+          "name": "Plüschhüte & Kostüme"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pikachu-plush",
+          "name": "Pikachu"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/ditto-as-collection",
+          "name": "Ditto als Sammlung"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/eevee-evolutions-plush",
+          "name": "Evoli-Entwicklungen Plüsch"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/figures",
+          "name": "FIGUREN"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pins",
+          "name": "PINS"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/character-pins",
+          "name": "Charakter-Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/giant-pins",
+          "name": "Gigantische Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/specialty-pins",
+          "name": "Besondere Pins"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tcg-accessories",
+          "name": "Sammelkartenspiel-Accessoires"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/playmats",
+          "name": "Spielunterlagen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/deck-boxes",
+          "name": "Deckboxen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/card-sleeves",
+          "name": "Kartenhüllen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/tops",
+          "name": "Oberteile"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/sweatshirts",
+          "name": "Sweatshirts"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/coats-and-jackets",
+          "name": "Mäntel & Jacken"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/bottoms",
+          "name": "Hosen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/shoes",
+          "name": "Schuhe"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/puma-x-pokemon",
+          "name": "PUMA × Pokémon"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/pokemon-x-jimmypaul-by-difuzed",
+          "name": "Pokémon × JimmyPaul Von Difuzed"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/accessories",
+          "name": "ZUBEHÖR"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/bags",
+          "name": "Taschen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/hats",
+          "name": "Kappen"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/socks",
+          "name": "Socken"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/kitchen",
+          "name": "Küche"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/home-decor",
+          "name": "Deko-Artikel"
+        },
+        {
+          "url": "https://www.pokemoncenter.com/de-de/category/wall-art",
+          "name": "Wandkunst"
+        }
+      ],
+      "products": [
+        {
+          "name": "Pokémon-Sammelkartenspiel: Boosterbundle Mega-Entwicklung – Dunkelnacht (6 Boosterpacks)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10422-103/pokemon-sammelkartenspiel-boosterbundle-mega-entwicklung-dunkelnacht-6-boosterpacks",
+          "sku": "",
+          "description": "<p>Official, sealed Pokémon TCG: Mega Evolution—Pitch Black Booster Bundle comes with six booster packs containing 10 cards, 1 Basic Energy, and 1 code card for Pokémon TCG Live. Cards vary by pack.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10422-103/pokemon-sammelkartenspiel-boosterbundle-mega-entwicklung-dunkelnacht-6-boosterpacks",
+              "price": 27.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Dunkelnacht (36 Boosterpacks)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10425-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-dunkelnacht-36-boosterpacks",
+          "sku": "",
+          "description": "<p>Official, sealed Pokémon TCG: Mega Evolution—Pitch Black comes with 36 booster packs, each containing 10 cards, 1 Basic Energy, and a code card for Pokémon TCG Live.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10425-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-dunkelnacht-36-boosterpacks",
+              "price": 165.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Delta-Herrschaft (36 Boosterpacks)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10446-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-delta-herrschaft-36-boosterpacks",
+          "sku": "",
+          "description": "Jedes Boosterpack des Pokémon-Sammelkartenspiels enthält 10 Karten, 1 Basis-Energie und 1 Code-Karte für <em>Pokémon-Sammelkartenspiel-Live</em>. Karten variieren je nach Boosterpack. Boosterpacks können je nach Produkt variieren.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10446-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-delta-herrschaft-36-boosterpacks",
+              "price": 165.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10605-101/pokemon-sammelkartenspiel-pokemon-soda-pop-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "Der offizielle Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss ist kampfbereit und bietet jede Menge Platz für Karten, verpackt in einem niedlichen Design. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10605-101/pokemon-sammelkartenspiel-pokemon-soda-pop-ordner-mit-reissverschluss",
+              "price": 32.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Pikachu überall Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10601-101/pokemon-sammelkartenspiel-pikachu-ueberall-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "Der offizielle Pokémon-Sammelkartenspiel: Pikachu überall Ordner mit Reißverschluss ist kampfbereit und bietet jede Menge Platz für Karten, verpackt in einem niedlichen Design. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10601-101/pokemon-sammelkartenspiel-pikachu-ueberall-ordner-mit-reissverschluss",
+              "price": 32.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Delegator Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10602-101/pokemon-sammelkartenspiel-delegator-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "Der offizielle Pokémon-Sammelkartenspiel: Delegator Ordner mit Reißverschluss ist kampfbereit und bietet jede Menge Platz für Karten, verpackt in einem niedlichen Delegator-Design. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10602-101/pokemon-sammelkartenspiel-delegator-ordner-mit-reissverschluss",
+              "price": 32.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon ESA: Pokémon-Sammelkartenspiel-Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10677-101/pokemon-esa-pokemon-sammelkartenspiel-spielunterlage",
+          "sku": "",
+          "description": "Offizielle Pokémon und ESA Pokémon-Sammelkartenspiel-Spielunterlage mit Pikachu, Lunastein, Meteno und Cosmog vor einer atemberaubenden Sternenkulisse, entwickelt in Zusammenarbeit mit der Europäischen Weltraumorganisation (ESA). Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10677-101/pokemon-esa-pokemon-sammelkartenspiel-spielunterlage",
+              "price": 28.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10320-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "<p>Offizieller Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Ordner mit Reißverschluss, um deine Karten im legendären Kanto-Stil mitzunehmen. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10320-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-ordner-mit-reissverschluss",
+              "price": 45.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Pokémon Soda Pop Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10590-101/pokemon-sammelkartenspiel-pokemon-soda-pop-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Pokémon Soda Pop Spielunterlage ist kampfbereit und robust und zeigt eine Illustration im Retro-Stil von Evoli und seinen Entwicklungen. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10590-101/pokemon-sammelkartenspiel-pokemon-soda-pop-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon ESA: Pokémon-Sammelkartenspiel-Kartenhüllen (65 Hüllen)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10678-101/pokemon-esa-pokemon-sammelkartenspiel-kartenhuellen-65-huellen",
+          "sku": "",
+          "description": "Offizielles Pokémon und ESA Pokémon-Sammelkartenspiel Kartenhüllen-Set mit Pikachu in einem niedlichen Astronautenanzug, entwickelt in Zusammenarbeit mit der Europäischen Weltraumorganisation (ESA). Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10678-101/pokemon-esa-pokemon-sammelkartenspiel-kartenhuellen-65-huellen",
+              "price": 9.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Lugia & Ho-Oh Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10603-101/pokemon-sammelkartenspiel-lugia-and-ho-oh-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "Der offizielle Pokémon-Sammelkartenspiel: Lugia & Ho-Oh Ordner mit Reißverschluss ist kampfbereit und bietet jede Menge Platz für Karten, verpackt in einem Legendären Design. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10603-101/pokemon-sammelkartenspiel-lugia-and-ho-oh-ordner-mit-reissverschluss",
+              "price": 32.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Kampfunfähig Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10594-101/pokemon-sammelkartenspiel-kampfunfaehig-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Kampfunfähig Spielunterlage ist kampfbereit und robust und zeigt eine Illustration, welche die humorvolle Seite einer Niederlage hervorhebt. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10594-101/pokemon-sammelkartenspiel-kampfunfaehig-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon ESA: Pokémon-Sammelkartenspiel Deckbox für 2 Decks",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10679-101/pokemon-esa-pokemon-sammelkartenspiel-deckbox-fuer-2-decks",
+          "sku": "",
+          "description": "Offizielle Pokémon und ESA Pokémon-Sammelkartenspiel Deckbox für 2 Decks zum Aufbewahren und Transport von zwei Kartendecks mit je 60 Karten, entwickelt in Zusammenarbeit mit der Europäischen Weltraumorganisation (ESA). Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10679-101/pokemon-esa-pokemon-sammelkartenspiel-deckbox-fuer-2-decks",
+              "price": 14.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10624-101/pokemon-sammelkartenspiel-pokemon-soda-pop-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "<p>Offizieller Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss sowie Pikachu und Evoli vor einem Retro-Hintergrund. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10624-101/pokemon-sammelkartenspiel-pokemon-soda-pop-ordner-mit-reissverschluss",
+              "price": 38.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Anfangsszene Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10610-101/pokemon-sammelkartenspiel-anfangsszene-spielunterlage",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon Anfangsszene Spielunterlage für das Pokémon-Sammelkartenspiel mit Gengar und Nidorino in einem nostalgischen Design, das auf dem Intro der ursprünglichen Videospiele <em>Pokémon Rot</em> und <em>Pokémon Grün</em> für den Game Boy basiert. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10610-101/pokemon-sammelkartenspiel-anfangsszene-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Himmlisches Psiana & Nachtara Wandelbare Schultertasche",
+          "url": "https://www.pokemoncenter.com/de-de/product/70-10588-101/pokemon-sammelkartenspiel-himmlisches-psiana-and-nachtara-wandelbare-schultertasche",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon-Sammelkartenspiel: Himmlisches Psiana & Nachtara Wandelbare Schultertasche zum Aufbewahren und Transportieren von Deckboxen und Spielzubehör. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/70-10588-101/pokemon-sammelkartenspiel-himmlisches-psiana-and-nachtara-wandelbare-schultertasche",
+              "price": 45.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Geisterhafte Gesellschaft Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10222-101/pokemon-sammelkartenspiel-geisterhafte-gesellschaft-spielunterlage",
+          "sku": "",
+          "description": "<p>Offizielle Geisterhafte Gesellschaft Spielunterlage für das Pokémon-Sammelkartenspiel mit Nebulak, Alpollo, Gengar, Zobiris, Traunmagil, Skelabra und anderen Pokémon vom Typ Geist. Ein Pokémon Center-Original</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10222-101/pokemon-sammelkartenspiel-geisterhafte-gesellschaft-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Grundwassergemeinschaft Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10595-101/pokemon-sammelkartenspiel-grundwassergemeinschaft-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Grundwassergemeinschaft Spielunterlage ist kampfbereit und robust und zeigt eine großartige Illustration. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10595-101/pokemon-sammelkartenspiel-grundwassergemeinschaft-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Deckbox für 2 Decks",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10322-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-deckbox-fuer-2-decks",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Deckbox für 2 Decks, um deine Karten unterwegs sicher aufzubewahren. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10322-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-deckbox-fuer-2-decks",
+              "price": 45.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Prismania Spielhalle Ordner mit Reißverschluss",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10327-101/pokemon-sammelkartenspiel-prismania-spielhalle-ordner-mit-reissverschluss",
+          "sku": "",
+          "description": "<p>Offizieller Pokémon-Sammelkartenspiel: Prismania Spielhalle Ordner mit Reißverschluss und Preis-Pokémon, die du in der Prismania Spielhalle erhalten konntest. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10327-101/pokemon-sammelkartenspiel-prismania-spielhalle-ordner-mit-reissverschluss",
+              "price": 38.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Versengendes Glurak Premium-Deckbox für 2 Decks",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10472-101/pokemon-sammelkartenspiel-versengendes-glurak-premium-deckbox-fuer-2-decks",
+          "sku": "",
+          "description": "<p>Die offizielle Pokémon-Sammelkartenspiel: Versengendes Glurak Premium-Deckbox für 2 Decks ist kampfbereit, bietet Platz für zwei Kartendecks mit je 60 Karten mit Hüllen, ist robust und hat ein feuriges Glurak-Design. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10472-101/pokemon-sammelkartenspiel-versengendes-glurak-premium-deckbox-fuer-2-decks",
+              "price": 45.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10321-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-spielunterlage",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Spielunterlage zum Spielen des Pokémon-Sammelkartenspiels oder zur Dekoration von Schreibtischen, Regalen oder Tischen. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10321-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-premium-spielunterlage",
+              "price": 32.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Kartenhüllen (65 Hüllen)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10324-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-kartenhuellen-65-huellen",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Kartenhüllen für unterhaltsame und erbitterte Pokémon-Sammelkartenspiel-Kämpfe. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10324-101/pokemon-sammelkartenspiel-mewtu-and-mew-dns-kartenhuellen-65-huellen",
+              "price": 9.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Vulnona Sonnige Jahreszeiten Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10592-101/pokemon-sammelkartenspiel-vulnona-sonnige-jahreszeiten-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Vulnona Sonnige Jahreszeiten Spielunterlage ist kampfbereit und robust und zeigt eine großartige Illustration von Vulnona und Alola-Vulnona. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10592-101/pokemon-sammelkartenspiel-vulnona-sonnige-jahreszeiten-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: 30 Jahre Pokémon Kartenhüllen (65 Hüllen)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10608-101/pokemon-sammelkartenspiel-30-jahre-pokemon-kartenhuellen-65-huellen",
+          "sku": "",
+          "description": "<p>Das Training geht weiter – mit diesen Pokémon-Sammelkartenspiel: 30 Jahre Pokémon Kartenhüllen, die ein besonderes Pikachu-Logo und 65 Hüllen für dein komplettes Deck enthalten. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10608-101/pokemon-sammelkartenspiel-30-jahre-pokemon-kartenhuellen-65-huellen",
+              "price": 9.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Pikachu überall Kartenhüllen (65 Hüllen)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10182-101/pokemon-sammelkartenspiel-pikachu-ueberall-kartenhuellen-65-huellen",
+          "sku": "",
+          "description": "<p>Offizielles Pokémon-Sammelkartenspiel-Kartenhüllen-Set (65 Kartenhüllen) mit Pikachu im Allover-Print und matter Oberfläche. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10182-101/pokemon-sammelkartenspiel-pikachu-ueberall-kartenhuellen-65-huellen",
+              "price": 9.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Mewtu & Mew Entdeckung Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10591-101/pokemon-sammelkartenspiel-mewtu-and-mew-entdeckung-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Mewtu & Mew Entdeckung Spielunterlage ist kampfbereit und robust und zeigt eine großartige Illustration von Mewtu und Mew. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10591-101/pokemon-sammelkartenspiel-mewtu-and-mew-entdeckung-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Wellenreiten Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10593-101/pokemon-sammelkartenspiel-wellenreiten-spielunterlage",
+          "sku": "",
+          "description": "Die offizielle Pokémon-Sammelkartenspiel: Wellenreiten Spielunterlage ist kampfbereit und robust und zeigt eine großartige Illustration. Ein Pokémon Center-Original.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10593-101/pokemon-sammelkartenspiel-wellenreiten-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Karpador Platscher Gestanzte Spielunterlage",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10336-101/pokemon-sammelkartenspiel-karpador-platscher-gestanzte-spielunterlage",
+          "sku": "",
+          "description": "<p>Offizielle Pokémon-Sammelkartenspiel: Karpador Platscher gestanzte Spielunterlage mit Karpador auf einer einzigartigen, gestanzten Spielunterlage, die aussieht wie Wasser. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10336-101/pokemon-sammelkartenspiel-karpador-platscher-gestanzte-spielunterlage",
+              "price": 25.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        },
+        {
+          "name": "Pokémon-Sammelkartenspiel: Rayquaza unter Sternen Kartenhüllen (65 Hüllen)",
+          "url": "https://www.pokemoncenter.com/de-de/product/10-10308-101/pokemon-sammelkartenspiel-rayquaza-unter-sternen-kartenhuellen-65-huellen",
+          "sku": "",
+          "description": "<p>Die offiziellen Pokémon-Sammelkartenspiel: Rayquaza unter Sternen Kartenhüllen zeigen das mächtige Rayquaza, das unter den hellen Sternen durch den Nachthimmel fliegt. Dieses Set reicht für ein komplettes Deck und enthält ein paar zusätzliche Hüllen für alle Fälle. Ein Pokémon Center-Original.</p>",
+          "offers": [
+            {
+              "@type": "Offer",
+              "url": "https://www.pokemoncenter.com/de-de/product/10-10308-101/pokemon-sammelkartenspiel-rayquaza-unter-sternen-kartenhuellen-65-huellen",
+              "price": 9.99,
+              "priceCurrency": "USD",
+              "availability": "http://schema.org/OutOfStock"
+            }
+          ]
+        }
+      ],
+      "order_controls": [],
+      "main_text": "STARTSEITE / Sammelkartenspiel FILTERN NACH VORRÄTIG (178) KATEGORIE Taschen Schlüsselanhänger 30 Jahre Pokémon Halloween-Kollektion Plüsch-Accessoires Plüsch-Schlüsselanhänger Sammelkartenspiel-Accessoires Spielunterlagen Ordner Kartenhüllen + 1 mehr Sammelkartenspiel-Karten Boosterpacks Box-Sets Tin-Boxen + 1 mehr PREIS € BIS Sammelkartenspiel Produkte: ( 1 - 32 von 234 ) Sortieren nach: Relevanz Artikel pro Seite: ‹ 1 2 3 4 5 › Schnellansicht Neu! Pokémon-Sammelkartenspiel: Boosterbundle Mega-Entwicklung – Dunkelnacht (6 Boosterpacks) 27,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Dunkelnacht (36 Boosterpacks) 165,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Boosterpack-Display-Box Mega-Entwicklung – Delta-Herrschaft (36 Boosterpacks) 165,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss 32,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Pikachu überall Ordner mit Reißverschluss 32,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Delegator Ordner mit Reißverschluss 32,99 € Schnellansicht Pokémon ESA: Pokémon-Sammelkartenspiel-Spielunterlage 28,99 € Schnellansicht Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Ordner mit Reißverschluss 45,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Pokémon Soda Pop Spielunterlage 25,99 € Schnellansicht Pokémon ESA: Pokémon-Sammelkartenspiel-Kartenhüllen (65 Hüllen) 9,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Lugia & Ho-Oh Ordner mit Reißverschluss 32,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Kampfunfähig Spielunterlage 25,99 € Schnellansicht Pokémon ESA: Pokémon-Sammelkartenspiel Deckbox für 2 Decks 14,99 € Schnellansicht Pokémon-Sammelkartenspiel: Pokémon Soda Pop Ordner mit Reißverschluss 38,99 € Schnellansicht Pokémon-Sammelkartenspiel: Anfangsszene Spielunterlage 25,99 € Schnellansicht Pokémon-Sammelkartenspiel: Himmlisches Psiana & Nachtara Wandelbare Schultertasche 45,99 € Schnellansicht Pokémon-Sammelkartenspiel: Geisterhafte Gesellschaft Spielunterlage 25,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Grundwassergemeinschaft Spielunterlage 25,99 € Schnellansicht Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Deckbox für 2 Decks 45,99 € Schnellansicht Pokémon-Sammelkartenspiel: Prismania Spielhalle Ordner mit Reißverschluss 38,99 € Schnellansicht Pokémon-Sammelkartenspiel: Versengendes Glurak Premium-Deckbox für 2 Decks 45,99 € Schnellansicht Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Premium-Spielunterlage 32,99 € Schnellansicht Pokémon-Sammelkartenspiel: Mewtu & Mew DNS Kartenhüllen (65 Hüllen) 9,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Vulnona Sonnige Jahreszeiten Spielunterlage 25,99 € Schnellansicht Pokémon-Sammelkartenspiel: 30 Jahre Pokémon Kartenhüllen (65 Hüllen) 9,99 € Schnellansicht Pokémon-Sammelkartenspiel: Pikachu überall Kartenhüllen (65 Hüllen) 9,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Mewtu & Mew Entdeckung Spielunterlage 25,99 € Schnellansicht Neu! Pokémon-Sammelkartenspiel: Wellenreiten Spielunterlage 25,99 € Schnellansicht Pokémon-Sammelkartenspiel: Karpador Platscher Gestanzte Spielunterlage 25,99 € Schnellansicht Pokémon-Sammelkartenspiel: Rayquaza unter Sternen Kartenhüllen (65 Hüllen) 9,99 € Schnellansicht Pokémon-Sammelkartenspiel: 30 Jahre Pokémon Deckbox für 2 Decks 15,99 € Schnellansicht Pokémon-Sammelkartenspiel: Pikachu im Comicstil Spielunterlage 25,99 € ‹ 1 2 3 4 5 ›",
+      "inventory_confirmed": false
+    },
+    {
+      "route": "scrapingant",
+      "proxy_type": "residential",
+      "browser": true,
+      "url": "https://www.pokemoncenter.com/de-de/product/10-10422-103/pokemon-sammelkartenspiel-boosterbundle-mega-entwicklung-dunkelnacht-6-boosterpacks",
+      "status": "unavailable",
+      "reason": "PC_PROVIDER_HTTP_423"
+    }
+  ],
+  "provider": "readable_requires_product_validation",
+  "reserved_credits": 375
+}

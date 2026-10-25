@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-25T18:45:37.091921+00:00",
+  "discord_sent": false,
+  "inventory_confirmed": false,
+  "results": [
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/de-de/",
+      "status": "blocked_or_unreadable",
+      "bytes": 1050,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/en-de",
+      "status": "blocked_or_unreadable",
+      "bytes": 1048,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "direct",
+      "url": "https://www.pokemoncenter.com/sitemap.xml",
+      "status": "blocked_or_unreadable",
+      "bytes": 1049,
+      "inventory_confirmed": false
+    },
+    {
+      "route": "scrapingant",
+      "proxy_type": "residential",
+      "browser": true,
+      "url": "https://www.pokemoncenter.com/de-de/product/10-10425-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-dunkelnacht-36-boosterpacks",
+      "status": "unavailable",
+      "reason": "PC_PROVIDER_HTTP_423"
+    },
+    {
+      "route": "scrapingant",
+      "proxy_type": "residential",
+      "browser": true,
+      "url": "https://www.pokemoncenter.com/de-de/product/10-10446-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-delta-herrschaft-36-boosterpacks",
+      "reserved_credits": 125,
+      "reported_credits": 125,
+      "public_get_paths": [],
+      "status": "blocked_or_unreadable",
+      "bytes": 1692,
+      "inventory_confirmed": false
+    }
+  ],
+  "provider": "no_readable_product_page",
+  "reserved_credits": 250
+}
