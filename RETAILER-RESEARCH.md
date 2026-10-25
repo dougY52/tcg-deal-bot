@@ -1,5 +1,9 @@
 # Öffentliche Händler-Schnittstellen und frühe Drops
 
+## Aktualisierung: kostenloser Cloud-Test und Filialrecherche
+
+Die neuere [Deutschland-/Filialrecherche vom 25.10.2026](research/DE-ONLINE-FILIALEN-2026-10-25.md) ergänzt diesen früheren Test: 43 öffentliche URLs über Cloudflare geprüft, davon 22 lesbar; Pokémon Center auch im echten Cloudflare-Browser weiterhin Challenge. Neun Recherchequellen ergänzt, keine pauschale Live-Bestandsabdeckung. MediaMarkt/Saturn nutzen inzwischen den erfolgreich getesteten produktiven Cloud-Reader; die unten genannten direkten GitHub-403 gehören zum früheren Zugriffsweg.
+
 Stand: 25.10.2026, circa 01:08–01:15 Uhr Europe/Berlin. 38 Quellen geprüft: große Händler, lokale Angebotsportale, Hersteller und Händlerverzeichnisse. Dies ist keine Behauptung, dass 38 neue Händler bereits bestellbare Angebote liefern. Die beiden JSON-Protokolle enthalten Einzelbefunde und Zeitstempel. Naruto ist separat pausiert; aktiv bleiben Pokémon DE, Dragon Ball EN und One Piece EN.
 
 ## Konkretes Ergebnis

@@ -1,0 +1,889 @@
+{
+  "audit_date": "2026-10-25",
+  "route": "GitHub Actions -> authenticated Cloudflare Worker; Pokemon Center additionally Cloudflare Browser Run",
+  "github_run": "https://github.com/dougY52/tcg-deal-bot/actions/runs/40177137230",
+  "commit": "f89cddcbb4ea096f8438bff65e531d3008c3e997",
+  "scope": "43 fixed public URLs, not 43 validated retailers",
+  "counts": {
+    "challenge": 2,
+    "readable_discovery_only": 22,
+    "policy_unconfirmed": 12,
+    "unavailable": 5,
+    "robots_disallowed": 2
+  },
+  "inventory_confirmed": false,
+  "discord_test_sent": false,
+  "results": [
+    {
+      "id": "pokemoncenter-de",
+      "url": "https://www.pokemoncenter.com/en-de",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "challenge",
+        "bytes": 1051
+      },
+      "cloud_browser": {
+        "status": 200,
+        "seconds": 3.1,
+        "page": {
+          "status": "challenge",
+          "bytes": 888
+        }
+      }
+    },
+    {
+      "id": "pokemon-press-de",
+      "url": "https://pokemon.gamespress.com/de",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 66201,
+        "headings": [
+          "The Pokémon Company International Official Press Site"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [
+          {
+            "url": "https://pokemon.gamespress.com/de/MEDIENMITTEILUNG-Pokemon-Center-veroffentlicht-die-Feiertagskollektion",
+            "name": "MEDIENMITTEILUNG: Pokémon Center veröffentlicht die Feiertagskollektion 2026"
+          },
+          {
+            "url": "https://pokemon.gamespress.com/de/Jetzt-gibts-Arger-das-Erlebnis-Boosterpack-Team-Rockets-Plane-erschein",
+            "name": "Jetzt gibt’s Ärger – das Erlebnis-Boosterpack Team Rockets Pläne erscheint demnächst in Pokémon-Sammelkartenspiel-Pocket"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "pokemon-official-retailers",
+      "url": "https://tcg.pokemon.com/de-de/where-to-buy/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "challenge",
+        "bytes": 1040
+      }
+    },
+    {
+      "id": "pokemon-event-locator",
+      "url": "https://events.pokemon.com/de-de/locations",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 301",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "kaufland-filiale",
+      "url": "https://filiale.kaufland.de/angebote/uebersicht.html",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 3714493,
+        "headings": [
+          "📢 Aktuelle Angebote im Überblick | Kaufland",
+          "Aktuelle Angebote"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "cardwatch-directory",
+      "url": "https://cardwatch.eu/de/stores/germany",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 249310,
+        "headings": [
+          "Pokémon-, One-Piece- & Magic-Shops in Deutschland",
+          "Pokémon- & One-Piece-Shops in Deutschland"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://cardwatch.eu/de/guides/pokemon-booster-kaufen-deutschland",
+            "name": "Pokémon Booster kaufen in Deutschland"
+          },
+          {
+            "url": "https://cardwatch.eu/de/pokemon/booster-box",
+            "name": "Pokémon Displays"
+          },
+          {
+            "url": "https://cardwatch.eu/de/one-piece/booster-box",
+            "name": "One Piece Displays"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "kartenwacht",
+      "url": "https://kartenwacht.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 53303,
+        "headings": [
+          "Kartenwacht — Preisvergleich & Preiswächter für Sammelkartenspiele",
+          "Ein Wächter für alle deine Karten."
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://kartenwacht.de/onepiece",
+            "name": "OnePiece Card Game Preiswächter für die Grand Line — Displays, Decks und Sammlereditionen im Blick 204 Produkte 1038 Preisquellen Release 20.11.2026 — in 26 Tag"
+          },
+          {
+            "url": "https://kartenwacht.de/produkte/onepiece-op14-display-jp",
+            "name": "One Piece Booster Display — OP14 [JP]"
+          },
+          {
+            "url": "https://kartenwacht.de/produkte/onepiece-eb03-display-jp",
+            "name": "One Piece Booster Display — EB03 [JP]"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "kartodex",
+      "url": "https://www.kartodex.de/restock-radar",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 526",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "tabletop-dragon",
+      "url": "https://www.tabletop-dragon.de/shop_de/trading-card-games/pokemon/vorbestellung.html",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 357393,
+        "headings": [
+          "Pokémon TCG Vorbestellen | Pokémon Karten Preorder & Sets - tabletop-dragon.de",
+          "Vorbestellung"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://www.tabletop-dragon.de/shop_de/pokemon-sammelkartenspiel-me02-5-premium-poster-kollektion.html",
+            "name": "Pokémon-Sammelkartenspiel: ME02.5 Premium-Poster-Kollektion"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "kartenmeier",
+      "url": "https://kartenmeier.de/collections/pokemon-deutsch-top-trainer-box",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 343478,
+        "headings": [
+          "Pokémon Top Trainer Box Deutsch kaufen | Kartenmeier",
+          "Kategorie: Pokémon: Deutsch – Top Trainer Box",
+          "American Express"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "Shopify",
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://kartenmeier.de/products/pokemon-dunkelnacht-top-trainer-box",
+            "name": "Pokémon: Dunkelnacht Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-fatale-flammen-top-trainer-box",
+            "name": "Pokémon: Fatale Flammen Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-paradoxrift",
+            "name": "Pokémon: Paradoxrift Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-wachsendes-chaos-top-trainer-box",
+            "name": "Pokémon: Wachsendes Chaos Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-ewige-rivalen",
+            "name": "Pokémon: Ewige Rivalen Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-nebel-der-sagen",
+            "name": "Pokémon: Nebel der Sagen Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-weisse-flammen",
+            "name": "Pokémon: Weisse Flammen Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-paldeas-schicksale-kopie",
+            "name": "Pokémon: Reisegefährten Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-schwarze-blitze",
+            "name": "Pokémon: Schwarze Blitze Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-top-trainer-box-paldeas-schicksale",
+            "name": "Pokémon: Paldeas Schicksale Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-fatale-flammen-pokemon-center-top-trainer-box-deutsch",
+            "name": "Pokémon: Fatale Flammen Pokémon Center Top Trainer Box"
+          },
+          {
+            "url": "https://kartenmeier.de/products/pokemon-30-jahre-top-trainer-box-deutsch",
+            "name": "Pokémon: 30 Jahre Top Trainer Box"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "cardmarket",
+      "url": "https://www.cardmarket.com/de/Pokemon/Products/Booster-Boxes",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "mueller",
+      "url": "https://www.mueller.de/c/spielwaren/spiele-puzzles/sammelkarten/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 938791,
+        "headings": [
+          "Sammelkarten online bestellen | MÜLLER",
+          "Sammelkarten"
+        ],
+        "structured_product_count": 60,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://www.mueller.de/p/dragon-ball-super-card-game-masters-booster-pack-ultra-bout-4-b31-PPN3179589/",
+            "name": "Dragon Ball Super Card Game: Masters - Booster Pack - Ultra Bout #4 (B31)"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "smyths",
+      "url": "https://www.smythstoys.com/de/de-de/spielzeug/action-spielzeug/pokemon/pokemon-karten/c/SM1001012002",
+      "inventory_confirmed": false,
+      "http_status": 403,
+      "http": {
+        "status": "unavailable"
+      }
+    },
+    {
+      "id": "smyths-frankfurt",
+      "url": "https://www.smythstoys.com/de/de-de/storefinder/storedetails/frankfurt-am-main",
+      "inventory_confirmed": false,
+      "http_status": 403,
+      "http": {
+        "status": "unavailable"
+      }
+    },
+    {
+      "id": "fantasywelt",
+      "url": "https://www.fantasywelt.de/Pokemon",
+      "inventory_confirmed": false,
+      "http_status": 403,
+      "http": {
+        "status": "unavailable"
+      }
+    },
+    {
+      "id": "gamesisland",
+      "url": "https://games-island.eu/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 750678,
+        "headings": [
+          "Games Island Online Shop für TCGs, Tabletops & Brettspiele",
+          "Dein Shop für Magic: The Gathering , Pokémon ,  Yu-Gi-Oh! , Tabletops und Brettspiele"
+        ],
+        "structured_product_count": 2,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Displays",
+            "name": "Alles in Pokemon Booster Displays"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Displays-deutsch",
+            "name": "Pokemon Booster Displays (Deutsch)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Displays-englisch",
+            "name": "Pokemon Booster Displays (Englisch)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Displays-andere-Sprachen",
+            "name": "Pokemon Booster Displays (andere Sprachen)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Packs",
+            "name": "Alles in Pokemon Booster Packs"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Packs-englisch",
+            "name": "Pokemon Booster Packs (Englisch)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Booster-Packs-andere-Sprachen",
+            "name": "Pokemon Booster Packs (andere Sprachen)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Elite-Trainer-Box",
+            "name": "Alles in Pokemon Elite Trainer Box"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Elite-Trainer-Box-deutsch",
+            "name": "Pokemon Elite Trainer Box (Deutsch)"
+          },
+          {
+            "url": "https://games-island.eu/c/Pokemon/Elite-Trainer-Box-englisch",
+            "name": "Pokemon Elite Trainer Box (Englisch)"
+          },
+          {
+            "url": "https://games-island.eu/c/Kartenspiele/Dragon-Ball-Booster-Displays",
+            "name": "Dragon Ball Booster Displays"
+          },
+          {
+            "url": "https://games-island.eu/c/Kartenspiele/Dragon-Ball-Booster-Packs",
+            "name": "Dragon Ball Booster Packs"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "galaxus",
+      "url": "https://www.galaxus.de/search?q=pokemon%20display",
+      "inventory_confirmed": false,
+      "result": "robots_disallowed"
+    },
+    {
+      "id": "rofu",
+      "url": "https://www.rofu.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 80994,
+        "headings": [
+          "ROFU Spielzeug Shop | Günstiges Spielzeug online kaufen"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "rofu-filialen",
+      "url": "https://www.rofu.de/filialen/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 56661,
+        "headings": [
+          "Filialen",
+          "Alle ROFU Kinderland Filialen"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "ideeundspiel",
+      "url": "https://www.ideeundspiel.com/produkte/spielzeug/sammelkarten/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "kaufland",
+      "url": "https://www.kaufland.de/product/564681995/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "rossmann",
+      "url": "https://www.rossmann.de/de/ideenwelt-amigo-pokemon-tcg-wachsendes-chaos-3-booster-blister/p/0196214140189",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 301",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "otto",
+      "url": "https://www.otto.de/spielzeug/spiele/sammelkarten/?marke=pokemon",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 569039,
+        "headings": [
+          "Gefunden auf Otto.de",
+          "Sammelkarten",
+          "E-Mail-Adresse bestätigen & fertig!"
+        ],
+        "structured_product_count": 18,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-pokemon-karmesin-purpur-obsidianflammen-booster-display-CS00JH0UO/",
+            "name": "POKÉMON Sammelkarte Karmesin & Purpur Obsidian Flammen Booster Display 36er Booster - DE"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-pokemon-booster-displays-koreanisch-set-wahl-riesen-auswahl-z-b-vstar-universe-oder-terastal-festival-S0WFS08X/",
+            "name": "POKÉMON Sammelkarte Pokémon Booster & Displays Koreanisch – Set-Wahl, Riesen Auswahl z.B VSTAR Universe oder Terastal Festival"
+          },
+          {
+            "url": "https://www.otto.de/p/amigo-spiel-plus-freizeit-gmbh-sammelkarte-kp08-5-prism-entwickl-mini-tin-display-deutsch-CS02FB0VC/",
+            "name": "POKÉMON Sammelkarte Pokemon Prismatische Entwicklungen Mini-Tin-Display 8.5 Deutsch (DE)"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-top-trainer-box-weisse-flammen-pokemon-sammel-karten-deutsch-CS03F6059/",
+            "name": "POKÉMON Sammelkarte Pokemon Top Trainer Box Weisse Flammen 10.5 TTB Deutsch (DE)"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-mega-dream-japanisch-koreanisch-terastal-festival-ex-koreanisch-display-sar-mr-karte-garantiert-S0OEG0XB/",
+            "name": "POKÉMON Sammelkarte Mega Dream Japanisch/Koreanisch & Terastal Festival EX Koreanisch, Display = SAR / MR Karte garantiert"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-booster-bundle-pokemon-sammel-karten-deutsch-dunkelnacht-CS03JM0WZ/",
+            "name": "POKÉMON Sammelkarte Booster-Bundle Pokemon Sammel-Karten deutsch Dunkelnacht"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-sv2a-151-display-japanisch-CS07B00QZ/",
+            "name": "POKÉMON Sammelkarte SV2a 151 Display japanisch"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-einzelbooster-japanisch-zufaellige-auswahl-S0E3P07T/",
+            "name": "POKÉMON Sammelkarte Einzelbooster - Japanisch - Zufällige Auswahl"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-pokemon-tcg-30th-anniversary-elite-trainer-box-englisch-30-jahre-en-jubilaeumsbox-mit-9-boostern-nidorina-promokarte-und-zubehoer-CS08L20YQ/",
+            "name": "POKÉMON Sammelkarte Pokemon-30th-Anniversary-ETB-Englisch"
+          },
+          {
+            "url": "https://www.otto.de/p/pokemon-sammelkarte-pokemon-fusionsangriff-booster-display-swsh8-deutsch-CS09DY0EP/",
+            "name": "POKÉMON Sammelkarte Pokemon Fusionsangriff Booster Display SWSH8 Deutsch"
+          },
+          {
+            "url": "https://www.otto.de/p/amigo-spiel-plus-freizeit-gmbh-sammelkarte-pokemon-premium-poster-kollektion-mega-entwicklung-erhabene-helden-CS0CGP0MF/",
+            "name": "POKÉMON Sammelkarte Pokemon Erhabene Helden Premium-Poster Kollektion - 1 zufällige Box DE"
+          },
+          {
+            "url": "https://www.otto.de/p/the-pokemon-company-international-sammelkarte-verborgenes-schicksal-top-trainer-box-de-CS07220B8/",
+            "name": "POKÉMON Sammelkarte Sonne & Mond Verborgenes Schicksal Top-Trainer-Box Deutsch"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "edeka",
+      "url": "https://www.edeka.de/angebote/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "galeria",
+      "url": "https://www.galeria.de/kinder/spielzeug/spiele-und-puzzles/gesellschaftsspiele-und-co/pokemon-karten",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "rewe",
+      "url": "https://www.rewe.de/angebote/nationale-angebote/",
+      "inventory_confirmed": false,
+      "http_status": 403,
+      "http": {
+        "status": "unavailable"
+      }
+    },
+    {
+      "id": "lidl",
+      "url": "https://www.lidl.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 853365,
+        "headings": [
+          "Lidl lohnt sich - Lokal bei Dir vor Ort und Online",
+          "search",
+          "Top-Angebote für dich – lohnt sich."
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "aldi-sued",
+      "url": "https://www.aldi-sued.de/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "aldi-nord",
+      "url": "https://www.aldi-nord.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 112328,
+        "headings": [
+          "ALDI Nord – Gutes für alle."
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "__NEXT_DATA__",
+          "application/ld+json"
+        ],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "netto",
+      "url": "https://www.netto-online.de/sammelkarten/c-N06081404",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "globus",
+      "url": "https://www.globus.de/",
+      "inventory_confirmed": false,
+      "http_status": 301,
+      "http": {
+        "status": "unavailable"
+      }
+    },
+    {
+      "id": "thalia",
+      "url": "https://www.thalia.de/kategorie/sammelkartenspiele-8205/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "amazon-de",
+      "url": "https://www.amazon.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 857898,
+        "headings": [
+          "Amazon.de: Günstige Preise für Elektronik & Foto, Filme, Musik, Bücher, Games, Spielzeug & mehr"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "jpc",
+      "url": "https://www.jpc.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 201173,
+        "headings": [
+          "jpc.de: Musik und Filme auf CD, LP, DVD und Blu-ray online kaufen",
+          "Kaufen Sie CDs, LPs, DVDs, Blu-rays und Bücher in unserem Onlineshop"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "hiveworld",
+      "url": "https://www.hiveworld.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 1572487,
+        "headings": [
+          "Hiveworld und Spieldurst - in Köln und online kaufen - in Köln vor Ort spielen"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "collect-it",
+      "url": "https://www.collect-it.de/",
+      "result": "policy_unconfirmed",
+      "reason": "Robots unavailable HTTP 403",
+      "inventory_confirmed": false
+    },
+    {
+      "id": "comicplanet",
+      "url": "https://www.comicplanet.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 555511,
+        "headings": [
+          "Comic Planet Shop",
+          "Comic Planet Newsletter"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [
+          {
+            "url": "https://www.comicplanet.de/sammelkarten/dragon-ball/display-db/dragonball-super-card-game-masters-ub05-b32-booster-englisch",
+            "name": "Dragonball Super Card Game - Masters UB05 B32 Booster englisch"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "bb-spiele",
+      "url": "https://www.bb-spiele.de/",
+      "inventory_confirmed": false,
+      "result": "robots_disallowed"
+    },
+    {
+      "id": "hugendubel-tcg",
+      "url": "https://www.hugendubel.de/de/category/96666/sammelkarten.html",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 296664,
+        "headings": [
+          "\"Sammelkarten\" bei Hugendubel.de",
+          "Sammelkarten"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://www.hugendubel.de/de/category/101686/neue_booster.html",
+            "name": "Pokemon Booster gibt's in diesen Filialen"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "breakthecase-local",
+      "url": "https://www.breakthecase.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 2139791,
+        "headings": [
+          "BreakTheCase Frankfurt – TCG Store für One Piece, Pokémon & Magic",
+          "BreakTheCase",
+          "Englisch"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "Shopify",
+          "application/ld+json"
+        ],
+        "candidate_links": [
+          {
+            "url": "https://www.breakthecase.de/products/dragon-ball-fusion-world-fb11-brightness-of-hope-booster-englisch",
+            "name": "Dragon Ball Fusion World - FB11 - BRIGHTNESS OF HOPE - Booster – Englisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/pokemon-30th-celebrations-tech-sticker-collection-zufalliges-motiv-englisch-en",
+            "name": "Pokemon - 30th Celebrations - Tech Sticker Collection (zufälliges Motiv) – Englisch (EN)"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-op02-paramount-war-booster-japanisch",
+            "name": "One Piece Card Game - OP02 - Paramount War - Booster - Japanisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-op13-carrying-on-his-will-booster-japanisch",
+            "name": "One Piece Card Game - OP13 - Carrying on his Will - Booster - Japanisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-the-worlds-strongest-warriors-booster-op-17-englisch",
+            "name": "One Piece Card Game - THE WORLD'S STRONGEST WARRIORS - Booster [OP-17] - Englisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-the-worlds-strongest-warriors-booster-display-op-17-englisch",
+            "name": "One Piece Card Game - THE WORLD'S STRONGEST WARRIORS - Booster Display [OP-17] - Englisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-op17-the-worlds-strongest-warriors-booster-display-japanisch-jp",
+            "name": "One Piece Card Game - OP17 - The World's Strongest Warriors – Booster Display - Japanisch [JP]"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-op17-the-worlds-strongest-warriors-japanisch-jp",
+            "name": "One Piece Card Game - OP17 - The World's Strongest Warriors – Booster - Japanisch [JP]"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/one-piece-card-game-premium-card-collection-best-selection-vol-6-englisch",
+            "name": "One Piece Card Game - Premium Card Collection - Best Selection Vol. 6 - Englisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/pokemon-tcg-eevee-svp-173-prismatic-evolutions-etb-psa-10-gem-mint",
+            "name": "Pokemon TCG Eevee SVP-173 Prismatic Evolutions ETB PSA 10 Gem Mint - Englisch (EN)"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/pokemon-karmesin-purpur-surging-sparks-sv08-booster-pack-englisch",
+            "name": "Pokemon - Scarlet & Violet - Surging Sparks - SV08 - Booster Pack - Englisch"
+          },
+          {
+            "url": "https://www.breakthecase.de/products/pokemon-chaos-rising-mega-evolution-me04-blister-booster-pack-englisch",
+            "name": "Pokemon - Chaos Rising - Mega Evolution - ME04 – Sleeved Booster Pack – Englisch"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "akihabara-local",
+      "url": "https://akihabara-tcg.de/",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 279576,
+        "headings": [
+          "Akihabara TCG Shop – Anime, TCG, Figuren & viel mehr",
+          "Akihabara\n        TCG & Anime"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [
+          {
+            "url": "https://akihabara-tcg.de/produkt/pokemon-kp08-stuermische-funken-booster-de/",
+            "name": "Pokémon KP08 Stürmische Funken Booster DE"
+          },
+          {
+            "url": "https://akihabara-tcg.de/produkt/pokemon-sv03-obsidianflamen-booster-pack-de/",
+            "name": "Pokémon SV03 Obsidianflamen Booster Pack DE"
+          },
+          {
+            "url": "https://akihabara-tcg.de/produkt/pokemon-151-booster-de/",
+            "name": "Pokemon 151 Booster DE"
+          }
+        ],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "restockradar",
+      "url": "https://restockradar.de/de/haendler/kaufland",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 38813,
+        "headings": [
+          "Pokémon Karten bei Kaufland – Bestand, Restocks & Funde · RestockRadar",
+          "Pokémon Karten bei Kaufland"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [
+          "application/ld+json"
+        ],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    },
+    {
+      "id": "holoheaven",
+      "url": "https://www.holoheaven.de/karten-radar",
+      "inventory_confirmed": false,
+      "http_status": 200,
+      "http": {
+        "status": "readable_discovery_only",
+        "bytes": 98433,
+        "headings": [
+          "Karten-Radar: Pokémon-Karten zum UVP kaufen | HoloHeaven",
+          "Wo gibt es Karten zum UVP?15. Oktober bis 25. Oktober 2026"
+        ],
+        "structured_product_count": 0,
+        "embedded_state": [],
+        "candidate_links": [],
+        "inventory_confirmed": false
+      }
+    }
+  ],
+  "mueller_browser_followup": {
+    "url": "https://www.mueller.de/p/dragon-ball-super-card-game-masters-booster-pack-ultra-bout-4-b31-PPN3179589/",
+    "environment": "fresh ordinary Playwright browser; local research only",
+    "sku": "3179589",
+    "price_eur": 6.39,
+    "stock_text": "Aktuell nicht lieferbar",
+    "store_check_button_present": true,
+    "store_check_completed": false,
+    "reason": "Browser verification modal; normal button click timed out; no branch stock response confirmed",
+    "inventory_confirmed": false,
+    "note": "Single booster used to inspect the interface, not a qualifying deal or display."
+  }
+}
