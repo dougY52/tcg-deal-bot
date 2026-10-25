@@ -1,8 +1,11 @@
 """Bounded authenticated deployment probe. Never sends Discord notifications."""
 import json
+import base64
+import time
+from urllib.parse import urlsplit
 from pathlib import Path
 from tcg_bot.browser import BrowserClient
-from tcg_bot.cloud_reader import settings
+from tcg_bot.cloud_reader import settings, github_token
 from tcg_bot.web_sources import parse_mms
 
 
@@ -10,6 +13,16 @@ def main():
     if settings() is None:
         print('CLOUD_READER_NOT_CONFIGURED')
         return
+    endpoint, shared = settings()
+    if not shared:
+        token = github_token(urlsplit(endpoint)._replace(path='').geturl(), 10)
+        part = token.split('.')[1]
+        claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
+        # Diagnostic public claims only: never log a token, signature, actor or credential.
+        safe = {key:claims.get(key) for key in ('iss','aud','sub','repository','repository_id','repository_owner_id','ref','workflow_ref','event_name')}
+        safe['token_age_seconds'] = round(time.time()-claims.get('iat',0))
+        safe['lifetime_seconds'] = claims.get('exp',0)-claims.get('iat',0)
+        print('CLOUD_READER_IDENTITY_DIAGNOSTIC ' + json.dumps(safe))
     cfg = json.loads(Path('config/config.json').read_text())
     client = BrowserClient()
     try:

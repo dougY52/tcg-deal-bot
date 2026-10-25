@@ -73,7 +73,9 @@ def read(url, timeout):
     except urllib.error.HTTPError as exc:
         if exc.url == url:
             raise
-        raise FetchError('Cloud reader transport HTTP ' + str(exc.code)) from None
+        reason = exc.headers.get('X-TCG-Auth-Error','') if exc.headers else ''
+        reason = (' (' + reason + ')') if re.fullmatch(r'[A-Z_]{1,30}',reason) else ''
+        raise FetchError('Cloud reader transport HTTP ' + str(exc.code) + reason) from None
     except (ValueError, TypeError, AttributeError, urllib.error.URLError, TimeoutError):
         raise FetchError('Cloud reader response unavailable or invalid') from None
 
