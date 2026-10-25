@@ -177,6 +177,9 @@ class Forms(HTMLParser):
 
 def live(o, shop, client, now):
     """Fresh Shopify product endpoint plus exact product form; never use snippets."""
+    if shop['adapter'] in ('vedes','duo'):
+        from .local_retail import live as local_live
+        return local_live(o,shop,client,now)
     if shop['id'] == 'mueller':
         from .retailers import mueller_product
         return mueller_product(shop, client.text(o['url']), o['url'], str(o['variant_id']))
@@ -292,6 +295,9 @@ def seller_confidence(o, shop, settings):
     if 'serious_scam_signal' in evidence.get('red_flags', []) or evidence.get('payment_only') in ('crypto', 'bank_transfer'):
         return None
     known = shop['id'] in settings.get('trusted_shop_ids', []) and actual in shop.get('allowed_sellers', [shop['name']]) and o.get('seller_verified') is True
+    if (shop['id'] in settings.get('trusted_shop_ids', []) and shop['adapter']=='vedes'
+            and o.get('platform_seller_verified') is True and o.get('seller_verified') is True):
+        known = True
     reviewed = evidence.get('legal_entity_verified') is True and evidence.get('buyer_protection') is True and evidence.get('evidence_url', '').startswith('https://') and evidence.get('review_count', 0) >= 20 and evidence.get('rating', 0) >= 4
     if not known and not reviewed:
         return None
@@ -369,6 +375,10 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
 def payload(o):
     money = lambda x: f'{Decimal(x):.2f}'.replace('.', ',') + ' €'
     shipping = money(o['shipping_cost']) if o.get('shipping_cost') is not None else 'nicht bestätigt'
+    if o.get('channel')=='pickup':
+        return {'allowed_mentions':{'parse':[]},'embeds':[{'title':'📍 FILIALBESTAND · 65934 + 50 km','url':o['url'],
+            'color':0x2ECC71 if o['pricing']['strong'] else 0xF1C40F,
+            'description':f"**{o['title'][:200]}**\n🌍 {o['language']} · 🏪 {o['store_name']}\n📍 {o['store_address']} · {o['distance_km']} km Luftlinie\n💶 {money(o['price'])} · Abholung\n✅ {o['stock_quantity']} Stück laut Filialabfrage; reservierbar\nFiliale im Shop auswählen, Reservierungsbestätigung abwarten.\n💡 {o['pricing']['why']}"}]}
     return {'allowed_mentions': {'parse': []}, 'embeds': [{'title': '🔥 PREORDER LIVE', 'url': o['url'],
         'color': 0x2ECC71 if o['pricing']['strong'] else 0xF1C40F,
         'description': (f"**{o['title'][:200]}**\n🌍 {o['language']} · 🏪 {o['seller']}\n"

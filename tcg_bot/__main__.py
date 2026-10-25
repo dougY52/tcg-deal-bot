@@ -15,7 +15,8 @@ from .discovery import discovery, discovery_payload
 from .rules import assess, prefer_german, observe, alert_reason, payload, franchise, excluded_franchise
 from .sources import ADAPTERS
 from .web_sources import html_catalog, mms, otto
-ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog,jtl=html_catalog, mms=mms, otto=otto)
+from .local_retail import scan as local_retail_scan
+ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog,jtl=html_catalog, mms=mms, otto=otto, vedes=local_retail_scan, duo=local_retail_scan)
 
 
 def load_config(path):

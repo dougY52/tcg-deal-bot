@@ -152,7 +152,7 @@ def normalize(o, cfg):
     group = '|'.join((system, identity_product, edition, str(packs), treatment))
     identity = group + '|' + lang
     shop = next((s for s in cfg['shops'] if s['id'] == o['shop']), {})
-    retailer = shop.get('retailer_group') or urlsplit(shop.get('base_url', o['url'])).hostname
+    retailer = (o.get('retailer_identity') if shop.get('adapter') in ('vedes','duo') and o.get('live_validated') else None) or shop.get('retailer_group') or urlsplit(shop.get('base_url', o['url'])).hostname
     return dict(o, identity=identity, group=group, language=lang, packs=packs,
                 edition=edition, set=set_name, system=system, retailer=retailer,
                 condition_normalized='new-retailer-sealed', product_kind=kind, reference=ref, preorder=preorder, release_date=release), 'normalized'
@@ -252,7 +252,7 @@ def unknown_rating(reason):
 
 
 def delivery_key(offer):
-    return offer['identity'] + '|' + offer['retailer']
+    return offer['identity'] + '|' + offer['retailer'] + ('|pickup:'+str(offer['store_id']) if offer.get('channel')=='pickup' else '')
 
 
 def migrate_offer_deliveries(state, rows):

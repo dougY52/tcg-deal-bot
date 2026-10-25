@@ -198,3 +198,11 @@ Browser-Zugriff für Müller/MediaMarkt und offizielle Pokémon-Center-Hinweise:
 ## Öffentliche Händler-Schnittstellen
 
 Die [Recherche vom 25.10.2026](RETAILER-RESEARCH.md) dokumentiert 38 lokal und auf GitHub geprüfte Quellen, öffentliche Katalogabfragen und bestehende Zugangsgrenzen. Saturns zusätzliche API-Suche liefert nur Produktlinks; Alerts benötigen weiterhin Live-Validierung der Produktseite. Die öffentliche API-Profil-Datei `config/public-mms-queries.json` gehört zur Konfiguration und muss bei einer Kopie mitgenommen werden.
+
+### VEDES, Faix und duo – echte Scanner (25.10.2026)
+
+VEDES und Faix prüfen jetzt konkrete Händlerangebote und separate reservierbare
+Filialbestände im 50-km-Luftlinienradius um 65934. duo verwendet den kostenlosen
+Cloudflare-Browser mit begrenztem Takt (ein Produkt frühestens alle 90 Minuten).
+Alle Treffer durchlaufen die bestehenden Preis-, Sprach- und Duplikatfilter.
+Details, tatsächlich bestätigte Filialen und Grenzen: [LOCAL-RETAIL-SCANNERS.md](LOCAL-RETAIL-SCANNERS.md).

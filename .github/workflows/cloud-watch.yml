@@ -23,7 +23,7 @@ jobs:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
     if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     permissions:
       contents: read
       id-token: write
@@ -35,10 +35,13 @@ jobs:
       - name: Verify exact products through authenticated cloud reader (no Discord)
         env:
           TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
-        run: python -m scripts.check_cloud_reader
+        run: |
+          python -m scripts.check_cloud_reader
+          python -m scripts.check_local_retail
   watch:
+    needs: cloud-reader-check
     # Public repositories + standard Linux runner: free. Fail closed for private repos.
-    if: github.event.repository.private == false
+    if: always() && github.event.repository.private == false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

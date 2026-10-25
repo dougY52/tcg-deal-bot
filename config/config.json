@@ -1421,6 +1421,135 @@
       "seller_score": 75,
       "discovery_scope": "WooCommerce: einfache Produkte und konkrete Varianten; gebundener aktiver Warenkorb erforderlich. Zugriffssperren werden protokolliert.",
       "live_language_discovery": true
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "adapter": "vedes",
+      "marketplace": true,
+      "max_product_pages": 1,
+      "max_live_checks_per_run": 1,
+      "live_language_discovery": true,
+      "local_region": {
+        "postal_code": "65934",
+        "radius_km": 50,
+        "latitude": 50.1038972,
+        "longitude": 8.5756857,
+        "distance_kind": "air_distance",
+        "coordinate_source": "https://www.openstreetmap.org/relation/1181934"
+      },
+      "seller_score": 82,
+      "trust_note": "Konkreter VEDES-Händler mit live geprüftem Impressum und Kontakt; keine behauptete Bewertungsquote.",
+      "id": "vedes",
+      "name": "VEDES Marktplatz",
+      "base_url": "https://www.vedes.com",
+      "catalog_urls": [
+        "https://www.vedes.com/m/pokemon-sammelkarten",
+        "https://www.vedes.com/k/spiele-puzzle/kartenspiele/trading-cards"
+      ],
+      "product_evidence": {
+        "61214461": {
+          "language": "DE",
+          "title_pattern": "Dunkelnacht.*|.*Dunkelnacht",
+          "url": "https://trader-online.de/pokemon/displays-boxen/mega-entwicklung-dunkelnacht-top-trainer-box-deutsch.html",
+          "gtin": "0196214142152"
+        }
+      },
+      "discovery_scope": "Reale Händlerangebote aus rotierenden Katalogen; Verkäufer/Variante/Stückzahl/Service live. Keine Aggregat-Ab-Preise. Ortsentfernung nur bei bestätigter 65934-Geolocation.",
+      "health_product_url": "https://www.vedes.com/p/pokemon-sammelkartenspiel-top-trainer-box-mega-entwicklung-dunkelnacht-10-10416-103-61214461",
+      "fast_priority": true
+    },
+    {
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "adapter": "vedes",
+      "marketplace": true,
+      "max_product_pages": 1,
+      "max_live_checks_per_run": 1,
+      "live_language_discovery": true,
+      "local_region": {
+        "postal_code": "65934",
+        "radius_km": 50,
+        "latitude": 50.1038972,
+        "longitude": 8.5756857,
+        "distance_kind": "air_distance",
+        "coordinate_source": "https://www.openstreetmap.org/relation/1181934"
+      },
+      "seller_score": 82,
+      "trust_note": "Konkreter VEDES-Händler mit live geprüftem Impressum und Kontakt; keine behauptete Bewertungsquote.",
+      "id": "faix",
+      "name": "Spielwaren Faix",
+      "base_url": "https://www.faix.de",
+      "catalog_urls": [
+        "https://www.faix.de/faix-online-shop-darmstadt/m/pokemon-sammelkarten",
+        "https://www.faix.de/faix-online-shop-darmstadt/k/spiele-puzzle/kartenspiele/trading-cards"
+      ],
+      "trust_evidence": "https://www.faix.de/faix-online-shop-darmstadt/c/impressum",
+      "legal_name": "David Faix & Söhne GmbH",
+      "branches": {
+        "100642830": {
+          "name": "Spielwaren Faix Darmstadt",
+          "postal_code": "64283",
+          "latitude": 49.8706922,
+          "longitude": 8.6533294,
+          "coordinate_source": "https://www.openstreetmap.org/node/2896613630",
+          "evidence_url": "https://www.faix.de/faix-online-shop-darmstadt/h/unsere-filialen"
+        },
+        "100603881": {
+          "name": "Spielwaren Faix Riedstadt-Wolfskehlen",
+          "postal_code": "64560",
+          "latitude": 49.8540446,
+          "longitude": 8.4870784,
+          "coordinate_source": "https://www.openstreetmap.org/way/194066593",
+          "evidence_url": "https://www.faix.de/faix-online-shop-darmstadt/h/unsere-filialen"
+        }
+      },
+      "health_product_url": "https://www.faix.de/faix-online-shop-darmstadt/p/pokemon-sammelkartenspiel-aufgewerteter-2er-pack-blister-10-10355-103-61214453?subsidiary%5B__identity%5D=100642831",
+      "discovery_scope": "Live-Versand und separat reservierbare Filialbestände Darmstadt/Riedstadt innerhalb 50 km Luftlinie um 65934. MTZ/Loop5 noch ohne bestätigte Bestands-ID; nicht als überwacht behaupten.",
+      "fast_priority": true
+    },
+    {
+      "id": "duo",
+      "name": "duo schreib & spiel",
+      "base_url": "https://www.duo-shop.de",
+      "adapter": "duo",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_product_pages": 0,
+      "marketplace": true,
+      "live_language_discovery": true,
+      "min_live_interval_seconds": 5400,
+      "max_live_checks_per_run": 1,
+      "catalog_interval_seconds": 21600,
+      "catalog_urls": [
+        "https://www.duo-shop.de/produkte/spielzeug/sammelkarten/"
+      ],
+      "allowed_sellers": [
+        "Carl Otto Spiel und Freizeit GmbH"
+      ],
+      "seller_evidence": {
+        "Carl Otto Spiel und Freizeit GmbH": {
+          "verified": true,
+          "application_id": "f093199a-66f4-44d1-86bd-e102cefaf3af",
+          "url": "https://www.colludo.de/impressum/"
+        }
+      },
+      "trust_evidence": "https://www.colludo.de/impressum/",
+      "trust_note": "Carl Otto: gewerblicher Händler mit geprüftem Impressum; keine behauptete Bewertungsquote.",
+      "product_evidence": {
+        "32E0448B": {
+          "language": "DE",
+          "title_pattern": "Blutmond.*Ursaluna",
+          "gtin": "0820650459092",
+          "url": "https://www.x-comics.de/Pokemon-deutsch-Blutmond-Ursaluna-ex-Kollektion-Blister"
+        }
+      },
+      "health_product_url": "https://www.duo-shop.de/offers/pokemon-blutmond-ursaluna-ex-kollektion-32E0448B/",
+      "discovery_scope": "Cloud-Browser: rotierende konkrete Angebote frühestens alle 90 Minuten, Katalog alle 6 Stunden. Exakte gebundene Händlerofferte/Preis/Stückzahl/DE-Versand erforderlich. Weitere Händler erst nach Prüfung, kein allgemeiner Filialbestandsnachweis.",
+      "fast_priority": true
     }
   ],
   "references": [
@@ -2022,7 +2151,10 @@
       "nerdbank",
       "cardcatcher",
       "keepseven",
-      "freispiel-freiburg"
+      "freispiel-freiburg",
+      "vedes",
+      "faix",
+      "duo"
     ],
     "seller_evidence": {},
     "shop_rules": {

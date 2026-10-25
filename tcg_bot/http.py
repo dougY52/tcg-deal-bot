@@ -35,6 +35,9 @@ class Client:
         if host in self.blocked or time.time() < self.cooldowns.get(host, 0):
             raise FetchError('Host backed off until next run')
         delay = max(self.delay, self.host_delay.get(host, 0))
+        if host=='www.duo-shop.de':
+            from .cloud_reader import enabled_for
+            if enabled_for(url):delay=max(delay,11)  # Free Browser Run: at most one quick action per ten seconds.
         wait = max(0, delay - (time.monotonic() - self.last.get(host, 0)))
         if time.monotonic() + wait >= self.deadline:
             raise FetchError('Run request budget exhausted')

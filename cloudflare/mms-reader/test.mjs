@@ -94,3 +94,39 @@ try {
   assert((await worker.fetch(request(target,'bad'),oidcEnv)).status===401,'invalid job denied');
   console.log('GitHub OIDC signature and authorization checks passed');
 } finally {globalThis.fetch=originalFetch;}
+
+// Public local-retailer transport cannot forward arbitrary URLs or writes.
+const vedes='https://www.vedes.com/p/test-61214461?subsidiary%5B__identity%5D=100971990';
+const duo='https://www.duo-shop.de/offers/pokemon-box-32E0448B/';
+for(const url of [vedes,vedes.replace('/p/','/status/json/'),duo,'https://www.faix.de/faix-online-shop-darmstadt/c/impressum'])assert(allowedTarget(url),'retailer allowlist');
+for(const url of [vedes+'&token=x',vedes.replace('100971990','oops'),'https://www.duo-shop.de/cart/',
+  'https://www.vedes.com/basketupdate/addtobasket','https://www.vedes.com/geolocation/updatelocation'])assert(!allowedTarget(url),'no cart/private/arbitrary write');
+try {
+  let regionRequests=0;
+  globalThis.fetch=async(url,options)=>{
+    if(url.endsWith('/geolocation/updatelocation')) {
+      regionRequests++;
+      assert(options.method==='POST','fixed location preference only');
+      assert(options.body.get('location[zip]')==='65934','actual user region');
+      assert(!options.headers.Authorization && !options.headers.Cookie,'no user credentials');
+      return new Response('{}',{headers:{'Set-Cookie':'anonymous-region=test; Path=/; Secure'}});
+    }
+    assert(url===vedes && options.method==='GET' && options.redirect==='manual','exact public product');
+    assert(options.headers.Cookie==='anonymous-region=test','only anonymous region cookie');
+    return new Response('product');
+  };
+  const result=await(await worker.fetch(request(vedes),env)).json();
+  assert(result.status===200 && regionRequests===1,'region then exact product');
+  globalThis.fetch=async()=>{throw new Error('duo uses browser binding');};
+  const browserEnv={...env,BROWSER:{async quickAction(action,options){
+    assert(action==='content' && options.url===duo,'exact public browser navigation');
+    assert(options.gotoOptions.timeout===20000,'bounded browser timeout');
+    return Response.json({result:'<html>current exact offer</html>'});
+  }}};
+  const rendered=await(await worker.fetch(request(duo),browserEnv)).json();
+  assert(rendered.body==='<html>current exact offer</html>','browser envelope decoded');
+  browserEnv.BROWSER.quickAction=async()=>new Response('budget reached',{status:429});
+  const limited=await(await worker.fetch(request(duo),browserEnv)).json();
+  assert(limited.status===429 && limited.body==='','free quota fails closed');
+  console.log('VEDES region and duo free-browser transport checks passed');
+} finally {globalThis.fetch=originalFetch;}

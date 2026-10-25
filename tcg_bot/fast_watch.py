@@ -40,10 +40,18 @@ def remember(rows, cfg, state, now):
             detail_hint = (language(o) == 'UNKNOWN' and product_kind(o.get('title','')) in ('display','etb','bundle','box','collection','tin') and
                            not re.search(r'funko|blindbox|ichiban|history.box|logo.display|sleeves?|acryl|repack|mystery', o.get('title',''), re.I))
         if obj or detail_hint:
+            if o.get('discovery_only') and o.get('product_id') and any(
+                r['offer']['shop']==o['shop'] and r['offer'].get('product_id')==o['product_id'] and
+                not r['offer'].get('discovery_only') and (not o.get('seller_id') or r['offer'].get('seller_id')==o['seller_id'])
+                for r in table.values()):continue
+            if o.get('product_id') and not o.get('discovery_only'):
+                for k,r in list(table.items()):
+                    old=r['offer']
+                    if old['shop']==o['shop'] and old.get('discovery_only') and old.get('product_id')==o['product_id'] and (not old.get('seller_id') or old.get('seller_id')==o.get('seller_id')):del table[k]
             # Parser keys can change; a seller's concrete variant is still one target.
             aliases = [k for k, r in table.items() if r['offer']['shop'] == o['shop'] and
                        str(r['offer']['variant_id']) == str(o['variant_id']) and
-                       r['offer'].get('seller') == o.get('seller')]
+                       (r['offer'].get('seller') == o.get('seller') or (o.get('seller_id') and r['offer'].get('seller_id')==o.get('seller_id')))]
             alias = aliases[0] if aliases else o['key']
             for duplicate in aliases[1:]:
                 del table[duplicate]
@@ -85,11 +93,16 @@ def bootstrap(cfg, state, now):
     state['fast_bootstrapped'] = True
 
 
-def select(cfg, state):
+def select(cfg, state, now=None):
+    now=time.time() if now is None else now
     shops = {s['id']: s for s in cfg['shops'] if s.get('enabled', True)}
     buckets = [[] for _ in range(6)]
     for record in state.get('fast_targets', {}).values():
         o = record['offer']
+        shop=shops.get(o['shop'],{})
+        if cfg.get('_fresh_lane') and shop.get('adapter') in ('vedes','duo'):continue
+        interval=shop.get('min_live_interval_seconds',0)
+        if interval and now-state.get('retailer_live_checks',{}).get(o['shop'],0)<interval:continue
         if o['shop'] in shops and not excluded_franchise(o['title'] + ' ' + o.get('variant', ''), cfg):
             buckets[priority(o)].append(record)
     # Reserve checks for each franchise; oldest observation rotates all known sets.
@@ -111,11 +124,18 @@ def select(cfg, state):
         background = spread([r for r in bucket if r not in active])
         head = active[:max(1, quota * 2 // 3)] + background[:max(1, quota // 3)]
         bucket = head + [r for r in spread(bucket) if r not in head]
+        if group != 0:
+            local=spread([r for r in bucket if shops[r['offer']['shop']].get('fast_priority')])[:3]
+            bucket=local+[r for r in bucket if r not in local]
         if group == 0:
             hot = [r for r in bucket if re.search(r'\bFB[ -]?11\b', r['offer']['title'], re.I)][:4]
             bucket = hot + [r for r in bucket if r not in hot]
         selected.extend(r['offer'] for r in bucket[:quota])
-    return selected
+    counts={};bounded=[]
+    for o in selected:
+        sid=o['shop'];limit=shops[sid].get('max_live_checks_per_run',len(selected))
+        if counts.get(sid,0)<limit:bounded.append(o);counts[sid]=counts.get(sid,0)+1
+    return bounded
 
 
 class ProductCache:
@@ -177,6 +197,7 @@ def fetch_live(selected, cfg, client, now):
 
 def payload(o):
     msg = preorders.payload(o)
+    if o.get('channel')=='pickup':return msg
     embed = msg['embeds'][0]
     if not o.get('preorder_status'):
         if o.get('episode', 0) > 0:
@@ -215,7 +236,8 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report['sent'] += drops['sent']
     report['errors'].extend(drops['errors'])
     bootstrap(cfg, state, now)
-    selected = select(cfg, state)
+    selected = select(cfg, state, now)
+    for o in selected:state.setdefault('retailer_live_checks',{})[o['shop']]=now
     live_cfg = copy.deepcopy(cfg)
     live_cfg['_fast_lane'] = True
     live_cfg['_fast_keys'] = [o['key'] for o in selected]
@@ -264,7 +286,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     before_catalog = {k: (r['offer'].get('price'), r['offer'].get('available'), r['offer'].get('title')) for k, r in state.get('fast_targets', {}).items()}
     catalog_state = state.setdefault('fast_catalog_checks', {})
     due = [s for s in cfg['shops'] if s.get('enabled', True) and
-           now-catalog_state.get(s['id'], 0) >= settings['catalog_interval_seconds']]
+           now-catalog_state.get(s['id'], 0) >= s.get('catalog_interval_seconds',settings['catalog_interval_seconds'])]
     due.sort(key=lambda s: catalog_state.get(s['id'], 0))
     cursors = state.setdefault('fast_catalog_cursors', {})
     due = [dict(s, _catalog_pages=dict(cursors.get(s['id'], {}))) for s in due[:settings['catalog_shops_per_run']]]
@@ -291,9 +313,11 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
                if k not in attempted and before_catalog.get(k) !=
                (r['offer'].get('price'), r['offer'].get('available'), r['offer'].get('title'))}
     fresh_cfg = copy.deepcopy(cfg)
+    fresh_cfg['_fresh_lane']=True  # Multi-request local validators use the next full phase budget.
     fresh_cfg['fast_watch']['quotas'] = settings.get('fresh_quotas', [6, 3, 3, 3, 2, 1])
     fresh_cfg['fast_watch']['live_seconds'] = settings.get('fresh_seconds', 25)
-    fresh = select(fresh_cfg, {'fast_targets': changed})
+    fresh = select(fresh_cfg, {'fast_targets': changed,'retailer_live_checks':state.get('retailer_live_checks',{})},now)
+    for o in fresh:state.setdefault('retailer_live_checks',{})[o['shop']]=now
     if fresh:
         fresh_cfg['_fast_lane'] = True
         fresh_cfg['_fast_keys'] = [o['key'] for o in fresh]

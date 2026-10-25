@@ -11,10 +11,23 @@ from .http import FetchError, NoRedirect, UA
 
 def target_allowed(url):
     p = urllib.parse.urlsplit(url)
-    return (p.scheme == 'https' and p.netloc in ('www.mediamarkt.de', 'www.saturn.de')
-            and not p.query and not p.fragment and '%' not in p.path and '..' not in p.path
-            and (p.path == '/robots.txt' or bool(re.fullmatch(
-                r'/de/(product|category|brand)/[a-zA-Z0-9_/-]+(?:\.html)?', p.path))))
+    if p.scheme!='https' or p.fragment or '%' in p.path or '..' in p.path:return False
+    if p.netloc in ('www.mediamarkt.de','www.saturn.de'):
+        return not p.query and (p.path=='/robots.txt' or bool(re.fullmatch(r'/de/(product|category|brand)/[a-zA-Z0-9_/-]+(?:\.html)?',p.path)))
+    if p.netloc=='www.duo-shop.de':
+        return not p.query and (p.path in ('/robots.txt','/produkte/spielzeug/sammelkarten/') or bool(re.fullmatch(r'/offers/[a-zA-Z0-9-]+/',p.path)))
+    if p.netloc not in ('www.vedes.com','www.faix.de'):return False
+    if p.path=='/robots.txt':return not p.query
+    prefix='/faix-online-shop-darmstadt' if p.netloc=='www.faix.de' else ''
+    if not p.path.startswith(prefix+'/'):return False
+    path=p.path[len(prefix):];params=urllib.parse.parse_qsl(p.query,keep_blank_values=True);values=dict(params)
+    subsidiary=len(params)==1 and params[0][0]=='subsidiary[__identity]' and bool(re.fullmatch(r'\d{9}',params[0][1]))
+    if re.fullmatch(r'/(m|s|k)/[a-z0-9/-]+',path):return not p.query
+    if re.fullmatch(r'/(p|status/json)/[a-z0-9-]+',path):return subsidiary
+    if path=='/c/impressum' and p.netloc=='www.faix.de':return not p.query
+    return (path=='/modals/showcontentpage' and len(params)==2 and
+            bool(re.fullmatch(r'\d{9}',values.get('subsidiary[__identity]',''))) and
+            bool(re.fullmatch(r'[a-f0-9-]{36}',values.get('contentPage[__identity]',''))))
 
 
 def settings():
