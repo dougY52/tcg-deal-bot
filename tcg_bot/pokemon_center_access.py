@@ -4,6 +4,7 @@ The optional provider is test-only: free subscription required, no retries,
 no cookies/account endpoints, no alert sender, no automatic paid upgrade.
 """
 import json
+import base64
 import math
 import re
 from urllib.parse import urljoin, urlsplit, urlencode, unquote
@@ -19,6 +20,11 @@ TARGETS = (ORIGIN + '/de-de/', ORIGIN + '/en-de', ORIGIN + '/sitemap.xml')
 MODES = (('datacenter', False, 1), ('datacenter', True, 10),
          ('residential', False, 25), ('residential', True, 125))
 MAX_TEST_CREDITS = sum(mode[2] for mode in MODES)
+# Exact links observed in the live German catalogue on 2026-10-25.
+PRODUCT_TARGETS = (
+    ORIGIN + '/de-de/product/10-10425-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-dunkelnacht-36-boosterpacks',
+    ORIGIN + '/de-de/product/10-10446-103/pokemon-sammelkartenspiel-boosterpack-display-box-mega-entwicklung-delta-herrschaft-36-boosterpacks',
+)
 API = 'https://api.scrapingant.com/v2/'
 
 
@@ -54,6 +60,7 @@ def page_result(body, url, now):
             categories.append({'url': target, 'name': title[:200]})
         if (public_de_url(target) and '/product/' in target
                 and re.search(r'booster|trainer.?box|collection|kollektion|bundle|\betb\b|premium', title, re.I)
+                and not re.search(r'ordner|deck.?box|spielunterlage|playmat|sleeves|kartenhüllen', title, re.I)
                 and target not in [x['url'] for x in candidates]):
             candidates.append({'url': target, 'name': title[:200]})
     products = structured_products(doc)
@@ -135,7 +142,9 @@ class FreeAccessProbe:
         self.attempted.add((url, mode))
         params = {'url': url, 'proxy_type': mode[0], 'browser': str(mode[1]).lower(), 'timeout': 25}
         if mode[1]:
-            params['wait_for_selector'] = 'main'
+            params['wait_for_selector'] = 'main h1' if '/product/' in url else 'main'
+            # Read-only hydration wait; no clicks, cookies or checkout changes.
+            params['js_snippet'] = base64.b64encode(b'await new Promise(r => setTimeout(r, 2000));').decode()
             params['proxy_country'] = 'DE'
         data, cost = self.request_json('extended', params)
         if cost is not None and (not math.isfinite(cost) or cost < 0 or cost > mode[2]):

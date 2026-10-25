@@ -46,6 +46,19 @@ class PokemonCenterAccess(unittest.TestCase):
         self.assertFalse(result['inventory_confirmed'])
         self.assertEqual(len(result['candidate_links']),1)
 
+    def test_accessories_are_not_sealed_candidates(self):
+        body = PAGE + '<a href="/de-de/product/456/premium-ordner">Premium Ordner</a>'
+        self.assertEqual(len(pc.page_result(body, pc.TARGETS[0], time.time())['candidate_links']), 1)
+
+    def test_browser_waits_for_exact_product_content_without_clicks(self):
+        p = pc.FreeAccessProbe('test-key', Mock())
+        p.request_json = Mock(side_effect=[(FREE, None), ({'status_code': 200, 'html': PAGE}, 125)])
+        p.fetch(pc.PRODUCT_TARGETS[0], pc.MODES[-1])
+        params = p.request_json.call_args.args[1]
+        self.assertEqual(params['wait_for_selector'], 'main h1')
+        self.assertEqual(params['proxy_country'], 'DE')
+        self.assertEqual(pc.base64.b64decode(params['js_snippet']), b'await new Promise(r => setTimeout(r, 2000));')
+
     def test_paid_trial_unknown_and_insufficient_credit_refused(self):
         for changes in [{'plan_name':'Enthusiast'}, {'plan_name':'Trial'}, {'plan_name':None},
                         {'remained_credits':0}, {'remained_credits':True}, {'remained_credits':float('nan')},
