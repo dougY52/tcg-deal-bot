@@ -19,6 +19,23 @@ concurrency:
   group: tcg-retail-watch
   cancel-in-progress: false
 jobs:
+  cloud-reader-check:
+    # Independent deployment diagnostic: failures are visible, scanner still runs.
+    if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run))
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact products through authenticated cloud reader (no Discord)
+        env:
+          TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
+        run: python -m scripts.check_cloud_reader
   watch:
     # Public repositories + standard Linux runner: free. Fail closed for private repos.
     if: github.event.repository.private == false
@@ -40,12 +57,6 @@ jobs:
           node cloudflare/mms-reader/test.mjs
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
-      - name: Verify cloud reader on deployment (no Discord)
-        if: github.event_name == 'push'
-        continue-on-error: true
-        env:
-          TCG_CLOUD_READER_URL: https://tcg-mms-reader.tcg-deal-bot-dougy52.workers.dev/read
-        run: python -m scripts.check_cloud_reader
       - name: Restore durable state
         run: |
           set -euo pipefail
