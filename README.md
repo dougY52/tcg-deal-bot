@@ -213,3 +213,50 @@ Faix und duo sind live bestätigt; VEDES wird im Diagnosebericht als eingeschrä
 ## Pokémon Center Deutschland: zusätzlicher kostenloser Zugangstest
 
 [Zugriffstest, Gratis-Limits und Einrichtung](POKEMON-CENTER-FREE-ACCESS.md). Der vorhandene Cloud-Workflow testet bei Push/manuellem Dry Run die offiziellen DE-Seiten und optional ScrapingAnt mit strengem Gratis-Tarif-Check. Noch keine bestätigte Pokémon-Center-Bestandsabdeckung; keine ungeprüften Discord-Deals.
+
+### Pokémon Center Deutschland: Community-Hinweise
+
+Seit 25.10.2026 ergänzt `community_watch` den bestehenden Cloud-Fast-Watch:
+MyDealz Pokémon-RSS, MyDealz neue Deals und der öffentliche RestockRadar-Feed.
+Keine zusätzliche Infrastruktur, Konten oder API-Schlüssel; derselbe Discord-Webhook
+und dieselbe persistente `bot-state`-Ablage werden verwendet.
+
+- Prüfung in jedem regulären Fast-Watch-Lauf (geplant alle fünf Minuten;
+  GitHub-Startverzögerungen und HTTP-Sperren bleiben möglich).
+- Nur ausdrücklich Pokémon Center Deutschland im Originalbeitrag oder ein echter
+  `pokemoncenter.com/de-de/` bzw. `/en-de/`-Link gelten als Deutschland-Bezug.
+  Eine deutsche Community, Europreise oder „Pokémon Center“ allein genügen nicht.
+- Der Original-MyDealz-Beitrag wird gelesen: genaue Thread-ID, Veröffentlichungszeit,
+  aktiver Status und `isExpired=false` sind erforderlich. Kommentare und verwandte
+  Beiträge sind keine Belege. Der Händler-Checkout wird für diesen Hinweis-Typ
+  ausdrücklich **nicht** als bestätigt behauptet.
+- Produktmeldungen höchstens 30 Minuten, Queue-Meldungen höchstens 15 Minuten alt.
+  Ältere Beiträge werden nicht nachträglich ausgesendet. Die Veröffentlichung,
+  nicht ein Feed-Abruf oder Kommentar, ist maßgeblich. Erneute Änderungen eines
+  bereits gemeldeten Threads erzeugen keine weiteren Nachrichten.
+- Nur relevante sealed Produkte bzw. ausdrücklich geöffnete deutsche Queues;
+  englisch/japanisch/UK/US im Produkttitel, abgelaufene Beiträge und genannte Preise
+  über 200 Euro werden verworfen. Unbekannte Produktdaten bleiben als ungeprüft
+  gekennzeichnet. Community-Hinweise enthalten keine Bestpreis-/UVP-Empfehlung.
+- Dieselbe MyDealz-Thread-ID wird über alle drei Feeds gemeinsam dedupliziert.
+  Erst nach erfolgreichem Discord-Versand wird sie gespeichert. Versandfehler
+  bleiben beim nächsten Scan erneut zustellbar, sofern der Beitrag noch frisch ist.
+- Höchstens drei Hinweise je Lauf; 20 Sekunden zusätzliches HTTP-Budget.
+  Quellenstatus und Ablehnungsgründe stehen im Workflow-Bericht und `report.json`.
+- Keine Privatkanäle, kein Discord-Selfbot, kein Telegram-Account und keine
+  kostenpflichtigen Scraping-Abfragen. Reddit ist nicht integriert: Der getestete
+  öffentliche RSS-Pfad wird durch dessen robots.txt ausgeschlossen.
+
+Beispiel (nur Format, kein aktueller Fund):
+
+> 📣 COMMUNITY · POKÉMON CENTER DE
+> Pokémon Center Deutschland: Booster Display Deutsch
+> Community meldet ein Angebot / eine Vorbestellung.
+> **Community-Hinweis – vom Bot nicht live bestätigt.**
+> Quelle: MyDealz, mit Originalbeitrag und Veröffentlichungszeit.
+
+Dies ist eine bewusst freigegebene zusätzliche Informationsspur. Bestehende
+geprüfte Deal-, Restock- und Preorder-Alerts behalten ihre Live-Validierung.
+Kostenlose Community-Quellen garantieren weder Vollständigkeit noch sofortige
+Meldung jedes Drops. Wenn Originalbeitrag oder Feed nicht lesbar sind, entsteht
+kein Alert aus unbestätigten Fragmenten.

@@ -260,6 +260,12 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report['alerts'].extend(drops['alerts'])
     report['sent'] += drops['sent']
     report['errors'].extend(drops['errors'])
+    from . import community_watch
+    community = community_watch.run(cfg, state, client, now, send, checkpoint)
+    report['community_watch'] = community
+    report['alerts'].extend(community['alerts'])
+    report['sent'] += community['sent']
+    report['errors'].extend(community['errors'])
     bootstrap(cfg, state, now)
     selected = select(cfg, state, now)
     for o in selected:state.setdefault('retailer_live_checks',{})[o['shop']]=now

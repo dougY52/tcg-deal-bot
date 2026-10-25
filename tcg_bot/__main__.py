@@ -172,6 +172,15 @@ def load_config(path):
             assert source['id'] not in seen and source['name']
             assert source.get('interval_seconds', 1800) >= 300
             seen.add(source['id'])
+    community = cfg.get('community_watch', {})
+    if community.get('enabled'):
+        assert 240 <= community.get('interval_seconds', 240) <= 3600
+        assert 60 <= community.get('max_age_seconds', 1800) <= 1800
+        assert 60 <= community.get('queue_max_age_seconds', 900) <= 900
+        assert 5 <= community.get('budget_seconds', 20) <= 30
+        assert 1 <= community.get('max_article_checks', 5) <= 10
+        assert 1 <= community.get('max_alerts_per_run', 3) <= 3
+        assert 0 < community.get('max_price_eur', 200) <= 200
     public_queries = []
     if cfg.get('public_catalog_queries_file'):
         query_path = Path(cfg['public_catalog_queries_file'])
@@ -427,6 +436,11 @@ def summary(report):
         drops = report['drop_watch']
         text += f"## Drop- und Warteschlangen-Hinweise\n\nGesendet: {drops['sent']} (keine Kaufbestätigung)\n\n"
         text += '\n'.join('- '+s['id']+': '+s['status'] for s in drops['sources'])+'\n\n'
+    if report.get('community_watch'):
+        community = report['community_watch']
+        text += f"## Pokémon Center DE – Community-Hinweise\n\nGesendet: {community['sent']} (keine Live-Bestätigung)\n\n"
+        text += '\n'.join('- '+s['id']+': '+s['status']+(' — '+s['error'] if s.get('error') else '') for s in community['sources'])+'\n\n'
+        text += '\n'.join(f'- COMMUNITY_REJECTED_{k}: {v}' for k,v in community['rejected'].items())+'\n\n'
     if report['errors'] or report['warnings']:
         text += '## Hinweise / Fehler\n\n' + '\n'.join('- ' + x for x in report['errors'] + report['warnings']) + '\n\n'
     text += '## Produkte ohne freigegebenen Vergleichspreis (max. 30)\n\n'

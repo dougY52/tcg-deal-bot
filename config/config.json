@@ -1,5 +1,15 @@
 {
   "version": 1,
+  "community_watch": {
+    "enabled": true,
+    "interval_seconds": 240,
+    "max_age_seconds": 1800,
+    "queue_max_age_seconds": 900,
+    "budget_seconds": 20,
+    "max_article_checks": 5,
+    "max_alerts_per_run": 3,
+    "max_price_eur": 200
+  },
   "max_alerts_per_run": 20,
   "restock_cooldown_hours": 0,
   "price_drop_eur": 3,
