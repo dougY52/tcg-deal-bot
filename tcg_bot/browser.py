@@ -1,5 +1,6 @@
 """Normal read-only Chromium pages; no proxy, stealth, login, or queue bypass."""
 import time
+from .browser_runtime import launch_browser
 from urllib.parse import urlsplit
 from .http import Client, FetchError
 
@@ -59,7 +60,7 @@ class BrowserClient(Client):
             if self.runtime is None:
                 from playwright.sync_api import sync_playwright
                 self.runtime = sync_playwright().start()
-                self.browser = self.runtime.chromium.launch(headless=True)
+                self.browser = launch_browser(self.runtime)
             context = self.browser.new_context(locale='de-DE', service_workers='block')
             def route(r):
                 request = r.request

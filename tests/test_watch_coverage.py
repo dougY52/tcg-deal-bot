@@ -1,7 +1,7 @@
 import threading
 import time
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from tcg_bot import drop_watch, fast_watch
 from tcg_bot.http import Client
 from test_drop_watch import QUEUE, NOW
@@ -68,3 +68,24 @@ class WatchCoverage(unittest.TestCase):
         self.assertEqual(report['critical_not_checked'],[])
         self.assertTrue(state['drop_watch_sources']['slow.test']['status'].startswith('unavailable:'))
         self.assertEqual(state['drop_watch_sources']['fast.test']['status'],'queue_open')
+
+
+class BrowserRuntime(unittest.TestCase):
+    def test_cloud_chrome_and_local_default_are_supported(self):
+        from tcg_bot.browser_runtime import launch_browser
+        runtime = Mock()
+        with patch.dict('os.environ', {'TCG_BROWSER_CHANNEL':'chrome'}):
+            launch_browser(runtime)
+        runtime.chromium.launch.assert_called_once_with(headless=True, channel='chrome')
+        runtime.reset_mock()
+        with patch.dict('os.environ', {'TCG_BROWSER_CHANNEL':''}):
+            launch_browser(runtime)
+        runtime.chromium.launch.assert_called_once_with(headless=True)
+
+    def test_unknown_browser_channel_cannot_silently_start(self):
+        from tcg_bot.browser_runtime import launch_browser
+        from tcg_bot.http import FetchError
+        runtime = Mock()
+        with patch.dict('os.environ', {'TCG_BROWSER_CHANNEL':'unsupported'}):
+            with self.assertRaises(FetchError):launch_browser(runtime)
+        runtime.chromium.launch.assert_not_called()

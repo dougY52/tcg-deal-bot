@@ -2,6 +2,7 @@
 
 Der Fünf-Minuten-Start ist **keine vollständige Bestandsprüfung aller Shops**. Im geprüften Cloud-State lagen 4.325 bekannte Varianten. Die bisherige Auswahl enthielt etwa 76 Varianten; nach Erweiterung waren es im selben State 461 Varianten aus 65 Händlern. Das sind geplante Ziele, keine Zusage erfolgreicher HTTP-/Checkout-Prüfungen.
 
+- Cloud-Browserstart: vorinstallierter Chrome auf `ubuntu-24.04`, Playwright-Pythonpaket mit Pip-Cache und begrenzter Installationsdauer. Kein wiederholtes `apt`-/Chromium-Setup vor jedem Scan; ein echter Browser-/DOM-Starttest bleibt Pflicht. Lokaler Standardbrowser bleibt unverändert.
 - Auswahlquoten jetzt `[128, 32, 192, 96, 6, 32]`; bis zu acht unabhängige Händler parallel. Fusion World bleibt zuerst. Pro Host bleiben Anfragen seriell; Robots, Retry-After, Händlerpausen und das 140-Sekunden-Live-Budget gelten weiter.
 - Öffentliche Warteschlangen-/Drop-Seiten von Pokémon Center DE, Müller, MediaMarkt und Saturn werden in jedem regulären Scan ausgewählt. Bis zu zwölf fällige Quellen mit vier unabhängigen Hosts parallel; maximal 30 Sekunden insgesamt und zehn Sekunden pro Host. Eine blockierte Seite ist kein bestätigter Queue-Status.
 - Bericht `fast_watch.coverage`: aktive bekannte Ziele, tatsächlich versuchte Abrufe, bestätigte Live-Daten, Fehler und nicht versuchte Ziele, zusätzlich pro Händler. `all_confirmed=false` benennt unvollständige Abdeckung ausdrücklich. Auswahl und fehlgeschlagene Abrufe zählen nicht als erfolgreiche Validierung.

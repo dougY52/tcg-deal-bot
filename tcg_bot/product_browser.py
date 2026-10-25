@@ -1,5 +1,6 @@
 """Read a JS-initialized product form. No clicks, cart writes, or queue bypass."""
 import time
+from .browser_runtime import launch_browser
 from urllib.parse import urlsplit
 from .http import FetchError
 
@@ -16,7 +17,7 @@ class ProductRenderer:
             if self.runtime is None:
                 from playwright.sync_api import sync_playwright
                 self.runtime = sync_playwright().start()
-                self.browser = self.runtime.chromium.launch(headless=True)
+                self.browser = launch_browser(self.runtime)
             context = self.browser.new_context(locale='de-DE', service_workers='block')
             # Read-only browsing: stop explicit cart/checkout mutations and assets
             # which do not affect form initialization.

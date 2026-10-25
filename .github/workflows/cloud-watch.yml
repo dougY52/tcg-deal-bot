@@ -59,7 +59,9 @@ jobs:
     needs: cloud-reader-check
     # Public repositories + standard Linux runner: free. Fail closed for private repos.
     if: always() && github.event.repository.private == false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    env:
+      TCG_BROWSER_CHANNEL: chrome
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -68,10 +70,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install browser for configured live checkout validation
+          cache: pip
+          cache-dependency-path: requirements-browser.txt
+      - name: Verify preinstalled Chrome for live checkout validation
+        timeout-minutes: 3
         run: |
-          python -m pip install -r requirements-browser.txt
-          python -m playwright install --with-deps chromium
+          python -m pip install --timeout 30 --retries 2 -r requirements-browser.txt
+          python -m scripts.check_browser_runtime
       - name: Test and validate
         run: |
           node cloudflare/mms-reader/test.mjs
