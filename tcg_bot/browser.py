@@ -17,9 +17,13 @@ def validate_page(url, final_url, status, title, body):
         raise FetchError('Browser challenge; no product data')
     if len(body) > 12_000_000:
         raise FetchError('Browser response too large')
-    if urlsplit(url).hostname in MMS_HOSTS and 'window.__PRELOADED_STATE__' not in body:
-        raise FetchError('Missing retailer page state')
     from .drop_watch import inspect
+    if urlsplit(url).hostname in MMS_HOSTS and 'window.__PRELOADED_STATE__' not in body:
+        # A real homepage queue has no catalogue state. Permit it only as a
+        # public signal; product pages still require retailer product data.
+        home_queue = urlsplit(url).path in ('', '/', '/de', '/de/') and inspect(body, {}, time.time())[0] == 'queue_open'
+        if not home_queue:
+            raise FetchError('Missing retailer page state')
     if inspect(body, {}, time.time())[0] == 'blocked_or_unreadable' and urlsplit(url).hostname not in MMS_HOSTS:
         raise FetchError('Browser challenge or empty page')
     return body

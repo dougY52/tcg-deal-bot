@@ -24,3 +24,10 @@ class BrowserTests(unittest.TestCase):
         with patch.object(c,'check_allowed',side_effect=FetchError('disallowed')):
             with self.assertRaises(FetchError): c.text('https://www.saturn.de/test')
         self.assertIsNone(c.runtime)
+
+    def test_real_homepage_queue_does_not_require_product_data(self):
+        from test_drop_watch import QUEUE
+        url = 'https://www.mediamarkt.de/'
+        self.assertEqual(validate_page(url,url,200,'Virtual Queue',QUEUE),QUEUE)
+        product = url+'de/product/test.html'
+        with self.assertRaises(FetchError):validate_page(product,product,200,'Virtual Queue',QUEUE)
