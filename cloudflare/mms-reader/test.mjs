@@ -128,6 +128,10 @@ try {
   browserEnv.BROWSER.quickAction=async()=>new Response('budget reached',{status:429});
   const limited=await(await worker.fetch(request(duo),browserEnv)).json();
   assert(limited.status===429 && limited.body==='','free quota fails closed');
+  globalThis.fetch=async(url)=>url===vedes?new Response('unavailable',{status:403}):new Response('canonical same-product form');
+  browserEnv.BROWSER.quickAction=async()=>{throw new Error('canonical public HTML already available');};
+  const canonical=await(await worker.fetch(request(vedes),browserEnv)).json();
+  assert(canonical.status===200 && canonical.body==='canonical same-product form','canonical public product before browser');
   globalThis.fetch=async()=>new Response('unavailable',{status:403});
   browserEnv.BROWSER.quickAction=async(action,options)=>{
     assert(action==='content' && options.url===vedes,'VEDES ordinary browser on exact page');

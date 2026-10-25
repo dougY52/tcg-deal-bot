@@ -64,7 +64,12 @@ async function publicResponse(target,env) {
     }
     headers.Cookie=saved.cookie;
   }
-  const response=await fetch(target,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(20000),headers,cf:{cacheTtl:0,cacheEverything:false}});
+  let response=await fetch(target,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(20000),headers,cf:{cacheTtl:0,cacheEverything:false}});
+  // Canonical public page is acceptable only if the Python validator confirms the same seller ID.
+  if(u.hostname==='www.vedes.com' && response.status===403 && u.pathname.startsWith('/p/') && u.search) {
+    await response.body?.cancel();
+    response=await fetch(u.origin+u.pathname,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(15000),headers,cf:{cacheTtl:0,cacheEverything:false}});
+  }
   if(u.hostname==='www.vedes.com' && response.status===403 && /^\/(p|m|s|k)\//.test(u.pathname) && env.BROWSER) {
     await response.body?.cancel();
     const rendered=await env.BROWSER.quickAction('content',{url:target,gotoOptions:{waitUntil:'networkidle2',timeout:20000},rejectResourceTypes:['image','media','font']});

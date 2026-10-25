@@ -70,6 +70,8 @@ class LocalRetailTests(unittest.TestCase):
     def test_wrong_variant_and_seller_rejected(self):
         for field,value in [('value','999999999'),('productIdentity','wrong'),('subsidiaryProductStatus','not-id')]:
             states=status();states[0][field]=value;self.assertEqual(r.vedes_rows(SHOP,body(),URL,states,True)[0],[])
+    def test_canonical_page_other_selected_seller_rejected(self):
+        self.assertIsNone(r.vedes_data(body().replace(SID,'999999999'),URL))
     def test_reserve_requires_positive_stock(self):
         states=status(0);rows,_=r.vedes_rows(SHOP,body(),URL,states,True);self.assertFalse(rows[1]['store_stock_confirmed'])
     def test_selected_branch_not_generic_shop_stock(self):
