@@ -6,7 +6,7 @@ from urllib.parse import urlsplit
 from pathlib import Path
 from tcg_bot.browser import BrowserClient
 from tcg_bot.cloud_reader import settings, github_token
-from tcg_bot.web_sources import parse_mms
+from tcg_bot.web_sources import parse_mms, parse_structured
 
 
 def main():
@@ -36,6 +36,16 @@ def main():
             fields = ('title','variant_id','price','available','stock_text','add_to_cart_available')
             print('CLOUD_READER_PROBE ' + json.dumps({'shop':shop_id,'parsed':True,
                 'discord_sent':False, **{key:row.get(key) for key in fields}}, ensure_ascii=False))
+            discovered = set()
+            for catalog in shop.get('catalog_urls', [])[:2]:
+                try:
+                    _, links = parse_structured(shop, client.text(catalog), catalog)
+                    discovered.update(links)
+                except Exception as exc:
+                    print('CLOUD_READER_CATALOG_ERROR ' + json.dumps({'shop':shop_id,'error':str(exc)}))
+            print('CLOUD_READER_DISCOVERY ' + json.dumps({'shop':shop_id,'product_links':len(discovered),'discord_sent':False}))
+            if not discovered:
+                raise RuntimeError('Cloud reader catalog discovery unconfirmed: ' + shop_id)
     finally:
         client.close()
 

@@ -1,8 +1,10 @@
 # Kostenloser MediaMarkt/Saturn-Zugriff
 
-**Worker veröffentlicht; GitHub-Aktivierung wird separat geprüft.** Der Bot läuft weiterhin in GitHub Actions. Dieser optionale Worker lädt ausschließlich öffentliche MediaMarkt-/Saturn-Produkt-, Kategorie-, Marken- und robots.txt-Seiten. Kein Browser-Abo, keine kostenpflichtige API, kein laufender PC. Der kostenlose Workers-Tarif erlaubt derzeit 100.000 Requests pro Tag; beim Erreichen der Grenze ausfallen lassen, nicht auf einen kostenpflichtigen Tarif wechseln.
+**Worker veröffentlicht und über GitHub Actions live bestätigt.** Der Bot läuft weiterhin in GitHub Actions. Dieser optionale Worker lädt ausschließlich öffentliche MediaMarkt-/Saturn-Produkt-, Kategorie-, Marken- und robots.txt-Seiten. Kein Browser-Abo, keine kostenpflichtige API, kein laufender PC. Der kostenlose Workers-Tarif erlaubt derzeit 100.000 Requests pro Tag; beim Erreichen der Grenze ausfallen lassen, nicht auf einen kostenpflichtigen Tarif wechseln.
 
 Cloud-Probe am 25.10.2026: MediaMarkt zweimal HTTP 200 mit echtem Produktzustand, Saturn einmal ebenso. Bestehender Parser: SKU 2974734, 59,99 EUR, `PERMANENTLY_NOT_AVAILABLE`, Warenkorb false. **Kein Deal und keine Nachricht.** Das ist ein Zugriffsbeleg für diese Seite, keine Garantie für jeden Artikel oder dauerhafte Erreichbarkeit. Pokémon Center blieb eine Challenge und wird ausdrücklich nicht über diesen Worker unterstützt.
+
+Produktiver Zugriffstest: [GitHub-Job 121029899731](https://github.com/dougY52/tcg-deal-bot/actions/runs/40146408536/job/121029899731), 25.10.2026, 00:28 UTC. Beide Händler lieferten SKU 2974734 für 59,99 EUR als nicht bestellbar. OIDC-Anmeldung, robots.txt, Produktabruf und vorhandener Parser funktionieren zusammen. Der Test versendet keine Discord-Nachrichten.
 
 ## Einmalige Einrichtung
 

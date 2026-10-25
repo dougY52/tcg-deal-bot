@@ -63,7 +63,19 @@ async function sign(changes={}, head={alg:'RS256',kid:'test-key'}) {
   return value+'.'+base64(await crypto.subtle.sign('RSASSA-PKCS1-v1_5',pair.privateKey,new TextEncoder().encode(value)));
 }
 try {
-  globalThis.fetch=async()=>Response.json({keys:[jwk]});
+  // Workers rejects redirect:'error' before sending. Use manual and reject 3xx.
+  globalThis.fetch=async(url,options)=> {
+    assert(url==='https://token.actions.githubusercontent.com/.well-known/jwks','fixed signing-key URL');
+    assert(options.redirect==='manual','Workers-compatible redirect protection');
+    return new Response('',{status:302,headers:{Location:'https://untrusted.example/keys'}});
+  };
+  const redirectDiagnostic={};
+  assert(!await githubAuthorized(await sign(),oidcEnv,claims.aud,redirectDiagnostic),'redirected signing keys rejected');
+  assert(redirectDiagnostic.reason==='JWKS_HTTP','redirect rejection is explicit');
+  globalThis.fetch=async(url,options)=> {
+    assert(options.redirect==='manual','JWKS request must support Workers runtime');
+    return Response.json({keys:[jwk]});
+  };
   assert(await githubAuthorized(await sign(),oidcEnv,claims.aud),'valid signed identity');
   assert(await githubAuthorized(await sign({sub:'repo:dougY52@306408342/tcg-deal-bot@1375726655:ref:refs/heads/main'}),oidcEnv,claims.aud),'immutable subject');
   for (const change of [{repository_id:'other'},{repository:'other/repo'},{repository_owner_id:'other'},

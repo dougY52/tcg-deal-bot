@@ -16,12 +16,14 @@ let keyCache;
 const decode = value => Uint8Array.from(atob(value.replace(/-/g,'+').replace(/_/g,'/')), c=>c.charCodeAt(0));
 export async function githubAuthorized(token, env, audience, diagnostic = {}) {
   const reject = reason => { diagnostic.reason = reason; return false; };
+  let stage = 'DECODE';
   try {
     if (typeof token !== 'string' || token.length > 20000) return reject('TOKEN_FORMAT');
     const parts = token.split('.');
     if (parts.length !== 3) return reject('TOKEN_FORMAT');
     const header = JSON.parse(new TextDecoder().decode(decode(parts[0])));
     const claims = JSON.parse(new TextDecoder().decode(decode(parts[1])));
+    stage = 'CLAIMS';
     const now = Date.now()/1000;
     const repo = env.GITHUB_REPOSITORY, repoId = env.GITHUB_REPOSITORY_ID, ownerId = env.GITHUB_OWNER_ID;
     if (!repo || !repoId || !ownerId || header.alg !== 'RS256' || typeof header.kid !== 'string') return reject('TOKEN_HEADER');
@@ -39,22 +41,29 @@ export async function githubAuthorized(token, env, audience, diagnostic = {}) {
         claims.exp > now && claims.nbf <= now+10 && claims.iat <= now+10 && claims.iat >= now-600 && claims.exp-claims.iat <= 900,
     };
     for (const [reason, valid] of Object.entries(checks)) if (!valid) return reject(reason);
+    stage = 'KEY_FETCH';
     if (!keyCache || keyCache.until < now) {
       const response = await fetch('https://token.actions.githubusercontent.com/.well-known/jwks',
-        {redirect:'error',headers:{'User-Agent':'TCGRetailWatch/1.0'},signal:AbortSignal.timeout(5000),cf:{cacheTtl:300}});
+        {redirect:'manual',headers:{'User-Agent':'TCGRetailWatch/1.0'},signal:AbortSignal.timeout(5000),cf:{cacheTtl:300}});
       if (!response.ok) return reject('JWKS_HTTP');
       const text = await response.text();
       if (text.length > 100000) return reject('JWKS_SIZE');
+      stage = 'KEY_PARSE';
       const keys = JSON.parse(text).keys;
       if (!Array.isArray(keys)) return reject('JWKS_FORMAT');
       keyCache = {keys, until:now+300};
     }
     const jwk = keyCache.keys.find(k=>k.kid===header.kid && k.kty==='RSA' && k.alg==='RS256');
     if (!jwk) return reject('KEY_NOT_FOUND');
+    stage = 'KEY_IMPORT';
     const key = await crypto.subtle.importKey('jwk',jwk,{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify']);
+    stage = 'SIGNATURE';
     const valid = await crypto.subtle.verify('RSASSA-PKCS1-v1_5',key,decode(parts[2]),new TextEncoder().encode(parts[0]+'.'+parts[1]));
     return valid || reject('SIGNATURE');
-  } catch { return reject('VERIFY_ERROR'); }
+  } catch (e) {
+    const name = ['TypeError','DataError','InvalidCharacterError','SyntaxError','OperationError','NotSupportedError','AbortError','TimeoutError'].includes(e.name) ? e.name.toUpperCase() : 'ERROR';
+    return reject(('ERR_'+stage+'_'+name).slice(0,30));
+  }
 }
 
 export default {

@@ -1782,7 +1782,7 @@
       "id": "mediamarkt",
       "name": "MediaMarkt",
       "url": "https://www.mediamarkt.de",
-      "reason": "Browser-Adapter aktiv; GitHub-Linux- und Windows-Runner am 25.10.2026 mit HTTP 403 gesperrt. Lokal erreichbar, derzeit keine bestätigte Cloud-Bestandsabdeckung.",
+      "reason": "Cloudflare-Reader aktiv: GitHub-Live-Test am 25.10.2026 bestätigt konkrete Produktdaten mit Preis und Bestand. Direkter Runner-Zugriff bleibt gesperrt; keine Garantie für sämtliche Produkte oder Filialbestände.",
       "status": "cloud_access_blocked",
       "checked_on": "2026-10-25"
     },
@@ -1790,7 +1790,7 @@
       "id": "saturn",
       "name": "Saturn",
       "url": "https://www.saturn.de",
-      "reason": "Browser-Adapter aktiv; GitHub-Linux- und Windows-Runner am 25.10.2026 mit HTTP 403 gesperrt. Lokal erreichbar, derzeit keine bestätigte Cloud-Bestandsabdeckung.",
+      "reason": "Cloudflare-Reader aktiv: GitHub-Live-Test am 25.10.2026 bestätigt konkrete Produktdaten mit Preis und Bestand. Direkter Runner-Zugriff bleibt gesperrt; keine Garantie für sämtliche Produkte oder Filialbestände.",
       "status": "cloud_access_blocked",
       "checked_on": "2026-10-25"
     }
