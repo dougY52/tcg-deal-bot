@@ -51,8 +51,11 @@ class Client:
             with urllib.request.build_opener(NoRedirect()).open(request, timeout=max(1, min(25, self.deadline - time.monotonic()))) as response:
                 if urllib.parse.urlsplit(response.url).hostname != urllib.parse.urlsplit(url).hostname:
                     raise FetchError('Unexpected redirect host')
-                data = response.read(12_000_001)
-                if len(data) > 12_000_000:
+                # Official daily JSON exports exceed the normal HTML limit.
+                large_export = re.fullmatch(r'https://downloads\.s3\.cardmarket\.com/productCatalog/(?:priceGuide/price_guide|productList/products_nonsingles)_(?:6|13|18)\.json', url)
+                limit = 32_000_000 if large_export else 12_000_000
+                data = response.read(limit + 1)
+                if len(data) > limit:
                     raise FetchError('Response too large')
                 return data.decode('utf-8')
         except urllib.error.HTTPError as exc:
@@ -118,6 +121,17 @@ class Client:
     def text(self, url):
         self.check_allowed(url)
         return self.raw(url)
+
+    def cardmarket_json(self, url):
+        """Cardmarket's published download interface, not marketplace-page crawling.
+
+        The public S3 bucket denies listing/robots requests. Only its six
+        documented export objects are accepted here; normal site rules remain.
+        """
+        from .cardmarket import GAMES, urls
+        if url not in {u for game in GAMES for u in urls(game)}:
+            raise FetchError('Unsupported Cardmarket export')
+        return json.loads(self.raw(url))
 
     def public_catalog_json(self, url, headers):
         """Only the observed public MMS catalog GET operations; no cookie/auth headers."""

@@ -337,6 +337,10 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
         observed = record.get('retail_observation')
         if observed and observed['comparison_key'] == o['comparison_key'] and 0 <= now - observed['at'] <= 14 * 86400:
             anchors.append((Decimal(observed['price']), 'historical_only', 'Zuletzt qualifizierter Retailpreis (höchstens 14 Tage alt)'))
+    from .price_comparison import retail_reference
+    reviewed = retail_reference(o, cfg, now)
+    if reviewed:
+        anchors.append((Decimal(reviewed['price_eur']), 'msrp' if reviewed['kind']=='msrp' else 'observed_retail', 'Produktspezifisch belegter Retailpreis'))
     near_pct = Decimal(str(settings.get('near_retail_tolerance_pct', 10)))
     if not Decimal('0') <= near_pct <= Decimal('15'):
         raise ValueError('near_retail_tolerance_pct must be 0..15')

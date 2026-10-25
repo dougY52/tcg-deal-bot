@@ -299,3 +299,67 @@ wurde kein frei auslesbarer, belegter Pokémon-Center-DE-Dropfeed gefunden.
 Kostenpflichtige Quellen und absichtlich verzögerte Gratisfeeds wurden nicht
 als schnelle Drop-Erkennung aktiviert. Es wurden keine Server beigetreten oder
 Betreiber angeschrieben. Für Telegram sind keine neuen Secrets erforderlich.
+
+### Getrennter Retail- und Cardmarket-Vergleich (25.10.2026)
+
+Einzelalerts und gebündelte Preisinfos zeigen jetzt drei getrennte Angaben:
+**Retail/UVP mit Beleg**, **Cardmarket-Markttrend mit Zeitstempel** und eine
+**Dealbewertung**. Ein Artikel über dem belegten Retailpreis wird nicht dadurch
+zum guten Retail-Deal, dass der Wiederverkaufsmarkt noch teurer ist.
+
+- Grün: Artikelpreis höchstens beim belegten Retailwert; Versand separat beachten.
+- Gelb: maximal 5 % darüber, ausdrücklich „kein Schnäppchen“.
+- Orange: nur unter dem Cardmarket-Trend; bei fehlendem Retailbeleg „Retail ungeprüft“.
+- Rot: über Retail. Grau: kein bestätigter Retail-Deal und kein belastbarer Marktvergleich.
+
+Beispiel mit **fiktivem Angebot und Markttrend**: Booster-Bundle für 59,99 €,
+Händler-UVP 29,99 €, Cardmarket-Trend 69,99 € → **„Nur unter CM-Trend – kein
+Retail-Deal“**. Händler-UVP und beobachteter Händlerpreis sind ausdrücklich keine
+unabhängig bestätigte Hersteller-UVP. Ein pauschaler Preis für alle Pokémon-
+Displays/Bundles oder ein umgerechneter US-Packpreis wird nicht als EUR-UVP benutzt.
+
+Der bestehende Cloud-Workflow importiert automatisch einmal je UTC-Tag die
+[offiziellen öffentlichen Cardmarket-Dateien](https://news.cardmarket.com/en/StarWarsUnlimited/were-making-the-price-guide-and-product-catalogue-available-for-download)
+für Pokémon (6), Dragon Ball (13) und One Piece (18). Kein API-Key, neuer Dienst,
+Bezahlplan oder lokaler PC ist nötig. Die täglichen Preisdateien werden mit den
+Nicht-Einzelkarten-Katalogen über Produkt-ID, vollständigen Katalognamen und
+Kategorie verknüpft. Cardmarket aktualisiert den Katalog bei neuen Produkten;
+sein Dateidatum darf daher älter sein als das tägliche Preisdatum.
+
+`config/price-comparison.json` enthält zunächst **35 geprüfte Produktzuordnungen**,
+u. a. FB01–FB11, ausgewählte Pokémon-Produkte sowie OP10/EB03. Dies ist keine
+vollständige Cardmarket-Abdeckung. Packanzahl, Sprache, Set-Code und Produktform
+müssen passen; 18er-/36er-Displays und Pokémon-Center-/Standard-ETBs bleiben getrennt.
+Unklare oder noch nicht zugeordnete Produkte zeigen „keine eindeutige Zuordnung“.
+Neue Zuordnungen benötigen die genaue ID, den Originalnamen und die Kategorie
+ aus dem offiziellen Katalog sowie eine eindeutige lokale Produktregel.
+
+Die Exporte bieten **keinen Sprachfilter, keine deutschen Verkäufer, keinen
+Versand und keine Live-Kaufbestätigung**. Deshalb heißen sie „ungefilterter
+Markttrend“, niemals „günstigster deutscher Cardmarket-Händler“. Der ungefilterte
+`low`-Wert wird nicht als bestellbarer Bestpreis dargestellt. Fehlende Mittelwerte
+bleiben unbekannt. Die Shop-Produktseite bleibt für Sprache, Preis, Verfügbarkeit
+und konkrete bestellbare Variante maßgeblich.
+
+Vier neue datierte Retailbelege ergänzen bestehende produktspezifische Belege:
+Paldeas-Schicksale-Bundle 29,99 € (UVP laut Händler), Reisegefährten-36er 179,99 €,
+Karmesin/Purpur-Basis-36er 179,64 € und FB04-EN-Display 79,99 € (Händlerpreise).
+Diese Belege bestätigen **keinen aktuellen Bestand** beim Referenzshop. Sie
+verfallen nach maximal 30 Tagen und müssen anhand ihrer Quellen erneut geprüft
+werden. Cardmarket und historische Marktmediane erhöhen oder ersetzen sie nie.
+
+Im Fast Watch werden dringende Alerts zuerst mit dem gespeicherten Preisstand
+bewertet, danach folgen maximal 35 Sekunden für die Tagesdownloads. Beim ersten
+Lauf kann der Cardmarket-Vergleich daher noch fehlen. Frische Discovery-Alerts und
+Preisinfos desselben Laufs können bereits den neuen Stand verwenden. Nur die
+zugeordneten Datensätze werden in `bot-state` unter `cardmarket_daily` gespeichert;
+die großen Rohdateien werden nicht committed. Preisstände älter als 48 Stunden
+werden nicht angezeigt. Bei einem Fehler bleiben die übrigen Scanner aktiv;
+der Import versucht es nach einer Stunde erneut. Den Importstatus zeigt die
+Actions-Zusammenfassung unter „Cardmarket Tagesvergleich“.
+
+Die bestehenden Live-Prüfungen, Preisgrenzen, Restock-/Preorder-Erkennung und
+Versand-Deduplizierung gelten weiterhin. Ein neuer Cardmarket-Trend allein erzeugt
+keine Discord-Nachricht und macht aus einem verworfenen Angebot keinen Alert.
+Community-/Queue-Hinweise bleiben als eigene, nicht live bestätigte Meldungen
+gekennzeichnet. Tests: `python -m unittest discover -s tests -v`.

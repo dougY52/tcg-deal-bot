@@ -11,6 +11,7 @@ import time
 from urllib.parse import urlsplit
 
 from .http import Client, send_discord, webhook_url
+from .price_comparison import decorate
 from .discovery import discovery, discovery_payload
 from .rules import assess, prefer_german, observe, alert_reason, payload, franchise, excluded_franchise
 from .sources import ADAPTERS
@@ -21,6 +22,12 @@ ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog,jtl=html_cat
 
 def load_config(path):
     cfg = json.loads(Path(path).read_text(encoding='utf-8'))
+    if cfg.get('price_comparison_file'):
+        profile = Path(cfg['price_comparison_file'])
+        assert profile.name == str(profile), 'Price comparison profile must be in config directory'
+        cfg['price_comparison'] = json.loads((Path(path).parent/profile).read_text(encoding='utf-8'))
+        from .price_comparison import validate_config
+        validate_config(cfg['price_comparison'])
     ids = set()
     for shop in cfg['shops']:
         assert shop['id'] not in ids, 'Duplicate shop ID'
@@ -258,6 +265,8 @@ def save_state(path, state):
 
 def run(cfg, state, client, send=None, checkpoint=None, now=None):
     now = time.time() if now is None else now
+    from .cardmarket import refresh
+    cm_report = refresh(cfg, state, client, now)
     discoveries_enabled = cfg.get('discoveries', {}).get('enabled', False)
     if discoveries_enabled and 'discovery_seen' not in state:
         # Preserve the existing catalog baseline on upgrade, without a backlog flood.
@@ -291,12 +300,13 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
                   'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None,
                   'unavailable_sources': cfg.get('unavailable_sources', []), 'discovery_sent': 0,
                   'pending_alerts': max(0, len(deals) - cfg['max_alerts_per_run']) if cfg['max_alerts_per_run'] else 0}
+        report['cardmarket'] = cm_report
         report['preorder_watch'] = preorder_report
         report['pending_alerts'] = max(0, len(deals) + len(preorder_deals) - (cfg['max_alerts_per_run'] or (len(deals) + len(preorder_deals))))
         queue = [('preorder', d) for d in preorder_deals] + [('deal', d) for d in deals]
         for lane, deal in queue[:cfg['max_alerts_per_run']]:
             if lane == 'preorder':
-                message = preorders.payload(deal)
+                message = decorate(preorders.payload(deal), deal, cfg, state, now)
                 report['alerts'].append({'key': deal['key'], 'reason': 'preorder_live', 'rating': 'near_retail', 'payload': message})
                 if send:
                     try:
@@ -310,7 +320,7 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
                     if checkpoint:
                         checkpoint(state)
                 continue
-            message = market_payload(deal)
+            message = decorate(market_payload(deal), deal, cfg, state, now)
             report['alerts'].append({'key': deal['key'], 'reason': deal['reason'], 'rating': deal['rating'], 'payload': message})
             if send:
                 try:
@@ -343,6 +353,7 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
             candidates.append({k: offer[k] for k in ('shop', 'handle', 'variant_id', 'title', 'price', 'available', 'url')} | {'reason': reason, 'seller': offer.get('seller'), 'store_status': offer.get('store_status', 'not_supported')})
     report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': dict(skipped),
               'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None, 'unavailable_sources': cfg.get('unavailable_sources', []), 'local_stores': cfg.get('local_stores', {})}
+    report['cardmarket'] = cm_report
     for deal in prefer_german(deals):
         reason = alert_reason(deal, state, now, cfg)
         if not reason:
@@ -350,7 +361,7 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
         if cfg['max_alerts_per_run'] is not None and len(report['alerts']) >= cfg['max_alerts_per_run']:
             warnings.append('Alert limit reached; remaining unsent offers retry next run')
             break
-        report['alerts'].append({'key': deal['key'], 'reason': reason, 'payload': payload(deal, reason)})
+        report['alerts'].append({'key': deal['key'], 'reason': reason, 'payload': decorate(payload(deal, reason), deal, cfg, state, now)})
         if send:
             try:
                 message_id = send(report['alerts'][-1]['payload'])
@@ -441,6 +452,9 @@ def summary(report):
         drops = report['drop_watch']
         text += f"## Drop- und Warteschlangen-Hinweise\n\nGesendet: {drops['sent']} (keine Kaufbestätigung)\n\n"
         text += '\n'.join('- '+s['id']+': '+s['status'] for s in drops['sources'])+'\n\n'
+    if report.get('cardmarket'):
+        text += '## Cardmarket Tagesvergleich (keine Liveangebote)\n\n'
+        text += '\n'.join(f"- Spiel {g['game']}: {g['status']} · {g.get('products', 0)} Produkte" for g in report['cardmarket']['games'])+'\n\n'
     if report.get('community_watch'):
         community = report['community_watch']
         text += f"## Pokémon Center DE – Community-Hinweise\n\nGesendet: {community['sent']} (keine Live-Bestätigung)\n\n"

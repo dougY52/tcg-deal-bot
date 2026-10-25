@@ -32,7 +32,7 @@ class DailyPrices(unittest.TestCase):
         self.assertEqual(report['offers_sent'], 1)
         text = sent[0]['embeds'][0]['description']
         self.assertIn('79,99', text)
-        self.assertIn('Preisvergleich offen', text)
+        self.assertIn('Retail ungeprüft', text)
         self.assertNotIn('104,99', text)
 
     def test_once_per_berlin_day_and_repeat_next_day(self):
@@ -165,7 +165,7 @@ class DailyPrices(unittest.TestCase):
         self.validate()
         reports = []
         self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW, lambda x: reports.append(x) or 'one')['offers_sent'], 1)
-        self.assertIn('nahe Retail', reports[0]['embeds'][0]['title'])
+        self.assertIn('Neue geprüfte Angebote', reports[0]['embeds'][0]['title'])
         self.validate(fixtures.NOW + 86400)
         self.assertEqual(d.run(self.cfg, self.state, fixtures.NOW + 86400, lambda _: self.fail('duplicate'))['sent'], 0)
         self.client.product['variants'][0]['price'] = 7000

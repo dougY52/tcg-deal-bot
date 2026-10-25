@@ -87,6 +87,9 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
                 continue
         row['daily_note'] = (pricing['why'] if pricing
                              else 'Preisvergleich offen; kein bestätigter UVP-Deal')
+        if cfg.get('price_comparison',{}).get('enabled'):
+            from .price_comparison import compact
+            row['daily_comparison'] = compact(row,cfg,state,now)
         rows.append(row)
     # Each franchise gets space; within it show the lowest product prices first.
     groups = []
@@ -109,9 +112,9 @@ def message(rows, now, near_retail=False):
         url = row['url'].replace(')', '%29').replace('(', '%28').replace(' ', '%20')
         lines.append(f"**{safe(row['title'], 125)}**\n"
                      f"{safe(row['seller'], 50)} · {row['language']} · **{money(row['price'])}** · {status}\n"
-                     f"{costs} · {row.get('daily_note', 'Preisvergleich offen; kein bestätigter UVP-Deal')}\n[Zum Angebot]({url})")
+                     f"{costs}\n{row.get('daily_comparison') or row.get('daily_note', 'Preisvergleich offen; kein bestätigter UVP-Deal')}\n[Zum Angebot]({url})")
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
-        'title': ('✅ Neue Angebote nahe Retail · ' if near_retail else '📋 Tägliche Preise · ') + local.strftime('%d.%m.%Y'),
+        'title': ('📊 Neue geprüfte Angebote · ' if near_retail and any(r.get('daily_comparison') for r in rows) else '✅ Neue Angebote nahe Retail · ' if near_retail else '📋 Tägliche Preise · ') + local.strftime('%d.%m.%Y'),
         'color': 0x3498DB,
         'description': '\n\n'.join(lines),
         'footer': {'text': 'Live geprüft ' + local.strftime('%H:%M') +

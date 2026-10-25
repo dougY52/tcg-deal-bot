@@ -295,7 +295,8 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         for deal in sorted(found, key=lambda o: (priority(o), -o['priority_score']))[:remaining]:
             if delivery_failed:
                 break
-            message = payload(deal)
+            from .price_comparison import decorate
+            message = decorate(payload(deal), deal, cfg, state, now)
             report['alerts'].append({'key': deal['key'], 'reason': 'preorder_live' if deal['preorder_status'] else 'retail_restock', 'payload': message})
             if send:
                 try:
@@ -310,6 +311,9 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
                 if checkpoint:
                     checkpoint(state)
     deliver(deals, audit)
+    # Daily download follows urgent alerts; cached data is used immediately.
+    from .cardmarket import refresh
+    report['cardmarket'] = refresh(cfg, state, client, now)
     state['fast_last_run'] = now
     if checkpoint:
         checkpoint(state)
