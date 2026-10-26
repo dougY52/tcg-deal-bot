@@ -439,6 +439,7 @@ def summary(report):
     if report.get('fast_watch'):
         fast = report['fast_watch']
         text += f"## Fast Watch\n\nBekannte Ziele: {fast.get('targets', 0)} · ausgewählt: {fast.get('selected', 0)} · live geprüft: {fast.get('checked', 0)}\n\n"
+        text += f"Kaputte Produktlinks mit Wiederholpause: {fast.get('broken_url_backoff', 0)} (Stock-/Waitlist-Wechsel ohne zusätzliche Pause).\n\n"
         coverage = fast.get('coverage', {})
         if coverage:
             text += f"Aktive Ziele: {coverage['eligible']} · nicht versucht: {coverage['not_attempted']} · fehlgeschlagen: {coverage['failed']} · ohne bestätigte Live-Daten: {coverage['unconfirmed']}\n\n"

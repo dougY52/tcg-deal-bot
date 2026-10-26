@@ -29,6 +29,9 @@ def reviewed_match_product(o, cfg):
     if not settings.get('enabled') or o.get('currency') != 'EUR':
         return None
     title = o['title']+' '+o.get('variant', '')
+    from .product_types import NON_SEALED
+    if re.search(NON_SEALED,title,re.I):
+        return None
     if (single_pack_variant(o.get('variant','')) or
             re.search(r'\b(?:case|repack|opened|unsealed|resealed|b-ware|non-english|asia|japanisch|japanese|korean|chinesisch|enhanced|reprint|unlimited|collector|1st|2nd|first edition|second edition)\b', title, re.I) or
             re.search(r'\b\d+\s*[x×]\s*(?:display|box|bundle|etb)',title,re.I)):
@@ -49,6 +52,10 @@ def reviewed_match_product(o, cfg):
     pc = bool(re.search(r'pok[eé]mon[ -]*cent(?:er|re)|\bPC\s*(?:ETB|exclusive)', title,re.I))
     matches = []
     for m in settings.get('products', []):
+        if m.get('gtins'):
+            from .rules import gtin_key
+            if gtin_key(o.get('gtin')) not in {gtin_key(g) for g in m['gtins']}:
+                continue
         if (family != cardmarket.GAMES[m['game_id']] or lang != m['language'] or kind != m['product_type'] or
                 pc != m.get('pokemon_center',False) or not re.search(m['pattern'],title,re.I)):
             continue
@@ -184,6 +191,9 @@ def validate_config(settings):
         assert m['product_type'] in ('display','bundle','etb','collection','box','tin','mini_tin')
         assert m['language']==('DE' if m['game_id']==6 else 'EN')
         assert m.get('packs') is None or type(m['packs']) is int and 1<=m['packs']<=36
+        if m.get('gtins'):
+            from .rules import gtin_key
+            assert all(gtin_key(g) for g in m['gtins'])
         assert m['product_type'] not in ('display','bundle') or m.get('packs')
         r=m.get('retail')
         if r:

@@ -204,13 +204,14 @@ def match_offer(o,cfg,state):
     if not cfg.get('price_comparison',{}).get('enabled') or not cfg.get('price_comparison',{}).get('automatic_catalog'):return None
     from .rules import franchise,language
     from .cardmarket import GAMES
-    from .product_types import single_pack_variant
+    from .product_types import single_pack_variant, NON_SEALED
     game=next((g for g,f in GAMES.items() if f==(o.get('franchise') or franchise(dict(o,description=''),cfg))),None)
     detected=language(o)
     lang=o.get('language') or detected
     if game is None or lang!=('DE' if game==6 else 'EN') or o.get('currency')!='EUR':return None
     if detected not in ('UNKNOWN',lang):return None
     title=o['title']+' '+o.get('variant','')
+    if re.search(NON_SEALED,title,re.I):return None
     if (EXCLUDED.search(title) or EXCLUDED.search(fold(title)) or single_pack_variant(o.get('variant','')) or
             re.search(r'\b\d+\s*[x×]\s*(?:display|box|tin|bundle|etb)',title,re.I)):return None
     kind=form(title,game)

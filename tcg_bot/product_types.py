@@ -6,11 +6,12 @@ from .rules import gtin_key
 LABELS = {'display': 'Booster-Display', 'etb': 'Top-Trainer-Box', 'tin': 'Tin',
           'mini_tin': 'Mini-Tin', 'bundle': 'Booster-Bundle', 'collection': 'Kollektion / Box',
           'blister': 'Blister', 'box': 'Sammelbox'}
+NON_SEALED = r'\b(?:live[ -]?break|stream[ -]?opening|rip[ -]?(?:and|&|n)[ -]?ship|(?:energie[ -]?karten|energy cards|common\s*/\s*uncommon).*\b(?:aus|from|in)\b|poster\s+beidseitig)\b'
 EXCLUDED = r'\b(?:display[ -]?break|case[ -]?break|psa|bgs|cgc|graded|grading|slab|gem mint|acryl\w*|acrylic\w*|sleeves?|binder|leere?s?|empty|opened|geöffnet|unsealed|repack|proxy|fake|break|live[ -]?stream|rip(?:pen)?|decks?|deckbox|storage|aufbewahrung\w*|storagebox|boxbreak|case|hülle\w*|schutz\w*|beschädigt|damaged|einzelkarte\w*|single cards?|gebraucht|refurbished|b-ware|sticker|mystery|überraschung)\b'
 
 
 def product_kind(title):
-    if re.search(EXCLUDED, title, re.I):
+    if re.search(EXCLUDED, title, re.I) or re.search(NON_SEALED, title, re.I):
         return None
     # Bulk assortments must not masquerade as a single tin/ETB.
     container = r'tins?|top[ -]?trainer|elite[ -]?trainer|\betb\b|\bttb\b|blister|bundle|kollektion|collection'

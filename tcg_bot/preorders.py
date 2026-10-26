@@ -82,6 +82,9 @@ def reference_matches(o, ref):
 def identity(o, cfg):
     """Use only variant-specific title/language; a set code alone is not a SKU."""
     text = o['title'] + ' ' + o.get('variant', '')
+    from .product_types import NON_SEALED
+    if re.search(NON_SEALED, text, re.I):
+        return None, 'UNSUPPORTED_PRODUCT'
     family = franchise(dict(o, description=''), cfg)
     if not family:
         return None, 'UNSUPPORTED_PRODUCT'
@@ -344,6 +347,11 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
     near_pct = Decimal(str(settings.get('near_retail_tolerance_pct', 10)))
     if not Decimal('0') <= near_pct <= Decimal('15'):
         raise ValueError('near_retail_tolerance_pct must be 0..15')
+    # A higher historical or scarcity price must not bypass a verified retail cap.
+    retail_ceilings = [a * (Decimal('1.05') if k == 'msrp' else 1 + near_pct / 100)
+                       for a, k, _ in anchors if k in ('msrp', 'observed_retail')]
+    if retail_ceilings and price > min(retail_ceilings).quantize(Decimal('.01')):
+        return None
     for anchor, kind, note in sorted(anchors):
         ceiling = anchor * (Decimal('1.05') if kind == 'msrp' else
                             (Decimal('1') + near_pct / 100) if kind == 'observed_retail' else
@@ -358,7 +366,7 @@ def price_check(o, peers, cfg, now, history=(), diagnostics=None):
     # Use at most one live price per independently configured retailer group.
     groups = {}
     for p in peers:
-        if p['comparison_key'] == o['comparison_key'] and p['currency'] == 'EUR':
+        if p['comparison_key'] == o['comparison_key'] and p['currency'] == 'EUR' and 0 <= now-p.get('validated_at',now) <= 1800:
             group = p['retailer_group']
             groups[group] = min(groups.get(group, Decimal('Infinity')), Decimal(p['price']))
     if len(groups) >= 3:

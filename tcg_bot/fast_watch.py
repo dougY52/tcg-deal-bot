@@ -57,6 +57,9 @@ def remember(rows, cfg, state, now):
                 del table[duplicate]
             o = dict(o, key=alias)
             old = table.get(o['key'], {})
+            if old.get('offer') and any(old['offer'].get(k) != o.get(k)
+                    for k in ('price','available','title','variant','handle','url')):
+                old = {k:v for k,v in old.items() if k not in ('retry_after','failed_checks')}
             table[o['key']] = dict(old, offer=o, discovered_at=now)
 
 
@@ -99,6 +102,9 @@ def select(cfg, state, now=None):
     buckets = [[] for _ in range(6)]
     for record in state.get('fast_targets', {}).values():
         o = record['offer']
+        from .product_types import NON_SEALED
+        if re.search(NON_SEALED,o['title']+' '+o.get('variant',''),re.I):continue
+        if now < record.get('retry_after',0):continue
         shop=shops.get(o['shop'],{})
         if cfg.get('_fresh_lane') and shop.get('adapter') in ('vedes','duo'):continue
         interval=shop.get('min_live_interval_seconds',0)
@@ -136,6 +142,21 @@ def select(cfg, state, now=None):
         sid=o['shop'];limit=shops[sid].get('max_live_checks_per_run',len(selected))
         if counts.get(sid,0)<limit:bounded.append(o);counts[sid]=counts.get(sid,0)+1
     return bounded
+
+
+def record_fetch(state, results, now):
+    """Back off broken URLs only. Sold-out, waitlist and resource limits stay in rotation."""
+    for key, (row, error) in results.items():
+        record = state.get('fast_targets',{}).get(key)
+        if record is None:
+            continue
+        if row is not None:
+            record.pop('retry_after',None)
+            record.pop('failed_checks',None)
+        elif error in ('LIVE_CHECK_FAILED_HTTP_404','LIVE_CHECK_FAILED_HTTP_410',
+                       'LIVE_CHECK_FAILED_Unsafe_or_repeated_redirect'):
+            failures = min(record.get('failed_checks',0)+1,4)
+            record.update(failed_checks=failures, retry_after=now+min(7200,900*2**(failures-1)))
 
 
 class ProductCache:
@@ -275,6 +296,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     live_cfg['_fast_groups'] = {o['key']: priority(o) for o in selected}
     live_cfg['preorder_watch'].update(max_live_checks=sum(settings['quotas']), validation_seconds=settings['live_seconds'])
     live_cfg['_fast_preloaded'] = fetch_live(selected, cfg, client, now)
+    record_fetch(state,live_cfg['_fast_preloaded'],now)
     _, deals, audit = preorders.scan(selected, live_cfg, state, client, now)
     report['preorder_watch'] = audit
     remember(live_cfg.get('_fast_observed', []), cfg, state, now)
@@ -359,6 +381,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         fresh_cfg['_fast_groups'] = {o['key']: priority(o) for o in fresh}
         fresh_cfg['preorder_watch'].update(max_live_checks=len(fresh), validation_seconds=25)
         fresh_cfg['_fast_preloaded'] = fetch_live(fresh, fresh_cfg, client, now)
+        record_fetch(state,fresh_cfg['_fast_preloaded'],now)
         _, new_deals, fresh_audit = preorders.scan(fresh, fresh_cfg, state, client, now)
         remember(fresh_cfg.get('_fast_observed', []), cfg, state, now)
         for key in fresh_cfg.get('_fast_attempted', []):
@@ -373,6 +396,8 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     live_results = dict(live_cfg['_fast_preloaded'])
     live_results.update(fresh_cfg.get('_fast_preloaded', {}))
     report['fast_watch']['coverage'] = coverage(cfg, state, selected+fresh, live_results)
+    report['fast_watch']['broken_url_backoff'] = sum(
+        now < r.get('retry_after',0) for r in state.get('fast_targets',{}).values())
     report['fast_watch']['new_or_changed'] = len(changed)
     # Price information is daily per seller/variant, even without a retail anchor.
     # Instant-deal deduplication remains separate and can still alert on a drop.

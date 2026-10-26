@@ -175,7 +175,8 @@ class CardmarketPrices(unittest.TestCase):
     def test_daily_cache_persisted_and_no_second_download(self):
         client=self.client();deadline=client.deadline
         result=cm.refresh(self.cfg,self.state,client,NOW)
-        self.assertEqual([g['products'] for g in result['games']],[21,12,2])
+        self.assertEqual([g['products'] for g in result['games']],
+                         [sum(m['game_id']==game for m in self.cfg['price_comparison']['products']) for game in cm.GAMES])
         self.assertEqual(client.cardmarket_json.call_count,6)
         self.assertEqual(client.deadline,deadline)
         with tempfile.TemporaryDirectory() as tmp:

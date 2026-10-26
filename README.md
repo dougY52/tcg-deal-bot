@@ -395,3 +395,18 @@ Versand-Deduplizierung gelten weiterhin. Ein neuer Cardmarket-Trend allein erzeu
 keine Discord-Nachricht und macht aus einem verworfenen Angebot keinen Alert.
 Community-/Queue-Hinweise bleiben als eigene, nicht live bestätigte Meldungen
 gekennzeichnet. Tests: `python -m unittest discover -s tests -v`.
+
+### Preisbelege und Prüfzeit
+
+Produktspezifische Retailbelege bleiben getrennt vom Cardmarket-Trend. Neue
+EAN-gebundene Belege für Mega-Quajutsu, Mega-Darkrai und Mega-Zeraora stehen in
+`config/price-comparison.json`, mit Quelle und Ablaufdatum. Höhere historische
+Preise dürfen einen gültigen niedrigeren Retailbeleg nicht überstimmen. Ein
+Preisbeleg ersetzt nie die aktuelle Prüfung der bestellbaren Shopvariante.
+
+Livebreak-/Stream-Opening-Varianten und lose ETB-Inhalte werden ausgesondert.
+Wiederholte HTTP-404-/410-Fehler und ungültige Weiterleitungen erhalten pro
+Produkt eine Wiederholpause von 15 Minuten bis höchstens zwei Stunden.
+Geänderte Katalogdaten heben diese Pause auf; ausverkaufte Artikel und Waitlists
+bleiben in der bisherigen Rotation. Der Scanbericht zeigt die Zahl pausierter
+Links. Requests oder Preisgrenzen werden dafür nicht erhöht.
