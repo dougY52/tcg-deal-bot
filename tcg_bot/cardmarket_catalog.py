@@ -242,6 +242,8 @@ def match_offer(o,cfg,state):
     counts={int(n) for n in re.findall(r'(?<![\w.])(\d{1,3})\s*(?:[x×]\s*)?(?:boosters?|boosterpacks?|packs?)\b(?![ -]*(?:box|display)\b)',title+' '+o.get('description',''),re.I)}
     counts.update(int(n) for n in re.findall(r'\b(\d{1,2})er[ -]*(?:booster[ -]*)?display',title,re.I));counts.discard(1)
     if o.get('packs'):counts.add(int(o['packs']))
+    from .price_comparison import reviewed_pack_counts
+    counts.update(reviewed_pack_counts(o,cfg))
     if kind in ('display','bundle'):
         if len(counts)!=1:return None
         rows=[r for r in rows if r['packs'] is None or counts=={r['packs']}]

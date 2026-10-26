@@ -85,6 +85,27 @@ class CardmarketPrices(unittest.TestCase):
         self.assertEqual(pc.match_product(standard,self.cfg)['product_id'],895551)
         self.assertEqual(pc.match_product(exclusive,self.cfg)['product_id'],895552)
 
+    def test_exact_ean_supplies_missing_display_pack_count(self):
+        row = offer('Dragon Ball Fusion World Raging Roar FB03 Display Englisch')
+        row.update(description='', gtin='810059786523', price='85')
+        result = pc.assess(row, self.cfg, self.state, NOW)
+        self.assertIsNotNone(result['cardmarket'])
+        self.assertEqual(result['code'], 'retail_deal')
+        # The same barcode must never override a contradictory selected package.
+        for changes in ({'gtin':'9999999999999'}, {'variant':'1 Booster'},
+                        {'description':'12 Booster'}, {'packs':12},
+                        {'title':row['title'].replace('Englisch','Japanisch')}):
+            with self.subTest(changes=changes):
+                self.assertIsNone(pc.match_product(row|changes,self.cfg))
+        result = pc.assess(row|{'price':'99.99'}, self.cfg, self.state, NOW)
+        self.assertEqual(result['retail']['price_eur'], '85.00')
+        self.assertEqual(result['code'], 'above_retail')
+
+    def test_near_retail_threshold_rounds_to_currency_cent(self):
+        row = offer('Dragon Ball Fusion World FB04 Ultra Limit Display EN', price='83.99', packs=24)
+        self.assertEqual(pc.assess(row,self.cfg,self.state,NOW)['code'],'near_retail')
+        self.assertEqual(pc.assess(row|{'price':'84.00'},self.cfg,self.state,NOW)['code'],'above_retail')
+
     def test_expired_or_future_market_data_is_not_used(self):
         for at in [NOW-48*3600-1,NOW+1]:
             self.state['cardmarket_daily']['6']['products'][str(self.mapping['product_id'])]['at']=at

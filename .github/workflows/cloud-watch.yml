@@ -120,11 +120,18 @@ jobs:
             git commit -m 'Update observed stock and delivered alerts'
             git push origin HEAD:refs/heads/bot-state
           fi
+      - name: Audit current comparisons and existing Discord receipts (read only)
+        if: github.event_name == 'push'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python -m scripts.audit_price_delivery
       - name: Upload scan report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tcg-scan-report
-          path: report.json
+          path: |
+            report.json
+            price-delivery-audit.json
           retention-days: 3
           if-no-files-found: ignore

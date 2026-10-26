@@ -43,6 +43,14 @@ class FullCatalogue(unittest.TestCase):
         self.assertEqual(self.match('Dragon Ball FB12 Reach the God Display EN')['product_id'],999000)
         self.assertIsNone(self.match('Dragon Ball FB12 Some Other Set Display EN'))
 
+    def test_dynamic_catalogue_uses_exact_reviewed_packaging(self):
+        self.cfg['price_comparison']['products'] = []
+        self.inventory(13,[product(999010,'Raging Roar Booster Box [Fusion World]',1052)])
+        row = offer('Dragon Ball Fusion World FB03 Raging Roar Display EN')
+        row.update(description='',gtin='810059786523')
+        self.assertEqual(pc.match_product(row,self.cfg,self.state)['product_id'],999010)
+        self.assertIsNone(pc.match_product(row|{'description':'12 Booster'},self.cfg,self.state))
+
     def test_new_pokemon_translation_joined_by_id(self):
         pairs=cat.pokemon_aliases([{'id':'me99','name':'Future Dawn'}],[{'id':'me99','name':'Neue Morgenröte'}])
         self.state['cardmarket_names']['pokemon']={'aliases':pairs}

@@ -17,6 +17,13 @@ def match_product(o, cfg, state=None):
     return match_offer(o,cfg,state)
 
 
+def reviewed_pack_counts(o, cfg):
+    """Packaging from exact reviewed SKU bindings/EANs, never from a set code alone."""
+    from .preorders import reference_matches
+    return {r['packs'] for r in cfg.get('references', [])
+            if r.get('packs') and reference_matches(o, r)}
+
+
 def reviewed_match_product(o, cfg):
     settings = cfg.get('price_comparison', {})
     if not settings.get('enabled') or o.get('currency') != 'EUR':
@@ -38,6 +45,7 @@ def reviewed_match_product(o, cfg):
     counts.discard(1)
     if o.get('packs'):
         counts.add(int(o['packs']))
+    counts.update(reviewed_pack_counts(o, cfg))
     pc = bool(re.search(r'pok[eé]mon[ -]*cent(?:er|re)|\bPC\s*(?:ETB|exclusive)', title,re.I))
     matches = []
     for m in settings.get('products', []):
@@ -98,7 +106,7 @@ def assess(o, cfg, state, now):
         if price <= base:
             code, label = 'retail_deal', '🟢 Guter Retailpreis'
             explanation = f'Artikelpreis {delta:+.1f} % zum belegten Retailwert. Versand separat prüfen; kein garantierter Bestpreis.'
-        elif price <= base*Decimal('1.05'):
+        elif price <= (base*Decimal('1.05')).quantize(Decimal('0.01')):
             code, label = 'near_retail', '🟡 Nahe Retail – kein Schnäppchen'
             explanation = f'Artikelpreis {delta:+.1f} % über dem belegten Retailwert.'
         else:
