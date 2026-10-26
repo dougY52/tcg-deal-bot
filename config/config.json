@@ -1564,6 +1564,58 @@
       "health_product_url": "https://www.duo-shop.de/offers/pokemon-blutmond-ursaluna-ex-kollektion-32E0448B/",
       "discovery_scope": "Cloud-Browser: rotierende konkrete Angebote frühestens alle 90 Minuten, Katalog alle 6 Stunden. Exakte gebundene Händlerofferte/Preis/Stückzahl/DE-Versand erforderlich. Weitere Händler erst nach Prüfung, kein allgemeiner Filialbestandsnachweis.",
       "fast_priority": true
+    },
+    {
+      "id": "comicplanet",
+      "name": "Comic Planet",
+      "base_url": "https://www.comicplanet.de",
+      "adapter": "shopware",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_detail_pages": 8,
+      "rotate_catalogs": true,
+      "catalog_urls": [
+        "https://www.comicplanet.de/sammelkarten/dragon-ball/",
+        "https://www.comicplanet.de/sammelkarten/pokemon/deutsch/",
+        "https://www.comicplanet.de/sammelkarten/one-piece/"
+      ],
+      "product_link_pattern": "/sammelkarten/.+/(?:pokemon|dragon-ball|one-piece)[^/?]+$",
+      "product_urls": [
+        "https://www.comicplanet.de/sammelkarten/pokemon/deutsch/tin-boxen-pkm/pokemon-132-mega-zeraora-tin-box-deutsch"
+      ],
+      "live_language_discovery": true,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.comicplanet.de/comic-planet-service/impressum/",
+        "verified_on": "2026-10-26",
+        "scope": "Comic Planet GmbH & Co. KG, deutsche Adresse, Kontakt, Register und USt-ID geprüft."
+      },
+      "payment_evidence": "https://www.comicplanet.de/comic-planet-service/versand-und-zahlungsbedingungen/",
+      "trust_note": "Deutsches Impressum und Kontakt geprüft; PayPal laut Zahlungsbedingungen. Keine externe Bewertung verifiziert.",
+      "discovery_scope": "Rotierende TCG-Kategorien; einzelne Produkt-SKU und konkrete Shopware-Kaufform mit UUID, Mengenfeld, Preis und Status live prüfen."
+    },
+    {
+      "id": "kartenmeier",
+      "name": "Kartenmeier",
+      "base_url": "https://kartenmeier.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 2,
+      "catalog_collections": [
+        "pokemon-deutsch-top-trainer-box"
+      ],
+      "rotate_collections": true,
+      "live_language_discovery": true,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://kartenmeier.de/policies/legal-notice",
+        "verified_on": "2026-10-26",
+        "scope": "Dennis Hermsmeier, deutsche Geschäftsadresse, E-Mail, Telefon und USt-ID geprüft."
+      },
+      "trust_note": "Deutsches Impressum und Kontakt geprüft; PayPal/Klarna im Shop angegeben. Keine externe Bewertung verifiziert.",
+      "discovery_scope": "Öffentlicher Shopify-Katalog und deutsche ETB-Kategorie; nur live bestätigte passende Varianten. Keine pauschale Sprachannahme."
     }
   ],
   "references": [
@@ -2168,7 +2220,9 @@
       "freispiel-freiburg",
       "vedes",
       "faix",
-      "duo"
+      "duo",
+      "comicplanet",
+      "kartenmeier"
     ],
     "seller_evidence": {},
     "shop_rules": {

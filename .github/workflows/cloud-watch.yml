@@ -42,6 +42,17 @@ jobs:
         run: |
           python -m scripts.check_cloud_reader
           python -m scripts.check_local_retail
+      - name: Verify additional public shop adapters (no Discord)
+        if: ${{ !cancelled() }}
+        run: python -m scripts.check_added_retailers
+      - name: Upload additional retailer diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: added-retailer-audit
+          path: added-retailer-audit.json
+          retention-days: 3
+          if-no-files-found: ignore
       - name: Probe public Pokemon Center Germany access (no Discord)
         if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && inputs.pc_access_test }}
         env:

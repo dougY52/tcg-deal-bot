@@ -204,13 +204,13 @@ def live(o, shop, client, now):
         if row.get('preorder_status'):
             row['availability_status'] = 'preorder'
         return row, None
-    if shop['adapter'] in ('woocommerce', 'jtl') and not shop.get('marketplace'):
+    if shop['adapter'] in ('woocommerce', 'jtl','shopware') and not shop.get('marketplace'):
         from .web_sources import parse_woocommerce
         if urlsplit(o['url']).netloc != urlsplit(shop['base_url']).netloc:
             return None, 'AMBIGUOUS_VARIANT'
         url = o['url'] + ('&' if '?' in o['url'] else '?') + '_preorder_check=' + str(int(now))
         from .checkout import single_product
-        parse = single_product if shop['adapter'] == 'jtl' else parse_woocommerce
+        parse = single_product if shop['adapter'] in ('jtl','shopware') else parse_woocommerce
         rows = parse(shop, client.text(url), o['url'])
         selected = [r for r in rows if r['variant_id'] == str(o['variant_id'])]
         if len(selected) != 1:

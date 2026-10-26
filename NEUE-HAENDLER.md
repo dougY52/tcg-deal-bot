@@ -1,5 +1,20 @@
 # Zusätzliche deutsche Händler – 6. Oktober 2026
 
+## Ergänzung vom 26. Oktober 2026
+
+Comic Planet und Kartenmeier sind jetzt produktive Scanner, nicht nur Recherchequellen:
+
+- **Comic Planet:** Shopware-Adapter mit rotierenden Dragon-Ball-, Pokémon-DE- und One-Piece-Kategorien. Vor einem Alert werden Produktüberschrift, SKU, EUR-Preis, Schema-Verfügbarkeit und das primäre Bestellformular erneut gelesen. Produkt-ID, Referenz-ID, Weiterleitungs-ID, Produktname und Mengenfeld müssen zusammenpassen. Fremde Cross-Selling-Buttons zählen nicht. Es werden keine Testbestellungen oder Warenkorb-Schreibzugriffe ausgeführt.
+- **Kartenmeier:** Öffentlicher Shopify-Katalog (bis zu zwei Seiten pro Katalogrunde, persistente Fortsetzung) und deutsche ETB-Kategorie in Rotation. Die Sprache wird am konkreten Produkt geprüft; eine deutsche Kategorie reicht als Nachweis nicht. Shopify-Varianten-JSON und aktives Bestellformular entscheiden über die Bestellbarkeit.
+- Beide Händler haben hinterlegte Impressums-/Kontakt- und Zahlungsnachweise. Externe Bewertungen wurden nicht verifiziert und werden nicht behauptet. Preisprüfung, getrennte Retail-/Cardmarket-Einordnung, Sprachregeln und Duplikatschutz gelten unverändert.
+- Ausgeschöpftes lokales Request-Budget wird als `deferred_budget` protokolliert. Es darf keinen Händler als blockiert markieren oder die nächste Prüfung sechs Stunden verzögern.
+
+Neue Produkte gelangen über die bestehende breitere Discovery in den schnellen Watch; bekannte Produkte werden innerhalb dessen Zeitbudgets geprüft. Die Erweiterung behauptet nicht, alle Produkte aller Händler alle fünf Minuten vollständig abzurufen. `scripts/check_added_retailers.py` prüft beide produktiven Adapter ohne Discord und ohne State-Schreibzugriff beim Deployment auf dem bestehenden Cloud-Runner.
+
+**Weiter bestehende Grenzen:** Games Islands selbst verlinkte Feed-Domain `crawlme.games-island.eu` sperrt automatisierte Abrufe per robots.txt; dieser Weg wird daher nicht genutzt. Akihabara und Tabletop Dragon wurden zusätzlich untersucht, aber noch nicht als neue Scanner freigegeben. Für Pokémon Center Deutschland entsteht durch diese Erweiterung keine garantierte Live-Abdeckung. Es werden weder Schutzmechanismen umgangen noch kostenpflichtige Dienste hinzugebucht.
+
+Die folgende Tabelle ist der historische Stand vom 6. Oktober; für Comic Planet gilt die Ergänzung oben.
+
 Die Kartenwacht-Händlerliste dient als Recherchequelle. Der Bot prüft direkt beim Händler; Kartenwacht-Meldungen werden weder kopiert noch ungeprüft weitergeleitet.
 
 ## Angebundene Kataloge

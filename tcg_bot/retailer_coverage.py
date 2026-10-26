@@ -59,6 +59,14 @@ def check_sources(cfg, state, client, now):
                     record.update(status='reachable_discovery_only',candidate_links=links,
                                   candidate_count=len(links),kind=source.get('kind'))
             except Exception as exc:
+                if isinstance(exc,FetchError) and str(exc) in ('Run request budget exhausted','Browser request budget exhausted'):
+                    # Local limits say nothing about retailer availability. Keep due.
+                    record.update(status='deferred_budget',reason=str(exc),
+                                  checked_at=table.get(source['id'],{}).get('checked_at',0))
+                    table[source['id']]=record
+                    result['sources'].append(record)
+                    result['checked']-=1
+                    break
                 record['status']='blocked_or_unavailable'
                 record['reason']=str(exc)[:140] if isinstance(exc,FetchError) else type(exc).__name__
             queue=state.setdefault('retailer_product_candidates',{})

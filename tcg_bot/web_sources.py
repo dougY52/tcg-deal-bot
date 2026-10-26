@@ -117,7 +117,7 @@ def structured_products(document):
 
 
 def parse_structured(shop, body, page_url):
-    if shop.get('adapter') == 'jtl':
+    if shop.get('adapter') in ('jtl','shopware'):
         from .checkout import single_product
         rows = single_product(shop, body, page_url)
         return rows, []
@@ -210,7 +210,7 @@ def html_catalog(shop, client):
                         pages.append((target, True))
                     if shop.get('pagination_mode') == 'mueller' and not mueller_candidate(href + ' ' + node.text()):
                         continue
-                    if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box|trainer.box|collection|kollektion|bundle|premium.box|special.box|deck.set', href + ' ' + node.text(), re.I):
+                    if re.search(shop.get('product_link_pattern', r'/products?/|/produkt/'), target) and re.search(r'display|booster.box|trainer.box|collection|kollektion|bundle|premium.box|special.box|deck.set|\btin[ -]box', href + ' ' + node.text(), re.I):
                         links.append(target)
                 links = list(dict.fromkeys(links))
                 if links and shop.get('rotate_catalogs'):

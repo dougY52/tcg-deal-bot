@@ -1,5 +1,6 @@
-"""Read-only checkout evidence for single-product JTL and WooCommerce pages."""
+"""Read-only checkout evidence for single-product JTL, Shopware and WooCommerce pages."""
 import re
+import json
 from urllib.parse import urljoin, urlsplit
 from .web_sources import Document, Node, structured_products, normalized, same_site, money
 from .sources import plain
@@ -30,9 +31,10 @@ def controls(node):
         if isinstance(c, Node):
             yield from controls(c)
 
-def product_data(body, url):
+def product_data(body, url, title_class=None):
     doc = Document(body)
-    titles = [text(n).strip() for n in doc.root.walk() if n.tag == 'h1']
+    titles = [text(n).strip() for n in doc.root.walk() if n.tag == 'h1' and
+              (not title_class or title_class in n.attrs.get('class','').split())]
     if len(titles) != 1:
         return None
     # JSON-LD can repeat a product in multiple graphs; contradictory entries fail closed.
@@ -60,7 +62,8 @@ def product_data(body, url):
 
 def single_product(shop, body, url):
     """A dedicated form is bound to the page SKU; selectable variants fail closed."""
-    data = product_data(body, url)
+    shopware = shop['adapter'] == 'shopware'
+    data = product_data(body, url, 'product-detail-name' if shopware else None)
     if not data:
         return []
     doc, title, product, offer = data
@@ -71,17 +74,39 @@ def single_product(shop, body, url):
         if f.tag != 'form' or f.attrs.get('method', '').lower() != 'post' or not enabled(f):
             continue
         action = urljoin(url, f.attrs.get('action') or url)
-        if not same_site(action, shop['base_url']) or urlsplit(action).path.rstrip('/') != urlsplit(url).path.rstrip('/'):
+        expected_path = '/checkout/line-item/add' if shopware else urlsplit(url).path.rstrip('/')
+        if not same_site(action, shop['base_url']) or urlsplit(action).path.rstrip('/') != expected_path:
             continue
         nodes = list(controls(f))
         inputs = {n.attrs.get('name'): n.attrs.get('value', '') for n in nodes if n.tag == 'input'}
-        if any(n.attrs.get('max') in ('0','0.0') for n in nodes if n.attrs.get('name') in ('quantity','anzahl')):
+        def quantity(name):
+            return name in ('quantity','anzahl') or bool(shopware and re.fullmatch(r'lineItems\[[a-f0-9]{32}\]\[quantity\]',name or ''))
+        if any(n.attrs.get('max') in ('0','0.0') for n in nodes if quantity(n.attrs.get('name'))):
             continue
         # Variant selectors/configurators require a dedicated variant validator.
-        if any(n.tag == 'select' and n.attrs.get('name') not in ('quantity','anzahl') or
+        if any(n.tag == 'select' and not quantity(n.attrs.get('name')) or
                n.tag == 'input' and (n.attrs.get('type') == 'radio' or n.attrs.get('name', '').startswith(('attribute_', 'eigenschaft'))) for n in nodes):
             continue
-        if shop['adapter'] == 'jtl':
+        if shopware:
+            if f.attrs.get('id') != 'productDetailPageBuyProductForm':
+                continue
+            ids = [m[1] for name in inputs if (m := re.fullmatch(r'lineItems\[([a-f0-9]{32})\]\[id\]',name or ''))]
+            if len(ids) != 1:
+                continue
+            article = ids[0]
+            prefix = 'lineItems['+article+']'
+            try:
+                redirect = json.loads(inputs.get('redirectParameters','{}'))
+            except (ValueError,TypeError):
+                continue
+            if (inputs.get(prefix+'[id]') != article or inputs.get(prefix+'[referencedId]') != article or
+                    inputs.get(prefix+'[type]') != 'product' or redirect != {'productId':article} or
+                    label(inputs.get('product-name','')) != label(title) or
+                    not any(n.attrs.get('name') == prefix+'[quantity]' for n in nodes)):
+                continue
+            buttons = [n for n in nodes if n.tag == 'button' and n.attrs.get('type') == 'submit' and
+                       'btn-buy' in n.attrs.get('class','').split()]
+        elif shop['adapter'] == 'jtl':
             if f.attrs.get('id') != 'buy_form' or not inputs.get('a', '').isdigit():
                 continue
             article = inputs['a']
