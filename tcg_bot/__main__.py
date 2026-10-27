@@ -155,6 +155,15 @@ def load_config(path):
         assert 0 < Decimal(str(daily.get('max_price_eur', 200))) <= 200
         assert 1 <= daily.get('offers_per_message', 4) <= 6
         assert 1 <= daily.get('max_messages_per_run', 2) <= 3
+        assert isinstance(daily.get('repeat_daily', False), bool)
+        assert isinstance(daily.get('require_good_retail', False), bool)
+    research = cfg.get('retail_research', {})
+    if research.get('enabled'):
+        assert 1 <= research.get('budget_seconds', 18) <= 30
+        assert 1 <= research.get('max_requests', 12) <= 20
+        assert 1 <= research.get('max_products', 2) <= 4
+        assert 300 <= research.get('retry_seconds', 21600) <= 86400
+        assert set(research.get('anchor_shop_ids', [])) <= set(cfg['preorder_watch']['trusted_shop_ids'])
     coverage = cfg.get('retailer_coverage', {})
     if coverage.get('enabled'):
         assert 1 <= coverage['max_checks'] <= 6
@@ -446,6 +455,10 @@ def summary(report):
     if report.get('fresh_watch'):
         fresh = report['fresh_watch']
         text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"
+    if report.get('retail_research'):
+        research = report['retail_research']
+        text += f"## Automatische Retail-Recherche\n\nProdukte recherchiert: {research['attempted']} · neue Belege: {research['resolved']} · weiterhin offen: {research['pending']} · Requests: {research['requests']}\n\n"
+        text += '\n'.join('- ' + r['product'] + ': ' + r['status'] for r in research['results']) + '\n\n'
     if report.get('daily_prices'):
         daily = report['daily_prices']
         text += f"Tägliche Preisinfo: {daily['eligible']} passende Live-Angebote · {daily['offers_sent']} Angebote in {daily['sent']} Nachrichten gesendet\n\n"

@@ -47,6 +47,7 @@ def read_receipt(secret, message_id, opener=None):
 
 
 def audit(state, cfg, now):
+    cfg = dict(cfg, _researched_retail=state.get('retail_research', {}).get('references', {}))
     quotes = list(state.get('preorder_quotes', {}).values())
     table = state.get('preorder_products', {})
     fresh = [o for o in quotes if 0 <= now-o.get('validated_at', 0) <= 3600]

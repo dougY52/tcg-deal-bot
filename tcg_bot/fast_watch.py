@@ -259,6 +259,7 @@ def coverage(cfg, state, selected, results):
 def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     now = time.time() if now is None else now
     settings = cfg['fast_watch']
+    cfg['_researched_retail'] = state.get('retail_research', {}).get('references', {})
     report = dict(shops=[], errors=[], warnings=[], skipped={}, candidates=[], alerts=[], sent=0,
                   dry_run=send is None, unavailable_sources=cfg.get('unavailable_sources', []), pending_alerts=0)
     if now - state.get('fast_last_run', 0) < settings.get('min_run_gap_seconds', 240):
@@ -399,7 +400,10 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report['fast_watch']['broken_url_backoff'] = sum(
         now < r.get('retry_after',0) for r in state.get('fast_targets',{}).values())
     report['fast_watch']['new_or_changed'] = len(changed)
-    # Price information is daily per seller/variant, even without a retail anchor.
+    # Resolve missing retail evidence before daily qualification in the same run.
+    from .retail_research import run as research_retail
+    report['retail_research'] = research_retail(cfg, state, client, now)
+    # Price information is daily per seller/variant with a fresh stock check.
     # Instant-deal deduplication remains separate and can still alert on a drop.
     if not delivery_failed:
         from . import daily_prices

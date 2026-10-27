@@ -80,6 +80,10 @@ def retail_reference(o, cfg, now, mapping=None):
         except (KeyError, ValueError):
             return False
     references = []
+    from .retail_research import reference_for
+    automatic = reference_for(o, cfg, now)
+    if automatic:
+        references.append(automatic)
     mapping = mapping or match_product(o,cfg)
     if mapping:
         r = mapping.get('retail')

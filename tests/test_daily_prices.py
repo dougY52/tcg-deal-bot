@@ -12,6 +12,8 @@ class DailyPrices(unittest.TestCase):
         self.cfg['daily_prices']['enabled'] = True
         self.cfg['daily_prices']['discord_enabled'] = True
         self.cfg['daily_prices']['discord_near_retail_only'] = False  # legacy info-mode unit tests
+        self.cfg['daily_prices']['repeat_daily'] = False
+        self.cfg['daily_prices']['require_good_retail'] = False
         self.cfg['preorder_watch']['user_price_guides'] = []
         self.cfg['references'] = []
         self.client.product['title'] = 'Dragon Ball Fusion World FB03 Raging Roar Display EN Preorder'

@@ -21,6 +21,7 @@ def safe(text, limit=150):
 def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
     """Only quotes validated by this run; stale saved stock never becomes a post."""
     settings = cfg.get('daily_prices', {})
+    repeat_daily = settings.get('repeat_daily', False)
     maximum = min(Decimal(str(settings.get('max_price_eur', 200))),
                   Decimal(str(cfg.get('preorder_watch', {}).get('max_price_eur', 200))))
     seen = state.get('daily_price_delivery', {})
@@ -68,6 +69,10 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
         if near_retail_only:
             if not pricing:
                 continue  # Keep reference-less prices in chat, not as a Discord retail deal.
+            if settings.get('require_good_retail', False):
+                from .price_comparison import assess
+                if assess(row, cfg, state, now)['code'] not in ('retail_deal', 'near_retail'):
+                    continue
             record = state.get('preorder_products', {}).get(key, {})
             episode = record.get('episode', 0)
             prior = state.get('near_retail_discord_sent', {}).get(key)
@@ -75,14 +80,13 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
             # belong to a separate channel and must not silence this newly enabled
             # near-retail feed forever. Do not re-send a deal alerted minutes ago.
             instant = record.get('last_alert')
-            if instant and 0 <= now - instant['at'] < 900 and (
+            if instant and (day(instant['at']) == day(now) if repeat_daily else 0 <= now - instant['at'] < 900) and (
                     instant.get('episode', episode) == episode and
                     price > Decimal(str(instant['price'])) * Decimal('.95')):
                 continue
-            # Once the near-retail feed delivered this exact seller/variant,
-            # suppress unchanged prices across calendar days. Re-alert only a
-            # >= 5% price drop or genuinely new availability episode.
-            if prior and prior.get('episode', episode) == episode and (
+            # Daily mode resets at Berlin midnight; legacy feed mode retains
+            # cross-day dedupe. Instant price-drop/restock alerts are independent.
+            if prior and (not repeat_daily or day(prior['at']) == day(now)) and prior.get('episode', episode) == episode and (
                     price > Decimal(str(prior['price'])) * Decimal('.95')):
                 continue
         row['daily_note'] = (pricing['why'] if pricing
@@ -100,7 +104,7 @@ def eligible(cfg, state, now, daily_only=True, near_retail_only=False):
             for g in groups if i < len(g)]
 
 
-def message(rows, now, near_retail=False):
+def message(rows, now, near_retail=False, repeat_daily=False):
     local = datetime.fromtimestamp(now, BERLIN)
     lines = []
     for row in rows:
@@ -114,7 +118,7 @@ def message(rows, now, near_retail=False):
                      f"{safe(row['seller'], 50)} · {row['language']} · **{money(row['price'])}** · {status}\n"
                      f"{costs}\n{row.get('daily_comparison') or row.get('daily_note', 'Preisvergleich offen; kein bestätigter UVP-Deal')}\n[Zum Angebot]({url})")
     return {'allowed_mentions': {'parse': []}, 'embeds': [{
-        'title': ('📊 Neue geprüfte Angebote · ' if near_retail and any(r.get('daily_comparison') for r in rows) else '✅ Neue Angebote nahe Retail · ' if near_retail else '📋 Tägliche Preise · ') + local.strftime('%d.%m.%Y'),
+        'title': ('📋 Gute Angebote heute · ' if repeat_daily and near_retail else '📊 Neue geprüfte Angebote · ' if near_retail and any(r.get('daily_comparison') for r in rows) else '✅ Neue Angebote nahe Retail · ' if near_retail else '📋 Tägliche Preise · ') + local.strftime('%d.%m.%Y'),
         'color': 0x3498DB,
         'description': '\n\n'.join(lines),
         'footer': {'text': 'Live geprüft ' + local.strftime('%H:%M') +
@@ -166,7 +170,7 @@ def run(cfg, state, now, send=None, checkpoint=None, budget=2):
     if batch:
         batches.append(batch)
     for batch in batches[:max(0, limit)]:
-        payload = message(batch, now, near_retail)
+        payload = message(batch, now, near_retail, settings.get('repeat_daily', False))
         report['alerts'].append({'key': 'daily-prices:' + day(now) + ':' + batch[0]['product_key'],
                                  'reason': 'daily_prices', 'payload': payload})
         if send is None:
