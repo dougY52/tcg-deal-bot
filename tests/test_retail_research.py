@@ -106,6 +106,11 @@ class ResearchTests(unittest.TestCase):
         self.target['validated_at']=NOW+3601
         self.assertEqual(r.run(self.cfg,self.state,self.client,NOW+3601)['attempted'],1)
 
+    def test_shorter_retry_applies_to_existing_pending_records(self):
+        self.state['retail_research']={'checks':{self.target['comparison_key']:{
+            'at':NOW-3601,'retry_after':NOW+18000,'status':'NO_VERIFIED_RETAIL_REFERENCE'}}}
+        self.assertEqual(r.run(self.cfg,self.state,self.client,NOW)['resolved'],1)
+
     def test_search_snippet_price_not_trusted_or_posted(self):
         self.state['fast_targets']={}
         original=self.client.get

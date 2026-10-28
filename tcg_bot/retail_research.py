@@ -262,7 +262,22 @@ def run(cfg, state, client, now, observations=()):
             del missing[key]
     # Oldest checked first: one difficult/unknown SKU cannot starve newer products.
     due = sorted(missing, key=lambda k: (checks.get(k, {}).get('at', 0), k))
-    due = [k for k in due if now >= checks.get(k, {}).get('retry_after', 0)]
+    def retry_due(key):
+        record=checks.get(key,{})
+        # A shorter configured retry also applies to previously queued failures.
+        return now >= min(record.get('retry_after',0),record.get('at',0)+settings.get('retry_seconds',21600))
+    due = [k for k in due if retry_due(k)]
+    targets = list(state.get('fast_targets', {}).values())
+    benchmarks=[]
+    for record in targets:
+        if record['offer']['shop'] in settings.get('anchor_shop_ids',[]):
+            obj,error=preorders.identity(record['offer'],cfg)
+            if not error:benchmarks.append(obj)
+    # Reserve at most half the slots for immediately checkable benchmark pages.
+    # The remaining oldest-first slots keep unknown/new products progressing.
+    ready=[k for k in due if any(same_product(missing[k],o,cfg,state) for o in benchmarks)]
+    ready=ready[:max(1,settings.get('max_products',2)//2)]
+    due=ready+[k for k in due if k not in ready]
     original = getattr(client, 'deadline', None)
     end = time.monotonic()+min(30, settings.get('budget_seconds', 18))
     if original is not None:
@@ -274,7 +289,6 @@ def run(cfg, state, client, now, observations=()):
     offset = db.get('shop_cursor', 0) % max(1, len(search_shops))
     search_shops = search_shops[offset:] + search_shops[:offset]
     db['shop_cursor'] = offset + 2
-    targets = list(state.get('fast_targets', {}).values())
     try:
         for key in due[:settings.get('max_products', 2)]:
             if time.monotonic() >= end or limited.requests >= limited.maximum:
@@ -384,7 +398,7 @@ def run(cfg, state, client, now, observations=()):
             client.deadline = original
     report['requests'] = limited.requests
     report['pending'] -= report['resolved']
-    report['due'] = sum(now >= checks.get(k, {}).get('retry_after', 0) for k in missing if not reference_for(missing[k],cfg,now))
+    report['due'] = sum(retry_due(k) for k in missing if not reference_for(missing[k],cfg,now))
     # Bound state without extending evidence lifetime or dropping a current ceiling.
     db['checks'] = dict(sorted(checks.items(), key=lambda x: x[1]['at'], reverse=True)[:5000])
     return report
