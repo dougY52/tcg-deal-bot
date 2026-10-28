@@ -220,6 +220,16 @@ class ResearchTests(unittest.TestCase):
                         {'availability_status':'waitlist'},{'live_validated':False}):
             self.assertFalse(r.listed_price(dict(source,**changes),self.benchmark,self.cfg,NOW))
 
+    def test_marketplace_platform_direct_seller_is_retail_but_third_party_is_not(self):
+        self.benchmark.update(adapter='mms',marketplace=True,allowed_sellers=['Benchmark'])
+        row=dict(self.target,shop='benchmark',seller='Benchmark',seller_verified=True)
+        self.assertTrue(r.trusted_live(row,self.benchmark,self.cfg,NOW))
+        self.assertFalse(r.trusted_live(dict(row,seller='Third Party'),self.benchmark,self.cfg,NOW))
+        self.cfg['retail_research']['allow_unavailable_anchor_prices']=True
+        row.update(available=False,availability_status='out_of_stock',add_to_cart_available=False)
+        self.assertTrue(r.listed_price(row,self.benchmark,self.cfg,NOW))
+        self.assertFalse(r.listed_price(dict(row,seller='Third Party'),self.benchmark,self.cfg,NOW))
+
     def test_search_query_is_compact_but_matching_is_still_exact(self):
         self.assertEqual(r.search_query(dict(self.target,gtin='')),'FB11 Display')
         self.assertEqual(r.search_query(dict(self.target,gtin='0196214147119')),'196214147119')

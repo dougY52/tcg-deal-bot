@@ -155,11 +155,19 @@ class BudgetClient:
         return self.request('text', url)
 
 
+def direct_retailer(row, shop):
+    # MMS is a marketplace platform, but its own offers are still direct retail.
+    # Never transfer that status to a third-party merchant on the same platform.
+    return (not shop.get('marketplace') or
+            shop['adapter']=='mms' and row.get('seller_verified') is True and
+            row.get('seller') in shop.get('allowed_sellers',[shop['name']]))
+
+
 def trusted_live(row, shop, cfg, now):
     if (row.get('validated_at') != now or row.get('live_validated') is not True or
             row.get('available') is not True or row.get('add_to_cart_available') is not True or
             row.get('availability_status') not in ('in_stock', 'preorder') or
-            row.get('currency') != 'EUR' or shop.get('international') or shop.get('marketplace')):
+            row.get('currency') != 'EUR' or shop.get('international') or not direct_retailer(row,shop)):
         return False
     rules = dict(preorders.SHOP_RULES.get(shop['id'], {}),
                  **cfg['preorder_watch'].get('shop_rules', {}).get(shop['id'], {}))
@@ -174,13 +182,13 @@ def listed_price(row, shop, cfg, now):
     """Unavailable benchmark listings are price evidence only, NEVER alerts."""
     return bool(cfg.get('retail_research', {}).get('allow_unavailable_anchor_prices')
         and shop['id'] in cfg['retail_research'].get('anchor_shop_ids', [])
-        and shop['adapter'] in ('mms','shopware','woocommerce','jtl')
-        and not shop.get('marketplace') and not shop.get('international')
+        and (shop['adapter'] in ('mms','shopware','woocommerce','jtl') or shop['id']=='mueller')
+        and direct_retailer(row,shop) and not shop.get('international')
         and row.get('validated_at') == now and row.get('live_validated') is True
         and (row.get('variant_validated') is True or row.get('price_identity_validated') is True)
         and row.get('currency') == 'EUR'
         and row.get('available') is False and row.get('availability_status') == 'out_of_stock'
-        and row.get('seller') == shop['name']
+        and row.get('seller') in shop.get('allowed_sellers',[shop['name']])
         and preorders.seller_confidence(row, shop, cfg['preorder_watch']) is not None)
 
 
