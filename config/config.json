@@ -2273,11 +2273,20 @@
   },
   "retail_research": {
     "enabled": true,
-    "budget_seconds": 18,
-    "max_requests": 12,
-    "max_products": 2,
-    "retry_seconds": 21600,
-    "anchor_shop_ids": ["mediamarkt", "saturn", "mueller", "faix", "cardcatcher", "comicplanet"]
+    "budget_seconds": 30,
+    "max_requests": 20,
+    "max_products": 4,
+    "retry_seconds": 7200,
+    "anchor_shop_ids": [
+      "mediamarkt",
+      "saturn",
+      "mueller",
+      "faix",
+      "cardcatcher",
+      "comicplanet"
+    ],
+    "reference_ttl_seconds": 604800,
+    "allow_unavailable_anchor_prices": true
   },
   "fast_watch": {
     "enabled": true,

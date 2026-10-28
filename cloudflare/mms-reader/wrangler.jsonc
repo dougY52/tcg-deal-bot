@@ -4,7 +4,9 @@
   "compatibility_date": "2026-10-24",
   "workers_dev": true,
   "observability": {
-    "enabled": false
+    "enabled": true,
+    "head_sampling_rate": 0.01,
+    "traces": {"enabled": true, "head_sampling_rate": 0.01}
   },
   "vars": {
     "GITHUB_REPOSITORY": "dougY52/tcg-deal-bot",

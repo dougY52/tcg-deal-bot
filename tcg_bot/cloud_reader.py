@@ -14,6 +14,9 @@ def target_allowed(url):
     if p.scheme!='https' or p.fragment or '%' in p.path or '..' in p.path:return False
     if p.netloc in ('www.mediamarkt.de','www.saturn.de'):
         return not p.query and (p.path=='/robots.txt' or bool(re.fullmatch(r'/de/(product|category|brand)/[a-zA-Z0-9_/-]+(?:\.html)?',p.path)))
+    if p.netloc == 'www.pokemoncenter.com':
+        return not p.query and (p.path == '/robots.txt' or bool(re.fullmatch(
+            r'/(?:de-de|en-de)/?|/(?:de-de|en-de)/(?:product|category)/[a-zA-Z0-9_/-]+',p.path)))
     if p.netloc=='www.duo-shop.de':
         return not p.query and (p.path in ('/robots.txt','/produkte/spielzeug/sammelkarten/') or bool(re.fullmatch(r'/offers/[a-zA-Z0-9-]+/',p.path)))
     if p.netloc not in ('www.vedes.com','www.faix.de'):return False
@@ -48,7 +51,7 @@ def enabled_for(url):
     return target_allowed(url) and settings() is not None
 
 
-def read(url, timeout):
+def read(url, timeout, _retried=False):
     config = settings()
     if not target_allowed(url) or config is None:
         raise FetchError('Unsupported cloud reader target')
@@ -88,7 +91,25 @@ def read(url, timeout):
             raise
         reason = exc.headers.get('X-TCG-Auth-Error','') if exc.headers else ''
         reason = (' (' + reason + ')') if re.fullmatch(r'[A-Z_]{1,30}',reason) else ''
-        raise FetchError('Cloud reader transport HTTP ' + str(exc.code) + reason) from None
+        marker = exc.headers.get('X-TCG-Reader','') if exc.headers else ''
+        detail = ''
+        if exc.code in (502, 503, 504):
+            body = exc.read(4096).decode('utf-8', errors='replace') if exc.fp else ''
+            if 'Reader not configured' in body:
+                detail = ' READER_NOT_CONFIGURED'
+            elif re.search(r'error(?: code)?\s*:?\s*1102', body, re.I):
+                detail = ' WORKER_RESOURCE_LIMIT'
+            else:
+                detail = ' WORKER_TRANSPORT_FAILURE' if not marker else ' READER_UPSTREAM_FAILURE'
+            # A transient gateway failure is distinct from retailer rate limits
+            # (raised above with the retailer URL), bad auth, or exhausted quota.
+            left = timeout - (time.monotonic()-started)
+            retry_after = exc.headers.get('Retry-After','') if exc.headers else ''
+            if (detail == ' WORKER_TRANSPORT_FAILURE' and not _retried and
+                    left > 3 and retry_after in ('','0','1')):
+                time.sleep(1)
+                return read(url,left-1,_retried=True)
+        raise FetchError('Cloud reader transport HTTP ' + str(exc.code) + reason + detail) from None
     except (ValueError, TypeError, AttributeError, urllib.error.URLError, TimeoutError):
         raise FetchError('Cloud reader response unavailable or invalid') from None
 

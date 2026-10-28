@@ -40,6 +40,31 @@ class CloudReaderTests(unittest.TestCase):
                     'https://www.mediamarkt.de/de/product/../account',
                     'https://www.mediamarkt.de/de/product/%2e%2e/account']:
             self.assertFalse(cloud_reader.target_allowed(url), url)
+        self.assertTrue(cloud_reader.target_allowed('https://www.pokemoncenter.com/de-de/'))
+        self.assertTrue(cloud_reader.target_allowed('https://www.pokemoncenter.com/de-de/product/123/box'))
+        for path in ('/availabilities','/prices','/carts','/en-us/','/de-de/?token=x','/account'):
+            self.assertFalse(cloud_reader.target_allowed('https://www.pokemoncenter.com'+path))
+
+    def test_transport_diagnostic_contains_no_raw_body_or_secret(self):
+        for body,headers,reason in [(b'Reader not configured',{},'READER_NOT_CONFIGURED'),
+                (b'private details: never print',{},'WORKER_TRANSPORT_FAILURE'),
+                (b'Upstream unavailable',{'X-TCG-Reader':'2026-10-28'},'READER_UPSTREAM_FAILURE')]:
+            error=urllib.error.HTTPError(ENV['TCG_CLOUD_READER_URL'],503,'',headers,io.BytesIO(body))
+            with patch.dict(os.environ,ENV),patch('urllib.request.OpenerDirector.open',side_effect=error):
+                with self.assertRaisesRegex(FetchError,reason) as caught:
+                    cloud_reader.read(URL,5)
+                self.assertNotIn('private details',str(caught.exception))
+
+    def test_temporary_worker_gateway_recovers_once_not_retailer_limit(self):
+        error=urllib.error.HTTPError(ENV['TCG_CLOUD_READER_URL'],503,'',{},io.BytesIO(b'gateway unavailable'))
+        with patch.dict(os.environ,ENV),patch('tcg_bot.cloud_reader.time.sleep'),patch(
+                'urllib.request.OpenerDirector.open',side_effect=[error,Reply(json.dumps(self.response()).encode())]) as opener:
+            self.assertEqual(cloud_reader.read(URL,10),mms_body())
+            self.assertEqual(opener.call_count,2)
+        error=urllib.error.HTTPError(ENV['TCG_CLOUD_READER_URL'],503,'',{'Retry-After':'120'},io.BytesIO())
+        with patch.dict(os.environ,ENV),patch('urllib.request.OpenerDirector.open',side_effect=error) as opener:
+            with self.assertRaises(FetchError):cloud_reader.read(URL,10)
+            self.assertEqual(opener.call_count,1)
 
     def test_invalid_configuration_fails_closed(self):
         for endpoint in ['http://reader.example.workers.dev/read', 'https://evil.test/read',

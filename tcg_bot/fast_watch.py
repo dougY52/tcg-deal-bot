@@ -402,7 +402,7 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report['fast_watch']['new_or_changed'] = len(changed)
     # Resolve missing retail evidence before daily qualification in the same run.
     from .retail_research import run as research_retail
-    report['retail_research'] = research_retail(cfg, state, client, now)
+    report['retail_research'] = research_retail(cfg, state, client, now, observations=live_results.values())
     # Price information is daily per seller/variant with a fresh stock check.
     # Instant-deal deduplication remains separate and can still alert on a drop.
     if not delivery_failed:

@@ -148,6 +148,8 @@ def decorate(message, o, cfg, state, now):
     r = result['retail']
     labels = {'msrp':'Hersteller-UVP','observed_retail':'Belegter Händler-Retailpreis','retailer_msrp':'UVP laut Händler (kein eigener Herstellerbeleg)'}
     retail = (f"{labels[r['kind']]}: **{Decimal(r['price_eur']):.2f} €**\nStand {r['verified_on']} · [Beleg]({r['url']})" if r else 'Unbekannt / Beleg abgelaufen. Cardmarket ersetzt keinen Retailpreis.')
+    if r and r.get('source_available') is False:
+        retail += '\nReferenzartikel dort nicht lieferbar; nur Preisbeleg.'
     cm = result['cardmarket']
     if cm:
         delta = (Decimal(str(o['price']))/Decimal(cm['trend'])-1)*100
@@ -167,6 +169,8 @@ def compact(o, cfg, state, now):
     r, cm = result['retail'], result['cardmarket']
     text = result['label']+'\n'
     text += (f"Retail **{Decimal(r['price_eur']):.2f} €** ({r['verified_on']}, {'UVP laut Händler' if r['kind']=='retailer_msrp' else 'Hersteller-UVP' if r['kind']=='msrp' else 'Händlerpreis'}) · [Beleg]({r['url']})" if r else 'Retail / UVP: unbekannt oder abgelaufen.')
+    if r and r.get('source_available') is False:
+        text += ' · Referenz dort nicht lieferbar'
     text += (f"\nCM-Trend **{Decimal(cm['trend']):.2f} €** · {datetime.fromtimestamp(cm['at'],timezone.utc):%d.%m.%Y} · ID {cm['product_id']} · [Quelle]({cm['source_url']})\nCM ungefiltert: Sprache/DE-Händler/Versand nicht abgegrenzt; kein Liveangebot, keine UVP." if cm else '\nCardmarket: keine eindeutige Zuordnung oder kein frischer Datensatz.')
     text += '\n'+result['explanation']
     return text

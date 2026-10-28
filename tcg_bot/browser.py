@@ -92,7 +92,14 @@ class BrowserClient(Client):
             body = super().text(url)
             if urlsplit(url).path == '/robots.txt':
                 return body
-            return validate_page(url, url, 200, '', body)
+            try:
+                return validate_page(url, url, 200, '', body)
+            except FetchError:
+                # PC may need its ordinary public browser/visible queue frame.
+                # Preserve that existing free GitHub browser path; never retry
+                # transport failures, rate limits or use a paid provider here.
+                if urlsplit(url).hostname != 'www.pokemoncenter.com':
+                    raise
         host = urlsplit(url).hostname
         if host not in HOSTS or urlsplit(url).path.endswith(('.xml', '.txt')):
             return super().text(url)

@@ -163,6 +163,8 @@ def load_config(path):
         assert 1 <= research.get('max_requests', 12) <= 20
         assert 1 <= research.get('max_products', 2) <= 4
         assert 300 <= research.get('retry_seconds', 21600) <= 86400
+        assert 86400 <= research.get('reference_ttl_seconds',86400) <= 604800
+        assert isinstance(research.get('allow_unavailable_anchor_prices',False),bool)
         assert set(research.get('anchor_shop_ids', [])) <= set(cfg['preorder_watch']['trusted_shop_ids'])
     coverage = cfg.get('retailer_coverage', {})
     if coverage.get('enabled'):
@@ -458,6 +460,7 @@ def summary(report):
     if report.get('retail_research'):
         research = report['retail_research']
         text += f"## Automatische Retail-Recherche\n\nProdukte recherchiert: {research['attempted']} · neue Belege: {research['resolved']} · weiterhin offen: {research['pending']} · Requests: {research['requests']}\n\n"
+        text += f"Ohne zusätzliche Abrufe zugeordnet: {research.get('reused',0)} · für weitere Recherche fällig: {research.get('due',0)}\n\n"
         text += '\n'.join('- ' + r['product'] + ': ' + r['status'] for r in research['results']) + '\n\n'
     if report.get('daily_prices'):
         daily = report['daily_prices']

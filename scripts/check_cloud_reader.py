@@ -6,6 +6,7 @@ from urllib.parse import urlsplit
 from pathlib import Path
 from tcg_bot.browser import BrowserClient
 from tcg_bot.cloud_reader import settings, github_token
+from tcg_bot.cloud_reader import read as reader_read
 from tcg_bot.web_sources import parse_mms, parse_structured
 
 
@@ -46,6 +47,17 @@ def main():
             print('CLOUD_READER_DISCOVERY ' + json.dumps({'shop':shop_id,'product_links':len(discovered),'discord_sent':False}))
             if not discovered:
                 raise RuntimeError('Cloud reader catalog discovery unconfirmed: ' + shop_id)
+        from tcg_bot.pokemon_center_access import PRODUCT_TARGETS, page_result
+        # Ordinary public DE pages only. This diagnostic never calls a paid
+        # provider, joins a queue, or promotes readable HTML into stock proof.
+        for url in ('https://www.pokemoncenter.com/de-de/', PRODUCT_TARGETS[0]):
+            try:
+                client.check_allowed(url)
+                result = page_result(reader_read(url,20),url,time.time())
+                safe = {k:result[k] for k in ('status','bytes','inventory_confirmed')}
+            except Exception as exc:
+                safe = {'status':'unavailable','error':str(exc),'inventory_confirmed':False}
+            print('POKEMON_CENTER_FREE_READER ' + json.dumps({'url':url,**safe}))
     finally:
         client.close()
 

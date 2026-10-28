@@ -168,3 +168,81 @@ class ResearchTests(unittest.TestCase):
         self.target['price']='115'
         self.assertEqual(d.run(self.cfg,self.state,NOW)['eligible'],0)
 
+    def test_price_reference_lasts_seven_days_but_never_confirms_stock(self):
+        self.cfg['retail_research']['reference_ttl_seconds']=604800
+        r.run(self.cfg,self.state,self.client,NOW)
+        self.assertIsNotNone(retail_reference(self.target,self.cfg,NOW+2*86400))
+        self.assertIsNone(retail_reference(self.target,self.cfg,NOW+604800))
+        self.cfg['daily_prices'].update(enabled=True,discord_enabled=True,discord_near_retail_only=True,
+                                        repeat_daily=True,require_good_retail=True)
+        self.assertEqual(d.run(self.cfg,self.state,NOW+86400)['eligible'],0)
+
+    def test_available_cached_benchmark_resolves_even_during_search_cooldown(self):
+        row,error=p.live(self.source,self.benchmark,self.client,NOW)
+        obj,error=p.identity(dict(row,validated_at=NOW-60),self.cfg)
+        self.state['preorder_quotes'][obj['product_key']]=obj
+        self.state['retail_research']={'checks':{self.target['comparison_key']:{'at':NOW-10,'retry_after':NOW+7200}}}
+        result=r.run(self.cfg,self.state,self.client,NOW)
+        self.assertEqual(result['reused'],1)
+        self.assertEqual(result['requests'],0)
+        self.assertEqual(retail_reference(self.target,self.cfg,NOW)['checked_at'],NOW-60)
+
+    def test_unavailable_benchmark_price_is_not_a_stock_alert(self):
+        self.benchmark['adapter']='mms'
+        self.cfg['retail_research']['allow_unavailable_anchor_prices']=True
+        source=dict(self.target,shop='benchmark',seller='Benchmark',key='benchmark:123',
+            url=self.source['url'],available=False,availability_status='out_of_stock',add_to_cart_available=False)
+        self.state['fast_targets']={}
+        result=r.run(self.cfg,self.state,self.client,NOW,observations=[(source,'OUT_OF_STOCK')])
+        self.assertEqual(result['reused'],1)
+        ref=retail_reference(self.target,self.cfg,NOW)
+        self.assertIs(ref['source_available'],False)
+        self.cfg['daily_prices'].update(enabled=True,discord_enabled=True,discord_near_retail_only=True,
+                                        repeat_daily=True,require_good_retail=True)
+        sent=[]
+        self.assertEqual(d.run(self.cfg,self.state,NOW,lambda x:sent.append(x) or 'receipt')['offers_sent'],1)
+        self.assertIn('Referenz dort nicht lieferbar',sent[0]['embeds'][0]['description'])
+        self.target['available']=False
+        self.target['add_to_cart_available']=False
+        self.assertEqual(d.run(self.cfg,self.state,NOW)['eligible'],0)
+
+    def test_ambiguous_or_wrong_currency_listed_price_not_evidence(self):
+        self.benchmark['adapter']='mms'
+        self.cfg['retail_research']['allow_unavailable_anchor_prices']=True
+        source=dict(self.target,shop='benchmark',seller='Benchmark',available=False,
+                    availability_status='out_of_stock',add_to_cart_available=False)
+        for changes in ({'variant_validated':False},{'currency':'USD'},{'seller':'Marketplace seller'},
+                        {'availability_status':'waitlist'},{'live_validated':False}):
+            self.assertFalse(r.listed_price(dict(source,**changes),self.benchmark,self.cfg,NOW))
+
+    def test_search_query_is_compact_but_matching_is_still_exact(self):
+        self.assertEqual(r.search_query(dict(self.target,gtin='')),'FB11 Display')
+        self.assertEqual(r.search_query(dict(self.target,gtin='0196214147119')),'196214147119')
+        self.assertFalse(r.same_product(dict(self.target,description='24 Booster'),
+            dict(self.target,description='18 Booster'),self.cfg,self.state))
+
+    def test_known_targets_rotate_after_failed_research(self):
+        self.state['fast_targets']={str(i):{'offer':dict(self.source,key='benchmark:'+str(i),variant_id=str(i))} for i in range(1,6)}
+        self.client.fail=True
+        r.run(self.cfg,self.state,self.client,NOW)
+        self.assertEqual(self.state['retail_research']['checks'][self.target['comparison_key']]['candidate_cursor'],3)
+        self.target['validated_at']=NOW+7201
+        r.run(self.cfg,self.state,self.client,NOW+7201)
+        self.assertEqual(self.state['retail_research']['checks'][self.target['comparison_key']]['candidate_cursor'],6)
+
+    def test_search_details_rank_actual_format_before_recommendations(self):
+        from unittest.mock import patch
+        shop=dict(self.benchmark,product_link_pattern=r'/products/')
+        body=''.join('<a href="/products/'+slug+'">'+label+'</a>' for slug,label in [
+            ('tin','Dragon Ball FB11 Brightness of Hope Tin EN'),
+            ('wrong','Dragon Ball FB04 Display EN'),
+            ('exact','Dragon Ball FB11 Brightness of Hope Display EN')])
+        calls=[]
+        class Search:
+            def text(_,url):calls.append(url);return body if '/search?' in url else '<exact product>'
+        with patch('tcg_bot.web_sources.parse_structured',return_value=([{'key':'found'}],[])):
+            first=next(r.benchmark_search(shop,self.target,Search()))
+        self.assertEqual(first['key'],'found')
+        self.assertTrue(calls[-1].endswith('/products/exact'))
+        self.assertFalse(any(url.endswith('/products/tin') for url in calls))
+

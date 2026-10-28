@@ -11,6 +11,13 @@ try {
   globalThis.fetch = async () => { upstreamCalls++; return new Response('product'); };
   assert((await worker.fetch(request(), {})).status===503,'unconfigured');
   assert((await worker.fetch(request(target,'wrong'),env)).status===401,'unauthorized');
+  const health=await worker.fetch(new Request('https://reader.example.workers.dev/health'),env);
+  assert(health.status===200 && (await health.json()).status==='ready','public liveness without upstream request');
+  assert(health.headers.get('X-TCG-Reader')==='2026-10-28','version diagnostic');
+  assert(allowedTarget('https://www.pokemoncenter.com/de-de/'),'public German PC route');
+  assert(allowedTarget('https://www.pokemoncenter.com/de-de/product/123/box'),'public German product');
+  for (const path of ['/prices','/availabilities','/carts','/en-us/','/de-de/?token=x'])
+    assert(!allowedTarget('https://www.pokemoncenter.com'+path),'no internal or non-DE PC routes');
   for (const url of ['https://evil.test/', 'https://www.mediamarkt.de/account',
       target+'?token=x', target+'#x', 'https://user@www.mediamarkt.de/de/product/x.html',
       'https://www.mediamarkt.de/de/product/../account',

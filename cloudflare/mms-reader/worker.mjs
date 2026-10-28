@@ -5,6 +5,9 @@ export function allowedTarget(value) {
     if (u.href!==value || u.protocol!=='https:' || u.port || u.username || u.password || u.hash || /%|\.\./.test(u.pathname)) return false;
     if (['www.mediamarkt.de','www.saturn.de'].includes(u.hostname))
       return !u.search && (u.pathname==='/robots.txt' || /^\/de\/(product|category|brand)\/[a-zA-Z0-9_/-]+(?:\.html)?$/.test(u.pathname));
+    if (u.hostname==='www.pokemoncenter.com')
+      return !u.search && (u.pathname==='/robots.txt' || /^\/(?:de-de|en-de)\/?$/.test(u.pathname) ||
+        /^\/(?:de-de|en-de)\/(?:product|category)\/[a-zA-Z0-9_/-]+$/.test(u.pathname));
     if (u.hostname==='www.duo-shop.de') return !u.search && (u.pathname==='/robots.txt' ||
       u.pathname==='/produkte/spielzeug/sammelkarten/' || /^\/offers\/[a-zA-Z0-9-]+\/$/.test(u.pathname));
     if (!['www.vedes.com','www.faix.de'].includes(u.hostname)) return false;
@@ -139,11 +142,14 @@ export async function githubAuthorized(token, env, audience, diagnostic = {}) {
 
 export default {
   async fetch(request, env) {
-    const headers = { 'Cache-Control': 'no-store' };
+    const headers = { 'Cache-Control': 'no-store', 'X-TCG-Reader': '2026-10-28' };
     const shared = env.READER_TOKEN && env.READER_TOKEN.length >= 32;
     const oidc = env.GITHUB_REPOSITORY && env.GITHUB_REPOSITORY_ID && env.GITHUB_OWNER_ID;
     if (!shared && !oidc) return new Response('Reader not configured', {status: 503, headers});
     const endpoint = new URL(request.url);
+    // Public liveness only: no credentials, stock claims, or upstream requests.
+    if (request.method === 'GET' && endpoint.pathname === '/health' && !endpoint.search)
+      return Response.json({status:'ready',version:'2026-10-28'}, {headers});
     const bearer = request.headers.get('Authorization') || '';
     const validShared = shared && bearer === `Bearer ${env.READER_TOKEN}`;
     const diagnostic = {};
@@ -175,7 +181,9 @@ export default {
       } else { await response.body?.cancel(); }
       return Response.json({url: target, status: response.status,
         fetched_at: Date.now() / 1000, body}, {headers});
-    } catch {
+    } catch (error) {
+      console.warn(JSON.stringify({event:'reader_upstream_failed',host:new URL(target).hostname,
+        error:['AbortError','TimeoutError','TypeError'].includes(error.name)?error.name:'Error'}));
       return new Response('Upstream unavailable', {status: 502, headers});
     }
   }

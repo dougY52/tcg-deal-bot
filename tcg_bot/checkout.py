@@ -136,6 +136,13 @@ def single_product(shop, body, url):
         row = normalized(shop, url, title, offer['price'], available, sku=product['sku'],
                          description=description, gtin=product.get('gtin13') or product.get('gtin') or '',
                          currency='EUR', live_validated=True, variant_validated=allowed,
+                         # A single exact page SKU/offer can attest its listed
+                         # price while sold out, even when the cart form is gone.
+                         # Never use this separate flag as checkout validation.
+                         price_identity_validated=not any(
+                             n.tag=='select' and n.attrs.get('name') not in ('quantity','anzahl') or
+                             n.tag=='input' and n.attrs.get('type')=='radio'
+                             for n in doc.root.walk()),
                          add_to_cart_available=orderable, cart_validated=False,
                          availability_status='out_of_stock' if sold else 'waitlist' if restricted else 'preorder' if orderable and preorder else 'in_stock' if orderable else 'unknown',
                          preorder=preorder, preorder_status=preorder, stock_text=stock_text[:300],
