@@ -111,6 +111,16 @@ class ResearchTests(unittest.TestCase):
             'at':NOW-3601,'retry_after':NOW+18000,'status':'NO_VERIFIED_RETAIL_REFERENCE'}}}
         self.assertEqual(r.run(self.cfg,self.state,self.client,NOW)['resolved'],1)
 
+    def test_shop_backoff_does_not_spend_request_budget_or_become_missing_price(self):
+        from unittest.mock import patch
+        self.client.blocked={'benchmark.test','example.test'}
+        self.client.cooldowns={'benchmark.test':NOW+600,'example.test':NOW+600}
+        with patch('tcg_bot.retail_research.time.time',return_value=NOW):
+            report=r.run(self.cfg,self.state,self.client,NOW)
+        self.assertEqual(report['requests'],0)
+        self.assertEqual(report['results'][0]['status'],'DEFERRED_SOURCE_BACKOFF')
+        self.assertEqual(self.state['retail_research']['checks'][self.target['comparison_key']]['retry_after'],NOW+601)
+
     def test_search_snippet_price_not_trusted_or_posted(self):
         self.state['fast_targets']={}
         original=self.client.get

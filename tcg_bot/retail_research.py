@@ -133,8 +133,14 @@ class BudgetClient:
         self.client, self.deadline, self.maximum = client, end, maximum
         self.product_deadline = end
         self.requests = 0
+        self.blocked_hosts = {}
 
     def request(self, method, url):
+        host=urlsplit(url).netloc
+        until=getattr(self.client,'cooldowns',{}).get(host,0)
+        if host in getattr(self.client,'blocked',set()) or time.time()<until:
+            self.blocked_hosts[host]=max(until,time.time()+300)
+            raise FetchError('RESEARCH_SOURCE_BACKOFF')
         end = min(self.deadline,self.product_deadline)
         if self.requests >= self.maximum or time.monotonic() >= end:
             raise FetchError('Research budget exhausted')
@@ -303,6 +309,7 @@ def run(cfg, state, client, now, observations=()):
                 break
             report['attempted'] += 1
             limited.product_deadline = min(end,time.monotonic()+8)
+            limited.blocked_hosts = {}
             target = missing[key]
             evidence = []
             tested = {r['key'] for r in quotes.values() if r.get('validated_at') == now}
@@ -336,7 +343,8 @@ def run(cfg, state, client, now, observations=()):
                     if row and error in (None, 'OUT_OF_STOCK'):
                         consider(dict(row, validated_at=now))
                 except Exception as exc:
-                    report['errors'].append({'shop': o['shop'], 'type': type(exc).__name__})
+                    report['errors'].append({'shop': o['shop'], 'type': type(exc).__name__,
+                        'reason':str(exc)[:140] if isinstance(exc,FetchError) else type(exc).__name__})
 
             for o in candidates[:3]:
                 if evidence:
@@ -358,7 +366,8 @@ def run(cfg, state, client, now, observations=()):
                                 consider(dict(obj,validated_at=now))
                                 if evidence:break
                     except Exception as exc:
-                        report['errors'].append({'shop':shop['id'],'type':type(exc).__name__})
+                        report['errors'].append({'shop':shop['id'],'type':type(exc).__name__,
+                            'reason':str(exc)[:140] if isinstance(exc,FetchError) else type(exc).__name__})
                     if evidence:
                         break
             # Search results are discovery only; their prices/availability never vote.
@@ -390,7 +399,8 @@ def run(cfg, state, client, now, observations=()):
                             if evidence:
                                 break
                     except Exception as exc:
-                        report['errors'].append({'shop': shop['id'], 'type': type(exc).__name__})
+                        report['errors'].append({'shop': shop['id'], 'type': type(exc).__name__,
+                            'reason':str(exc)[:140] if isinstance(exc,FetchError) else type(exc).__name__})
                     if evidence:
                         break
             if evidence:
@@ -398,7 +408,11 @@ def run(cfg, state, client, now, observations=()):
                 save_reference(key, target, evidence, status)
             else:
                 status = 'DEFERRED_BUDGET' if limited.requests >= limited.maximum or time.monotonic() >= limited.product_deadline else 'NO_VERIFIED_RETAIL_REFERENCE'
-                checks[key] = {'at': now, 'retry_after': now + (300 if status == 'DEFERRED_BUDGET' else settings.get('retry_seconds', 21600)), 'status': status}
+                retry=now+(300 if status=='DEFERRED_BUDGET' else settings.get('retry_seconds',21600))
+                if limited.blocked_hosts:
+                    status='DEFERRED_SOURCE_BACKOFF'
+                    retry=max(now+300,min(limited.blocked_hosts.values())+1)
+                checks[key] = {'at': now, 'retry_after': retry, 'status': status}
                 report['results'].append({'product': target['title'], 'status': status})
             checks[key]['candidate_cursor'] = cursor + min(3, len(candidates))
     finally:
