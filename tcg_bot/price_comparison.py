@@ -95,7 +95,8 @@ def retail_reference(o, cfg, now, mapping=None):
             references.append(dict(price_eur=r['retail_eur'],kind=r['kind'],url=r['evidence'][0]['url'],verified_on=r['verified_on']))
     for r in cfg.get('preorder_watch',{}).get('price_references',[]):
         if fresh(r) and r['kind'] in ('msrp','observed_retail') and r.get('comparison_key')==o.get('comparison_key') and o.get('comparison_key'):
-            references.append(dict(price_eur=r['price_eur'],kind=r['kind'],url=r['evidence_url'],verified_on=r['verified_on']))
+            references.append(dict(price_eur=r['price_eur'],kind=r['kind'],url=r['evidence_url'],verified_on=r['verified_on'],
+                                   **({'source_available':r['source_available']} if 'source_available' in r else {})))
     # Existing market evidence is keyed by exact normalized product identity.
     if o.get('identity'):
         for r in cfg.get('market',{}).get('price_references',[]):

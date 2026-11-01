@@ -37,6 +37,8 @@ def read_receipt(secret, message_id, opener=None):
             for e in embeds])
         return {'status': 'confirmed', 'timestamp': data.get('timestamp'),
                 'titles': [e.get('title') for e in embeds],
+                'offer_excerpt': [line[:250] for line in text.splitlines()
+                                  if re.search(r'Pok[eé]mon|Dragon Ball|One Piece| · EN · | · DE · ', line)][:12],
                 'has_cardmarket_text': bool(re.search(r'Cardmarket|CM-Trend', text)),
                 'comparison_excerpt': [line[:800] for line in text.splitlines()
                                        if re.search(r'CM-Trend|Trend \*\*|Retail|UVP', line)][:16]}
@@ -46,8 +48,26 @@ def read_receipt(secret, message_id, opener=None):
         return {'status': 'read_error', 'error_type': type(exc).__name__}
 
 
+def delivery_record(state, key):
+    """A daily delivery can be newer than an instant alert from weeks ago."""
+    records = [state.get('preorder_products', {}).get(key, {}).get('last_alert', {}),
+               state.get('daily_price_delivery', {}).get('products', {}).get(key, {}),
+               state.get('near_retail_discord_sent', {}).get(key, {})]
+    return max((r for r in records if r.get('message_id')), key=lambda r:r.get('at', 0), default={})
+
+
+def receipt_ids(products):
+    # Verify one actual delivery for each requested English product family first.
+    ids = []
+    for family in ('Pokémon', 'Dragon Ball', 'One Piece'):
+        rows = [p for p in products if p['franchise'] == family and p['language'] == 'EN' and p['message_id']]
+        if rows:
+            ids.append(max(rows, key=lambda p:p.get('delivered_at',0))['message_id'])
+    return list(dict.fromkeys(ids))
+
+
 def audit(state, cfg, now):
-    cfg = dict(cfg, _researched_retail=state.get('retail_research', {}).get('references', {}))
+    cfg = dict(cfg, _fast_lane=True, _researched_retail=state.get('retail_research', {}).get('references', {}))
     quotes = list(state.get('preorder_quotes', {}).values())
     table = state.get('preorder_products', {})
     fresh = [o for o in quotes if 0 <= now-o.get('validated_at', 0) <= 3600]
@@ -56,28 +76,40 @@ def audit(state, cfg, now):
         result = price_comparison.assess(o, cfg, state, now)
         record = table.get(o['product_key'], {})
         sent = record.get('last_alert')
-        pricing = preorders.price_check(o, quotes, cfg, now, table.values())
+        diagnostics = {}
+        pricing = preorders.price_check(o, quotes, cfg, now, table.values(), diagnostics=diagnostics)
+        delivery = delivery_record(state, o['product_key'])
         drop = Decimal(str(cfg['preorder_watch'].get('price_drop_pct', 5))) / 100
         duplicate = bool(sent and sent.get('episode') == record.get('episode') and
                          Decimal(o['price']) > Decimal(sent['price']) * (1-drop))
         products.append(dict(title=o['title'], shop=o['shop'], price=o['price'], url=o['url'],
+                             franchise=o['franchise'], language=o['language'], product_key=o['product_key'],
                              validated_at=o.get('validated_at'), status=o.get('availability_status'),
                              cart=o.get('add_to_cart_available'), verdict=result['code'],
                              cardmarket_trend=(result['cardmarket'] or {}).get('trend'),
                              retail=(result['retail'] or {}).get('price_eur'),
                              price_qualifies=bool(pricing), duplicate=duplicate,
-                             message_id=(sent or {}).get('message_id')))
+                             price_rejection=None if pricing else diagnostics.get('reason'),
+                             message_id=delivery.get('message_id'), delivered_at=delivery.get('at')))
     # Recent receipts prove the new formatter; established retail receipts prove delivery.
     recent = sorted(state.get('near_retail_discord_sent', {}).values(),
                     key=lambda row: row.get('at', 0), reverse=True)
-    ids = [r.get('message_id') for r in recent[:3]]
+    ids = receipt_ids(products) + [r.get('message_id') for r in recent[:3]]
     ids += [r['message_id'] for r in sorted(products, key=lambda r: r['price'])
             if r['verdict'] in ('retail_deal', 'near_retail') and r['message_id']][:3]
     ids = list(dict.fromkeys(i for i in ids if i))[:6]
+    groups = {}
+    for family in ('Pokémon','Dragon Ball','One Piece'):
+        rows = [p for p in products if p['franchise']==family and p['language']=='EN']
+        groups[family+' EN'] = {'live_last_hour':len(rows),
+            'price_qualifies':sum(p['price_qualifies'] for p in rows),
+            'with_cardmarket':sum(bool(p['cardmarket_trend']) for p in rows),
+            'missing_reference':sum(p['price_rejection']=='MISSING_PRICE_REFERENCE' for p in rows),
+            'recorded_deliveries':sum(bool(p['message_id']) for p in rows)}
     return dict(at=datetime.fromtimestamp(now, timezone.utc).isoformat(),
                 last_scan=state.get('fast_last_run'), fresh_products=len(fresh),
                 with_cardmarket=sum(bool(p['cardmarket_trend']) for p in products),
-                products=products, receipt_ids=ids)
+                english_groups=groups, products=products, receipt_ids=ids)
 
 
 def main():

@@ -208,7 +208,7 @@ def match_offer(o,cfg,state):
     game=next((g for g,f in GAMES.items() if f==(o.get('franchise') or franchise(dict(o,description=''),cfg))),None)
     detected=language(o)
     lang=o.get('language') or detected
-    if game is None or lang!=('DE' if game==6 else 'EN') or o.get('currency')!='EUR':return None
+    if game is None or lang not in (('DE','EN') if game==6 else ('EN',)) or o.get('currency')!='EUR':return None
     if detected not in ('UNKNOWN',lang):return None
     title=o['title']+' '+o.get('variant','')
     if re.search(NON_SEALED,title,re.I):return None
@@ -249,4 +249,6 @@ def match_offer(o,cfg,state):
         if len(counts)!=1:return None
         rows=[r for r in rows if r['packs'] is None or counts=={r['packs']}]
     # Distinct art/edition/version/PC/collector qualifiers remain in the identity.
-    return rows[0] if len(rows)==1 else None
+    # The export is an unfiltered resale snapshot, not a language-specific retail
+    # reference. Keep the actual offer language without mutating the shared index.
+    return dict(rows[0], language=lang) if len(rows)==1 else None

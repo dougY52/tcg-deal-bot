@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
   push:
     branches: [main]
-    paths: ['tcg_bot/**', 'config/config.json', 'config/pokemon-center-de.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/configure_cardpal_relay.py', 'scripts/audit_cardpal.py', 'scripts/audit_cardpal_catalog.py', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', 'scripts/watch_pokemon_center_de.py', 'tests/test_pokemon_center_watch.py', 'tests/test_cardpal_discovery.py', '.github/workflows/cloud-watch.yml']
+    paths: ['tcg_bot/**', 'config/config.json', 'config/pokemon-center-de.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/configure_cardpal_relay.py', 'scripts/audit_cardpal.py', 'scripts/audit_cardpal_catalog.py', 'scripts/audit_price_delivery.py', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', 'scripts/watch_pokemon_center_de.py', 'tests/test_pokemon_center_watch.py', 'tests/test_cardpal_discovery.py', '.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -149,7 +149,7 @@ jobs:
           fi
   cloud-reader-check:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
-    if: github.event.repository.private == false && !inputs.cardpal_connect && !contains(github.event.head_commit.message, '[cardpal-connect]') && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]') && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))
+    if: github.event.repository.private == false && !inputs.cardpal_connect && !contains(github.event.head_commit.message, '[cardpal-connect]') && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]') && !contains(github.event.head_commit.message, '[delivery-audit]') && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:

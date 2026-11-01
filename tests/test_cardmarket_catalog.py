@@ -56,7 +56,13 @@ class FullCatalogue(unittest.TestCase):
         self.state['cardmarket_names']['pokemon']={'aliases':pairs}
         self.inventory(6,[product(999001,'Future Dawn Booster Box',53)])
         self.assertEqual(self.match('Pokémon Neue Morgenröte Display Deutsch',36)['product_id'],999001)
-        self.assertIsNone(self.match('Pokémon Neue Morgenröte Display English',36))
+        en=self.match('Pokémon Future Dawn Display English',36)
+        self.assertEqual(en['product_id'],999001)
+        self.assertEqual(en['language'],'EN')
+        self.assertEqual(self.match('Pokémon Neue Morgenröte Display Deutsch',36)['language'],'DE')
+        result=pc.assess(offer('Pokémon Future Dawn Display English',price='80',packs=36),self.cfg,self.state,NOW)
+        self.assertIsNone(result['retail'],'resale catalogue must not invent an English retail reference')
+        self.assertEqual(result['code'],'resale_unverified')
 
     def test_existing_localized_set_beyond_original_35(self):
         self.inventory(6,[product(999002,'Temporal Forces Booster Box',53)])

@@ -2293,7 +2293,18 @@
         "strict_cart_check": true
       }
     },
-    "price_references": [],
+    "price_references": [
+      {
+        "comparison_key": "Pokémon||collection|EN|unspecified|collection:gtin:00196214135017",
+        "kind": "observed_retail",
+        "price_eur": "49.99",
+        "verified_on": "2026-11-01",
+        "valid_until": "2026-11-30",
+        "evidence_url": "https://cardsrfun.de/products/mega-zygarde-ex-premium-collection?variant=52548344119562",
+        "source_available": false,
+        "note": "Am 01.11.2026 auf der konkreten CardsRfun-Produktseite bestätigt: Englisch, EAN 0196214135017, 8 Booster. Dort ausverkauft; nur Händlerpreisbeleg, keine Hersteller-UVP. Play-Maniac gleiche EAN live geprüft für 48,99 EUR."
+      }
+    ],
     "user_price_guides": [
       {
         "franchise": "Dragon Ball",
