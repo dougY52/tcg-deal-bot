@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-01T21:45:25.789160+00:00",
+  "checked_at": "2026-11-01T21:50:27.171486+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -17,7 +17,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.24
+      "seconds": 19.34
     },
     {
       "id": "drop-uk-public",
@@ -25,7 +25,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.62
+      "seconds": 24.27
     },
     {
       "id": "drop-us-public",
@@ -33,15 +33,15 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.93
+      "seconds": 5.3
     },
     {
       "id": "switchstock-public",
-      "status": "ok",
-      "items": 15,
+      "status": "unavailable",
+      "items": 0,
       "notes": [],
-      "error": null,
-      "seconds": 1.04
+      "error": "FetchError",
+      "seconds": 1.05
     },
     {
       "id": "bisafans-public",
@@ -49,20 +49,20 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.78
+      "seconds": 1.76
     }
   ],
   "rejected": {
     "DUPLICATE": 1,
     "GERMANY_NOT_EXPLICIT": 7,
-    "NOT_POKEMON_CENTER": 82,
+    "NOT_POKEMON_CENTER": 67,
     "NO_ACTIONABLE_SIGNAL": 1
   },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 5,
+  "readable_sources": 4,
   "mydealz": {
     "sources": [
       {
