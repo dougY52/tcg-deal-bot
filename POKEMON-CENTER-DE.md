@@ -89,8 +89,7 @@ Stand 01.11.2026: CardPal bewirbt kostenlose Deutschland-Drop-Alarme. Sein
 öffentliches Web-Frontend nutzt einen authentifizierten Posteingang sowie einen
 Ereignis-Stream. Diese Schnittstellen sind keine zugesicherte externe API.
 Ein funktionierender Transport und schnelle Erkennung eines Shop-Drops müssen
-getrennt nachgewiesen werden. Der Anschluss ist deshalb noch **kein aktiver
-Discord-Monitor**.
+getrennt nachgewiesen werden. Der ergänzende Cloudflare-Relay ist unten beschrieben.
 
 Der vorhandene Workflow `TCG Cloud Watch` hat dafür die optionale Eingabe
 `cardpal_access_test`. Sie startet ausschließlich einen zusätzlichen Lesetest;
@@ -126,3 +125,60 @@ Lokale Tests (ohne Zugangsdaten/Netzwerk):
 ```sh
 python -m unittest discover -s tests -p test_cardpal.py -v
 ```
+
+
+## CardPal → Discord ohne Cloud-Browser
+
+`cloudflare/mms-reader/entry.mjs` erweitert den bestehenden Reader um einen
+privaten Relay. Ein SQLite Durable Object pro Besitzer speichert Konfiguration,
+Session, Meldungsschlüssel und Empfangsbestätigungen. Die vorhandenen Händler-
+Routen bleiben erhalten. Anmeldung und SSE funktionieren im GitHub-Test vom
+01.11.2026; eine reale Drop-Latenz ist mangels neuer Meldung noch nicht gemessen.
+
+- Der Worker hält CardPals Ereignis-Stream für jeweils bis zu vier Minuten offen,
+  verbindet sich danach erneut und prüft dabei den Posteingang zum Nachholen.
+  Ein dauerhafter Cloudflare-Alarm startet den nächsten Durchlauf ohne PC/GitHub.
+- Nur `broadcast:pokecenter-drop` mit ausdrücklichem Deutschlandbezug oder
+  deutschem Pokémon-Center-Link und einem höchstens 15 Minuten alten Zeitstempel.
+  UK/US, widersprüchliche Regionen, Teaser, Backend-Gerüchte und alte Meldungen
+  werden verworfen. Der erste Posteingang wird still als Ausgangszustand gespeichert.
+- Discord benennt CardPal als Quelle. Das ist keine eigene Live-Bestandsprüfung
+  und keine Garantie, dass CardPal jeden Drop sofort erkennt.
+- Versandbelege und Schlüssel bleiben nach Neustarts erhalten. Bei unklarer
+  Discord-Antwort wird nicht blind nochmals gesendet; `delivery_unknown` im
+  privaten Status macht diese seltene Zustellunsicherheit sichtbar.
+- Fehler führen zu 15 Sekunden bis fünf Minuten Backoff. Keine Statusposts.
+- Kein Browser-Aufruf, kein ScrapingAnt-Kontingent, kein kostenpflichtiger Tarif.
+  Ein ständig aktives Objekt benötigt rechnerisch rund 11.060 GB-s pro Tag;
+  Cloudflare Free umfasst 13.000 GB-s täglich. Beim Einrichten waren keine
+  anderen Durable Objects vorhanden. Das gilt für **einen** Besitzer-Relay,
+  nicht beliebig viele gleichzeitig laufende Objekte. Quoten gelten weiterhin.
+
+Einrichtung nach Worker-Deployment: Workflow `TCG Cloud Watch`, Eingabe
+`cardpal_connect=true`. Ein Maintainer-Commit mit `[cardpal-connect]` führt nur
+diese Einrichtung aus, ohne die Händler-Jobs oder Testnachrichten zu starten.
+Die drei vorhandenen Secrets `CARDPAL_EMAIL`, `CARDPAL_PASSWORD` und
+`DISCORD_WEBHOOK_URL` gelangen über kurzlebige GitHub-OIDC-Authentifizierung direkt
+zum eigenen Worker. Keine Klartextwerte in Dateien, Git, Artefakten oder Logs.
+Private Konfiguration/Session liegt im verschlüsselten Cloudflare-Speicher;
+HTTP-Tracing ist ausgeschaltet, damit weder Stream-Token noch Webhook-Pfad in
+Traces landen. Statuszugriff erfordert dieselbe GitHub-Identität.
+
+Tests:
+
+```sh
+node cloudflare/mms-reader/cardpal-test.mjs
+python -m unittest discover -s tests -p test_cardpal.py -v
+```
+
+Zusätzlich prüft `cardpal-runtime-test.cjs` mit Wranglers vorhandenem Miniflare
+RPC, echte Alarme, SQLite-Neustart und Dubletten. CardPal und Discord werden dabei
+simuliert, es gehen keine Testnachrichten in den echten Kanal. Aufruf nach
+`wrangler deploy --dry-run --outdir ../cardpal-build`:
+
+```sh
+node cloudflare/mms-reader/cardpal-runtime-test.cjs /path/to/wrangler/package.json cloudflare/cardpal-build/entry.js
+```
+
+Quoten: https://developers.cloudflare.com/durable-objects/platform/pricing/
+Browser-Kontingent: https://developers.cloudflare.com/browser-run/pricing/

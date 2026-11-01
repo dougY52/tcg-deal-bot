@@ -16,6 +16,10 @@ on:
         description: 'Optionaler Pokémon-Center-Zugriffstest (bis 250 Gratis-Credits)'
         type: boolean
         default: false
+      cardpal_connect:
+        description: 'CardPal an eigenen Cloudflare-Relay anbinden (keine Testnachricht)'
+        type: boolean
+        default: false
       cardpal_access_test:
         description: 'CardPal-Konto und Ereignis-Stream nur lesen, keine Discord-Nachrichten'
         type: boolean
@@ -24,9 +28,32 @@ permissions:
   contents: write
   id-token: write
 concurrency:
-  group: ${{ (inputs.cardpal_access_test || contains(github.event.head_commit.message, '[cardpal-audit]')) && 'tcg-cardpal-audit' || 'tcg-retail-watch' }}
+  group: ${{ (inputs.cardpal_connect || contains(github.event.head_commit.message, '[cardpal-connect]')) && 'tcg-cardpal-connect' || (inputs.cardpal_access_test || contains(github.event.head_commit.message, '[cardpal-audit]')) && 'tcg-cardpal-audit' || 'tcg-retail-watch' }}
   cancel-in-progress: false
 jobs:
+  cardpal-connect:
+    name: CardPal Cloud-Relay verbinden
+    if: github.event.repository.private == false && ((github.event_name == 'workflow_dispatch' && inputs.cardpal_connect) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[cardpal-connect]')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify relay filters and persistent deduplication
+        run: node cloudflare/mms-reader/cardpal-test.mjs
+      - name: Transfer secrets only to own authenticated Worker and check stream
+        env:
+          CARDPAL_EMAIL: ${{ secrets.CARDPAL_EMAIL }}
+          CARDPAL_PASSWORD: ${{ secrets.CARDPAL_PASSWORD }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python -m scripts.configure_cardpal_relay
   cardpal-access:
     name: CardPal Verbindung prüfen (ohne Discord)
     if: github.event.repository.private == false && ((github.event_name == 'workflow_dispatch' && inputs.cardpal_access_test) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[cardpal-audit]')))
@@ -59,7 +86,7 @@ jobs:
   pokemon-center-de:
     # Starts independently of the broad scanner and its browser diagnostics.
     name: Pokémon Center Deutschland
-    if: github.event.repository.private == false && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]')
+    if: github.event.repository.private == false && !inputs.cardpal_connect && !contains(github.event.head_commit.message, '[cardpal-connect]') && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -117,7 +144,7 @@ jobs:
           fi
   cloud-reader-check:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
-    if: github.event.repository.private == false && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]') && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))
+    if: github.event.repository.private == false && !inputs.cardpal_connect && !contains(github.event.head_commit.message, '[cardpal-connect]') && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]') && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -161,7 +188,7 @@ jobs:
   watch:
     needs: cloud-reader-check
     # Public repositories + standard Linux runner: free. Fail closed for private repos.
-    if: always() && github.event.repository.private == false && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]')
+    if: always() && github.event.repository.private == false && !inputs.cardpal_connect && !contains(github.event.head_commit.message, '[cardpal-connect]') && !inputs.cardpal_access_test && !contains(github.event.head_commit.message, '[cardpal-audit]')
     runs-on: ubuntu-24.04
     env:
       TCG_BROWSER_CHANNEL: chrome
@@ -183,6 +210,7 @@ jobs:
       - name: Test and validate
         run: |
           node cloudflare/mms-reader/test.mjs
+          node cloudflare/mms-reader/cardpal-test.mjs
           python -m unittest discover -s tests -v
           python -m tcg_bot --check-config
       - name: Restore durable state

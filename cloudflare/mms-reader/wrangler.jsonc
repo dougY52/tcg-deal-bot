@@ -1,12 +1,16 @@
 {
   "name": "tcg-mms-reader",
-  "main": "worker.mjs",
+  "main": "entry.mjs",
   "compatibility_date": "2026-10-24",
   "workers_dev": true,
   "observability": {
     "enabled": true,
     "head_sampling_rate": 0.01,
-    "traces": {"enabled": true, "head_sampling_rate": 0.01}
+    "traces": {
+      "enabled": false,
+      "head_sampling_rate": 0.01
+    },
+    "redact_query_string": true
   },
   "vars": {
     "GITHUB_REPOSITORY": "dougY52/tcg-deal-bot",
@@ -18,5 +22,21 @@
   },
   "placement": {
     "region": "aws:eu-central-1"
-  }
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CARDPAL_OWNER",
+        "class_name": "CardPalOwner"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "cardpal-owner-v1",
+      "new_sqlite_classes": [
+        "CardPalOwner"
+      ]
+    }
+  ]
 }
