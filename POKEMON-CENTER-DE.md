@@ -96,6 +96,9 @@ Der vorhandene Workflow `TCG Cloud Watch` hat dafür die optionale Eingabe
 `cardpal_access_test`. Sie startet ausschließlich einen zusätzlichen Lesetest;
 die bestehenden Händler- und Pokémon-Center-Jobs bleiben erhalten. Für den Test
 `dry_run=true`, `cardpal_access_test=true`, `pc_access_test=false` auswählen.
+Der Lesetest läuft getrennt von langen Händlerläufen und überspringt in seinem
+Lauf sämtliche Händler-/Discord-Jobs. Ein Maintainer-Push mit `[cardpal-audit]`
+im Commit-Titel startet denselben isolierten Test ohne Browser oder lokalen PC.
 Benötigte Repository-Secrets:
 
 - `CARDPAL_EMAIL`: E-Mail des eigenen CardPal-Kontos.
