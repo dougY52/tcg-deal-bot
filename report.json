@@ -1,15 +1,15 @@
 {
-  "checked_at": "2026-11-01T19:49:21.504240+00:00",
+  "checked_at": "2026-11-01T19:54:10.841796+00:00",
   "sources": [
     {
       "id": "pc-de-store",
-      "status": "blocked",
-      "items": 0,
-      "notes": [
-        "BLOCKED_NOT_STOCK"
-      ],
-      "error": null,
-      "seconds": 1.11
+      "status": "backoff",
+      "retry_at": 1793562861.5042403
+    },
+    {
+      "id": "reddit-de-public",
+      "status": "backoff",
+      "retry_at": 1793562861.5042403
     },
     {
       "id": "galar-public-discord",
@@ -17,7 +17,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.21
+      "seconds": 1.39
     },
     {
       "id": "drop-uk-public",
@@ -25,7 +25,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.76
+      "seconds": 1.65
     },
     {
       "id": "drop-us-public",
@@ -33,7 +33,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 1.08
     },
     {
       "id": "switchstock-public",
@@ -41,15 +41,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.05
-    },
-    {
-      "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.11
+      "seconds": 0.96
     },
     {
       "id": "bisafans-public",
@@ -57,45 +49,41 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.94
+      "seconds": 1.98
     }
   ],
   "rejected": {
+    "DUPLICATE": 1,
     "GERMANY_NOT_EXPLICIT": 7,
     "NOT_POKEMON_CENTER": 82,
     "NO_ACTIONABLE_SIGNAL": 1
   },
-  "alerts": [
-    {
-      "source": "galar-public-discord",
-      "kind": "early_warning",
-      "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/#msg-1566221101376344288",
-      "payload": {
-        "allowed_mentions": {
-          "parse": []
-        },
-        "embeds": [
-          {
-            "title": "👀 VORWARNUNG · POKÉMON CENTER DE",
-            "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/#msg-1566221101376344288",
-            "description": "🇩🇪 **Deutschland ausdrücklich genannt**\nThe 30th Celebration ETBs are loaded on Pokémon Center, but only for Germany, not the UK.\n\n**Community-Hinweis, vom Shop nicht bestätigt.**\nProdukt laut Quelle hinterlegt. Noch kein bestätigter Verkaufsstart, Bestand oder Termin.\n[Pokémon Center Deutschland öffnen](https://www.pokemoncenter.com/de-de/)",
-            "color": 3447003,
-            "timestamp": "2026-10-31T22:43:30+00:00",
-            "footer": {
-              "text": "Quelle: Galar Alerts · öffentliche Discord-Ankündigung · Datum = Originalmeldung"
-            }
-          }
-        ]
-      }
-    }
-  ],
-  "sent": 1,
+  "alerts": [],
+  "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
   "readable_sources": 5,
   "mydealz": {
-    "sources": [],
-    "rejected": {},
+    "sources": [
+      {
+        "id": "mydealz-pokemon",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "mydealz-new",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "restockradar",
+        "status": "ok",
+        "items": 28
+      }
+    ],
+    "rejected": {
+      "STALE_OR_UNDATED": 4
+    },
     "alerts": [],
     "sent": 0,
     "errors": []
