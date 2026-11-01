@@ -272,6 +272,11 @@ def audit(client, email, password, stream_seconds=30):
     except CardPalError as e:
         report['status'] = 'requires_credentials' if e.args[0] == 'CREDENTIALS_REQUIRED' else 'failed'
         report['error'] = e.args[0]
+    except Exception:
+        # Network/parser libraries may put response bytes or credential-bearing
+        # URLs in exception text. Never publish that text in public Actions logs.
+        report['status'] = 'failed'
+        report['error'] = 'UNEXPECTED_CLIENT_ERROR'
     finally:
         client.token = None
     return report

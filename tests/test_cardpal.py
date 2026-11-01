@@ -100,6 +100,12 @@ class CardPalTests(unittest.TestCase):
         self.assertEqual(report['status'], 'requires_credentials')
         self.assertEqual(opener.requests, [])
 
+    def test_unexpected_library_exception_is_redacted(self):
+        opener = Opener(RuntimeError('private token in response or URL'))
+        report = audit(CardPalClient(opener), 'owner@example.test', 'password')
+        self.assertEqual(report['error'], 'UNEXPECTED_CLIENT_ERROR')
+        self.assertNotIn('private token', json.dumps(report))
+
     def test_inbox_schema_fail_closed(self):
         client = CardPalClient(Opener(response({'items': 'not a list'})))
         with self.assertRaisesRegex(CardPalError, 'INVALID_INBOX_SCHEMA'):
