@@ -1,0 +1,26 @@
+{
+  "early_max_age_seconds": 172800,
+  "live_max_age_seconds": 900,
+  "cross_source_cooldown_seconds": 21600,
+  "max_alerts_per_run": 4,
+  "sources": [
+    {"id": "pc-de-store", "name": "Pokémon Center Deutschland", "kind": "store", "url": "https://www.pokemoncenter.com/de-de/"},
+    {"id": "galar-public-discord", "name": "Galar Alerts · öffentliche Discord-Ankündigung", "kind": "communityone", "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/"},
+    {"id": "drop-uk-public", "name": "DROP UK · X via öffentlicher RSS-Spiegel", "kind": "x_rss", "handle": "dropalertsuk", "url": "https://teapawt.net/dropalertsuk/rss"},
+    {"id": "drop-us-public", "name": "DROP US · X via öffentlicher RSS-Spiegel", "kind": "x_rss", "handle": "dropalertsusa", "url": "https://teapawt.net/dropalertsusa/rss"},
+    {"id": "switchstock-public", "name": "SwitchStock · X via öffentlicher RSS-Spiegel", "kind": "x_rss", "handle": "switchstock", "url": "https://teapawt.net/switchstock/rss"},
+    {"id": "reddit-de-public", "name": "Reddit · deutsche Pokémon-Community", "kind": "atom", "url": "https://www.reddit.com/r/PokemonTCG_DE+PokemonDe/new.rss?limit=50"},
+    {"id": "bisafans-public", "name": "Bisafans · öffentlicher Telegram-Kanal", "kind": "telegram", "channel": "Bisafans", "url": "https://t.me/s/Bisafans"}
+  ],
+  "community_watch": {
+    "enabled": true,
+    "telegram_channels": [],
+    "interval_seconds": 240,
+    "max_age_seconds": 1800,
+    "queue_max_age_seconds": 900,
+    "budget_seconds": 20,
+    "max_article_checks": 5,
+    "max_alerts_per_run": 2,
+    "max_price_eur": 200
+  }
+}

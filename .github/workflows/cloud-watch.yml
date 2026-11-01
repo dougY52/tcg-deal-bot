@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
   push:
     branches: [main]
-    paths: ['tcg_bot/**', 'config/config.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', '.github/workflows/cloud-watch.yml']
+    paths: ['tcg_bot/**', 'config/config.json', 'config/pokemon-center-de.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', 'scripts/watch_pokemon_center_de.py', 'tests/test_pokemon_center_watch.py', '.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,6 +23,65 @@ concurrency:
   group: tcg-retail-watch
   cancel-in-progress: false
 jobs:
+  pokemon-center-de:
+    # Starts independently of the broad scanner and its browser diagnostics.
+    name: Pokémon Center Deutschland
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test Germany-only alerts
+        run: python -m unittest discover -s tests -p test_pokemon_center_watch.py -v
+      - name: Restore independent Pokemon Center state
+        run: |
+          set -euo pipefail
+          remote_ref=$(git ls-remote --heads origin refs/heads/pokemon-center-state)
+          if [ -n "$remote_ref" ]; then
+            git fetch --no-tags --depth=1 origin refs/heads/pokemon-center-state
+            git show FETCH_HEAD:state.json > pokemon-center-state.json
+            git worktree add --detach ../pokemon-center-state FETCH_HEAD
+          else
+            git worktree add --detach ../pokemon-center-state HEAD
+            git -C ../pokemon-center-state switch --orphan pokemon-center-state
+            # Carry forward existing community receipts; no duplicate migration alerts.
+            previous=$(git ls-remote --heads origin refs/heads/bot-state)
+            if [ -n "$previous" ]; then
+              git fetch --no-tags --depth=1 origin refs/heads/bot-state
+              git show FETCH_HEAD:state.json > previous-tcg-state.json
+              python -c 'import json; from pathlib import Path; old=json.loads(Path("previous-tcg-state.json").read_text()); Path("pokemon-center-state.json").write_text(json.dumps({"version":1,"offers":{},"community_watch":old.get("community_watch",{"sources":{},"delivered":{}})}))'
+            fi
+          fi
+      - name: Check only Pokemon Center Germany and notify
+        id: pc_scan
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" != "true" ]; then args+=(--send); fi
+          python -m scripts.watch_pokemon_center_de "${args[@]}"
+      - name: Persist Pokemon Center receipts and source health
+        if: ${{ always() && steps.pc_scan.outcome != 'skipped' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: |
+          set -euo pipefail
+          if [ ! -f pokemon-center-state.json ] || [ ! -d ../pokemon-center-state ]; then exit 0; fi
+          cp pokemon-center-state.json ../pokemon-center-state/state.json
+          if [ -f pokemon-center-report.json ]; then cp pokemon-center-report.json ../pokemon-center-state/report.json; fi
+          cd ../pokemon-center-state
+          git config user.name 'pokemon-center-watch[bot]'
+          git config user.email 'pokemon-center-watch[bot]@users.noreply.github.com'
+          git add state.json
+          if [ -f report.json ]; then git add report.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update Pokemon Center DE signals and Discord receipts'
+            git push origin HEAD:refs/heads/pokemon-center-state
+          fi
   cloud-reader-check:
     # Independent deployment diagnostic: failures are visible, scanner still runs.
     if: github.event.repository.private == false && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.dry_run || inputs.pc_access_test)))

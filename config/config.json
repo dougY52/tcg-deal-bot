@@ -3,7 +3,7 @@
   "version": 1,
   "community_watch": {
     "telegram_channels": ["Bisafans"],
-    "enabled": true,
+    "enabled": false,
     "interval_seconds": 240,
     "max_age_seconds": 1800,
     "queue_max_age_seconds": 900,
@@ -2589,17 +2589,6 @@
     "max_sources_per_run": 12,
     "budget_seconds": 30,
     "sources": [
-      {
-        "id": "pokemon-center-de",
-        "name": "Pokémon Center Deutschland",
-        "url": "https://www.pokemoncenter.com/de-de/",
-        "alternate_urls": [
-          "https://www.pokemoncenter.com/en-de"
-        ],
-        "interval_seconds": 300,
-        "priority": 0,
-        "every_run": true
-      },
       {
         "id": "pokemon-official-press-de",
         "name": "Pokémon – offizielle Pressemitteilungen",
