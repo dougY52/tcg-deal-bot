@@ -9,6 +9,7 @@ const bundle = path.resolve(process.argv[3]);
 // Keep Windows SQLite paths short; the full checkout path exceeds MAX_PATH.
 const persist = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'tcg-cp-'));
 const config = {email:'owner@example.invalid', password:'synthetic-password',pokemon_deals:true,
+  deal_franchises:['POKEMON','DRAGONBALL','ONEPIECE'],
   webhook:'https://discord.com/api/webhooks/123456789012345678/synthetic_test_value_12345678901234567890'};
 let inbox = [], sends = 0, profileWrites = 0;
 let profile = {notification_enabled:true,allow_drop_notifications:true,dealz_auto_subscribe_enabled:false};
@@ -51,6 +52,8 @@ async function until(check) { for(let i=0;i<30;i++){ if(await check())return; aw
     await owner.configure(config); console.log('owner configured');
     await until(async()=> {const s=await owner.status();if(s.last_error)throw new Error(JSON.stringify(s));return s.baseline_at;});
     console.log('baseline alarm passed'); assert.equal(sends,0);assert.equal((await owner.status()).pokemon_deals_enabled,true);
+    assert.equal((await owner.status()).tcg_deals_enabled,true);
+    assert.deepEqual((await owner.status()).subscribed_franchises,['DRAGONBALL','ONEPIECE','POKEMON']);
     inbox=[{dedupe_key:'broadcast:pokecenter-drop:de:test',template:'Pokémon Center Deutschland live',
       url:'https://www.pokemoncenter.com/de-de/',created_at:new Date().toISOString()},
       {dedupe_key:'dealz|test',article_id:'b98ec690-f022-46db-a1a7-4cf3750b1450',created_at:new Date().toISOString()}];

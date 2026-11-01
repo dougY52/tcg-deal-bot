@@ -119,7 +119,20 @@ const notice={dedupe_key:'dealz|new|pokemon',article_id:'b98ec690-f022-46db-a1a7
 await general.processRows([notice],{...config,pokemon_deals:true},await generalState.get('health'));
 assert.deepEqual((await general.discovery()).article_ids,[notice.article_id]);
 assert.equal((await general.status()).sent,0,'general alerts are discovery only until shop validation');
+// Existing Pokemon-only installation upgrades once and retains other active subscriptions.
+const oldHealth=await generalState.get('health');delete oldHealth.deal_franchises_applied;
+await generalState.put('health',oldHealth);
+profile.dealz_auto_subscribe_franchises.push('MTG');
+await general.configure({...config,pokemon_deals:true,deal_franchises:['POKEMON','DRAGONBALL','ONEPIECE']});
+await general.cycle();
+assert.equal(profileWrites,2,'new franchises applied to an existing Pokemon installation');
+assert.equal((await general.status()).tcg_deals_enabled,true);
+assert.deepEqual((await general.status()).subscribed_franchises,['DRAGONBALL','ONEPIECE','POKEMON']);
+assert(profile.dealz_auto_subscribe_franchises.includes('MTG'),'other owner subscriptions preserved');
+await general.cycle();assert.equal(profileWrites,2,'expanded subscription is not repeatedly written');
+await assert.rejects(()=>general.configure({...config,deal_franchises:['UNKNOWN']}),/INVALID_DEAL_FRANCHISES/);
 profile.dealz_auto_subscribe_enabled=false;await general.cycle();
-assert.equal(profileWrites,1,'later owner settings are not silently overwritten');
+assert.equal(profileWrites,2,'later owner settings are not silently overwritten');
 assert.equal((await general.status()).pokemon_deals_enabled,false);
-console.log('Pokemon subscriptions and private discovery queue checks passed');
+assert.equal((await general.status()).tcg_deals_enabled,false);
+console.log('Pokemon, Dragon Ball and One Piece subscription migration and private queue checks passed');

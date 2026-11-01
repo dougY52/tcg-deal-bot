@@ -159,9 +159,27 @@ class Preorders(unittest.TestCase):
         self.assertEqual(obj['product_type'], 'tin')
         self.assertNotIn('tin', self.cfg['market']['allowed_product_types'])
 
-    def test_pokemon_english_rejected(self):
+    def test_pokemon_english_alert_dedupe_and_restock(self):
         self.client.product['title'] = 'Pokémon ETB English Preorder'
-        self.rejected('WRONG_LANGUAGE')
+        live, _ = p.live(self.offer, self.shop, self.client, NOW)
+        en, error = p.identity(live, self.cfg)
+        self.assertIsNone(error)
+        de, _ = p.identity(dict(live,title='Pokémon ETB Deutsch Preorder'),self.cfg)
+        self.assertNotEqual(en['product_key'],de['product_key'])
+        self.assertNotEqual(en['comparison_key'],de['comparison_key'])
+        reference={'comparison_key':de['comparison_key'],'kind':'observed_retail','price_eur':'105',
+                   'note':'Synthetic fixture','evidence_url':'https://example.test/retail',
+                   'verified_on':'2026-01-01','valid_until':'2099-01-01'}
+        self.cfg['preorder_watch']['price_references']=[reference]
+        self.rejected('MISSING_PRICE_REFERENCE')  # DE reference cannot qualify EN.
+        reference['comparison_key']=en['comparison_key']
+        d=self.sent()
+        self.assertEqual(d['language'],'EN')
+        self.rejected('DUPLICATE')
+        self.client.product['variants'][0]['available']=False
+        self.scan(NOW+60)
+        self.client.product['variants'][0]['available']=True
+        self.assertEqual(len(self.scan(NOW+120)[1]),1)
 
     def test_heroes_excluded(self):
         self.client.product['title'] += ' Super Dragon Ball Heroes'

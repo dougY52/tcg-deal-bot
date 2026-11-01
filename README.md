@@ -412,11 +412,13 @@ bleiben in der bisherigen Rotation. Der Scanbericht zeigt die Zahl pausierter
 Links. Requests oder Preisgrenzen werden dafür nicht erhöht.
 
 
-### Zusätzliche Pokémon-DE-Discovery über CardPal
+### Zusätzliche TCG-Discovery über CardPal
 
-CardPals allgemeine Pokémon-Deal-Abos und sein öffentlicher Produktkatalog sind
+CardPals Deal-Abos für Pokémon, Dragon Ball und One Piece und sein öffentlicher Produktkatalog sind
 als zusätzliche Suchquelle angebunden. Neue Produktseiten bei bekannten deutschen
 Händlern werden in den vorhandenen Fast Watch übernommen und vor einem Discord-
 Alert mit denselben Live-, Sprach-, Preis- und Dublettenregeln geprüft. Pokémon
-Center bleibt zusätzlich per Cloudflare-Ereignis-Stream angebunden. Details und
+Center bleibt zusätzlich per Cloudflare-Ereignis-Stream angebunden. Pokémon: DE und EN;
+Dragon Ball (Fusion World und Masters) und One Piece: EN. Händler bleiben auf
+Deutschland beschränkt; englische Karten bedeuten keinen UK-/US-Import. Details und
 Kosten-/Zeitgrenzen stehen in [POKEMON-CENTER-DE.md](POKEMON-CENTER-DE.md).

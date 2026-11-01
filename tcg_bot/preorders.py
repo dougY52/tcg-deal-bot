@@ -90,6 +90,7 @@ def identity(o, cfg):
         return None, 'UNSUPPORTED_PRODUCT'
     lang = language(dict(o, variant=o.get('variant', ''), description=o.get('description', '')))
     allowed = {'Pokémon': ['DE'], 'Dragon Ball': ['EN'], 'One Piece': ['EN'], 'Naruto': ['DE', 'EN']}
+    allowed.update(cfg.get('market', {}).get('franchise_languages', {}))
     if lang not in allowed.get(family, []):
         return None, 'WRONG_LANGUAGE'
     if re.search(r'\b(repack|mystery|funko|blindbox|ichiban|history.box|logo.display|figurine|proxy|fake|opened|geöffnet|empty|leer|stapel|konvolut|case|acrylic|acryl|sleeves?|binder|einzelkarte)\b', text, re.I):

@@ -20,9 +20,9 @@ class SealedContextTests(unittest.TestCase):
     def test_empty_boxes_singles_and_cases_excluded(self):
         for title in ['Pokémon leere Tin DE','Pokémon Acryl Box DE','Pokémon Aufbewahrungsbox DE','Pokémon Glurak Einzelkarte DE','Pokémon Mini Tin Display DE','Pokémon Booster Case DE','Pokémon Mystery Box DE']:
             self.assertIsNone(normalize(self.product(title),self.config())[0],title)
-    def test_pokemon_english_and_unknown_still_excluded(self):
-        for title in ['Pokémon Tin EN','Pokémon Tin']:
-            self.assertIsNone(normalize(self.product(title),self.config())[0])
+    def test_pokemon_english_allowed_unknown_excluded(self):
+        self.assertIsNotNone(normalize(self.product('Pokémon Tin EN'),self.config())[0])
+        self.assertIsNone(normalize(self.product('Pokémon Tin'),self.config())[0])
     def test_product_formats_and_tin_variants_never_share_identity(self):
         titles=['Pokémon ME04 Display DE','Pokémon ME04 Top Trainer Box DE','Pokémon ME04 Tin Pikachu DE','Pokémon ME04 Tin Glurak DE']
         ids=[normalize(self.product(t,description='36 Booster'),self.config())[0]['identity'] for t in titles]

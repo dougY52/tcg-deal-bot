@@ -13,7 +13,21 @@ from .retail_research import BudgetClient
 
 ORIGIN = 'https://www.mycardpal.com'
 TYPES = ('BOOSTER_BOX', 'ELITE_TRAINER_BOX', 'BUNDLE', 'COLLECTION_BOX', 'TIN')
+FRANCHISES = {'POKEMON': 'Pokémon', 'DRAGONBALL': 'Dragon Ball', 'ONEPIECE': 'One Piece'}
+FORMATS = {'POKEMON': TYPES, 'DRAGONBALL': ('BOOSTER_BOX', 'COLLECTION_BOX'),
+           'ONEPIECE': ('BOOSTER_BOX', 'COLLECTION_BOX', 'STARTER_DECK')}
+LANGUAGES = {'DE': 'German', 'EN': 'English'}
 UUID = re.compile(r'[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}')
+
+
+def scopes(cfg):
+    return [f for f in cfg.get('cardpal_discovery', {}).get('franchises', ['POKEMON']) if f in FRANCHISES]
+
+
+def languages(cfg, code):
+    default = ['DE'] if code == 'POKEMON' else ['EN']
+    return [x for x in cfg.get('market', {}).get('franchise_languages', {}).get(FRANCHISES[code], default)
+            if x in LANGUAGES]
 
 
 def article_id(value):
@@ -60,12 +74,14 @@ def shop_for(offer, cfg):
 
 def candidate_offers(detail, cfg):
     a = detail.get('article') or {}
-    if a.get('franchise_code') != 'POKEMON' or a.get('product_type') not in TYPES:
+    code = a.get('franchise_code')
+    if code not in scopes(cfg) or a.get('product_type') not in FORMATS[code]:
         return []
     out = []
     for offer in detail.get('offers', [])[:200]:
         price = amount(offer.get('price'))
-        if (str(offer.get('language', '')).lower() not in ('de', 'german') or
+        lang = {'de': 'DE', 'german': 'DE', 'en': 'EN', 'english': 'EN'}.get(str(offer.get('language', '')).lower())
+        if (lang not in languages(cfg, code) or
                 offer.get('availability') not in ('IN_STOCK', 'PREORDER') or
                 offer.get('currency') != 'EUR' or offer.get('vat_included') is not True or
                 offer.get('is_invite') is True or not price or
@@ -141,24 +157,32 @@ def discover(cfg, state, client, now):
         ids.extend(relay_articles())
     except Exception as error:
         report['errors'].append('relay:' + type(error).__name__)
-    cursor = db.get('type_cursor', 0) % len(TYPES)
-    # Two rotating formats, independently rotating pages: new sets plus older stock.
-    for index in (cursor, (cursor + 1) % len(TYPES)):
-        kind = TYPES[index]
-        offset = db.setdefault('offsets', {}).get(kind, 0)
-        params = {'franchise': 'POKEMON', 'language': 'German', 'product_type': kind,
+    families = scopes(cfg)
+    article_scopes = db.setdefault('article_scopes', {})
+    # One search per franchise/run. Format, language and page rotate independently.
+    for code in families:
+        combinations = [(kind, lang) for kind in FORMATS[code] for lang in languages(cfg, code)]
+        if not combinations:
+            continue
+        cursor = db.setdefault('scope_cursors', {}).get(code, 0) % len(combinations)
+        kind, lang = combinations[cursor]
+        query_key = code + ':' + lang + ':' + kind
+        offset = db.setdefault('offsets', {}).get(query_key, 0)
+        params = {'franchise': code, 'language': LANGUAGES[lang], 'product_type': kind,
                   'max_price': 200, 'limit': 30, 'offset': offset, 'sort_by': 'release_date_desc'}
         try:
             rows = limited.get(ORIGIN + '/api/search/?' + urlencode(params))
             if not isinstance(rows, list) or len(rows) > 30:
                 raise ValueError('Invalid search response')
-            db['offsets'][kind] = offset + 30 if len(rows) == 30 and offset < 600 else 0
-            ids.extend(r['id'] for r in rows if article_id(r.get('id')) and
-                       r.get('product_type') in TYPES and
-                       (r.get('has_in_stock') is True or r.get('availability_status') == 'PREORDER'))
+            db['offsets'][query_key] = offset + 30 if len(rows) == 30 and offset < 600 else 0
+            found = [r['id'] for r in rows if article_id(r.get('id')) and
+                     r.get('product_type') in FORMATS[code] and
+                     (r.get('has_in_stock') is True or r.get('availability_status') == 'PREORDER')]
+            ids.extend(found)
+            article_scopes.update({aid: code for aid in found})
+            db['scope_cursors'][code] = (cursor + 1) % len(combinations)
         except Exception as error:
             report['errors'].append('search:' + type(error).__name__)
-    db['type_cursor'] = (cursor + 2) % len(TYPES)
     checked = db.setdefault('articles', {})
     pending = db.setdefault('pending', {})
     pending.update({aid: now for aid in ids})
@@ -166,13 +190,21 @@ def discover(cfg, state, client, now):
                           key=lambda x: x[1], reverse=True)[:1000])
     db['pending'] = pending
     # Never let a busy inbox pin the same handful of articles on every run.
-    ids = sorted(pending, key=lambda x: checked.get(x, 0))
+    ordered = sorted(pending, key=lambda x: checked.get(x, 0))
+    # A large Pokemon backlog must not crowd out DB/OP or newly received article IDs.
+    groups = [[aid for aid in ordered if article_scopes.get(aid) == code] for code in families]
+    groups.append([aid for aid in ordered if article_scopes.get(aid) not in families])
+    ids = [group[i] for i in range(max(map(len, groups), default=0)) for group in groups if i < len(group)]
+    db['article_scopes'] = {aid: code for aid, code in article_scopes.items() if aid in pending}
     targets, visited = [], set()
     for aid in ids[:settings.get('max_articles', 6)]:
         checked[aid] = now
         try:
             detail = limited.get(ORIGIN + '/api/articles/' + aid + '/detail?locale=de')
             report['articles'] += 1
+            code = (detail.get('article') or {}).get('franchise_code')
+            if code in families:
+                db['article_scopes'][aid] = code
             for offer in candidate_offers(detail, cfg):
                 report['offers'] += 1
                 shop = shop_for(offer, cfg)
@@ -188,8 +220,8 @@ def discover(cfg, state, client, now):
                 try:
                     rows = product_rows(offer, shop, limited)
                     for row in rows:
-                        from .rules import language
-                        if language(row) != 'DE':
+                        from .rules import language, franchise
+                        if language(row) not in languages(cfg, code) or franchise(row, cfg) != FRANCHISES[code]:
                             continue
                         row['discovered_by'] = 'cardpal'
                         row['cardpal_article_id'] = aid

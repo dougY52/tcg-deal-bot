@@ -12,11 +12,24 @@ def main():
     now = time.time()
     client = Client(delay=0.3)
     try:
-        rows, report = discover(cfg, {}, client, now)
-        print(json.dumps(report, indent=2, ensure_ascii=False))
+        state, rows = {}, []
+        # Two catalogue rotations include both Pokemon languages; no delivery state.
+        for _ in range(2):
+            state.setdefault('cardpal_discovery', {})['checked_at'] = 0
+            found, report = discover(cfg, state, client, now)
+            rows.extend(found)
+            print(json.dumps(report, indent=2, ensure_ascii=False))
         shops = {s['id']:s for s in cfg['shops']}
         checked = []
-        for row in rows[:4]:
+        selected, groups = [], set()
+        for row in rows:
+            identity, _ = preorders.identity(row, cfg)
+            if identity:
+                group = (identity['franchise'], identity['language'])
+                if group not in groups:
+                    selected.append(row)
+                    groups.add(group)
+        for row in selected[:4]:
             try:
                 live, error = preorders.live(row, shops[row['shop']], client, now)
                 checked.append({'shop':row['shop'],'product':row['title'],

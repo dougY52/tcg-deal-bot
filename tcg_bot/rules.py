@@ -107,9 +107,9 @@ def assess(offer, config, today=None):
     return dict(offer, reference=ref, language=ref['language'], ceiling=str(ceiling), price_orientation=orientation(offer, config, ref['language'])), 'eligible'
 
 
-def prefer_german(deals):
+def prefer_german(deals, include_english=False):
     german = {d['reference']['group'] for d in deals if d['language'] == 'DE'}
-    return sorted((d for d in deals if d['language'] == 'DE' or d['reference']['group'] not in german),
+    return sorted((d for d in deals if include_english or d['language'] == 'DE' or d['reference']['group'] not in german),
                   key=lambda d: (d['language'] != 'DE', Decimal(d['price']), d['key']))
 
 

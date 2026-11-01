@@ -27,7 +27,7 @@ GERMANY = re.compile(r'pok[eé]mon\s*cent(?:er|re)\s*(?:[-–:|]\s*)?(?:deutschl
 PRODUCT = re.compile(r'booster|display|trainer[ -]?box|\betb\b|kollektion|collection|\btin\b|\bbundle\b', re.I)
 QUEUE = re.compile(r'warteschlange|warteraum|\bqueue\b', re.I)
 NEGATIVE = re.compile(r'ausverkauft|sold\s*out|abgelaufen|nicht (?:mehr )?(?:verfügbar|lieferbar)|geschlossen|\bclosed\b|waitlist|notify me|benachrichtigen|coming soon|einladung|invitation', re.I)
-FOREIGN = re.compile(r'\b(?:uk|us|usa|gb|japan|japanisch|japanese|englisch|english)\b|großbritannien', re.I)
+FOREIGN = re.compile(r'\b(?:uk|us|usa|gb|japan|japanisch|japanese)\b|großbritannien', re.I)
 
 
 def clean(text):

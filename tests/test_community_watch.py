@@ -93,8 +93,12 @@ class CommunityWatchTests(unittest.TestCase):
             self.assertEqual(c.qualify(obj, NOW, {})[1], 'GERMANY_NOT_EXPLICIT')
 
     def test_foreign_or_unknown_region_queue_never_posted(self):
-        for title in ['Pokemon Center UK Queue live', 'Pokemon Center Queue live', 'Pokemon Center Deutschland Display English', 'Pokemon Center US live']:
+        for title in ['Pokemon Center UK Queue live', 'Pokemon Center Queue live', 'Pokemon Center US live']:
             self.assertIsNotNone(c.qualify(article(title=title), NOW, {})[1])
+
+    def test_english_product_still_requires_german_storefront(self):
+        self.assertIsNone(c.qualify(article(title='Pokemon Center Deutschland Display English'),NOW,{})[1])
+        self.assertIsNotNone(c.qualify(article(title='Pokemon Center Display English'),NOW,{})[1])
 
     def test_fresh_explicit_german_queue_allowed_but_not_old_or_closed(self):
         obj = article(title='Pokemon Center DE Warteschlange ist live', price=None)

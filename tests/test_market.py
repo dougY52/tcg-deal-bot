@@ -71,7 +71,7 @@ class MarketTests(unittest.TestCase):
         self.assertFalse(evaluate(offers(),c,state(),NOW)[0])
 
     def test_languages_editions_packs_games_do_not_mix(self):
-        original=offers()[0]; c=cfg(); base=normalize(original,c)[0]['identity']
+        original=offers()[0]; c=cfg(); c['market']['franchise_languages']['Dragon Ball']=['DE','EN']; base=normalize(original,c)[0]['identity']
         for change in [{'title':original['title'].replace(' EN',' DE')},
                        {'title':original['title']+' 1st Edition'},
                        {'description':'36 Booster original versiegelt'},
@@ -148,7 +148,7 @@ class AdditionalRegressionTests(unittest.TestCase):
         self.assertIn('BT20',normalize(o|{'title':'Dragon Ball BT20 Booster Display EN'},c)[0]['identity'])
 
     def test_de_preferred_among_qualified_offers(self):
-        c=cfg();en=offers();de=[o|{'key':o['key']+'de','title':o['title'].replace(' EN',' DE')} for o in en]
+        c=cfg();c['market']['franchise_languages']['Dragon Ball']=['DE','EN'];en=offers();de=[o|{'key':o['key']+'de','title':o['title'].replace(' EN',' DE')} for o in en]
         c['market']['price_references'].append(c['market']['price_references'][0]|{'identity':'masters|BT15|unspecified|24|standard|DE'})
         deals,_,_=evaluate(en+de,c,state(),NOW)
         self.assertEqual([d['language'] for d in deals],['DE'])

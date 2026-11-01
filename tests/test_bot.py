@@ -95,6 +95,7 @@ class RulesTests(unittest.TestCase):
         de = assess(offer(), config())[0]
         en = copy.deepcopy(de); en['language'] = 'EN'; en['key'] = 'other'
         self.assertEqual(prefer_german([en, de]), [de])
+        self.assertEqual(prefer_german([en, de], include_english=True), [de,en])
         en['reference']['group'] = 'different-set'
         self.assertEqual(len(prefer_german([en, de])), 2)
         self.assertEqual(prefer_german([en]), [en])

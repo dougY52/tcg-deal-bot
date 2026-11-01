@@ -2179,7 +2179,14 @@
     "research_max_requests": 16,
     "franchise_languages": {
       "Pokémon": [
-        "DE"
+        "DE",
+        "EN"
+      ],
+      "Dragon Ball": [
+        "EN"
+      ],
+      "One Piece": [
+        "EN"
       ]
     },
     "allow_verified_without_comparisons": true,
@@ -2684,7 +2691,12 @@
     "enabled": true,
     "interval_seconds": 240,
     "budget_seconds": 25,
-    "max_requests": 20,
-    "max_articles": 6
+    "max_requests": 24,
+    "max_articles": 6,
+    "franchises": [
+      "DRAGONBALL",
+      "POKEMON",
+      "ONEPIECE"
+    ]
   }
 }

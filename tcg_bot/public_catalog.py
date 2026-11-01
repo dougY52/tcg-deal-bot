@@ -21,7 +21,7 @@ def product_links(data, shop):
         if re.search(r'\bdvd\b|blu.?ray|vinyl|schlüsselanhänger|keychain|funko|figur|repack|mystery|sleeve|acryl',title,re.I):
             continue
         lang=language({'title':title,'variant':'','description':''})
-        if lang=='OTHER' or (re.search(r'pok[eé]mon',title,re.I) and lang=='EN') or (re.search(r'dragon.?ball|one.?piece',title,re.I) and lang=='DE'):
+        if lang=='OTHER' or (re.search(r'dragon.?ball|one.?piece',title,re.I) and lang=='DE'):
             continue
         pid=str(product.get('id',''))
         href=core.get('urlRelative','')

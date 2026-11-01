@@ -175,7 +175,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(p.identity(row,cfg)[1],'WRONG_LANGUAGE')
         state={}
         remember([row|{'title':'Pokémon Booster Display Englisch'}],cfg,state,NOW)
-        self.assertEqual(state['fast_targets'],{})
+        self.assertIn('example:1',state['fast_targets'])
+        self.assertEqual(p.identity(state['fast_targets']['example:1']['offer'],cfg)[0]['language'],'EN')
     def test_targeted_shopify_collection_rotation_keeps_other_cursors(self):
         from tcg_bot.sources import shopify
         source=shop('shopify')|{'max_pages':1,'catalog_collections':['dragon-ball','pokemon'],'rotate_collections':True,

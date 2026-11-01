@@ -40,10 +40,14 @@ class TelegramTests(unittest.TestCase):
             self.assertEqual(self.run_at()['sent'], 0)
 
     def test_german_channel_does_not_imply_german_shop(self):
-        for text in ['Pokémon Center ETB verfügbar', 'Pokémon Center UK ETB verfügbar', 'Pokémon Center Deutschland ETB English verfügbar', 'Pokémon Center Deutschland ETB nicht verfügbar', 'Pokémon Center Deutschland ETB morgen verfügbar', 'Pokémon Center Deutschland ETB angekündigt', 'Pokémon Center Deutschland Plüschtier verfügbar', 'Pokémon Center Deutschland ETB verfügbar für 350 €', 'Pokémon Center Deutschland ETB war verfügbar']:
+        for text in ['Pokémon Center ETB verfügbar', 'Pokémon Center UK ETB verfügbar', 'Pokémon Center Deutschland ETB nicht verfügbar', 'Pokémon Center Deutschland ETB morgen verfügbar', 'Pokémon Center Deutschland ETB angekündigt', 'Pokémon Center Deutschland Plüschtier verfügbar', 'Pokémon Center Deutschland ETB verfügbar für 350 €', 'Pokémon Center Deutschland ETB war verfügbar']:
             self.body = preview(text=text)
             self.state = {}
             self.assertEqual(self.run_at()['sent'], 0, text)
+
+    def test_english_product_at_explicit_german_storefront(self):
+        self.body=preview(text='Pokémon Center Deutschland ETB English verfügbar')
+        self.assertEqual(self.run_at()['sent'],1)
 
     def test_queue_current_germany_only(self):
         self.body = preview(text='Pokémon Center Deutschland Warteschlange jetzt offen')

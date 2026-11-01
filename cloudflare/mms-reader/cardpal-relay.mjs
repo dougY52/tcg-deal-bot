@@ -92,14 +92,20 @@ export class CardPalRelay {
         typeof input.password !== 'string' || input.password.length < 1 || input.password.length > 2000 ||
         !webhookURL(input.webhook)) throw new RelayError('INVALID_CONFIGURATION');
     const previous = await this.storage.get('config');
+    const requested = input.deal_franchises ?? previous?.deal_franchises ?? ['POKEMON'];
+    if (!Array.isArray(requested) || !requested.length || requested.length > 3 ||
+        requested.some(f => !['POKEMON', 'DRAGONBALL', 'ONEPIECE'].includes(f)))
+      throw new RelayError('INVALID_DEAL_FRANCHISES');
     const config = {email: input.email, password: input.password, webhook: input.webhook,
-      pokemon_deals: input.pokemon_deals === true || previous?.pokemon_deals === true};
+      pokemon_deals: input.pokemon_deals === true || previous?.pokemon_deals === true,
+      deal_franchises: [...new Set(requested)].sort()};
     if (previous && (previous.email !== config.email || previous.password !== config.password)) {
       await this.storage.delete('session'); this.session = null;
     }
     await this.storage.put('config', config);
     if (!previous) await this.storage.put('health', {status: 'configured', enabled_at: this.clock(), sent: 0});
-    if (config.pokemon_deals && !previous?.pokemon_deals) this.cycleAbort?.abort();
+    if (config.pokemon_deals && (!previous?.pokemon_deals ||
+        JSON.stringify(config.deal_franchises) !== JSON.stringify(previous?.deal_franchises))) this.cycleAbort?.abort();
     if (!this.running) await this.storage.setAlarm(this.clock() + 1000);
     return this.status();
   }
@@ -245,9 +251,11 @@ export class CardPalRelay {
     try {
       await this.authenticate(config);
       let settings = await this.request('/users/me');
-      if (config.pokemon_deals && !health.pokemon_settings_applied) {
+      const requested = config.deal_franchises || ['POKEMON'];
+      const applied = health.deal_franchises_applied || (health.pokemon_settings_applied ? ['POKEMON'] : []);
+      if (config.pokemon_deals && requested.some(f => !applied.includes(f))) {
         const franchises = settings.dealz_auto_subscribe_enabled && Array.isArray(settings.dealz_auto_subscribe_franchises)
-          ? [...new Set([...settings.dealz_auto_subscribe_franchises, 'POKEMON'])] : ['POKEMON'];
+          ? [...new Set([...settings.dealz_auto_subscribe_franchises, ...requested])] : requested;
         const existing = Number(settings.dealz_threshold_percent);
         const threshold = existing > 0 ? Math.min(existing, 5) : 5;
         await this.request('/users/me', {method: 'PUT', headers: {'Content-Type': 'application/json'},
@@ -255,14 +263,20 @@ export class CardPalRelay {
             dealz_auto_subscribe_enabled: true, dealz_auto_subscribe_franchises: franchises,
             dealz_threshold_percent: threshold})});
         settings = await this.request('/users/me');
-        if (settings.dealz_auto_subscribe_enabled !== true || !settings.dealz_auto_subscribe_franchises?.includes('POKEMON'))
-          throw new RelayError('POKEMON_DEALS_NOT_ENABLED');
-        health.pokemon_deals_enabled = true;
+        if (settings.dealz_auto_subscribe_enabled !== true ||
+            !requested.every(f => settings.dealz_auto_subscribe_franchises?.includes(f)))
+          throw new RelayError('TCG_DEALS_NOT_ENABLED');
         health.pokemon_settings_applied = true;
+        health.deal_franchises_applied = [...new Set([...applied, ...requested])];
         health.dealz_threshold_percent = settings.dealz_threshold_percent;
       }
       if (config.pokemon_deals) health.pokemon_deals_enabled = settings.dealz_auto_subscribe_enabled === true &&
         settings.dealz_auto_subscribe_franchises?.includes('POKEMON') === true;
+      if (config.pokemon_deals) {
+        health.subscribed_franchises = requested.filter(f => settings.dealz_auto_subscribe_enabled === true &&
+          settings.dealz_auto_subscribe_franchises?.includes(f));
+        health.tcg_deals_enabled = health.subscribed_franchises.length === requested.length;
+      }
       if (settings.notification_enabled === false || settings.allow_drop_notifications === false)
         throw new RelayError('CARDPAL_DROPS_DISABLED');
       await this.processRows(await this.inbox(), config, health);

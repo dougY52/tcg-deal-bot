@@ -49,6 +49,16 @@ class SetupTests(unittest.TestCase):
             self.assertEqual(setup.main(), 2)
         request.assert_not_called()
 
+    @patch.dict(setup.os.environ, {'CARDPAL_EMAIL':'owner@example.invalid',
+                                  'CARDPAL_PASSWORD':'synthetic', 'DISCORD_WEBHOOK_URL':'synthetic'})
+    @patch.object(setup, 'request')
+    def test_setup_requests_all_configured_franchises(self,request):
+        request.return_value={'status':'stream_connected','tcg_deals_enabled':True}
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(setup.main(),0)
+        body=request.call_args_list[0].args[1]
+        self.assertEqual(set(body['deal_franchises']),{'POKEMON','DRAGONBALL','ONEPIECE'})
+
 
 if __name__ == '__main__':
     unittest.main()

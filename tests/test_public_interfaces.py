@@ -95,7 +95,7 @@ class PublicInterfaces(unittest.TestCase):
     def test_catalog_rejects_merchandise_and_explicit_wrong_languages(self):
         from tcg_bot.public_catalog import product_links
         for title in ('Dragon Ball Box DVD','Dragon Ball Vinyl Schlüsselanhänger Display',
-                      'Pokémon Booster Display Englisch','One Piece Display Japanisch','Naruto Mythos Display EN'):
+                      'Pokémon Booster Display Japanisch','One Piece Display Japanisch','Naruto Mythos Display EN'):
             row={'productAggregate':{'product':{'id':'123'}},'cofrProductAggregate':{'cofrCoreFeature':{
                 'productName':title,'urlRelative':'/de/product/_item-123.html'}}}
             self.assertEqual(product_links({'data':[row]},{'base_url':'https://www.saturn.de'}),[],title)
@@ -114,3 +114,10 @@ class PublicInterfaces(unittest.TestCase):
             rows,notes=mms(shop,Client())
         self.assertEqual(rows,[])
         self.assertTrue(any('Product page unavailable' in n for n in notes))
+
+    def test_public_catalog_discovers_english_pokemon(self):
+        from tcg_bot.public_catalog import product_links
+        row={'productAggregate':{'product':{'id':'123'}},'cofrProductAggregate':{'cofrCoreFeature':{
+            'productName':'Pokémon Booster Display Englisch','urlRelative':'/de/product/_item-123.html'}}}
+        self.assertEqual(product_links({'data':[row]},{'base_url':'https://www.saturn.de'}),
+                         ['https://www.saturn.de/de/product/_item-123.html'])

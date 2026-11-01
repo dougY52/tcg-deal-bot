@@ -157,6 +157,9 @@ def load_config(path):
         assert 5 <= cardpal.get('budget_seconds', 25) <= 30
         assert 1 <= cardpal.get('max_requests', 20) <= 24
         assert 1 <= cardpal.get('max_articles', 6) <= 8
+        from .cardpal_discovery import FRANCHISES
+        assert set(cardpal.get('franchises', ['POKEMON'])) <= set(FRANCHISES)
+        assert cardpal.get('franchises', ['POKEMON'])
     if daily.get('enabled'):
         assert 0 < Decimal(str(daily.get('max_price_eur', 200))) <= 200
         assert 1 <= daily.get('offers_per_message', 4) <= 6
@@ -371,7 +374,7 @@ def run(cfg, state, client, send=None, checkpoint=None, now=None):
     report = {'shops': shops, 'errors': errors, 'warnings': warnings, 'skipped': dict(skipped),
               'candidates': candidates, 'alerts': [], 'sent': 0, 'dry_run': send is None, 'unavailable_sources': cfg.get('unavailable_sources', []), 'local_stores': cfg.get('local_stores', {})}
     report['cardmarket'] = cm_report
-    for deal in prefer_german(deals):
+    for deal in prefer_german(deals, include_english='EN' in cfg.get('market', {}).get('franchise_languages', {}).get('Pokémon', [])):
         reason = alert_reason(deal, state, now, cfg)
         if not reason:
             continue
@@ -465,7 +468,7 @@ def summary(report):
         text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"
     if report.get('cardpal_discovery', {}).get('enabled'):
         cardpal = report['cardpal_discovery']
-        text += (f"CardPal Pokémon DE: {cardpal['articles']} Artikel geprüft · "
+        text += (f"CardPal Pokémon DE/EN · Dragon Ball EN · One Piece EN: {cardpal['articles']} Artikel geprüft · "
                  f"{cardpal['targets']} Shop-Varianten zur Liveprüfung · "
                  f"{len(cardpal['shops'])} bekannte Händler · "
                  f"{len(cardpal['errors'])} Quellenfehler. Keine Alerts allein aus CardPal-Daten.\n\n")

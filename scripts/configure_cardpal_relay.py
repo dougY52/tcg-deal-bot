@@ -1,7 +1,7 @@
 """Bootstrap owner secrets directly from GitHub to the authenticated own Worker.
 
 No secret file, credential output or test Discord message. The owner relay also
-enables the explicitly requested general Pokemon deal subscription once.
+enables the explicitly requested TCG deal subscriptions once per added franchise.
 """
 import json
 import os
@@ -39,7 +39,8 @@ def request(path, body=None):
             'last_stream_at', 'last_cycle_at', 'next_alarm', 'sent', 'last_error',
             'failures', 'delivery_unknown', 'delivery_errors', 'browser_minutes_used',
             'shop_drop_latency_verified', 'last_publication_to_delivery_seconds',
-            'pokemon_deals_enabled', 'dealz_threshold_percent', 'discovery_articles')
+            'pokemon_deals_enabled', 'tcg_deals_enabled', 'subscribed_franchises',
+            'dealz_threshold_percent', 'discovery_articles')
     return {k: value[k] for k in keys if k in value}
 
 
@@ -51,15 +52,18 @@ def main():
             if not all(body.values()):
                 print('CARDPAL_RELAY_MISSING_SECRET'); return 2
             body['pokemon_deals'] = True
+            from tcg_bot.__main__ import load_config
+            from tcg_bot.cardpal_discovery import scopes
+            body['deal_franchises'] = scopes(load_config('config/config.json'))
             request('/cardpal/configure', body)
         result = {}
         for _ in range(12):
             result = request('/cardpal/status')
-            if (result.get('status') == 'stream_connected' and result.get('pokemon_deals_enabled')) or result.get('last_error'):
+            if (result.get('status') == 'stream_connected' and result.get('tcg_deals_enabled')) or result.get('last_error'):
                 break
             time.sleep(5)
         print(json.dumps(result, indent=2))
-        return 0 if result.get('status') == 'stream_connected' and result.get('pokemon_deals_enabled') else 2
+        return 0 if result.get('status') == 'stream_connected' and result.get('tcg_deals_enabled') else 2
     except Exception:
         # HTTPError and URLs can contain credentials. Never print the exception.
         print('CARDPAL_RELAY_SETUP_OR_STATUS_FAILED'); return 2
