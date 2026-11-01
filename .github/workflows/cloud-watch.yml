@@ -47,7 +47,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify relay filters and persistent deduplication
-        run: node cloudflare/mms-reader/cardpal-test.mjs
+        run: |
+          node cloudflare/mms-reader/cardpal-test.mjs
+          python -m unittest discover -s tests -p test_cardpal_relay_setup.py -v
       - name: Transfer secrets only to own authenticated Worker and check stream
         env:
           CARDPAL_EMAIL: ${{ secrets.CARDPAL_EMAIL }}

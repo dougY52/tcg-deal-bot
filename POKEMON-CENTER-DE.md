@@ -4,7 +4,9 @@ Stand: 01.11.2026. Dieser Monitor prüft ausschließlich Pokémon Center Deutsch
 Er startet als eigener Job **Pokémon Center Deutschland** im bestehenden Workflow
 **TCG Cloud Watch**, parallel zum bisherigen Händler-Scanner. Dessen fünfminütiger
 Zeitplan und bestehender externer Start werden weiterverwendet. Kein PC, kein
-Pokémon-Center-Konto, kein neues kostenpflichtiges API-Abo und keine neuen Secrets.
+Pokémon-Center-Konto und kein neues kostenpflichtiges API-Abo. Für die
+öffentlichen Quellen sind keine zusätzlichen Secrets nötig; CardPal nutzt die
+unten beschriebenen zwei Zugangsdaten-Secrets.
 Der bestehende Discord-Webhook bleibt im GitHub Secret `DISCORD_WEBHOOK_URL`.
 
 ## Was tatsächlich funktioniert
@@ -133,7 +135,10 @@ python -m unittest discover -s tests -p test_cardpal.py -v
 privaten Relay. Ein SQLite Durable Object pro Besitzer speichert Konfiguration,
 Session, Meldungsschlüssel und Empfangsbestätigungen. Die vorhandenen Händler-
 Routen bleiben erhalten. Anmeldung und SSE funktionieren im GitHub-Test vom
-01.11.2026; eine reale Drop-Latenz ist mangels neuer Meldung noch nicht gemessen.
+01.11.2026. Der Relay wurde am selben Abend um 20:32 UTC aktiviert: Anmeldung,
+Posteingang und Ereignis-Stream funktionieren auch direkt in Cloudflare.
+[Erfolgreicher Einrichtungslauf](https://github.com/dougY52/tcg-deal-bot/actions/runs/41347356109).
+Eine reale Drop-Latenz ist mangels neuer Meldung noch nicht gemessen.
 
 - Der Worker hält CardPals Ereignis-Stream für jeweils bis zu vier Minuten offen,
   verbindet sich danach erneut und prüft dabei den Posteingang zum Nachholen.
