@@ -1,0 +1,90 @@
+{
+  "community_watch": {
+    "delivered": {},
+    "sources": {
+      "mydealz-new": {
+        "checked_at": 1793562354.4768796,
+        "status": "ok"
+      },
+      "mydealz-pokemon": {
+        "checked_at": 1793562354.4768796,
+        "status": "ok"
+      },
+      "restockradar": {
+        "checked_at": 1793562354.4768796,
+        "status": "ok"
+      },
+      "telegram:bisafans": {
+        "checked_at": 1793562354.4768796,
+        "status": "ok"
+      }
+    }
+  },
+  "offers": {},
+  "pc_de": {
+    "delivered": {
+      "d737b649ae6f47d74a0756a1b5413f35": {
+        "at": 1793562561.5042403,
+        "message_id": "1566539683226325085",
+        "source": "galar-public-discord",
+        "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/#msg-1566221101376344288"
+      }
+    },
+    "events": {
+      "7c4ff2671c3ef49188a62840122c8c4e": {
+        "at": 1793562561.5042403,
+        "kind": "early_warning"
+      }
+    },
+    "sources": {
+      "bisafans-public": {
+        "checked_at": 1793562561.5042403,
+        "failures": 0,
+        "last_success": 1793562561.5042403,
+        "retry_at": 0,
+        "status": "ok"
+      },
+      "drop-uk-public": {
+        "checked_at": 1793562561.5042403,
+        "failures": 0,
+        "last_success": 1793562561.5042403,
+        "retry_at": 0,
+        "status": "ok"
+      },
+      "drop-us-public": {
+        "checked_at": 1793562561.5042403,
+        "failures": 0,
+        "last_success": 1793562561.5042403,
+        "retry_at": 0,
+        "status": "ok"
+      },
+      "galar-public-discord": {
+        "checked_at": 1793562561.5042403,
+        "failures": 0,
+        "last_success": 1793562561.5042403,
+        "retry_at": 0,
+        "status": "ok"
+      },
+      "pc-de-store": {
+        "checked_at": 1793562561.5042403,
+        "failures": 1,
+        "retry_at": 1793562861.5042403,
+        "status": "blocked"
+      },
+      "reddit-de-public": {
+        "checked_at": 1793562561.5042403,
+        "failures": 1,
+        "retry_at": 1793562861.5042403,
+        "status": "unavailable"
+      },
+      "switchstock-public": {
+        "checked_at": 1793562561.5042403,
+        "failures": 0,
+        "last_success": 1793562561.5042403,
+        "retry_at": 0,
+        "status": "ok"
+      }
+    }
+  },
+  "version": 1
+}
