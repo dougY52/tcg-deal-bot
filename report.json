@@ -1,10 +1,25 @@
 {
-  "checked_at": "2026-11-01T21:20:27.286502+00:00",
+  "checked_at": "2026-11-01T21:25:22.457107+00:00",
   "sources": [
     {
       "id": "pc-de-store",
       "status": "backoff",
       "retry_at": 1793571326.2188447
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "backoff",
+      "retry_at": 1793568327.2865024
+    },
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1793568327.2865024
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1793568327.2865024
     },
     {
       "id": "reddit-de-public",
@@ -17,31 +32,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.32
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.12
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.97
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.97
+      "seconds": 4.01
     },
     {
       "id": "bisafans-public",
@@ -49,7 +40,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 1.77
     }
   ],
   "rejected": {
