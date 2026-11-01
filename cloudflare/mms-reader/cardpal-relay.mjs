@@ -1,4 +1,4 @@
-// Owner-only CardPal transport. No shop scraping, browser sessions or account changes.
+// Owner-only CardPal transport. Optional Pokemon deal subscriptions are explicit.
 const API = 'https://www.mycardpal.com/api';
 export const WINDOW_MS = 240000;
 const MAX_AGE = 15 * 60000;
@@ -82,18 +82,25 @@ export class CardPalRelay {
     return {...h, configured: !!await this.storage.get('config'), next_alarm: await this.storage.getAlarm(),
       browser_minutes_used: 0, shop_drop_latency_verified: false};
   }
+  async discovery() {
+    const rows = await this.storage.get('discovery') || {};
+    return {article_ids: Object.entries(rows).filter(([, at]) => this.clock() - at < 86400000)
+      .sort((a, b) => b[1] - a[1]).map(([id]) => id).slice(0, 100)};
+  }
   async configure(input) {
     if (!input || typeof input.email !== 'string' || !input.email.includes('@') || input.email.length > 320 ||
         typeof input.password !== 'string' || input.password.length < 1 || input.password.length > 2000 ||
         !webhookURL(input.webhook)) throw new RelayError('INVALID_CONFIGURATION');
     const previous = await this.storage.get('config');
-    const config = {email: input.email, password: input.password, webhook: input.webhook};
+    const config = {email: input.email, password: input.password, webhook: input.webhook,
+      pokemon_deals: input.pokemon_deals === true || previous?.pokemon_deals === true};
     if (previous && (previous.email !== config.email || previous.password !== config.password)) {
       await this.storage.delete('session'); this.session = null;
     }
     await this.storage.put('config', config);
     if (!previous) await this.storage.put('health', {status: 'configured', enabled_at: this.clock(), sent: 0});
-    if (!this.running && !await this.storage.getAlarm()) await this.storage.setAlarm(this.clock() + 1000);
+    if (config.pokemon_deals && !previous?.pokemon_deals) this.cycleAbort?.abort();
+    if (!this.running) await this.storage.setAlarm(this.clock() + 1000);
     return this.status();
   }
   async request(path, options = {}, stream = false) {
@@ -171,6 +178,21 @@ export class CardPalRelay {
   }
   async processRows(rows, config, health) {
     const now = this.clock(), receipts = await this.storage.get('receipts') || {};
+    if (config.pokemon_deals) {
+      const discovery = await this.storage.get('discovery') || {};
+      for (const row of rows) {
+        if (typeof row.dedupe_key === 'string' && row.dedupe_key.startsWith('dealz|') &&
+            typeof row.article_id === 'string' && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(row.article_id)) {
+          const at = Date.parse(row.created_at);
+          if (Number.isFinite(at) && at <= now + 30000 && now - at < 86400000)
+            discovery[row.article_id] = at;
+        }
+      }
+      const bounded = Object.fromEntries(Object.entries(discovery).filter(([, at]) => now - at < 86400000)
+        .sort((a, b) => b[1] - a[1]).slice(0, 100));
+      await this.storage.put('discovery', bounded);
+      health.discovery_articles = Object.keys(bounded).length;
+    }
     const baseline = !health.baseline_at;
     for (const row of rows.slice().reverse()) {
       const drop = await selectDrop(row, now);
@@ -219,9 +241,28 @@ export class CardPalRelay {
     // Durable watchdog survives a process crash, independently of GitHub/PC.
     await this.storage.setAlarm(this.clock() + WINDOW_MS + 60000);
     const stop = new AbortController(); let timer;
+    this.cycleAbort = stop;
     try {
       await this.authenticate(config);
-      const settings = await this.request('/users/me');
+      let settings = await this.request('/users/me');
+      if (config.pokemon_deals && !health.pokemon_settings_applied) {
+        const franchises = settings.dealz_auto_subscribe_enabled && Array.isArray(settings.dealz_auto_subscribe_franchises)
+          ? [...new Set([...settings.dealz_auto_subscribe_franchises, 'POKEMON'])] : ['POKEMON'];
+        const existing = Number(settings.dealz_threshold_percent);
+        const threshold = existing > 0 ? Math.min(existing, 5) : 5;
+        await this.request('/users/me', {method: 'PUT', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({notification_enabled: true, allow_drop_notifications: true,
+            dealz_auto_subscribe_enabled: true, dealz_auto_subscribe_franchises: franchises,
+            dealz_threshold_percent: threshold})});
+        settings = await this.request('/users/me');
+        if (settings.dealz_auto_subscribe_enabled !== true || !settings.dealz_auto_subscribe_franchises?.includes('POKEMON'))
+          throw new RelayError('POKEMON_DEALS_NOT_ENABLED');
+        health.pokemon_deals_enabled = true;
+        health.pokemon_settings_applied = true;
+        health.dealz_threshold_percent = settings.dealz_threshold_percent;
+      }
+      if (config.pokemon_deals) health.pokemon_deals_enabled = settings.dealz_auto_subscribe_enabled === true &&
+        settings.dealz_auto_subscribe_franchises?.includes('POKEMON') === true;
       if (settings.notification_enabled === false || settings.allow_drop_notifications === false)
         throw new RelayError('CARDPAL_DROPS_DISABLED');
       await this.processRows(await this.inbox(), config, health);
@@ -247,6 +288,7 @@ export class CardPalRelay {
       }
     } finally {
       clearTimeout(timer); stop.abort();
+      this.cycleAbort = null;
       health.last_cycle_at = this.clock();
       await this.storage.put('health', health);
       await this.storage.setAlarm(this.clock() + delay);

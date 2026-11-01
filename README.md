@@ -410,3 +410,13 @@ Produkt eine Wiederholpause von 15 Minuten bis höchstens zwei Stunden.
 Geänderte Katalogdaten heben diese Pause auf; ausverkaufte Artikel und Waitlists
 bleiben in der bisherigen Rotation. Der Scanbericht zeigt die Zahl pausierter
 Links. Requests oder Preisgrenzen werden dafür nicht erhöht.
+
+
+### Zusätzliche Pokémon-DE-Discovery über CardPal
+
+CardPals allgemeine Pokémon-Deal-Abos und sein öffentlicher Produktkatalog sind
+als zusätzliche Suchquelle angebunden. Neue Produktseiten bei bekannten deutschen
+Händlern werden in den vorhandenen Fast Watch übernommen und vor einem Discord-
+Alert mit denselben Live-, Sprach-, Preis- und Dublettenregeln geprüft. Pokémon
+Center bleibt zusätzlich per Cloudflare-Ereignis-Stream angebunden. Details und
+Kosten-/Zeitgrenzen stehen in [POKEMON-CENTER-DE.md](POKEMON-CENTER-DE.md).

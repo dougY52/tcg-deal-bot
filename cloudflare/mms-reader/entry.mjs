@@ -6,6 +6,7 @@ export class CardPalOwner extends DurableObject {
   constructor(ctx, env) { super(ctx, env); this.relay = new CardPalRelay(ctx.storage); }
   async configure(value) { return this.relay.configure(value); }
   async status() { return this.relay.status(); }
+  async discovery() { return this.relay.discovery(); }
   async alarm() { await this.relay.cycle(); }
 }
 export default {
@@ -21,6 +22,8 @@ export default {
     try {
       if (request.method === 'GET' && url.pathname === '/cardpal/status')
         return Response.json(await owner.status(), {headers});
+      if (request.method === 'GET' && url.pathname === '/cardpal/discovery')
+        return Response.json(await owner.discovery(), {headers});
       if (request.method === 'POST' && url.pathname === '/cardpal/configure') {
         const body = await request.text();
         if (body.length > 10000) return new Response('Too large', {status: 413, headers});

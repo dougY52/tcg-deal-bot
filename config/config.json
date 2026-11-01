@@ -2,7 +2,9 @@
   "price_comparison_file": "price-comparison.json",
   "version": 1,
   "community_watch": {
-    "telegram_channels": ["Bisafans"],
+    "telegram_channels": [
+      "Bisafans"
+    ],
     "enabled": false,
     "interval_seconds": 240,
     "max_age_seconds": 1800,
@@ -1617,6 +1619,53 @@
       },
       "trust_note": "Deutsches Impressum und Kontakt geprüft; PayPal/Klarna im Shop angegeben. Keine externe Bewertung verifiziert.",
       "discovery_scope": "Öffentlicher Shopify-Katalog und deutsche ETB-Kategorie; nur live bestätigte passende Varianten. Keine pauschale Sprachannahme."
+    },
+    {
+      "id": "glitzerpappe-shop",
+      "name": "Glitzerpappe-Shop",
+      "base_url": "https://www.glitzerpappe-shop.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_live_checks_per_run": 8,
+      "watch_handles": [
+        "pokemon-illustrations-kollektion-erste-partner-serie-1-de-kopie"
+      ],
+      "seed_watch_handles_once": true,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://www.glitzerpappe-shop.de/policies/legal-notice",
+        "payment_url": "https://www.glitzerpappe-shop.de/",
+        "verified_on": "2026-11-01",
+        "scope": "Deutsches Impressum mit Inhaber, Anschrift, Kontakt und USt-ID. Öffentliche Shopseite nennt PayPal und Klarna. Keine externen Bewertungen oder Zahlungsabwicklung behauptet."
+      },
+      "trust_note": "Basisprüfung: deutsches Impressum und Kontakt; Shop nennt PayPal/Klarna. Externe Bewertungen nicht verifiziert.",
+      "discovery_scope": "Rotierender Shopify-Katalog plus CardPal-DE-Produktverweise; vor jedem Alert konkrete Variante und Checkout live prüfen."
+    },
+    {
+      "id": "tcgshopper",
+      "name": "TCGShopper",
+      "base_url": "https://tcgshopper.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 1,
+      "max_live_checks_per_run": 8,
+      "watch_handles": [
+        "pokemon-tcg-mega-entwicklung-delta-herrschaft-36er-display-de",
+        "pokemon-tcg-mega-entwicklungen-dunkelnacht-me05-18er-display-de"
+      ],
+      "seed_watch_handles_once": true,
+      "seller_score": 75,
+      "trust_evidence": {
+        "legal_url": "https://tcgshopper.de/policies/legal-notice",
+        "payment_url": "https://tcgshopper.de/",
+        "verified_on": "2026-11-01",
+        "scope": "Deutsches Impressum mit Inhaber, Anschrift, Kontakt und USt-ID. Öffentliche Shopseite nennt PayPal und Klarna. Keine externen Bewertungen oder Zahlungsabwicklung behauptet."
+      },
+      "trust_note": "Basisprüfung: deutsches Impressum und Kontakt; Shop nennt PayPal/Klarna. Externe Bewertungen nicht verifiziert.",
+      "discovery_scope": "Rotierender Shopify-Katalog plus CardPal-DE-Produktverweise; vor jedem Alert konkrete Variante und Checkout live prüfen."
     }
   ],
   "references": [
@@ -2223,7 +2272,9 @@
       "faix",
       "duo",
       "comicplanet",
-      "kartenmeier"
+      "kartenmeier",
+      "glitzerpappe-shop",
+      "tcgshopper"
     ],
     "seller_evidence": {},
     "shop_rules": {
@@ -2307,7 +2358,7 @@
     "fresh_quotas": [
       6,
       3,
-      3,
+      8,
       3,
       2,
       1
@@ -2628,5 +2679,12 @@
   "disabled_franchises": [
     "Naruto"
   ],
-  "public_catalog_queries_file": "public-mms-queries.json"
+  "public_catalog_queries_file": "public-mms-queries.json",
+  "cardpal_discovery": {
+    "enabled": true,
+    "interval_seconds": 240,
+    "budget_seconds": 25,
+    "max_requests": 20,
+    "max_articles": 6
+  }
 }

@@ -37,7 +37,8 @@ def request(path, body=None):
     keys = ('configured', 'status', 'enabled_at', 'baseline_at', 'last_inbox_at',
             'last_stream_at', 'last_cycle_at', 'next_alarm', 'sent', 'last_error',
             'failures', 'delivery_unknown', 'delivery_errors', 'browser_minutes_used',
-            'shop_drop_latency_verified', 'last_publication_to_delivery_seconds')
+            'shop_drop_latency_verified', 'last_publication_to_delivery_seconds',
+            'pokemon_deals_enabled', 'dealz_threshold_percent', 'discovery_articles')
     return {k: value[k] for k in keys if k in value}
 
 
@@ -48,15 +49,16 @@ def main():
             body = {k: os.environ.get(v, '') for k, v in fields.items()}
             if not all(body.values()):
                 print('CARDPAL_RELAY_MISSING_SECRET'); return 2
+            body['pokemon_deals'] = True
             request('/cardpal/configure', body)
         result = {}
         for _ in range(12):
             result = request('/cardpal/status')
-            if result.get('status') == 'stream_connected' or result.get('last_error'):
+            if (result.get('status') == 'stream_connected' and result.get('pokemon_deals_enabled')) or result.get('last_error'):
                 break
             time.sleep(5)
         print(json.dumps(result, indent=2))
-        return 0 if result.get('status') == 'stream_connected' else 2
+        return 0 if result.get('status') == 'stream_connected' and result.get('pokemon_deals_enabled') else 2
     except Exception:
         # HTTPError and URLs can contain credentials. Never print the exception.
         print('CARDPAL_RELAY_SETUP_OR_STATUS_FAILED'); return 2

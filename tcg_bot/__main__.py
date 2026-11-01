@@ -151,6 +151,12 @@ def load_config(path):
         assert len(fast.get('fresh_quotas', [6,3,3,3,2,1])) == 6
         assert all(isinstance(n, int) and 1 <= n <= 8 for n in fast.get('fresh_quotas', [6,3,3,3,2,1]))
     daily = cfg.get('daily_prices', {})
+    cardpal = cfg.get('cardpal_discovery', {})
+    if cardpal.get('enabled'):
+        assert 240 <= cardpal.get('interval_seconds', 240) <= 3600
+        assert 5 <= cardpal.get('budget_seconds', 25) <= 30
+        assert 1 <= cardpal.get('max_requests', 20) <= 24
+        assert 1 <= cardpal.get('max_articles', 6) <= 8
     if daily.get('enabled'):
         assert 0 < Decimal(str(daily.get('max_price_eur', 200))) <= 200
         assert 1 <= daily.get('offers_per_message', 4) <= 6
@@ -457,6 +463,12 @@ def summary(report):
     if report.get('fresh_watch'):
         fresh = report['fresh_watch']
         text += f"Neu/ geänderte Produkte im selben Lauf live geprüft: {fresh['checked']} · Meldungen: {fresh['sent']}\n\n"
+    if report.get('cardpal_discovery', {}).get('enabled'):
+        cardpal = report['cardpal_discovery']
+        text += (f"CardPal Pokémon DE: {cardpal['articles']} Artikel geprüft · "
+                 f"{cardpal['targets']} Shop-Varianten zur Liveprüfung · "
+                 f"{len(cardpal['shops'])} bekannte Händler · "
+                 f"{len(cardpal['errors'])} Quellenfehler. Keine Alerts allein aus CardPal-Daten.\n\n")
     if report.get('retail_research'):
         research = report['retail_research']
         text += f"## Automatische Retail-Recherche\n\nProdukte recherchiert: {research['attempted']} · neue Belege: {research['resolved']} · weiterhin offen: {research['pending']} · Requests: {research['requests']}\n\n"

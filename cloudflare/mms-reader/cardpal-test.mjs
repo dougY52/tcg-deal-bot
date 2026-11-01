@@ -92,3 +92,34 @@ const frames = [];
 for await (const item of sseEvents(new Response(': ping\r\nevent: notification\r\ndata: {}\r\n\r\n').body)) frames.push(item);
 assert.deepEqual(frames, [{event: 'notification', data: '{}'}]);
 console.log('CardPal relay checks passed: Germany filter, baseline, delivery, persistent dedupe, timeout, SSE auth, reconnect, no browser');
+
+// General Pokemon source activation is scoped; its raw alerts are NOT sent as deals.
+let profile = {notification_enabled:true,allow_drop_notifications:true,
+  dealz_auto_subscribe_enabled:false,dealz_auto_subscribe_franchises:[],dealz_threshold_percent:30};
+let profileWrites=0;
+const generalState=new Storage();
+const general=new CardPalRelay(generalState,async(url,options)=>{
+  if(url.endsWith('/users/me')) {
+    if(options.method==='PUT') {
+      const update=JSON.parse(options.body);profileWrites++;
+      assert.deepEqual(Object.keys(update).sort(),['notification_enabled','allow_drop_notifications','dealz_auto_subscribe_enabled','dealz_auto_subscribe_franchises','dealz_threshold_percent'].sort());
+      profile={...profile,...update};
+    }
+    return Response.json(profile);
+  }
+  return transport(url,options);
+},()=>now);
+networkMode='ok';
+await general.configure({...config,pokemon_deals:true});await general.cycle();
+assert.equal((await general.status()).pokemon_deals_enabled,true);
+assert.equal(profile.dealz_threshold_percent,5);
+assert.deepEqual(profile.dealz_auto_subscribe_franchises,['POKEMON']);
+await general.cycle();assert.equal(profileWrites,1,'account preferences written only once');
+const notice={dedupe_key:'dealz|new|pokemon',article_id:'b98ec690-f022-46db-a1a7-4cf3750b1450',created_at:new Date(now).toISOString()};
+await general.processRows([notice],{...config,pokemon_deals:true},await generalState.get('health'));
+assert.deepEqual((await general.discovery()).article_ids,[notice.article_id]);
+assert.equal((await general.status()).sent,0,'general alerts are discovery only until shop validation');
+profile.dealz_auto_subscribe_enabled=false;await general.cycle();
+assert.equal(profileWrites,1,'later owner settings are not silently overwritten');
+assert.equal((await general.status()).pokemon_deals_enabled,false);
+console.log('Pokemon subscriptions and private discovery queue checks passed');

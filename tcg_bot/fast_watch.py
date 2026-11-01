@@ -342,6 +342,9 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
         checkpoint(state)
     # Slow work follows delivery, has its own bounded budget, and never posts snippets.
     before_catalog = {k: (r['offer'].get('price'), r['offer'].get('available'), r['offer'].get('title')) for k, r in state.get('fast_targets', {}).items()}
+    from .cardpal_discovery import discover as cardpal_discover
+    cardpal_rows, report['cardpal_discovery'] = cardpal_discover(cfg, state, client, now)
+    remember(cardpal_rows, cfg, state, now)
     catalog_state = state.setdefault('fast_catalog_checks', {})
     due = [s for s in cfg['shops'] if s.get('enabled', True) and
            now-catalog_state.get(s['id'], 0) >= s.get('catalog_interval_seconds',settings['catalog_interval_seconds'])]

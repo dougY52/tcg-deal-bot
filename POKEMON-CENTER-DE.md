@@ -187,3 +187,54 @@ node cloudflare/mms-reader/cardpal-runtime-test.cjs /path/to/wrangler/package.js
 
 Quoten: https://developers.cloudflare.com/durable-objects/platform/pricing/
 Browser-Kontingent: https://developers.cloudflare.com/browser-run/pricing/
+
+
+## Zusätzlich: allgemeine Pokémon-DE-Drops und Händlerangebote
+
+Der CardPal-Relay kann jetzt allgemeine Pokémon-Deal-Abonnements einschalten.
+`cardpal_connect` aktiviert einmalig `dealz_auto_subscribe_enabled`, ergänzt
+Pokémon und setzt CardPals eigene Meldeschwelle auf höchstens 5 Prozent.
+Bestehende aktive Franchise-Abos, Benachrichtigungskanäle, Newsletter und Profil
+bleiben erhalten. Spätere manuelle Änderungen werden nicht ständig überschrieben.
+Der private Status zeigt die tatsächlich zurückgelesene Aktivierung.
+
+Allgemeine CardPal-Nachrichten werden **nicht ungeprüft in Discord kopiert**.
+Ihr Artikelverweis landet in einer begrenzten privaten Suchwarteschlange. Der
+bestehende GitHub-Scan liest diese per OIDC und kombiniert sie mit einer
+rotierenden öffentlichen CardPal-Katalogsuche nach Displays, ETBs, Bundles,
+Collections und Tins. Neue Sets benötigen keine feste Liste von Artikel-IDs.
+Die bestehende Produktauswahl bleibt für die finale Freigabe maßgeblich.
+
+`tcg_bot/cardpal_discovery.py` prüft je Lauf bis zu sechs Artikel, 20 Anfragen
+und 25 Sekunden. Nicht sofort bearbeitete Artikel bleiben in einer rotierenden
+Warteschlange; bereits gefundene konkrete Varianten bleiben im Fast Watch.
+Ein Suchfilter `language=German` genügt ausdrücklich nicht: CardPal kann dabei
+fremdsprachige Preisminima liefern. Angebote brauchen selbst DE, EUR, Bruttopreis,
+einen passenden Produkttyp und dürfen keine Einladungskäufe sein. Über 200 EUR
+bleibt ausgeschlossen. Nur bereits freigegebene deutsche Händler werden aktiv;
+weitere Händlernamen erscheinen zur Prüfung im Report.
+
+Auch CardPals `IN_STOCK` wird nicht zum Bestandsbeleg. Preis, Sprache, Varianten
+und Checkout kommen von der Händlerseite bzw. Produkt-API und den vorhandenen
+Live-Validatoren. Shopify-Aliasdomains werden nur über einen bekannten
+Händlernamen auf dessen bereits konfigurierte echte Domain abgebildet. UVP wird
+nicht aus Cardmarket-Preisen oder ungeprüften CardPal-UVP-Feldern übernommen.
+Alle bestehenden Preisfilter, Restock-Erkennung und Versand-Dubletten gelten.
+
+Pokémon Center behält seinen direkten Ereignis-Relay. Allgemeine Händlerangebote
+werden im bestehenden fünfminütig geplanten GitHub-Scan verarbeitet; GitHub kann
+Starts verzögern. Kein zusätzlicher Cloud-Browser, kein zusätzlicher PC und keine
+neue kostenpflichtige Infrastruktur. Der Lesetest
+`python -m scripts.audit_cardpal_catalog` nennt aktuelle Treffer und Live-Prüfungen,
+sendet aber niemals eine Discord-Nachricht.
+
+
+Zusätzlich als eigene Shopify-Scanner aktiviert: **Glitzerpappe-Shop** und
+**TCGShopper**, jeweils mit rotierender Produktliste und konkreter Variantenprüfung.
+Basisnachweise vom 01.11.2026: deutsches Impressum, Kontaktdaten und öffentlich
+angebotene PayPal-/Klarna-Zahlung. Externe Bewertungen wurden nicht verifiziert
+und werden nicht behauptet. Card-Corner wurde ebenfalls geprüft, aber noch nicht
+als funktionierender Scanner aktiviert: Bei einem von CardPal als DE geführten
+Bundle enthält die tatsächliche Shop-SKU `EN`; außerdem stimmt dessen JSON-LD-
+Produktname nicht mit der Produktüberschrift überein. Dieser Kandidat bleibt
+korrekt gesperrt, bis ein eindeutiger Parser möglich ist.
