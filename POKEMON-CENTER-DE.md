@@ -82,3 +82,44 @@ Der Job bleibt für private Repositories ausgeschaltet und legt keine zusätzlic
 Actions-Artefakte/Caches an. Der bisherige Händler-Bot wird weiterbetrieben; seine
 alten Pokémon-Center-Community-/Startseitenprüfungen sind an diesen Job übergeben,
 um doppelte Pings zu vermeiden.
+
+## CardPal: authentifizierter Verbindungstest
+
+Stand 01.11.2026: CardPal bewirbt kostenlose Deutschland-Drop-Alarme. Sein
+öffentliches Web-Frontend nutzt einen authentifizierten Posteingang sowie einen
+Ereignis-Stream. Diese Schnittstellen sind keine zugesicherte externe API.
+Ein funktionierender Transport und schnelle Erkennung eines Shop-Drops müssen
+getrennt nachgewiesen werden. Der Anschluss ist deshalb noch **kein aktiver
+Discord-Monitor**.
+
+Der vorhandene Workflow `TCG Cloud Watch` hat dafür die optionale Eingabe
+`cardpal_access_test`. Sie startet ausschließlich einen zusätzlichen Lesetest;
+die bestehenden Händler- und Pokémon-Center-Jobs bleiben erhalten. Für den Test
+`dry_run=true`, `cardpal_access_test=true`, `pc_access_test=false` auswählen.
+Benötigte Repository-Secrets:
+
+- `CARDPAL_EMAIL`: E-Mail des eigenen CardPal-Kontos.
+- `CARDPAL_PASSWORD`: Passwort dieses CardPal-Kontos, kein Google-/Apple-Passwort.
+
+Der Test meldet sich direkt bei CardPal über HTTPS an, liest Benachrichtigungs-
+Einstellungen und höchstens 250 Posteingangseinträge und prüft kurz den Stream.
+Er verändert keine Einstellungen, markiert nichts als gelesen und hat keinen
+Discord-Webhook. Passwörter, Cookies und Tokens bleiben im Arbeitsspeicher;
+es werden keine fremden Nachrichteninhalte ausgegeben. Der Bericht enthält
+nur Zähler, boolesche Einstellungen und Zeit-/Regionsnachweise für spezielle
+Pokémon-Center-Broadcasts. Das kleine Diagnose-Artefakt bleibt einen Tag erhalten.
+Fehlende Anmeldung, unerwartete Daten oder Umleitungen führen zu einem sichtbaren
+Fehler statt einer Erfolgsmeldung über vermeintlich verfügbare Ware.
+
+`transport_verified` bedeutet nur: Anmeldung, Posteingang und Stream waren lesbar.
+`no_live_drop_sample` bedeutet: keine neue DE-Meldung während der Messung gesehen.
+Das Alter alter Posteingangseinträge wird niemals als Zustellverzögerung verwendet.
+Eine im Stream neu beobachtete Meldung liefert höchstens eine Stichprobe für
+**CardPal-Veröffentlichung → Empfang**, nicht für **Shop-Drop → CardPal**.
+Ohne unabhängigen Shop-Zeitstempel bleibt die zweite Verzögerung unbekannt.
+
+Lokale Tests (ohne Zugangsdaten/Netzwerk):
+
+```sh
+python -m unittest discover -s tests -p test_cardpal.py -v
+```

@@ -16,6 +16,10 @@ on:
         description: 'Optionaler Pokémon-Center-Zugriffstest (bis 250 Gratis-Credits)'
         type: boolean
         default: false
+      cardpal_access_test:
+        description: 'CardPal-Konto und Ereignis-Stream nur lesen, keine Discord-Nachrichten'
+        type: boolean
+        default: false
 permissions:
   contents: write
   id-token: write
@@ -23,6 +27,35 @@ concurrency:
   group: tcg-retail-watch
   cancel-in-progress: false
 jobs:
+  cardpal-access:
+    name: CardPal Verbindung prüfen (ohne Discord)
+    if: github.event.repository.private == false && github.event_name == 'workflow_dispatch' && inputs.cardpal_access_test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test safe CardPal transport and evidence handling
+        run: python -m unittest discover -s tests -p test_cardpal.py -v
+      - name: Inspect owner inbox and stream without changing settings
+        env:
+          CARDPAL_EMAIL: ${{ secrets.CARDPAL_EMAIL }}
+          CARDPAL_PASSWORD: ${{ secrets.CARDPAL_PASSWORD }}
+        run: python -m scripts.audit_cardpal
+      - name: Save sanitized connection evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cardpal-access-report
+          path: cardpal-access-report.json
+          retention-days: 1
+          if-no-files-found: ignore
   pokemon-center-de:
     # Starts independently of the broad scanner and its browser diagnostics.
     name: Pokémon Center Deutschland
