@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
   push:
     branches: [main]
-    paths: ['tcg_bot/**', 'config/config.json', 'config/pokemon-center-de.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', 'scripts/watch_pokemon_center_de.py', 'tests/test_pokemon_center_watch.py', '.github/workflows/cloud-watch.yml']
+    paths: ['tcg_bot/**', 'config/config.json', 'config/pokemon-center-de.json', 'config/price-comparison.json', 'cloudflare/mms-reader/**', 'scripts/configure_cardpal_relay.py', 'scripts/audit_cardpal.py', 'scripts/check_local_retail.py', 'scripts/check_pokemon_center.py', 'scripts/watch_pokemon_center_de.py', 'tests/test_pokemon_center_watch.py', '.github/workflows/cloud-watch.yml']
   workflow_dispatch:
     inputs:
       dry_run:
