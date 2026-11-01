@@ -3,15 +3,15 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1793572828.8553157,
+        "checked_at": 1793573125.9369364,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1793572828.8553157,
+        "checked_at": 1793573125.9369364,
         "status": "ok"
       },
       "restockradar": {
-        "checked_at": 1793572828.8553157,
+        "checked_at": 1793573125.9369364,
         "status": "ok"
       },
       "telegram:bisafans": {
@@ -38,30 +38,30 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1793572828.8553157,
+        "checked_at": 1793573125.9369364,
         "failures": 0,
-        "last_success": 1793572828.8553157,
+        "last_success": 1793573125.9369364,
         "retry_at": 0,
         "status": "ok"
       },
       "drop-uk-public": {
-        "checked_at": 1793572828.8553157,
-        "failures": 0,
+        "checked_at": 1793573125.9369364,
+        "failures": 1,
         "last_success": 1793572828.8553157,
-        "retry_at": 0,
-        "status": "ok"
+        "retry_at": 1793573425.9369364,
+        "status": "unavailable"
       },
       "drop-us-public": {
-        "checked_at": 1793572828.8553157,
-        "failures": 0,
+        "checked_at": 1793573125.9369364,
+        "failures": 1,
         "last_success": 1793572828.8553157,
-        "retry_at": 0,
-        "status": "ok"
+        "retry_at": 1793573425.9369364,
+        "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1793572828.8553157,
+        "checked_at": 1793573125.9369364,
         "failures": 0,
-        "last_success": 1793572828.8553157,
+        "last_success": 1793573125.9369364,
         "retry_at": 0,
         "status": "ok"
       },
@@ -78,11 +78,11 @@
         "status": "unavailable"
       },
       "switchstock-public": {
-        "checked_at": 1793572828.8553157,
-        "failures": 0,
+        "checked_at": 1793573125.9369364,
+        "failures": 1,
         "last_success": 1793572828.8553157,
-        "retry_at": 0,
-        "status": "ok"
+        "retry_at": 1793573425.9369364,
+        "status": "unavailable"
       }
     }
   },
