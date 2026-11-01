@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-01T20:10:29.061594+00:00",
+  "checked_at": "2026-11-01T20:13:58.535846+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -7,83 +7,40 @@
       "retry_at": 1793564723.3070822
     },
     {
+      "id": "galar-public-discord",
+      "status": "not_due"
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "not_due"
+    },
+    {
+      "id": "drop-us-public",
+      "status": "not_due"
+    },
+    {
+      "id": "switchstock-public",
+      "status": "not_due"
+    },
+    {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1793564723.3070822
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 18,
-      "notes": [],
-      "error": null,
-      "seconds": 1.36
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "ok",
-      "items": 18,
-      "notes": [],
-      "error": null,
-      "seconds": 1.72
-    },
-    {
-      "id": "drop-us-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 0.96
-    },
-    {
-      "id": "switchstock-public",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 0.98
-    },
-    {
       "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.89
+      "status": "not_due"
     }
   ],
-  "rejected": {
-    "DUPLICATE": 1,
-    "GERMANY_NOT_EXPLICIT": 7,
-    "NOT_POKEMON_CENTER": 82,
-    "NO_ACTIONABLE_SIGNAL": 1
-  },
+  "rejected": {},
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 5,
+  "readable_sources": 0,
   "mydealz": {
-    "sources": [
-      {
-        "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "restockradar",
-        "status": "ok",
-        "items": 28
-      }
-    ],
-    "rejected": {
-      "STALE_OR_UNDATED": 4
-    },
+    "sources": [],
+    "rejected": {},
     "alerts": [],
     "sent": 0,
     "errors": []
