@@ -125,6 +125,8 @@ class CardPalTests(unittest.TestCase):
         self.assertEqual(report['discord_sent'], 0)
         self.assertIsNone(client.token)
         self.assertNotIn('private@example.test', json.dumps(report))
+        self.assertEqual(opener.requests[-2].get_header('Authorization'), 'Bearer fake-access-token')
+        self.assertIsNone(opener.requests[-1].get_header('Authorization'))
 
     def test_live_event_samples_and_deduplicates_publication_delay(self):
         from tcg_bot.cardpal import stamp

@@ -126,6 +126,7 @@ class CardPalClient:
         self.clock = clock
         self.timeout = timeout
         self.token = None
+        self.last_operation = None
 
     def _open(self, path, data=None, stream=False):
         allowed = ('/auth/login', '/users/me', '/auth/stream-token')
@@ -134,8 +135,12 @@ class CardPalClient:
             raise CardPalError('UNSUPPORTED_ENDPOINT')
         headers = {'User-Agent': 'TCGDealWatch/1.0', 'Cache-Control': 'no-cache',
                    'Accept': 'text/event-stream' if stream else 'application/json'}
-        if self.token:
+        # Browser EventSource sends the scoped query token, not an Authorization
+        # header with the unrelated ordinary access token.
+        if self.token and not stream:
             headers['Authorization'] = 'Bearer '+self.token
+        self.last_operation = ('stream' if stream else 'inbox' if path.startswith('/notifications/')
+                               else path.lstrip('/').replace('/', '_'))
         if data is not None:
             headers['Content-Type'] = 'application/x-www-form-urlencoded'
         req = Request(ORIGIN+'/api'+path, data=data, headers=headers)
@@ -272,6 +277,7 @@ def audit(client, email, password, stream_seconds=30):
     except CardPalError as e:
         report['status'] = 'requires_credentials' if e.args[0] == 'CREDENTIALS_REQUIRED' else 'failed'
         report['error'] = e.args[0]
+        report['error_operation'] = client.last_operation
     except Exception:
         # Network/parser libraries may put response bytes or credential-bearing
         # URLs in exception text. Never publish that text in public Actions logs.
