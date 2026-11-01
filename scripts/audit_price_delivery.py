@@ -63,6 +63,13 @@ def receipt_ids(products):
         rows = [p for p in products if p['franchise'] == family and p['language'] == 'EN' and p['message_id']]
         if rows:
             ids.append(max(rows, key=lambda p:p.get('delivered_at',0))['message_id'])
+    # Also verify a low-priced currently qualified offer per family, rather than
+    # only the newest (possibly more expensive) product in that family.
+    for family in ('Pokémon', 'Dragon Ball', 'One Piece'):
+        rows = [p for p in products if p['franchise']==family and p['language']=='EN' and p['message_id']
+                and p.get('price_qualifies') and p.get('verdict') in ('retail_deal','near_retail')]
+        if rows:
+            ids.append(min(rows,key=lambda p:Decimal(p['price']))['message_id'])
     return list(dict.fromkeys(ids))
 
 
