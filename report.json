@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-01T20:20:27.415853+00:00",
+  "checked_at": "2026-11-01T20:25:21.773119+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -7,43 +7,83 @@
       "retry_at": 1793564723.3070822
     },
     {
-      "id": "galar-public-discord",
-      "status": "not_due"
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "backoff",
-      "retry_at": 1793564606.464761
-    },
-    {
-      "id": "drop-us-public",
-      "status": "backoff",
-      "retry_at": 1793564606.464761
-    },
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1793564606.464761
-    },
-    {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1793564723.3070822
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 18,
+      "notes": [],
+      "error": null,
+      "seconds": 2.03
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "ok",
+      "items": 18,
+      "notes": [],
+      "error": null,
+      "seconds": 1.8
+    },
+    {
+      "id": "drop-us-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.01
+    },
+    {
+      "id": "switchstock-public",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 1.25
+    },
+    {
       "id": "bisafans-public",
-      "status": "not_due"
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.9
     }
   ],
-  "rejected": {},
+  "rejected": {
+    "DUPLICATE": 1,
+    "GERMANY_NOT_EXPLICIT": 7,
+    "NOT_POKEMON_CENTER": 82,
+    "NO_ACTIONABLE_SIGNAL": 1
+  },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 0,
+  "readable_sources": 5,
   "mydealz": {
-    "sources": [],
-    "rejected": {},
+    "sources": [
+      {
+        "id": "mydealz-pokemon",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "mydealz-new",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "restockradar",
+        "status": "ok",
+        "items": 28
+      }
+    ],
+    "rejected": {
+      "STALE_OR_UNDATED": 4
+    },
     "alerts": [],
     "sent": 0,
     "errors": []
