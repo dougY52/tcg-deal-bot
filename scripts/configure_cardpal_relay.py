@@ -1,6 +1,7 @@
 """Bootstrap owner secrets directly from GitHub to the authenticated own Worker.
 
-No secret file, credential output, test Discord message or account setting edit.
+No secret file, credential output or test Discord message. The owner relay also
+enables the explicitly requested general Pokemon deal subscription once.
 """
 import json
 import os
