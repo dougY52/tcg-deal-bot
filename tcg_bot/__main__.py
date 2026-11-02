@@ -17,7 +17,9 @@ from .rules import assess, prefer_german, observe, alert_reason, payload, franch
 from .sources import ADAPTERS
 from .web_sources import html_catalog, mms, otto
 from .local_retail import scan as local_retail_scan
+from .yonkai import scan as yonkai_scan
 ADAPTERS.update(html_catalog=html_catalog, woocommerce=html_catalog,jtl=html_catalog,shopware=html_catalog, mms=mms, otto=otto, vedes=local_retail_scan, duo=local_retail_scan)
+ADAPTERS['yonkai'] = yonkai_scan
 
 
 def load_config(path):
@@ -43,7 +45,7 @@ def load_config(path):
         assert len(shop.get('catalog_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('catalog_collections', [])), 'Invalid collection targets'
         assert isinstance(shop.get('stock_watch_each_run', False), bool), 'Invalid stock watch flag'
         assert len(shop.get('stock_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('stock_collections', [])), 'Invalid stock collections'
-        assert not shop.get('stock_watch_each_run') or shop['adapter'] == 'shopify', 'Every-run inventory requires Shopify'
+        assert not shop.get('stock_watch_each_run') or shop['adapter'] in ('shopify', 'yonkai'), 'Unsupported every-run inventory source'
         shop['base_url'] = shop['base_url'].rstrip('/')
         shop['watch_handles'] = list(shop.get('watch_handles', []))
         shop['watch_urls'] = list(shop.get('product_urls', []))

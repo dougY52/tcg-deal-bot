@@ -64,27 +64,34 @@ class StockCatalogTests(unittest.TestCase):
     def test_shipped_shops_and_scope(self):
         cfg = load_config('config/config.json')
         shops = {s['id']: s for s in cfg['shops'] if s.get('stock_watch_each_run')}
-        self.assertEqual(set(shops), {'kofuku','feenturm','tcgviert','herbtcg'})
+        self.assertEqual(set(shops), {'kofuku','feenturm','tcgviert','herbtcg','manaquelle','yonkai-berlin'})
         self.assertEqual(shops['kofuku']['base_url'], 'https://kofuku.de')
         self.assertEqual(len(shops['feenturm']['stock_collections']), 3)
         for sid in ('kofuku','tcgviert','herbtcg'):
             self.assertFalse(shops[sid].get('stock_collections'))
 
-    def test_one_broken_shop_does_not_skip_the_other_three(self):
+    def test_one_broken_shop_does_not_skip_other_shops(self):
         cfg = load_config('config/config.json')
         def adapter(shop, client):
             if shop['id'] == 'kofuku':
                 raise TimeoutError()
             shop['_catalog_coverage'] = dict(complete=True, products=0, endpoints=[])
             return [], []
-        _, report = stock_watch.scan(cfg, {}, object(), {'shopify': adapter}, NOW)
-        self.assertEqual(len(report), 4)
-        self.assertEqual(sum(s['complete'] for s in report), 3)
+        _, report = stock_watch.scan(cfg, {}, object(), {'shopify': adapter, 'yonkai': adapter}, NOW)
+        self.assertEqual(len(report), 6)
+        self.assertEqual(sum(s['complete'] for s in report), 5)
         self.assertEqual(next(s['error'] for s in report if s['shop']=='kofuku'), 'TimeoutError')
 
 
 class StockPipelineTests(unittest.TestCase):
     setUp = fixtures.Preorders.setUp
+
+    def test_deferred_inventory_variants_move_ahead_of_recent_checks(self):
+        first = dict(self.offer, key='example:first')
+        second = dict(self.offer, key='example:second')
+        self.state['fast_targets'] = {first['key']: {'checked_at': NOW}, second['key']: {'checked_at': NOW-300}}
+        chosen = stock_watch.live_targets([first, second], self.cfg, self.state)
+        self.assertEqual([o['key'] for o in chosen], [second['key'], first['key']])
 
     def tick(self, now=NOW, rows=None):
         self.shop['stock_watch_each_run'] = True

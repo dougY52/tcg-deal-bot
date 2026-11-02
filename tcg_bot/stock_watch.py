@@ -18,7 +18,7 @@ def scan(cfg, state, client, adapters, now):
     if original is not None:
         client.deadline = min(original, time.monotonic() + 40)
     try:
-        for shop, offers, warnings, error, seconds in collect(shops, client, adapters, 4, 35):
+        for shop, offers, warnings, error, seconds in collect(shops, client, adapters, min(8, max(1, len(shops))), 35):
             relevant = [o for o in offers if preorders.identity(o, cfg)[0]]
             coverage = shop.get('_catalog_coverage', {})
             report = dict(shop=shop['id'], scope=shop.get('stock_collections') or ['full_product_catalog'],
@@ -50,4 +50,6 @@ def live_targets(rows, cfg, state):
         was_open = previous.get('status') in ('in_stock', 'preorder')
         if (o['available'] and Decimal(o['price']) <= ceiling) or was_open:
             selected[o['key']] = o
-    return list(selected.values())
+    # Under an exceptional time limit, unattempted products go first next run.
+    # Never keep the same tail of an otherwise fully read catalog deferred.
+    return sorted(selected.values(), key=lambda o: state.get('fast_targets', {}).get(o['key'], {}).get('checked_at', 0))

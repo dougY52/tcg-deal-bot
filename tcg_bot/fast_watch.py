@@ -175,6 +175,18 @@ class ProductCache:
             self.products[url] = self.client.get(url)
         return copy.deepcopy(self.products[url])
 
+    def text(self, url):
+        p = urlsplit(url)
+        # A fresh, shared public inventory script per shop batch; product pages
+        # themselves are always fetched again. No sessions or cart HTML cached.
+        if (p.netloc == 'yonkaiberlin.de' and p.path == '/' and
+                re.fullmatch(r'yk_ykp=[a-f0-9]{6,64}&_preorder_check=\d+', p.query)):
+            key = ('yonkai_inventory', url)
+            if key not in self.products:
+                self.products[key] = self.client.text(url)
+            return self.products[key]
+        return self.client.text(url)
+
 
 def fetch_live(selected, cfg, client, now):
     """FB phase first; parallel hosts, serial variants per host, isolated budgets."""
@@ -185,6 +197,10 @@ def fetch_live(selected, cfg, client, now):
     try:
         for group in range(6):
             phase_seconds = (45, 25, 25, 20, 15, 10)[group] * min(1, cfg['fast_watch']['live_seconds'] / 140)
+            # Borrow the unused Naruto slot for larger Pokemon inventories.
+            # The overall deadline stays unchanged, and FB is still checked first.
+            if group == 2 and not any(priority(o) == 4 for o in selected):
+                phase_seconds += 15 * min(1, cfg['fast_watch']['live_seconds'] / 140)
             phase_end = min(end, time.monotonic() + phase_seconds)
             if original is not None:
                 client.deadline = phase_end
@@ -195,6 +211,8 @@ def fetch_live(selected, cfg, client, now):
             work = [dict(shops[sid], adapter='mms' if shops[sid]['adapter'] == 'mms' else 'fast_live', _targets=rows) for sid, rows in batches.items()]
             def fetch(shop, transport):
                 rows = []
+                if hasattr(transport, 'deadline'):
+                    transport.deadline = min(transport.deadline, time.monotonic() + (35 if shop.get('stock_watch_each_run') else 20))
                 transport = ProductCache(transport)
                 for o in shop['_targets']:
                     if time.monotonic() >= getattr(transport, 'deadline', phase_end):
@@ -207,7 +225,8 @@ def fetch_live(selected, cfg, client, now):
                         row, error = None, 'LIVE_CHECK_FAILED_'+detail
                     rows.append({'key': o['key'], 'row': row, 'error': error})
                 return rows, []
-            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, cfg['fast_watch'].get('live_workers', 4), 20):
+            source_seconds = 35 if any(s.get('stock_watch_each_run') for s in work) else 20
+            for shop, rows, _, error, _ in collect(work, client, {'fast_live': fetch, 'mms': fetch}, cfg['fast_watch'].get('live_workers', 4), source_seconds):
                 for record in rows:
                     result[record['key']] = (record['row'], record['error'])
     finally:

@@ -476,3 +476,35 @@ Checkout-Bestätigung. Der Katalog allein darf nichts posten. Der bestehende
 Retailvergleich, Cardmarketvergleich, tägliche Wiederholungen und persistente
 Restock-/Preorder-Deduplizierung bleiben erhalten. Keine zusätzlichen Services,
 Secrets oder kostenpflichtigen APIs werden benötigt.
+
+
+## Manaquelle und Yonkai Berlin (03.11.2026)
+
+`manaquelle.de` und `yonkaiberlin.de` sind zusätzlich für die Bestandsprüfung bei
+jedem regulären Cloud-Lauf aktiviert. Gemeint ist Yonkai Berlin; der bereits
+vorhandene Händler YONKO TCG bleibt separat bestehen.
+
+Manaquelle verwendet den vollständigen Shopify-Katalog mit allen Varianten.
+Yonkai verwendet die öffentliche, kostenlose
+[WooCommerce Store API](https://developer.woocommerce.com/docs/apis/store-api/resources-endpoints/products/)
+mit vollständiger Pagination, einschließlich ausverkaufter Produkte. Neue
+veröffentlichte Produkte kommen dadurch ohne manuell gepflegte Linkliste dazu.
+
+Vor einem Yonkai-Alert müssen konkrete Produkt-ID, Produktadresse, SKU, Sprache,
+EUR-Preis und Bestand in Produktseite, Produkt-API und öffentlich eingebundenem
+Storefront-Datensatz zusammenpassen. Die Produktseite liefert selbst keine
+statischen Kaufbuttons; die API muss zusätzlich explizit Kaufbarkeit und eine
+Warenkorbfunktion für genau diese ID bestätigen. Es erfolgt nur Lesezugriff:
+kein Konto, kein API-Key, keine Warenkorbänderung, keine Bestellung. Der
+Storefront-Datensatz wird ausschließlich als JSON gelesen, niemals ausgeführt.
+Ausverkauf auf der Produktseite schlägt eine positive API-Anzeige. Abweichende
+Preise, variable oder passwortgeschützte Produkte werden nicht freigegeben.
+Unverbindliche Reservierungen, Wartelisten und volle Preorder-Kontingente bleiben
+stumm; qualifizierende offene verbindliche Preorders sind zulässig. Die
+bestehenden Sprach-, Retailpreis-, 200-Euro- und Dublettenregeln gelten weiter.
+
+Alle sechs priorisierten Händler erhalten einen parallelen Katalogabruf. Größere
+Pokémon-Bestände können das ungenutzte Naruto-Zeitfenster nutzen; der gesamte
+Live-Zeitrahmen bleibt unverändert. Sollte eine Einzelprüfung am Zeitlimit
+scheitern, werden bislang nicht geprüfte Varianten im nächsten Lauf vorgezogen.
+Der Bericht trennt vollständigen Katalogabruf, Einzelprüfung und echten Versand.

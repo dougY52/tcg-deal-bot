@@ -185,6 +185,9 @@ class Forms(HTMLParser):
 
 def live(o, shop, client, now):
     """Fresh Shopify product endpoint plus exact product form; never use snippets."""
+    if shop['adapter'] == 'yonkai':
+        from .yonkai import live as yonkai_live
+        return yonkai_live(o, shop, client, now)
     if shop['adapter'] in ('vedes','duo'):
         from .local_retail import live as local_live
         return local_live(o,shop,client,now)

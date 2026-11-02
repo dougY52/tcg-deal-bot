@@ -1708,6 +1708,43 @@
       },
       "discovery_scope": "Every regular run: complete public product catalog with all variants, including sold-out products; exact live checkout before alerts.",
       "checkout_exclude_pattern": "\\braffle\\b|\\bverlosung\\b|herbtcg[ -]+discord[ -]+drop|\\b(?:invitation|einladungskauf)\\b"
+    },
+    {
+      "id": "manaquelle",
+      "name": "Manaquelle",
+      "base_url": "https://manaquelle.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 20,
+      "seller_score": 75,
+      "stock_watch_each_run": true,
+      "trust_evidence": {
+        "legal_url": "https://manaquelle.de/policies/legal-notice",
+        "verified_on": "2026-11-02",
+        "scope": "Deutsches Impressum mit Inhaber/Gesellschaft, Anschrift, USt-ID und Kontakt geprüft; PayPal wird angeboten. Externe Bewertungen nicht verifiziert."
+      },
+      "discovery_scope": "Jeder reguläre Lauf: vollständiger öffentlicher Produktkatalog einschließlich ausverkaufter Produkte; konkrete Variante und Checkout vor jedem Alert prüfen."
+    },
+    {
+      "id": "yonkai-berlin",
+      "name": "Yonkai Berlin",
+      "base_url": "https://yonkaiberlin.de",
+      "adapter": "yonkai",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 20,
+      "seller_score": 75,
+      "stock_watch_each_run": true,
+      "trust_evidence": {
+        "legal_url": "https://yonkaiberlin.de/impressum/",
+        "verified_on": "2026-11-02",
+        "scope": "Deutsches Impressum mit Inhaber/Gesellschaft, Anschrift, USt-ID und Kontakt geprüft; PayPal wird angeboten. Externe Bewertungen nicht verifiziert."
+      },
+      "discovery_scope": "Jeder reguläre Lauf: vollständiger öffentlicher Produktkatalog einschließlich ausverkaufter Produkte; konkrete Variante und Checkout vor jedem Alert prüfen.",
+      "shipping_eur": "6.99",
+      "free_shipping_from_eur": "60.00",
+      "shipping_evidence": "https://yonkaiberlin.de/zahlung-und-versand/"
     }
   ],
   "references": [
@@ -2325,7 +2362,9 @@
       "glitzerpappe-shop",
       "tcgshopper",
       "kofuku",
-      "herbtcg"
+      "herbtcg",
+      "manaquelle",
+      "yonkai-berlin"
     ],
     "seller_evidence": {},
     "shop_rules": {
