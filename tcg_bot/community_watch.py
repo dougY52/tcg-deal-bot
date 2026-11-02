@@ -16,6 +16,7 @@ from .web_sources import Document, walk_json
 from .drop_watch import visible, visible_nodes
 from .scanning import collect
 from . import telegram_sources
+from .pc_schedule import due as check_due
 
 SOURCES = (
     ('mydealz-pokemon', 'https://www.mydealz.de/rss/gruppe/pokemon', 'rss'),
@@ -181,14 +182,16 @@ def run(cfg, state, client, now, send=None, checkpoint=None):
             return (rss(body) if source['kind'] == 'rss' else radar(body, now)), []
         due = [dict(id=source_id, url=url, base_url=url, kind=kind, adapter='community')
                for source_id, url, kind in SOURCES
-               if now-table['sources'].get(source_id, {}).get('checked_at', 0) >= settings.get('interval_seconds', 240)]
+               if check_due(table['sources'].get(source_id, {}).get('checked_at', 0), now,
+                            settings.get('interval_seconds', 240), settings.get('minute_slots', False))]
         for channel in settings.get('telegram_channels', []):
             if not telegram_sources.valid_channel(channel):
                 result['errors'].append('Invalid Telegram channel configuration')
                 continue
             source_id = 'telegram:'+channel.lower()
             url = 'https://t.me/s/'+channel
-            if now-table['sources'].get(source_id, {}).get('checked_at', 0) >= settings.get('interval_seconds', 240):
+            if check_due(table['sources'].get(source_id, {}).get('checked_at', 0), now,
+                         settings.get('interval_seconds', 240), settings.get('minute_slots', False)):
                 due.append(dict(id=source_id, url=url, base_url=url, kind='telegram',
                                 channel=channel, adapter='community'))
         # Separate hosts have separate bounded transports; a timeout at MyDealz

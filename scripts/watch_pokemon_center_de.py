@@ -10,6 +10,7 @@ from tcg_bot.__main__ import load_state, save_state
 from tcg_bot.http import send_discord, webhook_url
 from tcg_bot import community_watch, pokemon_center_watch
 from tcg_bot.pokemon_center_queue import QueueClient
+from tcg_bot.pc_schedule import effective_config, peak_window
 
 
 def relay_health(now, fetch=None):
@@ -37,8 +38,13 @@ def main():
     parser.add_argument('--state', default='pokemon-center-state.json')
     parser.add_argument('--report', default='pokemon-center-report.json')
     parser.add_argument('--send', action='store_true')
+    parser.add_argument('--minute', action='store_true', help='External peak-window trigger; skip outside 16–20 Europe/Berlin')
     args = parser.parse_args()
-    cfg = json.loads(Path(args.config).read_text())
+    now = time.time()
+    if args.minute and not peak_window(now):
+        print('PC_DE_MINUTE_OUTSIDE_WINDOW')
+        return {'skipped': 'outside_peak_window', 'sent': 0}
+    cfg = effective_config(json.loads(Path(args.config).read_text()), now)
     state_path = Path(args.state)
     state = copy.deepcopy(load_state(state_path))
     client = QueueClient()
@@ -49,9 +55,10 @@ def main():
         webhook_url(secret)
         send = lambda payload: send_discord(secret, payload)
         checkpoint = lambda value: save_state(state_path, value)
-    now = time.time()
     try:
         report = pokemon_center_watch.run(cfg, state, client, now, send, checkpoint)
+        report['schedule'] = {'timezone': 'Europe/Berlin', 'peak_window': peak_window(now),
+                              'interval_seconds': 60 if peak_window(now) else 300}
         # Keep the existing exact-original MyDealz checks and their dedupe.
         report['mydealz'] = community_watch.run({'community_watch': cfg['community_watch']},
                                                state, client, now, send, checkpoint)

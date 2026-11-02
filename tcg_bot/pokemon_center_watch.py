@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 
 from .drop_watch import visible
 from .pokemon_center_queue import snapshot as queue_snapshot
+from .pc_schedule import due as check_due
 from .scanning import collect
 from .telegram_sources import parse as telegram_parse
 from .web_sources import Document
@@ -211,13 +212,14 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
     due = []
     for source in cfg['sources']:
         old = table['sources'].get(source['id'], {})
+        ready = check_due(old.get('checked_at', 0), now, source.get('interval_seconds', 240), source.get('minute_slots', False))
         # Migrate old one-hour pauses for HTML challenge pages. Network/429/503
         # backoff remains unchanged; a normal 200 challenge gets one next-run read.
         recheck_blocked = (source['kind'] == 'store' and old.get('status') == 'blocked'
-                           and now-old.get('checked_at', 0) >= source.get('interval_seconds', 240))
+                           and ready)
         if now < old.get('retry_at', 0) and not recheck_blocked:
             report['sources'].append(dict(id=source['id'], status='backoff', retry_at=old['retry_at']))
-        elif now-old.get('checked_at', 0) >= source.get('interval_seconds', 240):
+        elif ready:
             due.append(dict(source, adapter='pc', base_url=source['url']))
         else:
             report['sources'].append(dict(id=source['id'], status='not_due'))

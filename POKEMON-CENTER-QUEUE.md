@@ -29,6 +29,22 @@ nicht „Queue geschlossen“. Der Prüfzeitpunkt steht jeweils im Cloud-Bericht
 
 ## Umgesetzte Verbesserung
 
+### Zeitplan
+
+Täglich 16:00 bis 19:59 Uhr Europe/Berlin startet der externe cron-job.org-Timer
+den bestehenden Workflow mit `pc_minute=true` einmal pro Minute. Sommer-/Winterzeit
+wird automatisch berücksichtigt. Dieser Modus führt nur den unabhängigen
+Pokémon-Center-Job aus; der breite Händler-Scan bleibt bei fünf Minuten.
+Ab 20:00 Uhr läuft Pokémon Center wieder mit dem bisherigen Fünf-Minuten-Zeitgeber.
+Ein verspäteter Minuten-Trigger außerhalb des Fensters beendet sich ohne Scan.
+
+Die Quellen verwenden innerhalb des Fensters Minuten-Zeitfenster statt eines
+starren 240-Sekunden-Abstands. Ein zweiter Start innerhalb derselben Minute
+überspringt bereits geprüfte Quellen. Normaler und schneller Job teilen sich
+denselben serialisierten State-Zugriff und dieselbe Discord-Deduplizierung.
+GitHub-Runner-Startverzögerungen, lange Quellenanfragen und explizites Rate-Limit-
+Backoff bleiben möglich; minütlich eingeplant ist keine sekundengenaue Garantie.
+
 Der bestehende unabhängige GitHub-Job prüft die DE-Startseite mit No-Cache-Headern
 und liest höchstens einen dort aktuell eingebundenen, sichtbaren primären Frame.
 Ziel ist ausschließlich HTTPS, derselbe Host und die genaue öffentliche
