@@ -134,7 +134,6 @@ jobs:
         id: pc_scan
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
           PC_MINUTE: ${{ inputs.pc_minute }}
         run: |

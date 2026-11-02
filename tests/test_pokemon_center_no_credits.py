@@ -1,12 +1,16 @@
 """Free sources still deliver with no provider balance; never send real Discord."""
 from datetime import datetime, timezone
+from contextlib import redirect_stdout
 from email.utils import formatdate
+import io
 import json
+import os
 from pathlib import Path
+import sys
 import tempfile
 from threading import Event
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from xml.sax.saxutils import escape
 
 from tcg_bot.__main__ import load_state, save_state
@@ -31,6 +35,57 @@ def feed(text=CLAIM, author='pokehuntdotfun', age=30):
 
 
 class CreditIndependentTests(unittest.TestCase):
+    def test_disabled_or_missing_opt_in_never_invokes_provider_on_live_trigger(self):
+        for opt_in in ({}, {'allow_credit_provider': False}, {'allow_credit_provider': 'true'}):
+            with self.subTest(opt_in=opt_in):
+                client = Mock(spec=['text'])
+                client.text.return_value = json.dumps({'success': True, 'data': dict(
+                    state='live', ageMs=0, lastChecked=datetime.fromtimestamp(NOW, timezone.utc).isoformat())})
+                probe = Mock(side_effect=AssertionError('Credit provider must never run'))
+                state = {}
+                report, observation = run_gate({'enabled': True, **opt_in}, state, client, NOW, probe)
+                self.assertFalse(report['credit_provider_enabled'])
+                self.assertEqual(report['status'], 'confirmation_not_enabled')
+                self.assertEqual(report['credits_reserved_this_run'], 0)
+                self.assertIsNone(observation)
+                self.assertEqual(state['pc_queue_gate'].get('reservations', []), [])
+                probe.assert_not_called()
+
+    def test_real_entrypoint_keeps_direct_de_delivery_without_spending_existing_key(self):
+        from scripts import watch_pokemon_center_de as script
+        source = dict(id='pc-de-store', name='Pokemon Center DE', kind='store',
+                      url='https://www.pokemoncenter.com/de-de/')
+        queue = '<h1>Virtual Queue</h1><p>You are now in line.</p><p>The queue is for the Germany store.</p>'
+        signal = json.dumps({'success': True, 'data': dict(state='live', ageMs=0,
+            lastChecked=datetime.fromtimestamp(NOW, timezone.utc).isoformat())})
+        for direct_body, expected_sent in ((queue, 1), ('<h1>Additional security check is required</h1>', 0)):
+            with self.subTest(expected_sent=expected_sent), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                cfg = dict(sources=[source], queue_gate=dict(enabled=True, allow_credit_provider=False),
+                           community_watch=dict(enabled=False))
+                (root/'config.json').write_text(json.dumps(cfg))
+                transport = Mock(spec=['text', 'close', 'deadline'])
+                transport.text.side_effect = lambda url: signal if url == STATUS_URL else direct_body
+                argv = ['watch', '--config', str(root/'config.json'), '--state', str(root/'state.json'),
+                        '--report', str(root/'report.json'), '--send']
+                with patch.object(sys, 'argv', argv), patch.dict(os.environ, {
+                        'SCRAPINGANT_API_KEY': 'test-existing-key', 'DISCORD_WEBHOOK_URL': 'test-hook',
+                        'GITHUB_STEP_SUMMARY': ''}), patch.object(script.time, 'time', return_value=NOW), \
+                        patch.object(script, 'QueueClient', return_value=transport), \
+                        patch.object(script, 'QueueProbe') as provider, \
+                        patch.object(script, 'webhook_url'), \
+                        patch.object(script, 'send_discord', return_value='synthetic-receipt') as send, \
+                        patch.object(script, 'relay_health', return_value={'status':'not_checked'}), \
+                        redirect_stdout(io.StringIO()):
+                    report = script.main()
+                self.assertEqual(report['sent'], expected_sent)
+                self.assertEqual(send.call_count, expected_sent)
+                self.assertEqual(report['queue_gate']['credits_reserved_this_run'], 0)
+                provider.assert_not_called()
+                saved = load_state(root/'state.json')
+                self.assertEqual(saved['pc_queue_gate'].get('reservations', []), [])
+                self.assertNotIn('test-existing-key', (root/'report.json').read_text())
+
     def test_missing_key_exhausted_budget_and_provider_error_keep_free_delivery(self):
         for mode in ('no_key', 'monthly_cap', 'provider_empty'):
             with self.subTest(mode=mode):
@@ -42,7 +97,7 @@ class CreditIndependentTests(unittest.TestCase):
                 data = {'success': True, 'data': dict(state='live', ageMs=0,
                     lastChecked=datetime.fromtimestamp(NOW, timezone.utc).isoformat())}
                 client.text.side_effect = lambda url: json.dumps(data) if url == STATUS_URL else feed()
-                gate, observation = run_gate({'enabled': True}, state, client, NOW,
+                gate, observation = run_gate({'enabled': True, 'allow_credit_provider': True}, state, client, NOW,
                                              None if mode == 'no_key' else probe)
                 self.assertFalse(gate['germany_confirmed'])
                 self.assertIsNone(observation)

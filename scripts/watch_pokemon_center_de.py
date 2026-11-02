@@ -58,7 +58,8 @@ def main():
         checkpoint = lambda value: save_state(state_path, value)
     try:
         key = os.environ.get('SCRAPINGANT_API_KEY', '')
-        probe = (lambda at: QueueProbe(key, client, max_credits=125).check(at)) if key and args.send else None
+        provider_allowed = cfg.get('queue_gate', {}).get('allow_credit_provider') is True
+        probe = (lambda at: QueueProbe(key, client, max_credits=125).check(at)) if provider_allowed and key and args.send else None
         gate_report, observation = run_gate(cfg.get('queue_gate', {}), state, client, now,
             probe, checkpoint, interval=60 if peak_window(now) else 240, minute_slots=peak_window(now))
         report = pokemon_center_watch.run(cfg, state, client, time.time(), send, checkpoint, queue_observation=observation)

@@ -5,6 +5,7 @@
   "max_alerts_per_run": 4,
   "queue_gate": {
     "enabled": true,
+    "allow_credit_provider": false,
     "max_credits_30d": 6000,
     "max_credits_daily": 750,
     "max_attempts_per_wave": 3

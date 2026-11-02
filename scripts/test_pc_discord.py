@@ -114,7 +114,8 @@ def simulate(body, started_at, start_clock, post):
         path = Path(folder)/'state.json'
         checkpoint = lambda value: save_state(path, value)
         now = time.time()
-        gate, observation = run_gate({'enabled': True}, state, SignalOnly(), now, probe, checkpoint, interval=60)
+        # Explicit synthetic callback only; this script cannot fetch the shop.
+        gate, observation = run_gate({'enabled': True, 'allow_credit_provider': True}, state, SignalOnly(), now, probe, checkpoint, interval=60)
         if gate['status'] != 'germany_confirmed':
             raise RuntimeError('Simulated visible DE page was not confirmed')
         first = run({'sources': [SOURCE]}, state, SignalOnly(), time.time(), send, checkpoint, queue_observation=observation)

@@ -1,0 +1,94 @@
+{
+  "checked_on": "2026-11-03",
+  "timezone": "Europe/Berlin",
+  "requirements": {
+    "region": "Germany only",
+    "hosting": "without user PC",
+    "credits": 0,
+    "direct_first_party_confirmation": true
+  },
+  "outcome": "No verified credit-free, PC-independent direct Germany queue solution found. Current direct responses remain blocked; no no-missed-queue guarantee is justified.",
+  "direct_probe": {
+    "checked_at": "2026-11-02T23:39:59.729358+00:00",
+    "provider_requests": 0,
+    "credits_consumed": 0,
+    "discord_sent": 0,
+    "results": [
+      {
+        "url": "https://www.pokemoncenter.com/de-de/",
+        "status": "blocked",
+        "frame_checked": true,
+        "region": null,
+        "inventory_confirmed": false,
+        "banner_location": null
+      },
+      {
+        "url": "https://www.pokemoncenter.com/en-de/",
+        "status": "blocked",
+        "frame_checked": true,
+        "region": null,
+        "inventory_confirmed": false,
+        "banner_location": null
+      }
+    ]
+  },
+  "current_cloud_evidence": {
+    "url": "https://github.com/dougY52/tcg-deal-bot/blob/pokemon-center-state/report.json",
+    "snapshot_checked_at": "2026-11-02T23:35:23.153650+00:00",
+    "direct_store_status": "blocked",
+    "primary_frame_checked": true,
+    "shared_signal_state": "open",
+    "shared_signal_germany_confirmed": false,
+    "cardpal_connection_fresh": true,
+    "cardpal_shop_drop_latency_verified": false
+  },
+  "sources_reviewed": [
+    {
+      "url": "https://github.com/cjudge129/pokemon-restock-monitor/blob/main/scrapers/pokemoncenter.js",
+      "finding": "Guesses Queue-it customer IDs and emits a candidate for any non-404 response, including HTTP errors. No Germany banner verification. Not adopted; third-party code not executed."
+    },
+    {
+      "url": "https://github.com/mmtcg-uk/PokeCenterQueue/blob/main/main.py",
+      "finding": "Requires BROWSERLESS_WS_URL and checks US/UK/CA only. Basic text matching lacks German regional confirmation. Does not establish an unlimited free DE solution."
+    },
+    {
+      "url": "https://github.com/j-ding/pokemon-ceneter-queue/blob/main/background.js",
+      "finding": "Chrome extension observes the local active tab and queue data received by that browser. Does not supply an independent public DE queue endpoint or PC-independent service."
+    },
+    {
+      "url": "https://github.com/samkulka/pokemon-monitor/blob/main/browser-extension/QUEUE_FEATURE.md",
+      "finding": "Browser extension opens a local browser tab for its checks. Incapsula-resource presence is listed as an indicator but is also present on security pages. Not a standalone cloud Germany proof."
+    },
+    {
+      "url": "https://queuedex.com/non-uk-drop-queues",
+      "finding": "Provider describes shared UK/US/Germany queue activations and a possible German-only banner. Archive is derivative evidence, not a live first-party regional confirmation."
+    },
+    {
+      "url": "https://cardiyo.io/de/nutzungsbedingungen",
+      "finding": "Provider specifies free polling every 30 minutes, Pro every five minutes, and no guarantee of detecting every drop. Does not meet immediate free direct monitoring."
+    },
+    {
+      "url": "https://www.tcgsniper.nl/en/gids/pokemon-center-uk-us-bestellen",
+      "finding": "Provider says previous queue-position network trick stopped exposing position in late October 2025. Its guide is not verification of any present direct endpoint."
+    },
+    {
+      "url": "https://support.pokemoncenter.com/hc/en-us/articles/37286495522452-Pok%C3%A9mon-Center-Virtual-Queue",
+      "finding": "Official guidance: a queue may be traffic control and does not necessarily indicate a product launch or available stock. No public queue-status API documented on this page."
+    }
+  ],
+  "implementation": {
+    "automatic_credit_provider_enabled": false,
+    "production_job_receives_scrapingant_key": false,
+    "github_secrets_changed": false,
+    "direct_and_free_community_sources_preserved": true,
+    "fake_queue_alerts_sent": 0,
+    "new_accounts_created": 0,
+    "new_paid_services": 0
+  },
+  "validation_limits": [
+    "Direct test observed a security page, not an actual German queue activation.",
+    "Synthetic tests confirm routing and deduplication only, not upstream access or real detection latency.",
+    "No hidden endpoint guessing, cookie replay, CAPTCHA solving or proxy rotation was used.",
+    "Manual credit diagnostics still exist as opt-in tools and were not run."
+  ]
+}

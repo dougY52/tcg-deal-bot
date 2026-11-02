@@ -141,7 +141,13 @@ def run_gate(cfg, state, client, now, probe=None, checkpoint=None, interval=240,
     if not cfg.get('enabled'):
         return {'status': 'disabled'}, None
     gate = state.setdefault('pc_queue_gate', {})
-    report = {'status': 'not_due', 'germany_confirmed': False, 'credits_reserved_this_run': 0}
+    allowed = cfg.get('allow_credit_provider') is True
+    # A stored API key or an injected callback is not permission to spend credits.
+    # Public signals and the independent direct/community scanners remain active.
+    if not allowed:
+        probe = None
+    report = {'status': 'not_due', 'germany_confirmed': False, 'credits_reserved_this_run': 0,
+              'credit_provider_enabled': allowed}
     confirmed = gate.get('confirmation')
     if not due(gate.get('checked_at', 0), now, interval, minute_slots):
         fresh = confirmed and 0 <= now-confirmed.get('observed_at', 0) <= 120

@@ -114,7 +114,7 @@ class GatedDeliveryTests(unittest.TestCase):
         self.state = {}
         self.send = Mock(return_value='discord-receipt')
         self.probe = Mock(side_effect=lambda now: provider_snapshot({'status_code': 200, 'html': QUEUE+DE}, now))
-        self.cfg = {'enabled': True}
+        self.cfg = {'enabled': True, 'allow_credit_provider': True}
         self.source = {'id': 'pc-de-store', 'name': 'Pokemon Center DE', 'kind': 'store',
                        'url': 'https://www.pokemoncenter.com/de-de/', 'interval_seconds': 60}
 

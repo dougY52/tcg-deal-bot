@@ -212,7 +212,23 @@ Faix und duo sind live bestätigt; VEDES wird im Diagnosebericht als eingeschrä
 
 ## Pokémon Center Deutschland: zusätzlicher kostenloser Zugangstest
 
-[Zugriffstest, Gratis-Limits und Einrichtung](POKEMON-CENTER-FREE-ACCESS.md). Der vorhandene Cloud-Workflow testet bei Push/manuellem Dry Run die offiziellen DE-Seiten und optional ScrapingAnt mit strengem Gratis-Tarif-Check. Noch keine bestätigte Pokémon-Center-Bestandsabdeckung; keine ungeprüften Discord-Deals.
+[Zugriffstest, Gratis-Limits und Einrichtung](POKEMON-CENTER-FREE-ACCESS.md). Noch keine bestätigte Pokémon-Center-Bestandsabdeckung; keine ungeprüften Discord-Deals.
+
+**Stand 03.11.2026: automatischer DE-Monitor ohne Credits.**
+`queue_gate.allow_credit_provider=false` verhindert auch bei vorhandenem API-Key
+und aktivem globalen Queue-Signal jeden automatischen ScrapingAnt-Aufruf. Der
+reguläre DE-Job erhält diesen Schlüssel nicht mehr; das GitHub-Secret bleibt
+unverändert. Direkte öffentliche Seiten-/Frame-Prüfung, kostenlose Zusatzquellen,
+CardPal-Relay und bestehende Deutschland-Filter bleiben aktiv. Kreditbasierte
+Diagnosetests sind getrennte manuelle Optionen und wurden bei dieser Recherche
+nicht ausgeführt.
+
+Der direkte Test beider offiziellen Deutschland-Einstiege samt eingebundenem
+Hauptframe lieferte weiterhin eine Sicherheitsseite. Weder die geprüften freien
+Browser-Erweiterungen noch die untersuchten Cloud-Bots belegen eine kostenlose,
+PC-unabhängige direkte Deutschland-Erkennung. Ein erfolgreicher Workflow ist
+deshalb **kein Beleg für eine lesbare deutsche Queue**. Recherche, direkte
+Testresultate und Grenzen: [Recherche vom 03.11.2026](research/pokemon-center-direct-2026-11-03.json).
 
 ### Pokémon Center Deutschland: Community-Hinweise
 
