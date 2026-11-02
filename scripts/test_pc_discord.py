@@ -134,6 +134,14 @@ def simulate(body, started_at, start_clock, post):
         live_queue_detection_verified=False, phone_push_latency_verified=False)
 
 
+def public_report(report):
+    """Public Actions logs/artifacts contain no account balance or receipt data."""
+    return {key: report[key] for key in ('status', 'simulation', 'discord_messages_sent',
+        'duplicate_messages_sent', 'duplicate_rejections', 'provider_scrape_calls',
+        'provider_credits_consumed', 'simulated_probe_calls',
+        'live_queue_detection_verified', 'phone_push_latency_verified')}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--send-test', action='store_true')
@@ -149,8 +157,9 @@ def main():
     started, clock, body = browser_snapshot()
     report = simulate(body, started, clock, lambda message: send_discord(secret, message))
     report.update(provider_usage=usage, workflow_run_id=os.environ.get('GITHUB_RUN_ID'))
-    Path('pc-discord-test-report.json').write_text(json.dumps(report, indent=2)+'\n')
-    print('PC_DISCORD_TEST '+json.dumps(report))
+    safe = public_report(report)
+    Path('pc-discord-test-report.json').write_text(json.dumps(safe, indent=2)+'\n')
+    print('PC_DISCORD_TEST '+json.dumps(safe))
 
 
 if __name__ == '__main__':

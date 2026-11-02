@@ -3,7 +3,7 @@ import time
 import unittest
 from unittest.mock import Mock, patch
 
-from scripts.test_pc_discord import FIXTURE, label_test, simulate, usage_report
+from scripts.test_pc_discord import FIXTURE, label_test, public_report, simulate, usage_report
 
 
 def capture(html):
@@ -47,16 +47,25 @@ class DiscordSimulationTests(unittest.TestCase):
         self.assertEqual(original['embeds'][0]['title'], 'DE Queue')
 
     def test_usage_only_reads_balance_without_spending_or_exposing_key(self):
-        data = dict(plan_name='Free', plan_total_credits=10000, remained_credits=8990,
-                    start_date='2026-10-25T00:00:00', end_date='2026-11-25T00:00:00', private='not exported')
+        data = dict(plan_name='Free', plan_total_credits=10000, remained_credits=6000,
+                    start_date='2030-01-01T00:00:00', end_date='2030-02-01T00:00:00', private='not exported')
         with patch('scripts.test_pc_discord.FreeAccessProbe') as factory:
             factory.return_value.request_json.return_value = data, None
             result = usage_report('secret-key')
             factory.return_value.request_json.assert_called_once_with('usage')
-        self.assertEqual(result['reads_before_reserve'], 63)
-        self.assertEqual(result['period_end'], '2026-11-25T00:00:00')
+        self.assertEqual(result['reads_before_reserve'], 40)
+        self.assertEqual(result['period_end'], '2030-02-01T00:00:00')
         self.assertNotIn('secret', str(result))
         self.assertNotIn('private', str(result))
+
+    def test_public_report_excludes_receipt_timestamps_and_account_details(self):
+        report = simulate(capture(FIXTURE), time.time(), time.perf_counter(), Mock(return_value='private-receipt'))
+        report['provider_usage'] = {'remaining_credits': 6000, 'period_end': 'private-date'}
+        safe = public_report(report)
+        for key in ('provider_usage', 'discord_message_id', 'simulation_started_at', 'discord_acknowledged_at'):
+            self.assertNotIn(key, safe)
+        self.assertNotIn('private', json.dumps(safe))
+        self.assertEqual(safe['discord_messages_sent'], 1)
 
 
 if __name__ == '__main__':

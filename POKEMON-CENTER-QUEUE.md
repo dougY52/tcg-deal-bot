@@ -172,6 +172,9 @@ Bestätigung und zusätzlich die HTTP-Versanddauer. Er misst weder einen echten
 Shop-Drop noch die Push-Benachrichtigung auf dem Handy. Er liest den aktuellen
 ScrapingAnt-Kontostand über `/v2/usage`, führt aber keinen kostenpflichtigen oder
 creditsverbrauchenden Shop-Abruf aus.
+Öffentliche GitHub-Logs und Artefakte enthalten nur technische Ergebniszähler;
+Kontostand, Abrechnungszeitraum, Nachrichten-ID und persönliche Zeitangaben
+werden dort nicht ausgegeben.
 
 ### Zusätzlicher Cloud-Zugriffstest am 02.11.2026
 
