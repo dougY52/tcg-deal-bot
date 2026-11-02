@@ -10,10 +10,10 @@ import json
 from pathlib import Path
 import re
 import time
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urlsplit
 
 from tcg_bot.pokemon_center_queue import QueueClient, public_queue_url, snapshot
-from tcg_bot.web_sources import Document
+from tcg_bot.pokemon_center_gate import provider_snapshot
 
 HOME = 'https://www.pokemoncenter.com/de-de/'
 
@@ -51,14 +51,44 @@ def http_probe():
         return result
 
 
-def browser_probe(headed):
+def observation_times(seconds):
+    if type(seconds) is not int or not 30 <= seconds <= 300:
+        raise ValueError('Duration must be 30..300 seconds')
+    return sorted(set([3, 15, 30, *range(60, seconds+1, 30), seconds]))
+
+
+def rendered_observation(body, status, now):
+    # An error response cannot become a positive queue result through its text.
+    if status != 200:
+        return {'status': 'blocked' if status in (401, 403, 429) else 'unknown',
+                'region': None, 'inventory_confirmed': False}
+    try:
+        result = provider_snapshot({'status_code': status, 'html': body}, now,
+                                   require_rendered=True)
+        result.pop('banner', None)
+        return result
+    except Exception:
+        return {'status': 'unknown', 'reason': 'VISIBLE_CAPTURE_UNREADABLE',
+                'region': None, 'inventory_confirmed': False}
+
+
+def browser_probe(headed, seconds=30):
     from playwright.sync_api import sync_playwright
+    samples = observation_times(seconds)
+    capture_js = Path('tcg_bot/pc_queue_dom.js').read_text()
     observations = []
     with sync_playwright() as runtime:
         browser = runtime.chromium.launch(channel='chrome', headless=not headed)
         context = browser.new_context(locale='de-DE', timezone_id='Europe/Berlin',
                                       accept_downloads=False)
         page = context.new_page()
+        navigation = {'count': 0, 'status': None}
+        def on_response(response):
+            request = response.request
+            if request.is_navigation_request() and response.frame == page.main_frame:
+                navigation['count'] += 1
+                navigation['status'] = response.status
+        page.on('response', on_response)
         # The diagnostic never navigates to an account/cart or clicks anything.
         # Ordinary automatic browser requests can run, including public JS checks.
         def guard(route):
@@ -72,30 +102,32 @@ def browser_probe(headed):
                 route.continue_()
         page.route('**/*', guard)
         try:
-            response = page.goto(HOME, wait_until='domcontentloaded', timeout=30000)
-            for delay in (3000, 12000, 15000):
-                page.wait_for_timeout(delay)
+            page.goto(HOME, wait_until='domcontentloaded', timeout=30000)
+            started = time.monotonic()
+            for offset in samples:
+                page.wait_for_timeout(max(0, started+offset-time.monotonic())*1000)
                 if not public_queue_url(page.url, home=True):
                     observations.append({'status': 'REGION_OR_REDIRECT_UNCONFIRMED'})
                     break
-                body = page.content()
-                pages = {HOME: body}
-                frames = [n for n in Document(body).root.walk()
-                          if n.tag == 'iframe' and n.attrs.get('id') == 'main-iframe']
-                if len(frames) == 1:
-                    target = urljoin(HOME, frames[0].attrs.get('src', ''))
-                    if public_queue_url(target):
-                        element = page.query_selector('iframe#main-iframe')
-                        frame = element.content_frame() if element else None
-                        if frame and public_queue_url(frame.url):
-                            pages[target] = frame.content()
                 try:
-                    observation = summarize(pages)
-                except ValueError:
-                    observation = {'status': 'FRAME_UNREADABLE'}
-                observation['http_status'] = response.status if response else None
+                    # Same context/tab throughout; this only copies visible DOM.
+                    # No page reload, clicks, cookie export or network call here.
+                    page.evaluate('async () => {'+capture_js+'}')
+                    body = page.content()
+                    observation = rendered_observation(body, navigation['status'], time.time())
+                    observation['page_bytes'] = len(body.encode('utf-8'))
+                except Exception:
+                    observation = {'status': 'unknown', 'reason': 'VISIBLE_CAPTURE_UNREADABLE'}
+                observation.update(http_status=navigation['status'],
+                                   elapsed_seconds=round(time.monotonic()-started, 2))
                 observations.append(observation)
-            return {'status': observations[-1]['status'], 'observations': observations}
+                print('PC_BROWSER_SAMPLE '+json.dumps(observation), flush=True)
+            return {'status': observations[-1]['status'], 'observations': observations,
+                    'requested_duration_seconds': seconds,
+                    'elapsed_seconds': round(time.monotonic()-started, 2),
+                    'browser_contexts': 1, 'tabs': 1, 'manual_navigations': 1,
+                    'manual_reloads': 0, 'observed_main_responses': navigation['count'],
+                    'live_german_queue_observed': any(o['status'] == 'queue_open_de' for o in observations)}
         finally:
             context.close()
             browser.close()
@@ -104,15 +136,21 @@ def browser_probe(headed):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--headed', action='store_true')
+    parser.add_argument('--browser-only', action='store_true')
+    parser.add_argument('--seconds', type=int, choices=range(30, 301), default=30)
     args = parser.parse_args()
     report = {'checked_at': datetime.now(timezone.utc).isoformat(), 'discord_sent': 0,
+              'credits_consumed': 0, 'provider_requests': 0,
               'inventory_confirmed': False, 'results': []}
     try:
         QueueClient().check_allowed(HOME)
     except Exception:
         report['status'] = 'POLICY_CHECK_UNAVAILABLE'
     else:
-        for name, run in (('chrome_http', http_probe), ('normal_chrome', lambda: browser_probe(args.headed))):
+        probes = [('normal_chrome', lambda: browser_probe(args.headed, args.seconds))]
+        if not args.browser_only:
+            probes.insert(0, ('chrome_http', http_probe))
+        for name, run in probes:
             try:
                 result = run()
             except Exception as error:

@@ -6,6 +6,7 @@ on:
       - 'tcg_bot/browser.py'
       - 'tcg_bot/http.py'
       - 'scripts/check_browser.py'
+      - 'scripts/probe_pc_transport.py'
       - 'tcg_bot/pokemon_center_gate.py'
       - 'tcg_bot/pc_queue_dom.js'
       - 'requirements-browser.txt'
@@ -14,6 +15,10 @@ on:
     paths: ['tcg_bot/**', 'scripts/check_browser.py', '.github/workflows/browser-check.yml', 'requirements-browser.txt']
   workflow_dispatch:
     inputs:
+      pc_persistent_test:
+        description: 'Keep one normal Chrome tab open for five minutes; no credits or Discord'
+        type: boolean
+        default: false
       pc_transport_test:
         description: 'One-off Pokemon Center DE transport test, without Discord'
         type: boolean
@@ -32,7 +37,7 @@ permissions:
   contents: read
 jobs:
   check:
-    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !inputs.pc_discord_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]') && !contains(github.event.head_commit.message, '[delivery-audit]')
+    if: github.event.repository.private == false && !inputs.pc_persistent_test && !inputs.pc_transport_test && !inputs.pc_gate_test && !inputs.pc_discord_test && !contains(github.event.head_commit.message, '[pc-persistent-test]') && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]') && !contains(github.event.head_commit.message, '[delivery-audit]')
     strategy:
       fail-fast: false
       matrix:
@@ -59,6 +64,31 @@ jobs:
           name: browser-access-${{ matrix.os }}
           path: browser-report.json
           retention-days: 7
+  pc-persistent:
+    name: One persistent Chrome tab on Pokemon Center DE
+    if: github.event.repository.private == false && (inputs.pc_persistent_test || (github.event_name == 'push' && contains(github.event.head_commit.message, '[pc-persistent-test]')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --timeout 30 --retries 1 -r requirements-browser.txt
+      - name: Test visible Germany-only classification
+        env:
+          TCG_TEST_PC_DOM: '1'
+        run: python -m unittest discover -s tests -p 'test_pokemon_center_*.py' -q
+      - name: Keep one ordinary browser open without reloading or credits
+        run: xvfb-run -a python -m scripts.probe_pc_transport --headed --browser-only --seconds 300
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pc-persistent-chrome
+          path: pc-transport-report.json
+          retention-days: 3
   pc-transport:
     if: github.event.repository.private == false && (inputs.pc_transport_test || (github.event_name == 'push' && contains(github.event.head_commit.message, '[pc-transport-test]')))
     strategy:
