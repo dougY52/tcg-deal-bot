@@ -22,13 +22,17 @@ on:
         description: 'One-page DE test (at most 125 free credits, no Discord)'
         type: boolean
         default: false
+      pc_discord_test:
+        description: 'Send ONE clearly marked simulated DE queue message to Discord (zero scrape credits)'
+        type: boolean
+        default: false
 env:
   PYTHONUTF8: '1'
 permissions:
   contents: read
 jobs:
   check:
-    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]') && !contains(github.event.head_commit.message, '[delivery-audit]')
+    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !inputs.pc_discord_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]') && !contains(github.event.head_commit.message, '[delivery-audit]')
     strategy:
       fail-fast: false
       matrix:
@@ -105,4 +109,32 @@ jobs:
         with:
           name: pc-gate-probe
           path: pc-gate-probe.json
+          retention-days: 7
+  pc-discord-test:
+    name: One marked Discord queue simulation
+    if: github.event.repository.private == false && github.event_name == 'workflow_dispatch' && inputs.pc_discord_test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: tcg-pc-discord-simulation
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --timeout 30 --retries 1 -r requirements-browser.txt
+      - run: python -m unittest discover -s tests -p 'test_pokemon_center_discord.py' -q
+      - name: Simulate DE queue and send one clearly marked test
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
+        run: python -m scripts.test_pc_discord --send-test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pc-discord-test
+          path: pc-discord-test-report.json
           retention-days: 7

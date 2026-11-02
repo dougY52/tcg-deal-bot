@@ -157,6 +157,22 @@ API werden für diese Erweiterung verwendet.
 
 ## Grenzen
 
+### Einmaliger Discord-Funktionstest
+
+Der bestehende Workflow `Browser source check` hat den manuellen Schalter
+`pc_discord_test`. Er simuliert den deutschen Hinweis in Chrome (alle Shop-
+Requests werden lokal beantwortet), nutzt den normalen Parser, Queue-Gate und
+Discord-Sender und sendet **genau eine ausdrücklich als TEST markierte Nachricht**.
+Ein separat gespeicherter Test-State prüft die Deduplizierung nach dem Neuladen;
+der Produktions-State wird nicht geladen oder verändert. Workflow-Wiederholungen
+mit `GITHUB_RUN_ATTEMPT > 1` senden nichts. Der Test läuft niemals nach Zeitplan.
+
+Der Bericht misst ab Erzeugung der simulierten Seite bis zur Discord-API-
+Bestätigung und zusätzlich die HTTP-Versanddauer. Er misst weder einen echten
+Shop-Drop noch die Push-Benachrichtigung auf dem Handy. Er liest den aktuellen
+ScrapingAnt-Kontostand über `/v2/usage`, führt aber keinen kostenpflichtigen oder
+creditsverbrauchenden Shop-Abruf aus.
+
 ### Zusätzlicher Cloud-Zugriffstest am 02.11.2026
 
 Der [Diagnoselauf 41507297267](https://github.com/dougY52/tcg-deal-bot/actions/runs/41507297267)
