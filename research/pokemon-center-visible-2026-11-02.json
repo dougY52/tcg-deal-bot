@@ -1,0 +1,51 @@
+{
+  "checked_date": "2026-11-02",
+  "commit": "dbd463a52c913a1c801b8c09e468b8947bb33a16",
+  "browser_probe_run": 41515917699,
+  "browser_probe_job": 125519329200,
+  "browser_and_python_tests": {
+    "run": 92,
+    "passed": 92
+  },
+  "local_suite": {
+    "run": 662,
+    "passed": 655,
+    "skipped_browser_tests": 7
+  },
+  "public_screenshot_source": "https://www.reddit.com/r/PokemonTCG/comments/1tvshzm/",
+  "fixture_limit": "Historical notice wording with synthetic HTML; not a live queue event",
+  "probe": {
+    "checked_at": "2026-11-02T20:05:49.152133+00:00",
+    "discord_sent": 0,
+    "signal": {
+      "state": "open",
+      "trigger": false,
+      "germany_confirmed": false,
+      "checked_at": 1793649923.966,
+      "age_seconds": 26.68
+    },
+    "confirmation": {
+      "status": "store_readable",
+      "frame_checked": false,
+      "region": null,
+      "inventory_confirmed": false,
+      "banner_location": null,
+      "rendered_visibility": true,
+      "page_bytes": 600622,
+      "headings": [
+        "Pokémon Center Deutschland Official Site",
+        "Finde deinen Pokémon-Look für eine elektrisierende Nacht",
+        "Die Kollektion „Pokémon × ESA“"
+      ],
+      "embedded_frames": 0,
+      "next_data_present": true,
+      "observed_at": 1793649964.8649483,
+      "reserved_credits": 125,
+      "reported_credits": 125,
+      "remaining_before": 9115
+    },
+    "reserved_credits": 125
+  },
+  "live_german_queue_event_verified": false,
+  "discord_latency_verified": false
+}

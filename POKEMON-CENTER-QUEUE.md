@@ -58,6 +58,19 @@ Die Gratis-Budgets und Zeitpläne bleiben unverändert. Browser-Replay und ein
 begrenzter aktueller Cloud-Test prüfen den Code; ein echter deutscher Queue-Start
 mit gemessener Discord-Latenz bleibt separat nachzuweisen.
 
+Verifiziert im [Cloud-Test 41515917699](https://github.com/dougY52/tcg-deal-bot/actions/runs/41515917699):
+92 Tests inklusive echter Chrome-Ausführung erfolgreich. Um **21:06 Uhr Berlin**
+lieferte der vorhandene kostenlose Provider eine sichtbare deutsche Shopseite
+(`store_readable`, `rendered_visibility=true`), keine Queue und keinen Alert.
+Kosten: 125 Gratis-Credits, Rest danach rechnerisch 8.990 Credits. Die lokale
+Gesamtsuite bestand aus 662 Tests, davon 655 erfolgreich und sieben Browser-Tests
+lokal übersprungen; diese sieben liefen im Cloud-Test erfolgreich.
+Der reguläre [DE-Job](https://github.com/dougY52/tcg-deal-bot/actions/runs/41515917530/job/125519330328)
+um 21:05 Uhr war ebenfalls erfolgreich und verbrauchte ohne Queue-Signal null
+Provider-Credits. Der direkte Abruf war weiterhin blockiert; der unabhängige
+Provider-Abruf ist deshalb entscheidend. Messdaten stehen in
+`research/pokemon-center-visible-2026-11-02.json`.
+
 ### Kostenlose Queue-Abfrage mit gezielter Deutschland-Prüfung
 
 Der normale DE-Job liest zusätzlich den anonymen, vom
