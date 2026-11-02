@@ -441,3 +441,38 @@ Center bleibt zusätzlich per Cloudflare-Ereignis-Stream angebunden. Pokémon: D
 Dragon Ball (Fusion World und Masters) und One Piece: EN. Händler bleiben auf
 Deutschland beschränkt; englische Karten bedeuten keinen UK-/US-Import. Details und
 Kosten-/Zeitgrenzen stehen in [POKEMON-CENTER-DE.md](POKEMON-CENTER-DE.md).
+
+
+## Kofuku, Feenturm, TCGViert und HerbTCG: Bestandsprüfung pro Lauf (02.11.2026)
+
+Diese vier Shops haben `stock_watch_each_run: true` und warten nicht auf die
+rotierende Händler-Discovery. Der vorhandene Cloud-Workflow führt die Prüfung bei
+jedem regulären Scan aus (Fünf-Minuten-Zeitplan; mögliche Startverzögerungen bleiben).
+Der zusätzliche PC-Minutenjob prüft weiterhin nur Pokémon Center.
+
+- Kofuku (`kofuku.de`), TCGViert und HerbTCG: öffentliches Shopify-Gesamtsortiment,
+  alle Seiten ab Seite 1 und alle Varianten, auch aktuell ausverkaufte Produkte.
+  Kategorielisten allein sind unvollständig: TCGViert hatte z. B. das deutsche
+  ME06-Display für 179,99 EUR nur im Gesamtkatalog.
+- Feenturm: alle Seiten der drei TCG-Kollektionen Pokémon, Dragon Ball und One
+  Piece bei jedem regulären Lauf. Der große übrige Spielwarenkatalog bleibt in
+  der zusätzlichen Discovery; nicht kategorisierte Artikel sind damit nicht
+  lückenlos erfasst. Mitgliederangebote sind weiter ausgeschlossen.
+- HerbTCG: Verlosungen/Raffles und als Discord-Drop gesperrte Artikel zählen nicht
+  als direkt bestellbar. Gemischte Pokémon/Riftbound-Händlerbundles und einfache
+  Wandposter werden nicht mit versiegelten Kartenprodukten verwechselt.
+
+Der Bericht zeigt je Händler Umfang, Seiten, Vollständigkeit und Anzahl der
+versuchten Einzelprüfungen. Maximal 40 Seiten je Endpunkt / 35 Sekunden je Shop
+schützen vor Endlosschleifen und hängenden Servern. Abbrüche werden ausdrücklich
+als unvollständig protokolliert; fehlende Produkte sind niemals automatisch
+"ausverkauft". Alle preislich infrage kommenden positiven Katalogvarianten und
+beobachteten Schließungen zuvor offener Angebote bekommen Einzelprüfungen vor der
+normalen Hintergrundrotation. Laufzeitgrenzen und Shopsperren gelten weiterhin;
+nicht ausgeführte Einzelprüfungen werden separat gemeldet.
+
+Jeder Alert benötigt weiterhin aktuelle konkrete Varianten-/Sprach-/Preis- und
+Checkout-Bestätigung. Der Katalog allein darf nichts posten. Der bestehende
+Retailvergleich, Cardmarketvergleich, tägliche Wiederholungen und persistente
+Restock-/Preorder-Deduplizierung bleiben erhalten. Keine zusätzlichen Services,
+Secrets oder kostenpflichtigen APIs werden benötigt.

@@ -181,9 +181,10 @@
       "currency": "EUR",
       "enabled": true,
       "max_pages": 8,
-      "discovery_scope": "Bis zu 8 Gesamtkatalogseiten à 250 Produkte, plus konfigurierte Collections und explizite Referenzprodukte. Warnung bei Seitenlimit.",
+      "discovery_scope": "Every regular run: complete public product catalog, including products absent from franchise collections.",
       "audit_checked_on": "2026-09-18",
-      "cloud_check_run": "35340269350"
+      "cloud_check_run": "35340269350",
+      "stock_watch_each_run": true
     },
     {
       "id": "webbas-kartenecke",
@@ -1301,14 +1302,20 @@
         "verified_on": "2026-10-06",
         "scope": "Impressum, deutsche Anschrift, Kontakt und Zahlungshinweise geprüft; keine behauptete externe Bewertung."
       },
-      "discovery_scope": "Rotierender Shopify-Katalog plus gezielte TCG-Kategorien. Exakte Variante, EUR-Livepreis und aktives Bestellformular vor jedem Alert. 30-Jahre-/Bund-Zirkelprodukte vorerst gesperrt, da nur für freigeschaltete Mitglieder.",
+      "discovery_scope": "Every regular run: all pages of the three TCG collections; additional rotating full-store discovery. Member-only offers excluded.",
       "checkout_exclude_pattern": "30(?:th|\\s*jahre)|bund der magischen|nur.{0,30}(?:mitglied|zirkel)|ausschließlich.{0,40}(?:mitglied|zirkel)",
       "rotate_collections": true,
       "live_language_discovery": true,
       "watch_handles": [
         "dragon-ball-super-card-game-fusion-world-booster-display-fb-11-24-packs-en-jetzt-vorbestellen"
       ],
-      "seed_watch_handles_once": true
+      "seed_watch_handles_once": true,
+      "stock_watch_each_run": true,
+      "stock_collections": [
+        "dragon-ball",
+        "one-piece-tcg-1",
+        "pokemon-gesamtes-sortiment"
+      ]
     },
     {
       "id": "card-club",
@@ -1666,6 +1673,41 @@
       },
       "trust_note": "Basisprüfung: deutsches Impressum und Kontakt; Shop nennt PayPal/Klarna. Externe Bewertungen nicht verifiziert.",
       "discovery_scope": "Rotierender Shopify-Katalog plus CardPal-DE-Produktverweise; vor jedem Alert konkrete Variante und Checkout live prüfen."
+    },
+    {
+      "id": "kofuku",
+      "name": "Kofuku",
+      "base_url": "https://kofuku.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 12,
+      "seller_score": 75,
+      "stock_watch_each_run": true,
+      "trust_evidence": {
+        "legal_url": "https://kofuku.de/policies/legal-notice",
+        "verified_on": "2026-11-02",
+        "scope": "Public German legal notice with named business, address, VAT ID and contact; PayPal shown on shop. No external review score asserted."
+      },
+      "discovery_scope": "Every regular run: complete public product catalog with all variants, including sold-out products; exact live checkout before alerts."
+    },
+    {
+      "id": "herbtcg",
+      "name": "HerbTCG",
+      "base_url": "https://herbtcg.de",
+      "adapter": "shopify",
+      "currency": "EUR",
+      "enabled": true,
+      "max_pages": 12,
+      "seller_score": 75,
+      "stock_watch_each_run": true,
+      "trust_evidence": {
+        "legal_url": "https://herbtcg.de/policies/legal-notice",
+        "verified_on": "2026-11-02",
+        "scope": "Public German legal notice with named business, address, VAT ID and contact; PayPal shown on shop. No external review score asserted."
+      },
+      "discovery_scope": "Every regular run: complete public product catalog with all variants, including sold-out products; exact live checkout before alerts.",
+      "checkout_exclude_pattern": "\\braffle\\b|\\bverlosung\\b|herbtcg[ -]+discord[ -]+drop|\\b(?:invitation|einladungskauf)\\b"
     }
   ],
   "references": [
@@ -2281,7 +2323,9 @@
       "comicplanet",
       "kartenmeier",
       "glitzerpappe-shop",
-      "tcgshopper"
+      "tcgshopper",
+      "kofuku",
+      "herbtcg"
     ],
     "seller_evidence": {},
     "shop_rules": {

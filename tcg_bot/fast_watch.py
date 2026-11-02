@@ -289,14 +289,37 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     report['sent'] += community['sent']
     report['errors'].extend(community['errors'])
     bootstrap(cfg, state, now)
-    selected = select(cfg, state, now)
+    from . import stock_watch
+    stock_rows, stock_report = stock_watch.scan(cfg, state, client, adapters, now)
+    report['stock_watch'] = stock_report
+    for item in stock_report:
+        if not item['complete']:
+            report['warnings'].append('STOCK_SCAN_INCOMPLETE: ' + item['shop'])
+        if item['error']:
+            report['errors'].append(item['shop'] + ': ' + item['error'])
+    required = stock_watch.live_targets(stock_rows, cfg, state)
+    remember(stock_rows, cfg, state, now)
+    # Reserve these checks outside the rotating franchise quotas. FB remains
+    # first; positive inventory and observed closures precede older background URLs.
+    selected_by_key = {o['key']: o for o in required + select(cfg, state, now)}
+    selected = sorted(selected_by_key.values(), key=priority)
     for o in selected:state.setdefault('retailer_live_checks',{})[o['shop']]=now
     live_cfg = copy.deepcopy(cfg)
     live_cfg['_fast_lane'] = True
     live_cfg['_fast_keys'] = [o['key'] for o in selected]
     live_cfg['_fast_groups'] = {o['key']: priority(o) for o in selected}
-    live_cfg['preorder_watch'].update(max_live_checks=sum(settings['quotas']), validation_seconds=settings['live_seconds'])
+    live_cfg['preorder_watch'].update(max_live_checks=len(selected), validation_seconds=settings['live_seconds'])
     live_cfg['_fast_preloaded'] = fetch_live(selected, cfg, client, now)
+    for item in stock_report:
+        keys = {o['key'] for o in required if o['shop'] == item['shop']}
+        item['live_required'] = len(keys)
+        item['live_attempted'] = len(keys & live_cfg['_fast_preloaded'].keys())
+        item['live_confirmed'] = sum(bool(live_cfg['_fast_preloaded'][key][0] and
+                                         live_cfg['_fast_preloaded'][key][0].get('live_validated'))
+                                     for key in keys & live_cfg['_fast_preloaded'].keys())
+        item['live_deferred'] = len(keys - live_cfg['_fast_preloaded'].keys())
+        if item['live_deferred']:
+            report['warnings'].append('STOCK_LIVE_DEFERRED: ' + item['shop'])
     record_fetch(state,live_cfg['_fast_preloaded'],now)
     _, deals, audit = preorders.scan(selected, live_cfg, state, client, now)
     report['preorder_watch'] = audit
@@ -346,6 +369,9 @@ def run(cfg, state, client, adapters, send=None, checkpoint=None, now=None):
     cardpal_rows, report['cardpal_discovery'] = cardpal_discover(cfg, state, client, now)
     remember(cardpal_rows, cfg, state, now)
     catalog_state = state.setdefault('fast_catalog_checks', {})
+    for item in stock_report:
+        if item['complete'] and item['scope'] == ['full_product_catalog']:
+            catalog_state[item['shop']] = now
     due = [s for s in cfg['shops'] if s.get('enabled', True) and
            now-catalog_state.get(s['id'], 0) >= s.get('catalog_interval_seconds',settings['catalog_interval_seconds'])]
     due.sort(key=lambda s: catalog_state.get(s['id'], 0))

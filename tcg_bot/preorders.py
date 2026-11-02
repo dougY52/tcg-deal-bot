@@ -88,6 +88,10 @@ def identity(o, cfg):
     family = franchise(dict(o, description=''), cfg)
     if not family:
         return None, 'UNSUPPORTED_PRODUCT'
+    if re.search(r'\briftbound\b|league of legends', text, re.I):
+        return None, 'UNSUPPORTED_PRODUCT'  # Retailer-made mixed-franchise bundles.
+    if family == 'One Piece' and re.search(r'\bpanini\b', text, re.I):
+        return None, 'UNSUPPORTED_PRODUCT'  # Collectible cards, not Bandai's TCG.
     lang = language(dict(o, variant=o.get('variant', ''), description=o.get('description', '')))
     allowed = {'Pokémon': ['DE'], 'Dragon Ball': ['EN'], 'One Piece': ['EN'], 'Naruto': ['DE', 'EN']}
     allowed.update(cfg.get('market', {}).get('franchise_languages', {}))

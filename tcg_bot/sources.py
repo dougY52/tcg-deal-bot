@@ -43,9 +43,11 @@ def parse_product(shop, product):
 def shopify(shop, client):
     products = {}
     warnings = []
+    stock_scan = shop.get('_stock_scan', False)
+    coverage = shop['_catalog_coverage'] = {'complete': True, 'endpoints': [], 'products': 0}
     shop.setdefault('_catalog_next_pages', dict(shop.get('_catalog_pages', {})))
     # Exact approved handles are always checked, even if discovery pagination stops.
-    for handle in shop.get('watch_handles', []):
+    for handle in ([] if stock_scan else shop.get('watch_handles', [])):
         if shop.get('seed_watch_handles_once') and shop.get('_catalog_pages', {}).get('seeded:' + handle):
             continue
         try:
@@ -65,14 +67,20 @@ def shopify(shop, client):
             warnings.append('Watched product unavailable: ' + handle + ' (' + type(exc).__name__ + ')')
     endpoints = [shop['base_url'] + '/products.json']
     endpoints.extend(shop['base_url'] + '/collections/' + name + '/products.json' for name in shop.get('catalog_collections', []))
-    if shop.get('rotate_collections') and len(endpoints) > 1:
+    if stock_scan:
+        collections = shop.get('stock_collections', [])
+        endpoints = ([shop['base_url'] + '/collections/' + name + '/products.json' for name in collections]
+                     if collections else [shop['base_url'] + '/products.json'])
+    if not stock_scan and shop.get('rotate_collections') and len(endpoints) > 1:
         targets = endpoints[1:] + endpoints[:1]
         index = shop.get('_catalog_pages', {}).get('_collection_index', 0) % len(targets)
         shop['_catalog_next_pages']['_collection_index'] = index + 1
         endpoints = [targets[index]]
     for endpoint in endpoints:
+        progress = {'url': endpoint, 'pages': 0, 'products': 0, 'complete': False}
+        coverage['endpoints'].append(progress)
         limit = shop.get('max_pages', 20)
-        cursor = shop.get('_catalog_pages', {}).get(endpoint, 1)
+        cursor = 1 if stock_scan else shop.get('_catalog_pages', {}).get(endpoint, 1)
         cursor = cursor if isinstance(cursor, int) and 1 <= cursor <= 1000 else 1
         pages = list(range(cursor, cursor + limit))
         if cursor > 1 and limit > 1:
@@ -84,9 +92,12 @@ def shopify(shop, client):
                 rows = data['products']
                 if not isinstance(rows, list):
                     raise ValueError('Unexpected catalog schema')
+                progress['pages'] += 1
+                progress['products'] += len(rows)
                 for p in rows:
                     products.setdefault(p['handle'], p)
                 if len(rows) < 250:
+                    progress['complete'] = True
                     next_pages[endpoint] = 1
                     # A short first page proves there is no remaining catalog.
                     break
@@ -96,6 +107,8 @@ def shopify(shop, client):
             except Exception as exc:
                 warnings.append('Catalog discovery incomplete: ' + (str(exc) if isinstance(exc, FetchError) else type(exc).__name__))
                 break
+        coverage['complete'] = coverage['complete'] and progress['complete']
+    coverage['products'] = len(products)
     # Discovery is deliberately bounded. Exact watched products are independent.
     if not products:
         return [], warnings + ['No valid products received']

@@ -255,3 +255,34 @@ Frame-Auswertung und die kürzere Wiederholungszeit beseitigen Parser-/Taktlück
 aber bestätigen keine vollständige oder sekundenschnelle DE-Abdeckung.
 Community- und CardPal-Hinweise bleiben zusätzliche Quellen. Ein echter aktueller
 DE-Queue-Start samt Discord-Latenz muss erst beobachtet werden.
+
+
+### Weitere kostenlose Direktwege geprüft (02.11.2026, abends)
+
+- [StockWatch](https://stock-watch.co.uk/) bietet einen kostenlosen Cloud-Monitor
+  mit 60-Sekunden-Intervall und Discord an. Der öffentliche Link-Test der Website
+  lehnt `https://www.pokemoncenter.com/de-de/` jedoch mit
+  `QUEUE_ALERT_INSTEAD` ab und verweist auf den separaten Queue-Monitor.
+  Dessen [Dokumentation](https://stock-watch.co.uk/help/site-pokemoncenter-watchdog)
+  nennt ausdrücklich nur UK und US. Damit ist kein deutscher Direktzugriff
+  bestätigt; kein weiteres Konto angelegt und keine UK-/US-Meldung freigegeben.
+- [pkmn-alert](https://github.com/akashmandole/pkmn-alert) verwendet hauptsächlich
+  Reddit/RSS. Der optionale Direktabruf nutzt `curl_cffi` gegen die globale
+  Startseite und akzeptiert allgemeine Queue-it-Signale. Er löst weder den hier
+  bereits geprüften Cloud-Zugriff noch die erforderliche DE-Zuordnung.
+- [pkc-monitor](https://github.com/PavanB9/pkc-monitor) und die
+  [Browser-Erweiterung](https://github.com/j-ding/pokemon-ceneter-queue) brauchen
+  einen laufenden Desktop/Browser; eine Extension ist kein belegter freier
+  Cloud-Zugang zu Pokémon Center Deutschland.
+- [QueueDex](https://queuedex.com/non-uk-drop-queues) trennt historische
+  Nicht-UK-Queue-Ereignisse, bestätigt aber keinen kostenlosen Echtzeit-DE-Feed.
+  Ein Archiv ist kein Live-Signal für unseren Bot.
+- [Pokebot](https://pokebot.co/faq) nennt Deutschland, ist aber nur per Einladung
+  zugänglich. Die FAQ macht widersprüchliche Angaben zu eigener Infrastruktur
+  und einem auf dem eigenen Rechner laufenden Client. Keine überprüfbare,
+  kostenlose und PC-unabhängige Alternative für diesen Bot nachgewiesen.
+
+Ergebnis: Unter den zusätzlich geprüften Angeboten ist weiterhin kein
+funktionierender, dauerhaft kostenloser und kreditunabhängiger DE-Direktmonitor
+nachgewiesen. Die funktionierenden eigenen Community-/CardPal-Zugänge bleiben
+Zusatzsignale; sie werden nicht als garantierte direkte Abdeckung bezeichnet.

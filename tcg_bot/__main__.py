@@ -41,6 +41,9 @@ def load_config(path):
             assert shop.get('international') and shop.get('import_costs'), 'Foreign currency must be an explicit import source'
         assert 1 <= shop['max_pages'] <= 40, 'Invalid page limit'
         assert len(shop.get('catalog_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('catalog_collections', [])), 'Invalid collection targets'
+        assert isinstance(shop.get('stock_watch_each_run', False), bool), 'Invalid stock watch flag'
+        assert len(shop.get('stock_collections', [])) <= 8 and all(re.fullmatch('[a-z0-9-]+', n) for n in shop.get('stock_collections', [])), 'Invalid stock collections'
+        assert not shop.get('stock_watch_each_run') or shop['adapter'] == 'shopify', 'Every-run inventory requires Shopify'
         shop['base_url'] = shop['base_url'].rstrip('/')
         shop['watch_handles'] = list(shop.get('watch_handles', []))
         shop['watch_urls'] = list(shop.get('product_urls', []))
@@ -442,6 +445,16 @@ def summary(report):
     text += f"Quellen erfolgreich: {len(report['shops'])} · Meldungen: {report['sent']} · Vorschläge: {len(report['alerts'])}\n\n"
     text += f"Neue Produktmeldungen: {report.get('discovery_sent', 0)} · weitere Kandidaten: {report.get('discovery_pending', 0)}\n\n"
     text += '## Quellen\n\n' + '\n'.join(f"- {s['shop']}: {s['variants']} Varianten — {s.get('scope', '')}" for s in report['shops']) + '\n\n'
+    if report.get('stock_watch'):
+        text += '## Bestandsprüfung bei jedem regulären Lauf\n\n'
+        for stock in report['stock_watch']:
+            status = 'vollständig' if stock['complete'] else 'UNVOLLSTÄNDIG'
+            text += (f"- {stock['shop']}: {stock['products']} Produkte / {stock['variants']} Varianten, "
+                     f"{stock['relevant_variants']} relevante Varianten, Katalog {status}; "
+                     f"Geltungsbereich: {', '.join(stock['scope'])}. "
+                     f"Zusätzliche Einzelprüfungen: {stock.get('live_attempted', 0)}/{stock.get('live_required', 0)} versucht, "
+                     f"{stock.get('live_confirmed', 0)} mit aktuellen Variantendaten.\n")
+        text += '\nKatalogbestand ist kein Checkout-Nachweis. Nur live bestätigte Angebote können Discord auslösen.\n\n'
     if report.get('unavailable_sources'):
         text += '## Nicht automatisch überwachte Quellen\n\n' + '\n'.join('- ' + s['name'] + ': ' + s['reason'] for s in report['unavailable_sources']) + '\n\n'
     if report.get('local_stores'):
