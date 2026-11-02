@@ -11,6 +11,7 @@ from tcg_bot.http import send_discord, webhook_url
 from tcg_bot import community_watch, pokemon_center_watch
 from tcg_bot.pokemon_center_queue import QueueClient
 from tcg_bot.pc_schedule import effective_config, peak_window
+from tcg_bot.pokemon_center_gate import QueueProbe, run_gate, acknowledge
 
 
 def relay_health(now, fetch=None):
@@ -48,7 +49,7 @@ def main():
     state_path = Path(args.state)
     state = copy.deepcopy(load_state(state_path))
     client = QueueClient()
-    client.deadline = time.monotonic()+100
+    client.deadline = time.monotonic()+140
     send, checkpoint = None, None
     if args.send:
         secret = os.environ.get('DISCORD_WEBHOOK_URL', '')
@@ -56,7 +57,13 @@ def main():
         send = lambda payload: send_discord(secret, payload)
         checkpoint = lambda value: save_state(state_path, value)
     try:
-        report = pokemon_center_watch.run(cfg, state, client, now, send, checkpoint)
+        key = os.environ.get('SCRAPINGANT_API_KEY', '')
+        probe = (lambda at: QueueProbe(key, client, max_credits=125).check(at)) if key and args.send else None
+        gate_report, observation = run_gate(cfg.get('queue_gate', {}), state, client, now,
+            probe, checkpoint, interval=60 if peak_window(now) else 240, minute_slots=peak_window(now))
+        report = pokemon_center_watch.run(cfg, state, client, now, send, checkpoint, queue_observation=observation)
+        acknowledge(state)
+        report['queue_gate'] = gate_report
         report['schedule'] = {'timezone': 'Europe/Berlin', 'peak_window': peak_window(now),
                               'interval_seconds': 60 if peak_window(now) else 300}
         # Keep the existing exact-original MyDealz checks and their dedupe.

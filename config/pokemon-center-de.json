@@ -3,6 +3,12 @@
   "live_max_age_seconds": 900,
   "cross_source_cooldown_seconds": 21600,
   "max_alerts_per_run": 4,
+  "queue_gate": {
+    "enabled": true,
+    "max_credits_30d": 6000,
+    "max_credits_daily": 750,
+    "max_attempts_per_wave": 3
+  },
   "sources": [
     {"id": "pc-de-store", "name": "Pokémon Center Deutschland", "kind": "store", "url": "https://www.pokemoncenter.com/de-de/"},
     {"id": "galar-public-discord", "name": "Galar Alerts · öffentliche Discord-Ankündigung", "kind": "communityone", "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/"},

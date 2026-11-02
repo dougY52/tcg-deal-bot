@@ -29,6 +29,50 @@ nicht „Queue geschlossen“. Der Prüfzeitpunkt steht jeweils im Cloud-Bericht
 
 ## Umgesetzte Verbesserung
 
+### Kostenlose Queue-Abfrage mit gezielter Deutschland-Prüfung
+
+Der normale DE-Job liest zusätzlich den anonymen, vom
+[StockWatch-Frontend](https://stock-watch.co.uk/pokemon/queue-status) verwendeten
+öffentlichen `/api/pokemon-queue/status`-Endpunkt. Er ist ausdrücklich in dessen
+robots.txt freigegeben. Das ist ein **gemeinsames** Queue-Signal und erzeugt
+allein niemals eine Deutschland-Meldung. `open` bedeutet dort normaler Shopzugang,
+`live` eine aktive Queue. `opening`, `gated`, veraltete oder unbekannte Antworten
+reichen nicht aus. Letzte Prüfung und gemeldetes Datenalter müssen unter zwei
+Minuten liegen. Der Abruf nutzt den bestehenden Minuten-/Fünfminutentakt.
+
+Nur bei frischem `live` wird der vorhandene ScrapingAnt-Zugang für einen gezielten
+Abruf der deutschen Startseite verwendet. Der Abruf verlangt keinen `main`-
+Selektor mehr, weil echte Warteseiten diesen nicht haben müssen. Aus der Extended-
+Antwort wird ausschließlich der aktuell auf der Seite eingebundene primäre Frame
+ausgewertet. Ein sichtbarer Queue-Text **und** ein ausdrücklicher Deutschland-
+Banner sind weiterhin Pflicht. Cookies, XHR-Inhalte und Challenge-URLs werden
+nicht gespeichert oder weitergegeben. Ohne Bestätigung bleibt Discord still.
+
+Gratis-Grenzen sind vor jedem Abruf zwingend: bestätigter kostenloser Tarif,
+mindestens 1.000 Credits Restreserve nach dem geplanten Abruf, höchstens 3 Versuche
+pro Queue-Welle (frühestens nach 2 und danach 5 Minuten erneut), 750 reservierte
+Credits pro UTC-Tag und 6.000 pro rollierenden 30 Tagen. Fehler zählen vorsichtig
+mit. Die Reservierung wird vor dem Aufruf gespeichert; geänderte Providerkosten
+stoppen weitere Abrufe. Es gibt keine automatische Aufbuchung oder Tarifänderung.
+Normale Läufe ohne `live` verbrauchen **null** ScrapingAnt-Credits. Dry Runs nutzen
+den Provider nicht. Der separate manuelle Diagnosejob ist auf 125 Credits begrenzt.
+
+Bestätigte Daten gehen durch den vorhandenen Discord-Sender und denselben
+persistenten State. Eine bestätigte Zustellung beendet die Versuche für die Welle.
+Ein Sendefehler kann innerhalb von zwei Minuten dieselbe frische Bestätigung
+erneut nutzen. Zwei unterschiedliche, frische `open`-Beobachtungen erlauben eine
+neue Welle; dafür ist erneut ein echter DE-Banner nötig. Ein direkt bereits
+erkannter deutscher Queue-Start wird nicht nochmals gemeldet.
+
+Live-Beleg vom 02.11.2026 um 20:34 Uhr Berlin:
+[GitHub-Lauf 41511105900](https://github.com/dougY52/tcg-deal-bot/actions/runs/41511105900)
+erhielt den aktuellen öffentlichen Status und eine 431.647 Byte große Antwort
+mit Titel „Pokémon Center Deutschland Official Site“ und `__NEXT_DATA__`.
+Das belegt den Shopseiten-Abruf über diesen Weg, keine Kaufbarkeit und noch keinen
+aktiven deutschen Queue-Start. Der konservative Queue-Parser klassifizierte die
+Homepage als `unknown`, weil sie keine eindeutige Queue-/Normalzustandsbestätigung
+lieferte. Ein echter DE-Drop mit gemessener Discord-Latenz steht weiter aus.
+
 ### Zeitplan
 
 Täglich 16:00 bis 19:59 Uhr Europe/Berlin startet der externe cron-job.org-Timer

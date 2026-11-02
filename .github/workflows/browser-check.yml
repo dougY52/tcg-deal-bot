@@ -27,7 +27,7 @@ permissions:
   contents: read
 jobs:
   check:
-    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]')
+    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]') && !contains(github.event.head_commit.message, '[delivery-audit]')
     strategy:
       fail-fast: false
       matrix:

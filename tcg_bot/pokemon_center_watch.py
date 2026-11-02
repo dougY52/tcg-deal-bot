@@ -178,10 +178,10 @@ def payload(event, source):
         'footer': {'text': 'Quelle: '+source['name']+' · Datum = Originalmeldung'}}]}
 
 
-def fetch_source(source, client, now):
+def fetch_source(source, client, now, queue_observation=None):
     kind = source['kind']
     if kind == 'store':
-        result = queue_snapshot(client, source['url'], now)
+        result = queue_observation or queue_snapshot(client, source['url'], now)
         note = {'blocked': 'BLOCKED_NOT_STOCK', 'unknown': 'QUEUE_STATUS_UNKNOWN',
                 'queue_open_region_unknown': 'QUEUE_REGION_UNCONFIRMED',
                 'queue_open_de': 'QUEUE_DE_CONFIRMED', 'store_readable': 'STORE_READABLE'}[result['status']]
@@ -202,7 +202,7 @@ def fetch_source(source, client, now):
     raise ValueError('Unsupported source kind')
 
 
-def run(cfg, state, client, now=None, send=None, checkpoint=None):
+def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observation=None):
     now = time.time() if now is None else now
     state.setdefault('pc_de', {'sources': {}, 'delivered': {}, 'events': {}})
     table = state['pc_de']
@@ -224,7 +224,8 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
         else:
             report['sources'].append(dict(id=source['id'], status='not_due'))
     def fetch(source, transport):
-        return fetch_source(source, transport, now)
+        observation = queue_observation if source['id'] == 'pc-de-store' else None
+        return fetch_source(source, transport, now, observation)
     for source, rows, notes, error, elapsed in collect(due, client, {'pc': fetch}, workers=4, source_seconds=30):
         old = table['sources'].setdefault(source['id'], {})
         old['checked_at'] = now
@@ -248,8 +249,17 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
                     old['queue_active'] = False
             elif rows:
                 old['clear_count'] = 0
-                if not old.get('queue_active'):
+                # A new shared-queue wave needs two fresh clear samples AND a
+                # new official DE page confirmation. A generic signal is never
+                # sufficient. A direct DE observation in this wave already counts.
+                wave = queue_observation if source['id'] == 'pc-de-store' else None
+                new_wave = (wave and wave.get('gate_wave') != old.get('gate_wave') and
+                            old.get('last_queue_seen_at', 0) < wave.get('wave_started_at', 0))
+                if not old.get('queue_active') or new_wave:
                     old['queue_episode'] = old.get('queue_episode', 0)+1
+                old['last_queue_seen_at'] = now
+                if wave:
+                    old['gate_wave'] = wave.get('gate_wave')
                 old['queue_active'] = True
                 rows[0]['id'] += ':'+str(old['queue_episode'])
             else:

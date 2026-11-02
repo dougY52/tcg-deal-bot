@@ -1,5 +1,6 @@
 """Shared public queue trigger; only first-party DE confirmation may alert."""
-from datetime import datetime
+from datetime import datetime, timezone
+import json
 import math
 import re
 from urllib.parse import urljoin
@@ -8,6 +9,7 @@ from .http import FetchError
 from .pokemon_center_access import FreeAccessProbe, free_usage
 from .pokemon_center_queue import public_queue_url, snapshot, visible_tree
 from .web_sources import Document
+from .pc_schedule import due
 
 STATUS_URL = 'https://stock-watch.co.uk/api/pokemon-queue/status'
 HOME = 'https://www.pokemoncenter.com/de-de/'
@@ -82,7 +84,7 @@ class QueueProbe(FreeAccessProbe):
     def check(self, now):
         self.policy_client.check_allowed(HOME)
         usage, _ = self.request_json('usage')
-        remaining = free_usage(usage, CREDIT_COST)['remaining_credits']
+        remaining = free_usage(usage, CREDIT_COST + 1000)['remaining_credits']
         if self.reserved + CREDIT_COST > self.max_credits:
             raise FetchError('PC_PROVIDER_TEST_BUDGET_EXHAUSTED')
         self.reserved += CREDIT_COST
@@ -95,3 +97,107 @@ class QueueProbe(FreeAccessProbe):
             raise FetchError('PC_PROVIDER_COST_CHANGED_STOPPED')
         return {**provider_snapshot(data, now), 'reserved_credits': CREDIT_COST,
                 'reported_credits': cost, 'remaining_before': remaining}
+
+
+def run_gate(cfg, state, client, now, probe=None, checkpoint=None, interval=240, minute_slots=False):
+    """Persistent trigger, free-credit budget and fresh official evidence handoff.
+
+    Reserve before requests, including errors. Only two distinct fresh `open`
+    samples end an episode. `opening`, `gated`, missing/stale data never alert.
+    """
+    if not cfg.get('enabled'):
+        return {'status': 'disabled'}, None
+    gate = state.setdefault('pc_queue_gate', {})
+    report = {'status': 'not_due', 'germany_confirmed': False, 'credits_reserved_this_run': 0}
+    confirmed = gate.get('confirmation')
+    if not due(gate.get('checked_at', 0), now, interval, minute_slots):
+        fresh = confirmed and 0 <= now-confirmed.get('observed_at', 0) <= 120
+        return report, confirmed if fresh and not gate.get('acknowledged') else None
+    if now < gate.get('signal_retry_at', 0):
+        report['status'] = 'public_signal_backoff'
+        return report, None
+    gate['checked_at'] = now
+    try:
+        signal = public_signal(json.loads(client.text(STATUS_URL)), now)
+    except Exception:
+        signal = {'state': 'unknown', 'trigger': False, 'reason': 'PUBLIC_SIGNAL_UNAVAILABLE'}
+        gate['signal_retry_at'] = max(now+60, getattr(client, 'cooldowns', {}).get('stock-watch.co.uk', 0))
+    report['signal'] = signal
+    last = gate.get('signal_checked_at', 0)
+    checked = signal.get('checked_at', 0)
+    if signal['state'] == 'open' and checked > last:
+        gate['clear_count'] = gate.get('clear_count', 0)+1
+        if gate['clear_count'] >= 2:
+            gate['active'] = False
+            gate.pop('confirmation', None)
+    elif signal['state'] != 'open':
+        gate['clear_count'] = 0
+    gate['signal_checked_at'] = max(last, checked)
+    if not signal['trigger']:
+        report['status'] = 'no_live_trigger'
+        return report, None
+    if not gate.get('active'):
+        gate.update(active=True, wave=gate.get('wave', 0)+1, wave_started_at=now,
+                    attempts=0, retry_at=0, acknowledged=False)
+        gate.pop('confirmation', None)
+    if gate.get('acknowledged'):
+        report['status'] = 'already_confirmed_and_delivered'
+        return report, None
+    confirmed = gate.get('confirmation')
+    if confirmed and 0 <= now-confirmed.get('observed_at', 0) <= 120:
+        report.update(status='fresh_confirmation', germany_confirmed=True)
+        return report, confirmed
+    if probe is None:
+        report['status'] = 'confirmation_not_enabled'
+        return report, None
+    if gate.get('provider_halted'):
+        report['status'] = 'provider_halted'
+        return report, None
+    if now < gate.get('retry_at', 0):
+        report['status'] = 'confirmation_backoff'
+        return report, None
+    attempts = [t for t in gate.get('reservations', []) if now-30*86400 < t <= now]
+    gate['reservations'] = attempts
+    day = datetime.fromtimestamp(now, timezone.utc).date()
+    today = sum(datetime.fromtimestamp(t, timezone.utc).date() == day for t in attempts)
+    max_30d = min(6000, max(0, int(cfg.get('max_credits_30d', 6000))))
+    max_daily = min(750, max(0, int(cfg.get('max_credits_daily', 750))))
+    if (gate.get('attempts', 0) >= min(3, cfg.get('max_attempts_per_wave', 3)) or
+            (len(attempts)+1)*CREDIT_COST > max_30d or (today+1)*CREDIT_COST > max_daily):
+        report['status'] = 'confirmation_budget_exhausted'
+        return report, None
+    gate['reservations'].append(now)
+    gate['attempts'] = gate.get('attempts', 0)+1
+    gate['retry_at'] = now+(120 if gate['attempts'] == 1 else 300)
+    if checkpoint:
+        checkpoint(state)
+    report['credits_reserved_this_run'] = CREDIT_COST
+    try:
+        result = probe(now)
+    except Exception as error:
+        code = str(error) if isinstance(error, FetchError) else ''
+        code = code if re.fullmatch(r'PC_PROVIDER_[A-Z_0-9]+', code) else 'PC_PROVIDER_UNAVAILABLE'
+        report.update(status='confirmation_unavailable', reason=code)
+        if code == 'PC_PROVIDER_COST_CHANGED_STOPPED':
+            gate['provider_halted'] = True
+        return report, None
+    report['confirmation'] = {k: result[k] for k in
+        ('status', 'frame_checked', 'page_bytes', 'headings', 'reported_credits', 'remaining_before') if k in result}
+    if result.get('status') != 'queue_open_de' or result.get('region') != 'DE' or not result.get('banner'):
+        report['status'] = 'germany_not_confirmed'
+        return report, None
+    observation = {k: result[k] for k in ('status', 'region', 'banner', 'frame_checked', 'inventory_confirmed')}
+    observation.update(observed_at=now, gate_wave=gate['wave'], wave_started_at=gate['wave_started_at'])
+    gate['confirmation'] = observation
+    report.update(status='germany_confirmed', germany_confirmed=True)
+    return report, observation
+
+
+def acknowledge(state):
+    """Acknowledge only an actual existing-watcher Discord receipt for this wave."""
+    gate = state.get('pc_queue_gate', {})
+    if not gate.get('confirmation'):
+        return
+    gate['acknowledged'] = any(r.get('source') == 'pc-de-store' and
+        r.get('at', 0) >= gate.get('wave_started_at', float('inf'))
+        for r in state.get('pc_de', {}).get('delivered', {}).values())
