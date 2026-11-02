@@ -1,15 +1,15 @@
 {
-  "checked_at": "2026-11-02T18:10:30.350133+00:00",
+  "checked_at": "2026-11-02T18:15:39.343830+00:00",
   "sources": [
     {
       "id": "pc-de-store",
-      "status": "blocked",
-      "items": 0,
-      "notes": [
-        "BLOCKED_NOT_STOCK"
-      ],
-      "error": null,
-      "seconds": 1.07
+      "status": "backoff",
+      "retry_at": 1793646630.3501327
+    },
+    {
+      "id": "reddit-de-public",
+      "status": "backoff",
+      "retry_at": 1793646630.3501327
     },
     {
       "id": "galar-public-discord",
@@ -17,7 +17,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.51
+      "seconds": 1.53
     },
     {
       "id": "drop-uk-public",
@@ -25,7 +25,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 2.21
+      "seconds": 1.74
     },
     {
       "id": "drop-us-public",
@@ -33,7 +33,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.67
+      "seconds": 0.99
     },
     {
       "id": "switchstock-public",
@@ -41,15 +41,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.9
-    },
-    {
-      "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.15
+      "seconds": 1.25
     },
     {
       "id": "bisafans-public",
@@ -57,7 +49,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 1.88
     }
   ],
   "rejected": {
