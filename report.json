@@ -1,11 +1,6 @@
 {
-  "checked_at": "2026-11-02T19:08:13.432814+00:00",
+  "checked_at": "2026-11-02T19:13:08.852204+00:00",
   "sources": [
-    {
-      "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1793646630.3501327
-    },
     {
       "id": "pc-de-store",
       "status": "blocked",
@@ -15,7 +10,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.08
     },
     {
       "id": "galar-public-discord",
@@ -23,7 +18,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.24
+      "seconds": 1.42
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +26,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.72
+      "seconds": 1.61
     },
     {
       "id": "drop-us-public",
@@ -47,7 +42,15 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.05
+      "seconds": 1.75
+    },
+    {
+      "id": "reddit-de-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.13
     },
     {
       "id": "bisafans-public",
@@ -55,7 +58,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.87
+      "seconds": 1.73
     }
   ],
   "rejected": {
@@ -104,10 +107,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793646325772,
-    "last_stream_at": 1793646325414,
-    "last_cycle_at": 1793646321885,
-    "next_alarm": 1793646622886,
+    "last_inbox_at": 1793646566929,
+    "last_stream_at": 1793646566775,
+    "last_cycle_at": 1793646565232,
+    "next_alarm": 1793646866233,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
