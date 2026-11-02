@@ -230,6 +230,13 @@ PC-unabhängige direkte Deutschland-Erkennung. Ein erfolgreicher Workflow ist
 deshalb **kein Beleg für eine lesbare deutsche Queue**. Recherche, direkte
 Testresultate und Grenzen: [Recherche vom 03.11.2026](research/pokemon-center-direct-2026-11-03.json).
 
+**Dauerbrowser konkret getestet:** Ein normaler Chrome blieb fünf Minuten im
+selben Cloud-Tab geöffnet. Alle zwölf Beobachtungen blieben auf dem
+HTTP-403-Dokument. Der neue manuelle Diagnoseschalter `pc_persistent_test` im
+bestehenden Workflow `Browser source check` benötigt keine Credits und sendet
+kein Discord. Es wurde kein unbestätigter Dauer-Monitor aktiviert.
+[Testprotokoll und Vergleich der kostenlosen Hosting-Angebote](POKEMON-CENTER-QUEUE.md#dauerbrowser-in-der-cloud-echter-test-vom-03112026).
+
 ### Pokémon Center Deutschland: Community-Hinweise
 
 Der unabhängige DE-Job liest seit 02.11.2026 zusätzlich den primären

@@ -1,0 +1,205 @@
+{
+  "checked_on": "2026-11-03",
+  "timezone": "Europe/Berlin",
+  "question": "Can a free, continuously open cloud browser directly and reliably detect Pokemon Center Germany queues without the user's PC or credits?",
+  "outcome": "Cloud browser hosting is possible within some free VM allocations, but direct Germany access has not been demonstrated. A single ordinary headed Chrome tab on a GitHub Linux runner stayed blocked during a five-minute session. No new production browser monitor enabled.",
+  "live_test": {
+    "workflow_url": "https://github.com/dougY52/tcg-deal-bot/actions/runs/41548620809",
+    "job_id": 125630286096,
+    "commit": "0e995463732bd61b260378028388c9b454d21a76",
+    "runtime": "GitHub-hosted Ubuntu 24.04, headed Chrome under Xvfb, one context and tab",
+    "target": "https://www.pokemoncenter.com/de-de/",
+    "local_time_interval": "2026-11-03 00:52-00:57 Europe/Berlin",
+    "interpretation": "Twelve DOM observations of the same HTTP 403 document; one main-document response, not twelve requests. No readable store or German queue. COMPLETE/success means diagnostic completion only.",
+    "report": {
+      "checked_at": "2026-11-02T23:52:21.175706+00:00",
+      "discord_sent": 0,
+      "credits_consumed": 0,
+      "provider_requests": 0,
+      "inventory_confirmed": false,
+      "results": [
+        {
+          "transport": "normal_chrome",
+          "status": "blocked",
+          "observations": [
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 5.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 17.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 32.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 62.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 92.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 122.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 152.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 182.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 212
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 242.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 272.01
+            },
+            {
+              "status": "blocked",
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1812,
+              "http_status": 403,
+              "elapsed_seconds": 302.01
+            }
+          ],
+          "requested_duration_seconds": 300,
+          "elapsed_seconds": 302.01,
+          "browser_contexts": 1,
+          "tabs": 1,
+          "manual_navigations": 1,
+          "manual_reloads": 0,
+          "observed_main_responses": 1,
+          "live_german_queue_observed": false
+        }
+      ],
+      "status": "COMPLETE"
+    }
+  },
+  "hosting_review": [
+    {
+      "provider": "Cloudflare Browser Run Free",
+      "source": "https://developers.cloudflare.com/browser-run/limits/",
+      "free_limit": "10 browser minutes per day",
+      "verdict": "Not sufficient for a continuously open browser: 240 minutes needed for 16:00-20:00, 1440 minutes for 24h. No deployment or existing shared-budget change."
+    },
+    {
+      "provider": "Oracle Cloud Always Free",
+      "sources": [
+        "https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm",
+        "https://www.oracle.com/cloud/free/faq/"
+      ],
+      "free_limit": "Always Free VMs in home region, including up to two AMD micro instances or aggregate A1 Flex allocation of 1500 OCPU hours and 9000 GB hours/month (2 OCPU/12GB equivalent according to current docs).",
+      "caveats": [
+        "Capacity may be unavailable.",
+        "Idle instances may be reclaimed; no uptime SLA.",
+        "Account setup requires identity/payment-card verification; Always Free differs from the expiring trial credit."
+      ],
+      "pc_access_tested": false,
+      "verdict": "Potential credit-free persistent host, not a verified Pokemon Center transport. User confirmed no Oracle Cloud account exists; no Oracle access test or new infrastructure."
+    },
+    {
+      "provider": "GitHub Actions standard public runners",
+      "sources": [
+        "https://docs.github.com/en/actions/reference/limits",
+        "https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job"
+      ],
+      "free_limit": "Standard runners are free for public repositories; a GitHub-hosted job is limited to six hours and jobs use fresh runner VMs.",
+      "verdict": "Used only for this bounded diagnostic. No uninterrupted 24/7 browser service; current access test failed."
+    },
+    {
+      "provider": "Render Free",
+      "source": "https://render.com/docs/free",
+      "free_limit": "Free web services, 750 instance hours/month; spin down after 15 minutes without inbound traffic.",
+      "verdict": "Not a reliable always-running free background-browser host; restarts/spindown lose local files. No account or keepalive workaround configured."
+    },
+    {
+      "provider": "Browserless Free",
+      "source": "https://docs.browserless.io/overview/unit-consumption",
+      "free_limit": "1000 units/month; each 30 seconds of open browser time consumes one unit, including idle time.",
+      "verdict": "At most 500 browser minutes/month before other consumption; still quota-based and insufficient for the requested continuous watch."
+    }
+  ],
+  "changes": {
+    "persistent_test_option": "Browser source check -> workflow_dispatch -> pc_persistent_test",
+    "production_schedule_changed": false,
+    "production_scanners_changed": false,
+    "secrets_changed": false,
+    "automatic_credit_provider_enabled": false,
+    "new_paid_services": 0,
+    "new_accounts_created": 0
+  },
+  "validation": {
+    "local_suite": {
+      "total": 716,
+      "passed": 709,
+      "skipped": 7,
+      "skip_reason": "Browser-dependent tests require a browser runtime; existing visible-DOM tests ran separately in the cloud."
+    },
+    "cloud_pokemon_center_suite": {
+      "total": 112,
+      "passed": 112
+    },
+    "actual_german_queue_start_observed": false,
+    "real_detection_latency_verified": false,
+    "no_missed_queue_guarantee": false,
+    "limits": "A five-minute negative result on one GitHub runner does not establish that every cloud network is blocked. Synthetic Germany queue fixtures validate classification only."
+  }
+}
+

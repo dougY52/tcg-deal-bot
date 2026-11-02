@@ -1,4 +1,40 @@
-# Pokémon Center Deutschland: Queue-Prüfung, 02.11.2026
+# Pokémon Center Deutschland: Queue-Prüfung, 03.11.2026
+
+## Dauerbrowser in der Cloud: echter Test vom 03.11.2026
+
+Ein normaler Chrome lief im vorhandenen GitHub-Workflow fünf Minuten lang in
+derselben Sitzung und demselben Tab, ohne Neuladen. Alle zwölf DOM-Beobachtungen
+zeigten weiterhin das HTTP-403-Dokument; es gab genau eine Hauptseiten-Antwort.
+Kein lesbarer deutscher Shop und keine bestätigte deutsche Queue. Der erfolgreiche
+Workflow bestätigt die Durchführung des Tests, nicht erfolgreichen Shop-Zugriff.
+[Cloud-Lauf](https://github.com/dougY52/tcg-deal-bot/actions/runs/41548620809),
+[vollständiges bereinigtes Ergebnis und Quellen](research/pokemon-center-persistent-browser-2026-11-03.json).
+
+| Kostenloser Dienst | Eignung für einen ständig geöffneten Browser |
+| --- | --- |
+| [Cloudflare Browser Run](https://developers.cloudflare.com/browser-run/limits/) | Zehn Browser-Minuten pro Tag; allein 16–20 Uhr erfordert 240 Minuten. |
+| [Oracle Always Free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) | Dauer-VM innerhalb der Freigrenzen möglich; Kapazität und Laufzeit nicht garantiert. Pokémon-Center-Zugriff dort ungetestet. |
+| [GitHub Actions](https://docs.github.com/en/actions/reference/limits) | Maximal sechs Stunden pro gehostetem Job; kein unterbrechungsfreier Dauerbrowser. Unser kurzer Zugriffstest blieb blockiert. |
+| [Render Free](https://render.com/docs/free) | Webdienste schlafen nach 15 Minuten ohne eingehenden Traffic ein. Kein verlässlicher freier Hintergrunddienst. |
+| [Browserless Free](https://docs.browserless.io/overview/unit-consumption) | 1.000 Einheiten pro Monat, eine Einheit je 30 Sekunden auch bei Leerlauf: höchstens 500 Browser-Minuten. |
+
+Der Nutzer hat noch kein Oracle-Konto. Ein Zugangstest dort ist deshalb nicht
+erfolgt; das negative GitHub-Ergebnis beweist nicht, dass jedes Cloud-Netz blockiert
+ist. Oracle verlangt bei der Kontoanlage eine Kartenprüfung und bietet für Always
+Free keine SLA ([offizielle FAQ](https://www.oracle.com/cloud/free/faq/)).
+
+Eingebaut ist ausschließlich die manuell abrufbare Diagnose
+`Browser source check` → `pc_persistent_test`. Sie verbraucht null Anbieter-Credits,
+hat keinen Discord-Zugang und läuft höchstens fünf Minuten plus Einrichtung.
+Kein neuer Dauer-Monitor wurde aktiviert. Die regulären Scanner und Zeitpläne
+bleiben erhalten; automatische Credit-Aufrufe sind seit der Änderung vom
+03.11.2026 ausgeschaltet. Die folgenden Abschnitte dokumentieren auch frühere
+Versuche und ihre damaligen Limits.
+
+Validierung: lokale Gesamtsuite 716 Tests (709 erfolgreich, sieben Browser-Tests
+übersprungen), zusätzlich 112 Pokémon-Center-Tests einschließlich sichtbarem DOM
+im Cloud-Job erfolgreich. Ein echter DE-Queue-Start und seine Meldeverzögerung
+wurden weiterhin nicht beobachtet.
 
 ## Weiterbetrieb ohne Anbieter-Credits (02.11.2026)
 
