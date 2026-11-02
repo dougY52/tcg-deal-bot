@@ -6,6 +6,7 @@ on:
       - 'tcg_bot/browser.py'
       - 'tcg_bot/http.py'
       - 'scripts/check_browser.py'
+      - 'tcg_bot/pokemon_center_gate.py'
       - 'requirements-browser.txt'
       - '.github/workflows/browser-check.yml'
   pull_request:

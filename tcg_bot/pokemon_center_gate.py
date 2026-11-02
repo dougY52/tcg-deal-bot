@@ -1,6 +1,7 @@
 """Shared public queue trigger; only first-party DE confirmation may alert."""
 from datetime import datetime
 import math
+import re
 from urllib.parse import urljoin
 
 from .http import FetchError
@@ -66,7 +67,15 @@ def provider_snapshot(data, now):
             if url not in pages:
                 raise FetchError('PC_PROVIDER_FRAME_UNREADABLE')
             return pages[url]
-    return snapshot(Pages(), HOME, now)
+    result = snapshot(Pages(), HOME, now)
+    # Public page diagnostics only. Never export cookies, XHRs or frame URLs.
+    doc = Document(body)
+    result['page_bytes'] = len(body.encode('utf-8'))
+    result['headings'] = [re.sub(r'https?://\S+', '[URL]', n.text()).strip()[:160]
+                          for n in visible_tree(doc.root) if n.tag in ('title', 'h1')][:3]
+    result['embedded_frames'] = len(frames)
+    result['next_data_present'] = 'id="__NEXT_DATA__"' in body
+    return result
 
 
 class QueueProbe(FreeAccessProbe):
