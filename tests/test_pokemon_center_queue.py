@@ -47,6 +47,33 @@ class PokemonCenterQueueTests(unittest.TestCase):
                 self.client.text.return_value = QUEUE+extra
                 self.assertEqual(snapshot(self.client, URL, NOW)['status'], 'queue_open_region_unknown')
 
+    def test_negative_launch_and_unrelated_country_never_confirm(self):
+        for extra in ('<p>No products will launch in Germany today.</p>',
+                      '<p>Heute erscheinen keine Produkte in Deutschland.</p>',
+                      '<p>Products will not launch in the Germany store today.</p>',
+                      '<p>The queue in Germany is not open.</p>',
+                      '<div><h1>Virtual Queue</h1><p>Welcome Germany</p></div>',
+                      '<p>Products launch in Germany tomorrow.</p>'):
+            with self.subTest(extra=extra):
+                self.client.text.return_value = QUEUE+extra
+                self.assertEqual(snapshot(self.client, URL, NOW)['status'], 'queue_open_region_unknown')
+
+    def test_live_banner_outside_primary_waiting_frame_is_retained(self):
+        self.client.text.side_effect = [BANNER+FRAME, QUEUE]
+        result = snapshot(self.client, URL, NOW)
+        self.assertEqual(result['status'], 'queue_open_de')
+        self.assertEqual(result['banner_location'], 'page_outside_primary_frame')
+
+    def test_outer_banner_cannot_turn_security_frame_into_queue(self):
+        self.client.text.side_effect = [BANNER+FRAME, BLOCK]
+        result = snapshot(self.client, URL, NOW)
+        self.assertEqual(result['status'], 'blocked')
+        self.assertIsNone(result['banner'])
+
+    def test_german_notice_and_english_language_exclusion(self):
+        self.client.text.return_value = QUEUE+'<p>Heute erscheinen im Pokémon Center Deutschland ausschließlich deutschsprachige Pokémon-Sammelkartenspiel-Produkte.</p><p>Englische Produkte erscheinen heute nicht.</p>'
+        self.assertEqual(snapshot(self.client, URL, NOW)['status'], 'queue_open_de')
+
     def test_no_arbitrary_frame_requests(self):
         for src in ('https://evil.test/_Incapsula_Resource?x=1',
                     'https://user:pass@www.pokemoncenter.com/_Incapsula_Resource?x=1',

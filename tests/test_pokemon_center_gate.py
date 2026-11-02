@@ -14,6 +14,14 @@ DE = '<p>The queue is for the Germany store.</p>'
 FRAME = '<iframe id="main-iframe" src="/_Incapsula_Resource?challenge=secret"></iframe>'
 
 
+def captured(home, frame=None):
+    documents = [{'kind': 'home', 'html': home}]
+    if frame is not None:
+        documents.append({'kind': 'primary_frame', 'html': frame})
+    value = dict(version=1, home_path='/de-de/', primary_frames=int(frame is not None), documents=documents)
+    return '<script id="tcg-queue-visible-v1" type="application/json">'+json.dumps(value).replace('<', '\\u003c')+'</script>'
+
+
 class GateTests(unittest.TestCase):
     def signal(self, state='live', **changes):
         return {'success': True, 'data': dict(state=state, lastChecked=STAMP, ageMs=0, **changes)}
@@ -60,6 +68,25 @@ class GateTests(unittest.TestCase):
         with self.assertRaises(FetchError):
             provider_snapshot({'status_code': 403, 'html': QUEUE+DE}, NOW)
 
+    def test_rendered_snapshot_wins_over_hidden_html(self):
+        result = provider_snapshot({'status_code': 200, 'html': QUEUE+DE+captured(QUEUE)}, NOW, require_rendered=True)
+        self.assertEqual(result['status'], 'queue_open_region_unknown')
+        self.assertTrue(result['rendered_visibility'])
+
+    def test_rendered_outer_banner_and_live_frame_confirm_together(self):
+        body = captured('<p>Today products launch in the Germany store.</p>', QUEUE)
+        result = provider_snapshot({'status_code': 200, 'html': body}, NOW, require_rendered=True)
+        self.assertEqual(result['status'], 'queue_open_de')
+        self.assertTrue(result['frame_checked'])
+
+    def test_missing_or_ambiguous_render_capture_never_confirms(self):
+        result = provider_snapshot({'status_code': 200, 'html': QUEUE+DE}, NOW, require_rendered=True)
+        self.assertNotEqual(result['status'], 'queue_open_de')
+        self.assertEqual(result['reason'], 'PC_PROVIDER_VISIBLE_CAPTURE_MISSING')
+        body = captured(QUEUE+DE)
+        with self.assertRaises(FetchError):
+            provider_snapshot({'status_code': 200, 'html': body+body}, NOW)
+
     def test_paid_or_exhausted_plan_never_fetches_target(self):
         for plan, credits in [('Enthusiast', 10000), ('Free', 124)]:
             probe = QueueProbe('test-key', Mock(), max_credits=125)
@@ -73,7 +100,7 @@ class GateTests(unittest.TestCase):
         probe = QueueProbe('test-key', Mock(), max_credits=125)
         probe.request_json = Mock(side_effect=[({'plan_name': 'Free',
             'plan_total_credits': 10000, 'remained_credits': 10000}, None),
-            ({'status_code': 200, 'html': QUEUE+DE}, 125)])
+            ({'status_code': 200, 'html': captured(QUEUE+DE)}, 125)])
         self.assertEqual(probe.check(NOW)['status'], 'queue_open_de')
         params = probe.request_json.call_args.args[1]
         self.assertNotIn('wait_for_selector', params)
@@ -184,6 +211,39 @@ class GatedDeliveryTests(unittest.TestCase):
         self.assertIsNone(observation)
         client.text.assert_called_once()
         self.probe.assert_not_called()
+
+    def test_fresh_provider_confirmation_ignores_direct_route_backoff_and_due_time(self):
+        self.state['pc_de'] = {'sources': {'pc-de-store': dict(status='unavailable',
+            checked_at=NOW-1, retry_at=NOW+3600)}, 'delivered': {}, 'events': {}}
+        gate, report = self.scan(NOW)
+        self.assertEqual(report['sent'], 1)
+        self.assertTrue(self.state['pc_queue_gate']['acknowledged'])
+        self.assertEqual(self.state['pc_de']['sources']['pc-de-store']['retry_at'], NOW+3600)
+
+    def test_confirmation_sent_before_any_slow_community_read(self):
+        source = dict(id='slow', name='slow', kind='atom', url='https://example.test/feed')
+        client = Mock(spec=['text'])
+        def fetch(url):
+            self.send.assert_called_once()
+            raise FetchError('slow source failed')
+        client.text.side_effect = fetch
+        obs = dict(self.probe(NOW), observed_at=NOW)
+        report = pokemon_center_watch.run({'sources': [source, self.source]}, self.state,
+            client, NOW, self.send, queue_observation=obs)
+        self.assertEqual(report['sent'], 1)
+        self.assertEqual(report['sources'][0]['id'], 'pc-de-store')
+        client.text.assert_called_once_with(source['url'])
+
+    def test_stale_or_future_provider_observation_cannot_override_backoff(self):
+        self.state['pc_de'] = {'sources': {'pc-de-store': dict(status='unavailable',
+            checked_at=NOW-300, retry_at=NOW+3600)}, 'delivered': {}, 'events': {}}
+        client = Mock(spec=['text'])
+        for at in (NOW-121, NOW+1, float('nan'), None):
+            report = pokemon_center_watch.run({'sources': [self.source]}, self.state,
+                client, NOW, self.send, queue_observation=dict(self.probe(NOW), observed_at=at))
+            self.assertEqual(report['sent'], 0)
+        self.send.assert_not_called()
+        client.text.assert_not_called()
 
 
 if __name__ == '__main__':

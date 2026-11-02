@@ -1,13 +1,16 @@
 """Shared public queue trigger; only first-party DE confirmation may alert."""
 from datetime import datetime, timezone
+import base64
 import json
 import math
+from pathlib import Path
 import re
+import time
 from urllib.parse import urljoin
 
 from .http import FetchError
 from .pokemon_center_access import FreeAccessProbe, free_usage
-from .pokemon_center_queue import public_queue_url, snapshot, visible_tree
+from .pokemon_center_queue import HOMES, classify_documents, public_queue_url, snapshot, visible_tree
 from .web_sources import Document
 from .pc_schedule import due
 
@@ -46,13 +49,33 @@ def public_signal(data, now):
             'checked_at': checked, 'age_seconds': round(max(0, now-checked), 2)}
 
 
-def provider_snapshot(data, now):
+def provider_snapshot(data, now, *, require_rendered=False):
     """Reuse the official-frame parser; never retain cookies/XHR/query metadata."""
     if not isinstance(data, dict) or data.get('status_code') != 200:
         raise FetchError('PC_PROVIDER_TARGET_NOT_HTTP_200')
     body = data.get('html')
     if not isinstance(body, str) or len(body.encode('utf-8')) > 8_000_000:
         raise FetchError('PC_PROVIDER_HTML_MISSING')
+    doc = Document(body)
+    markers = [n for n in doc.root.walk() if n.tag == 'script' and n.attrs.get('id') == 'tcg-queue-visible-v1']
+    rendered = None
+    if markers:
+        try:
+            if len(markers) != 1 or len(markers[0].text()) > 1_000_000:
+                raise ValueError()
+            capture = json.loads(markers[0].text())
+            if (capture.get('version') != 1 or capture.get('home_path') not in HOMES or
+                    capture.get('primary_frames') not in (0, 1)):
+                raise ValueError()
+            documents = capture['documents']
+            if not isinstance(documents, list) or len(documents) != 1+capture['primary_frames']:
+                raise ValueError()
+            rendered = {d['kind']: d['html'] for d in documents}
+            if (set(rendered) != ({'home', 'primary_frame'} if capture['primary_frames'] else {'home'}) or
+                    any(not isinstance(v, str) or len(v) > 700000 for v in rendered.values())):
+                raise ValueError()
+        except (ValueError, TypeError, KeyError, AttributeError):
+            raise FetchError('PC_PROVIDER_VISIBLE_CAPTURE_INCOMPLETE') from None
     pages = {HOME: body}
     frames = [n for n in visible_tree(Document(body).root)
               if n.tag == 'iframe' and n.attrs.get('id') == 'main-iframe']
@@ -69,7 +92,14 @@ def provider_snapshot(data, now):
             if url not in pages:
                 raise FetchError('PC_PROVIDER_FRAME_UNREADABLE')
             return pages[url]
-    result = snapshot(Pages(), HOME, now)
+    result = (classify_documents(rendered['home'], rendered.get('primary_frame'), now)
+              if rendered is not None else snapshot(Pages(), HOME, now))
+    result['rendered_visibility'] = rendered is not None
+    if require_rendered and rendered is None:
+        # Raw HTML can contain CSS-hidden announcements for other regions.
+        if result['status'] == 'queue_open_de':
+            result.update(status='queue_open_region_unknown', region=None, banner=None, banner_location=None)
+        result['reason'] = 'PC_PROVIDER_VISIBLE_CAPTURE_MISSING'
     # Public page diagnostics only. Never export cookies, XHRs or frame URLs.
     doc = Document(body)
     result['page_bytes'] = len(body.encode('utf-8'))
@@ -92,10 +122,13 @@ class QueueProbe(FreeAccessProbe):
         data, cost = self.request_json('extended', {
             'url': HOME, 'proxy_type': 'residential', 'proxy_country': 'DE',
             'browser': 'true', 'timeout': 25,
+            'js_snippet': base64.b64encode(Path(__file__).with_name('pc_queue_dom.js').read_bytes()).decode(),
         })
         if cost is not None and (not math.isfinite(cost) or not 0 <= cost <= CREDIT_COST):
             raise FetchError('PC_PROVIDER_COST_CHANGED_STOPPED')
-        return {**provider_snapshot(data, now), 'reserved_credits': CREDIT_COST,
+        observed_at = time.time()
+        return {**provider_snapshot(data, observed_at, require_rendered=True), 'observed_at': observed_at,
+                'reserved_credits': CREDIT_COST,
                 'reported_credits': cost, 'remaining_before': remaining}
 
 
@@ -182,12 +215,13 @@ def run_gate(cfg, state, client, now, probe=None, checkpoint=None, interval=240,
             gate['provider_halted'] = True
         return report, None
     report['confirmation'] = {k: result[k] for k in
-        ('status', 'frame_checked', 'page_bytes', 'headings', 'reported_credits', 'remaining_before') if k in result}
+        ('status', 'frame_checked', 'page_bytes', 'headings', 'reported_credits', 'remaining_before',
+         'rendered_visibility', 'banner_location', 'reason') if k in result}
     if result.get('status') != 'queue_open_de' or result.get('region') != 'DE' or not result.get('banner'):
         report['status'] = 'germany_not_confirmed'
         return report, None
     observation = {k: result[k] for k in ('status', 'region', 'banner', 'frame_checked', 'inventory_confirmed')}
-    observation.update(observed_at=now, gate_wave=gate['wave'], wave_started_at=gate['wave_started_at'])
+    observation.update(observed_at=result.get('observed_at', now), gate_wave=gate['wave'], wave_started_at=gate['wave_started_at'])
     gate['confirmation'] = observation
     report.update(status='germany_confirmed', germany_confirmed=True)
     return report, observation

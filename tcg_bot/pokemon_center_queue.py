@@ -15,8 +15,10 @@ HOMES = ('/de-de', '/de-de/', '/en-de', '/en-de/')
 QUEUE = re.compile(r'warteschlange|warteraum|\bqueue\b|waiting room', re.I)
 GERMANY = re.compile(r'\bGermany\b|\bDeutschland\b|\bGerman (?:store|site|shop)\b|\bdeutsche[nrms]? (?:Shop|Seite)\b', re.I)
 NEGATIVE = re.compile(r'\b(?:not|no|nicht|kein\w*)\s+(?:(?:for|in|für)\s+)?(?:germany|german|deutsch\w*)', re.I)
+NEGATED_CLAIM = re.compile(r'\b(?:not|no|never|none|nicht|kein\w*|keinerlei|cancelled|canceled|abgesagt)\b', re.I)
 DROP = re.compile(r'launch|\bdrop\b|verkaufsstart|veröffentlich|veroeffentlich|erscheinen|\brelease\b', re.I)
 PRODUCT = re.compile(r'\bTCG\b|sammelkart|products?|produkte?|merchandise', re.I)
+CURRENT = re.compile(r'\btoday\b|\bheute\b|\bnow\b|\bjetzt\b', re.I)
 
 
 def public_queue_url(url, *, home=False):
@@ -63,31 +65,21 @@ def regional_banner(body):
     for n in visible_tree(doc.root):
         if n.tag not in ('title', 'h1', 'h2', 'p', 'div', 'span', 'strong', 'section'):
             continue
+        # Do not stitch a queue heading to an unrelated country-selector block.
+        if any(getattr(c, 'tag', '') in ('p', 'div', 'section', 'h1', 'h2', 'h3') for c in n.children):
+            continue
         text = re.sub(r'\s+', ' ', visible(n)).strip()
         if not 1 <= len(text) <= 650:
             continue
         # A separate country selector or footer is not the regional announcement.
         for sentence in re.split(r'(?<=[.!?])\s+', text):
-            if GERMANY.search(sentence) and not NEGATIVE.search(sentence) and (
-                    QUEUE.search(sentence) or DROP.search(sentence) and PRODUCT.search(sentence)):
+            if GERMANY.search(sentence) and not (NEGATIVE.search(sentence) or NEGATED_CLAIM.search(sentence)) and (
+                    QUEUE.search(sentence) or DROP.search(sentence) and PRODUCT.search(sentence) and CURRENT.search(sentence)):
                 return sentence
     return None
 
 
-def snapshot(client, url, now):
-    if not public_queue_url(url, home=True):
-        raise FetchError('PC_QUEUE_GERMAN_HOME_REQUIRED')
-    body = client.text(url)
-    # Follow only the primary frame actually embedded in this response. Never
-    # persist/replay its challenge query, execute its scripts, or follow forms.
-    frames = [n for n in visible_tree(Document(body).root)
-              if n.tag == 'iframe' and n.attrs.get('id') == 'main-iframe']
-    frame_checked = False
-    if len(frames) == 1:
-        frame_url = urljoin(url, frames[0].attrs.get('src', ''))
-        if public_queue_url(frame_url):
-            body = client.text(frame_url)
-            frame_checked = True
+def classify(body, now, *, frame_checked=False):
     status, _ = inspect(body, {}, now)
     banner = regional_banner(body) if status == 'queue_open' else None
     if status == 'queue_open':
@@ -104,3 +96,34 @@ def snapshot(client, url, now):
         state = 'store_readable' if shop else 'unknown'
     return dict(status=state, frame_checked=frame_checked, region='DE' if banner else None,
                 banner=banner, inventory_confirmed=False)
+
+
+def classify_documents(home, frame, now):
+    result = classify(frame if frame is not None else home, now, frame_checked=frame is not None)
+    location = 'primary_frame' if frame is not None else 'page'
+    # Both documents are from the same live response. The actual waiting room
+    # still has to be readable; a security frame plus an old banner cannot alert.
+    if frame is not None and result['status'] == 'queue_open_region_unknown':
+        outer_status, _ = inspect(home, {}, now)
+        banner = regional_banner(home) if outer_status != 'blocked_or_unreadable' else None
+        if banner:
+            result.update(status='queue_open_de', region='DE', banner=banner)
+            location = 'page_outside_primary_frame'
+    result['banner_location'] = location if result['banner'] else None
+    return result
+
+
+def snapshot(client, url, now):
+    if not public_queue_url(url, home=True):
+        raise FetchError('PC_QUEUE_GERMAN_HOME_REQUIRED')
+    body = client.text(url)
+    # Follow only the primary frame actually embedded in this response. Never
+    # persist/replay its challenge query, execute its scripts, or follow forms.
+    frames = [n for n in visible_tree(Document(body).root)
+              if n.tag == 'iframe' and n.attrs.get('id') == 'main-iframe']
+    frame = None
+    if len(frames) == 1:
+        frame_url = urljoin(url, frames[0].attrs.get('src', ''))
+        if public_queue_url(frame_url):
+            frame = client.text(frame_url)
+    return classify_documents(body, frame, now)

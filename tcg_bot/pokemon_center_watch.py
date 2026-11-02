@@ -9,6 +9,7 @@ from email.utils import parsedate_to_datetime
 from hashlib import sha256
 import re
 import time
+from math import isfinite
 from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
 
@@ -204,12 +205,22 @@ def fetch_source(source, client, now, queue_observation=None):
 
 def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observation=None):
     now = time.time() if now is None else now
+    # The independent provider has already fetched the page. A transport pause
+    # on the direct route must not suppress fresh evidence from that read.
+    observed = queue_observation.get('observed_at') if isinstance(queue_observation, dict) else None
+    confirmed = (type(observed) in (int, float) and isfinite(observed)
+                 and 0 <= now-observed <= 120
+                 and queue_observation.get('status') == 'queue_open_de'
+                 and queue_observation.get('region') == 'DE'
+                 and bool(queue_observation.get('banner')))
+    if not confirmed:
+        queue_observation = None
     state.setdefault('pc_de', {'sources': {}, 'delivered': {}, 'events': {}})
     table = state['pc_de']
     report = dict(checked_at=datetime.fromtimestamp(now, timezone.utc).isoformat(),
                   sources=[], rejected={}, alerts=[], sent=0, errors=[], inventory_confirmed=False)
     rejects = Counter()
-    due = []
+    due, immediate = [], []
     for source in cfg['sources']:
         old = table['sources'].get(source['id'], {})
         ready = check_due(old.get('checked_at', 0), now, source.get('interval_seconds', 240), source.get('minute_slots', False))
@@ -217,7 +228,9 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observat
         # backoff remains unchanged; a normal 200 challenge gets one next-run read.
         recheck_blocked = (source['kind'] == 'store' and old.get('status') == 'blocked'
                            and ready)
-        if now < old.get('retry_at', 0) and not recheck_blocked:
+        if source['id'] == 'pc-de-store' and source['kind'] == 'store' and confirmed:
+            immediate.append(dict(source, adapter='pc', base_url=source['url']))
+        elif now < old.get('retry_at', 0) and not recheck_blocked:
             report['sources'].append(dict(id=source['id'], status='backoff', retry_at=old['retry_at']))
         elif ready:
             due.append(dict(source, adapter='pc', base_url=source['url']))
@@ -226,8 +239,16 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observat
     def fetch(source, transport):
         observation = queue_observation if source['id'] == 'pc-de-store' else None
         return fetch_source(source, transport, now, observation)
-    for source, rows, notes, error, elapsed in collect(due, client, {'pc': fetch}, workers=4, source_seconds=30):
+    def results():
+        # Yield before starting other network requests: collect() waits for all
+        # its futures. Confirmed queues must not wait for slow community feeds.
+        for source in immediate:
+            rows, notes = fetch(source, client)
+            yield source, rows, notes, None, 0
+        yield from collect(due, client, {'pc': fetch}, workers=4, source_seconds=30)
+    for source, rows, notes, error, elapsed in results():
         old = table['sources'].setdefault(source['id'], {})
+        direct_retry = old.get('retry_at', 0) if confirmed and source['id'] == 'pc-de-store' else 0
         old['checked_at'] = now
         blocked = 'BLOCKED_NOT_STOCK' in notes
         status = 'unavailable' if error else 'blocked' if blocked else 'ok'
@@ -241,7 +262,9 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observat
                 old['retry_at'] = max(now+source.get('interval_seconds', 240),
                                       getattr(client, 'cooldowns', {}).get(urlsplit(source['url']).netloc, 0))
         else:
-            old.update(failures=0, retry_at=0, last_success=now)
+            # Reading already-confirmed evidence does not lift the direct
+            # route's Retry-After/network backoff for the next HTTP request.
+            old.update(failures=0, retry_at=direct_retry, last_success=now)
         if source['kind'] == 'store' and not error and not blocked:
             if 'STORE_READABLE' in notes and not rows:
                 old['clear_count'] = old.get('clear_count', 0)+1

@@ -61,7 +61,7 @@ def main():
         probe = (lambda at: QueueProbe(key, client, max_credits=125).check(at)) if key and args.send else None
         gate_report, observation = run_gate(cfg.get('queue_gate', {}), state, client, now,
             probe, checkpoint, interval=60 if peak_window(now) else 240, minute_slots=peak_window(now))
-        report = pokemon_center_watch.run(cfg, state, client, now, send, checkpoint, queue_observation=observation)
+        report = pokemon_center_watch.run(cfg, state, client, time.time(), send, checkpoint, queue_observation=observation)
         acknowledge(state)
         report['queue_gate'] = gate_report
         report['schedule'] = {'timezone': 'Europe/Berlin', 'peak_window': peak_window(now),

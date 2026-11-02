@@ -29,6 +29,35 @@ nicht „Queue geschlossen“. Der Prüfzeitpunkt steht jeweils im Cloud-Bericht
 
 ## Umgesetzte Verbesserung
 
+### Sichtbaren Deutschland-Hinweis auslesen und sofort weitergeben
+
+Am 02.11. wurde ein historischer [Screenshot der echten gelben Meldung](https://www.reddit.com/r/PokemonTCG/comments/1tvshzm/)
+visuell geprüft. Er nennt den deutschen Store und den heutigen Start deutscher
+TCG-Produkte. Seine Formulierung wird in Browser-Tests wiedergegeben; die HTML-
+Struktur ist eine Testnachbildung, kein gespeicherter aktueller Shop-Abruf.
+
+Der bestehende kostenlose Browser-Aufruf liest nach zwei Sekunden zusätzlich
+einen begrenzten DOM-Schnappschuss. Dabei werden berechnete CSS-Sichtbarkeit,
+ausgeblendete Vorfahren und die aktuell eingebundene primäre Warteseite geprüft.
+Footer, Navigation, Länderauswahl, Scripts und Formularwerte gelangen nicht in die
+Auswertung. Ein Hinweis außerhalb des Warteraum-Frames bleibt erhalten, sofern
+der Frame selbst eine echte lesbare Queue zeigt. Eine Sicherheitsprüfung plus
+Deutschland-Text bestätigt weiterhin nichts. Ohne vollständigen sichtbaren
+Schnappschuss darf dieser Provider keinen DE-Alert erzeugen. Keine zusätzlichen
+Seitenaufrufe, Klicks, Cookies, CAPTCHAs oder neuen Abhängigkeiten im normalen Bot.
+
+Zwei reproduzierte Zustellprobleme sind korrigiert: Eine frische Bestätigung aus
+dem unabhängigen Cloud-Abruf wurde zuvor durch die Fehlersperre des direkten
+Abrufs oder dessen Prüfintervall verworfen; außerdem wartete der Sender auf alle
+Community-Abfragen. Bestätigte Queue-Daten gehen jetzt zuerst zum vorhandenen
+Discord-Sender. Die direkte HTTP-Fehlersperre bleibt für weitere Netzwerkanfragen
+erhalten. Veraltete Bestätigungen und doppelte Alerts werden weiterhin verworfen;
+ein Sendefehler verbraucht keine Zustellbestätigung.
+
+Die Gratis-Budgets und Zeitpläne bleiben unverändert. Browser-Replay und ein
+begrenzter aktueller Cloud-Test prüfen den Code; ein echter deutscher Queue-Start
+mit gemessener Discord-Latenz bleibt separat nachzuweisen.
+
 ### Kostenlose Queue-Abfrage mit gezielter Deutschland-Prüfung
 
 Der normale DE-Job liest zusätzlich den anonymen, vom

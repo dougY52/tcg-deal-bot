@@ -7,6 +7,7 @@ on:
       - 'tcg_bot/http.py'
       - 'scripts/check_browser.py'
       - 'tcg_bot/pokemon_center_gate.py'
+      - 'tcg_bot/pc_queue_dom.js'
       - 'requirements-browser.txt'
       - '.github/workflows/browser-check.yml'
   pull_request:
@@ -82,7 +83,7 @@ jobs:
   pc-gate:
     if: github.event.repository.private == false && (inputs.pc_gate_test || (github.event_name == 'push' && contains(github.event.head_commit.message, '[pc-gate-test]')))
     runs-on: ubuntu-24.04
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with:
@@ -90,7 +91,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s tests -p 'test_pokemon_center_*.py' -q
+      - run: python -m pip install --timeout 30 --retries 1 -r requirements-browser.txt
+      - name: Replay queue notices in Chrome without shop requests
+        env:
+          TCG_TEST_PC_DOM: '1'
+        run: python -m unittest discover -s tests -p 'test_pokemon_center_*.py' -q
       - name: Read public signal and one DE page without Discord
         env:
           SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
