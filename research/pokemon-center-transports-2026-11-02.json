@@ -1,0 +1,97 @@
+{
+  "run_url": "https://github.com/dougY52/tcg-deal-bot/actions/runs/41507297267",
+  "reports": {
+    "linux": {
+      "checked_at": "2026-11-02T19:09:36.969637+00:00",
+      "discord_sent": 0,
+      "inventory_confirmed": false,
+      "results": [
+        {
+          "transport": "chrome_http",
+          "status": "ERROR",
+          "error_type": "ValueError"
+        },
+        {
+          "transport": "normal_chrome",
+          "status": "blocked",
+          "observations": [
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1586,
+              "next_data_present": false,
+              "http_status": 403
+            },
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1586,
+              "next_data_present": false,
+              "http_status": 403
+            },
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1586,
+              "next_data_present": false,
+              "http_status": 403
+            }
+          ]
+        }
+      ],
+      "status": "COMPLETE"
+    },
+    "windows": {
+      "checked_at": "2026-11-02T19:10:02.809408+00:00",
+      "discord_sent": 0,
+      "inventory_confirmed": false,
+      "results": [
+        {
+          "transport": "chrome_http",
+          "status": "ERROR",
+          "error_type": "ValueError"
+        },
+        {
+          "transport": "normal_chrome",
+          "status": "blocked",
+          "observations": [
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1641,
+              "next_data_present": false,
+              "http_status": 403
+            },
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1586,
+              "next_data_present": false,
+              "http_status": 403
+            },
+            {
+              "status": "blocked",
+              "frame_checked": false,
+              "region": null,
+              "inventory_confirmed": false,
+              "page_bytes": 1586,
+              "next_data_present": false,
+              "http_status": 403
+            }
+          ]
+        }
+      ],
+      "status": "COMPLETE"
+    }
+  }
+}

@@ -71,6 +71,40 @@ API werden für diese Erweiterung verwendet.
 
 ## Grenzen
 
+### Zusätzlicher Cloud-Zugriffstest am 02.11.2026
+
+Der [Diagnoselauf 41507297267](https://github.com/dougY52/tcg-deal-bot/actions/runs/41507297267)
+hat zwei zusätzliche Zugriffsarten unter Linux und Windows geprüft:
+
+- Normaler Chrome mit JavaScript und sichtbarem Browsermodus: auf beiden
+  GitHub-Runnern HTTP 403/Sicherheitsseite, auch nach 30 Sekunden Beobachtung.
+  Keine eingebetteten Shopdaten, kein verifizierter deutscher Queue-Status.
+- `curl_cffi` mit Chrome-kompatiblem HTTP/TLS: auf beiden Runnern kein nutzbares
+  Ergebnis. Der Bericht enthält nur den Fehlertyp `ValueError`; daraus wird
+  ausdrücklich kein konkreter HTTP-Status abgeleitet.
+
+56 relevante Tests waren auf beiden Runnern erfolgreich. Die Tests belegen die
+Parser-/Deduplizierungslogik, nicht den erfolgreichen Shopzugriff. Rohdaten und
+Session-Cookies wurden nicht gespeichert, Discord wurde nicht aufgerufen.
+Der Vergleich ist im bestehenden Workflow „Browser source check“ über
+`pc_transport_test=true` erneut ausführbar. Er läuft nicht im Minutentakt und
+verbraucht keine Cloudflare-Browserminuten oder ScrapingAnt-Credits. Seine
+zusätzlichen Abhängigkeiten gelten nur für diesen Diagnosejob.
+
+Die frühere lesbare ScrapingAnt-Katalogantwort vom 25.10.2026 war ein einzelner
+Erfolg mit Residential-Browser; die anschließenden Produktabrufe waren nicht
+verlässlich. Dieser Modus kostet laut [API-Credittabelle](https://docs.scrapingant.com/credits-cost)
+125 Credits pro kostenpflichtig gewertetem Abruf. Die derzeit angebotenen
+[10.000 kostenlosen Monatscredits](https://scrapingant.com/) ergeben höchstens
+80 solche Abrufe, während allein 16–20 Uhr täglich 240 Minutenprüfungen benötigen.
+Es ist daher keine tragfähige kostenlose Minutenlösung. Keine automatische
+Tariferhöhung, kein neuer Proxy- oder CAPTCHA-Dienst wurde eingerichtet.
+
+Der CardPal-Relay war im Live-Bericht um 18:59 UTC verbunden und frisch, hatte
+aber seit seiner Aktivierung noch keinen DE-Drop zugestellt (`sent=0`). Das ist
+kein Nachweis über die Vollständigkeit oder Geschwindigkeit von CardPals
+Shopmonitor. Die direkte zuverlässige Pokémon-Center-DE-Abdeckung bleibt offen.
+
 Der Direktabruf kann weiterhin an Sicherheitsprüfungen scheitern. Die neue
 Frame-Auswertung und die kürzere Wiederholungszeit beseitigen Parser-/Taktlücken,
 aber bestätigen keine vollständige oder sekundenschnelle DE-Abdeckung.
