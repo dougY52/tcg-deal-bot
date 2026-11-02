@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-02T22:40:28.756180+00:00",
+  "checked_at": "2026-11-02T22:45:30.419586+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.72
+      "seconds": 1.42
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.75
+      "seconds": 1.88
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.06
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 1.0
     },
     {
       "id": "pokehunt-public",
@@ -63,12 +63,12 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.06
+      "seconds": 0.95
     }
   ],
   "rejected": {
     "NOT_POKEMON_CENTER": 98,
-    "DUPLICATE": 1,
+    "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
     "SPECULATION": 2
   },
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793659204.512,
-      "age_seconds": 22.79
+      "checked_at": 1793659505.191,
+      "age_seconds": 23.73
     }
   },
   "schedule": {
@@ -120,27 +120,8 @@
     "errors": []
   },
   "cardpal_relay": {
-    "configured": true,
-    "status": "stream_connected",
-    "enabled_at": 1793565143326,
-    "baseline_at": 1793565144804,
-    "last_inbox_at": 1793659008535,
-    "last_stream_at": 1793659008363,
-    "last_cycle_at": 1793659006908,
-    "next_alarm": 1793659307910,
-    "sent": 0,
-    "failures": 0,
-    "browser_minutes_used": 0,
-    "shop_drop_latency_verified": false,
-    "pokemon_deals_enabled": true,
-    "tcg_deals_enabled": true,
-    "subscribed_franchises": [
-      "DRAGONBALL",
-      "ONEPIECE",
-      "POKEMON"
-    ],
-    "dealz_threshold_percent": 5,
-    "discovery_articles": 10,
-    "connection_fresh": true
+    "status": "unavailable",
+    "connection_fresh": false,
+    "shop_drop_latency_verified": false
   }
 }
