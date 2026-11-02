@@ -96,13 +96,14 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Test Germany-only alerts
-        run: python -m unittest discover -s tests -p test_pokemon_center_watch.py -v
+        run: python -m unittest discover -s tests -p 'test_pokemon_center_*.py' -v
       - name: Restore independent Pokemon Center state
         run: |
           set -euo pipefail

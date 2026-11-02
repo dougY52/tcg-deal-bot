@@ -12,9 +12,8 @@ import time
 from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
 
-from .community_watch import pc_de_url
-from .drop_watch import inspect, visible
-from .pokemon_center_access import page_result
+from .drop_watch import visible
+from .pokemon_center_queue import snapshot as queue_snapshot
 from .scanning import collect
 from .telegram_sources import parse as telegram_parse
 from .web_sources import Document
@@ -179,24 +178,19 @@ def payload(event, source):
 
 
 def fetch_source(source, client, now):
-    body = client.text(source['url'])
     kind = source['kind']
     if kind == 'store':
-        if not pc_de_url(source['url']):
-            raise ValueError('Not a German storefront')
-        result = page_result(body, source['url'], now)
-        status, _ = inspect(body, {}, now)
-        if result['status'] == 'blocked_or_unreadable':
-            return [], ['BLOCKED_NOT_STOCK']
+        result = queue_snapshot(client, source['url'], now)
+        note = {'blocked': 'BLOCKED_NOT_STOCK', 'unknown': 'QUEUE_STATUS_UNKNOWN',
+                'queue_open_region_unknown': 'QUEUE_REGION_UNCONFIRMED',
+                'queue_open_de': 'QUEUE_DE_CONFIRMED', 'store_readable': 'STORE_READABLE'}[result['status']]
         rows = []
-        # The DE URL alone is insufficient: the shared waiting room may serve US/UK.
-        blocks = [clean(visible(n)) for n in Document(body).root.walk() if n.tag in ('title', 'h1', 'h2', 'p')]
-        de_queue = any(DE.search(s) and QUEUE.search(s) and not NEG_DE.search(s) and len(s) <= 450 for s in blocks)
-        if status == 'queue_open' and de_queue:
-            rows.append(dict(id='official-queue', url=source['url'], claim='Die aktuelle Warteseite nennt Deutschland ausdrücklich.',
+        if result['status'] == 'queue_open_de':
+            rows.append(dict(id='official-queue', url=source['url'], claim=result['banner'],
                              published=now, kind='queue_confirmed', identity='queue-de',
                              evidence='store_page', inventory_confirmed=False))
-        return rows, ['QUEUE_REGION_UNCONFIRMED' if status == 'queue_open' and not rows else 'STORE_READABLE']
+        return rows, [note] + (['QUEUE_FRAME_READ'] if result['frame_checked'] else [])
+    body = client.text(source['url'])
     if kind == 'communityone':
         return parse_communityone(body, source), []
     if kind in ('x_rss', 'atom'):
@@ -217,7 +211,11 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
     due = []
     for source in cfg['sources']:
         old = table['sources'].get(source['id'], {})
-        if now < old.get('retry_at', 0):
+        # Migrate old one-hour pauses for HTML challenge pages. Network/429/503
+        # backoff remains unchanged; a normal 200 challenge gets one next-run read.
+        recheck_blocked = (source['kind'] == 'store' and old.get('status') == 'blocked'
+                           and now-old.get('checked_at', 0) >= source.get('interval_seconds', 240))
+        if now < old.get('retry_at', 0) and not recheck_blocked:
             report['sources'].append(dict(id=source['id'], status='backoff', retry_at=old['retry_at']))
         elif now-old.get('checked_at', 0) >= source.get('interval_seconds', 240):
             due.append(dict(source, adapter='pc', base_url=source['url']))
@@ -236,10 +234,13 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
             # A failed source is visible; it is never stored as "no stock".
             old['retry_at'] = max(now+min(3600, 300*2**(old['failures']-1)),
                                   getattr(client, 'cooldowns', {}).get(urlsplit(source['url']).netloc, 0))
+            if blocked and source['kind'] == 'store':
+                old['retry_at'] = max(now+source.get('interval_seconds', 240),
+                                      getattr(client, 'cooldowns', {}).get(urlsplit(source['url']).netloc, 0))
         else:
             old.update(failures=0, retry_at=0, last_success=now)
         if source['kind'] == 'store' and not error and not blocked:
-            if notes == ['STORE_READABLE'] and not rows:
+            if 'STORE_READABLE' in notes and not rows:
                 old['clear_count'] = old.get('clear_count', 0)+1
                 if old['clear_count'] >= 2:
                     old['queue_active'] = False
@@ -249,6 +250,10 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None):
                     old['queue_episode'] = old.get('queue_episode', 0)+1
                 old['queue_active'] = True
                 rows[0]['id'] += ':'+str(old['queue_episode'])
+            else:
+                old['clear_count'] = 0
+        elif source['kind'] == 'store':
+            old['clear_count'] = 0
         report['sources'].append(dict(id=source['id'], status=status, items=len(rows), notes=notes,
                                       error=error, seconds=elapsed))
         for row in rows:

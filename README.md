@@ -216,6 +216,25 @@ Faix und duo sind live bestätigt; VEDES wird im Diagnosebericht als eingeschrä
 
 ### Pokémon Center Deutschland: Community-Hinweise
 
+Der unabhängige DE-Job liest seit 02.11.2026 zusätzlich den primären
+`_Incapsula_Resource`-Frame, **nur wenn ihn die aktuelle deutsche Startseite selbst
+einbindet**. Höchstens eine Frame-Abfrage, gewöhnliches HTTP, kein Cloudflare-Browser
+und keine ScrapingAnt-Credits. Der Frame ist sowohl für Warteräume als auch für
+Sicherheitsprüfungen im Einsatz; seine Existenz oder HTTP 200 ist kein Queue-Beleg.
+Ein Alert benötigt positive Queue-Anzeige plus sichtbaren Deutschland-Banner.
+CAPTCHA, fremde/unklare Region, Fehler und Wartung bleiben unbekannt. Zwei
+aufeinanderfolgende lesbare Shop-Beobachtungen sind nötig, bevor eine spätere
+Queue erneut gemeldet wird. Die normale Fünf-Minuten-Prüfung pausiert nach einer
+HTML-Sicherheitsseite nicht mehr eine Stunde; echte HTTP-Rate-Limits und
+Netzwerk-Backoff bleiben erhalten. GitHub-Startverzögerungen bleiben möglich.
+
+Jeder DE-Lauf liest außerdem ausschließlich den Zustand des eigenen CardPal-Relays
+über GitHub-OIDC. `connection_fresh` prüft einen aktuellen Stream-Verbindungszeitpunkt,
+ist aber **kein Beleg**, dass CardPal jeden deutschen Shop-Drop sofort erkennt.
+Secrets, Kontoeinstellungen und Discord-Nachrichten werden bei dieser Statusprüfung
+nicht verändert. Aktuelle Recherche und Grenzen:
+[POKEMON-CENTER-QUEUE.md](POKEMON-CENTER-QUEUE.md).
+
 Seit 25.10.2026 ergänzt `community_watch` den bestehenden Cloud-Fast-Watch:
 MyDealz Pokémon-RSS, MyDealz neue Deals und der öffentliche RestockRadar-Feed.
 Keine zusätzliche Infrastruktur, Konten oder API-Schlüssel; derselbe Discord-Webhook
