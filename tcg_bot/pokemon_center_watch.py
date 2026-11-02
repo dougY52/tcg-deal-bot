@@ -132,7 +132,10 @@ def qualify(row, now, cfg):
     claim = clean(' '.join(parts))
     if SPECULATIVE.search(claim):
         return None, 'SPECULATION'
-    queue_live = LIVE.search(claim) or any(PRESENT_DE_QUEUE.fullmatch(p) for p in parts)
+    regional_notice = (any(PRESENT_DE_QUEUE.fullmatch(p) for p in parts)
+        and not NEGATIVE.search(text) and not SPECULATIVE.search(text)
+        and not re.search(r'\b(?:yesterday|gestern|ended|beendet|vorbei|was|war)\b', text, re.I))
+    queue_live = LIVE.search(claim) or regional_notice
     if QUEUE.search(claim) and queue_live and not NEGATIVE.search(claim):
         kind = 'queue_report'
     elif (PRODUCT.search(claim) or SKU.search(claim)) and (EARLY.search(claim) or re.search(r'\bloaded\b|hinterlegt|eingepflegt', claim, re.I)):

@@ -84,6 +84,9 @@ class CreditIndependentTests(unittest.TestCase):
             'Pokemon Center Queue is not for Germany.',
             'Guide: Pokemon Center Queue is for Germany only.',
             'Pokemon Center Queue is for Germany only but it is closed.',
+            CLAIM+' It is closed now.',
+            CLAIM+' That was yesterday.',
+            CLAIM+' Maybe tomorrow.',
             'Hello UK. <blockquote>'+CLAIM+'</blockquote>',
         ):
             with self.subTest(text=text):
