@@ -16,13 +16,17 @@ on:
         description: 'One-off Pokemon Center DE transport test, without Discord'
         type: boolean
         default: false
+      pc_gate_test:
+        description: 'One-page DE test (at most 125 free credits, no Discord)'
+        type: boolean
+        default: false
 env:
   PYTHONUTF8: '1'
 permissions:
   contents: read
 jobs:
   check:
-    if: github.event.repository.private == false && !inputs.pc_transport_test && !contains(github.event.head_commit.message, '[pc-transport-test]')
+    if: github.event.repository.private == false && !inputs.pc_transport_test && !inputs.pc_gate_test && !contains(github.event.head_commit.message, '[pc-transport-test]') && !contains(github.event.head_commit.message, '[pc-gate-test]')
     strategy:
       fail-fast: false
       matrix:
@@ -73,4 +77,26 @@ jobs:
         with:
           name: pc-transport-${{ matrix.os }}
           path: pc-transport-report.json
+          retention-days: 7
+  pc-gate:
+    if: github.event.repository.private == false && (inputs.pc_gate_test || (github.event_name == 'push' && contains(github.event.head_commit.message, '[pc-gate-test]')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -p 'test_pokemon_center_*.py' -q
+      - name: Read public signal and one DE page without Discord
+        env:
+          SCRAPINGANT_API_KEY: ${{ secrets.SCRAPINGANT_API_KEY }}
+        run: python -m scripts.probe_pc_gate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pc-gate-probe
+          path: pc-gate-probe.json
           retention-days: 7
