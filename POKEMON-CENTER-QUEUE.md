@@ -1,5 +1,45 @@
 # Pokémon Center Deutschland: Queue-Prüfung, 02.11.2026
 
+## Weiterbetrieb ohne Anbieter-Credits (02.11.2026)
+
+Eine kostenlose, unbegrenzt zuverlässige **direkte** Deutschland-Queue-Abfrage
+ist weiterhin nicht nachgewiesen. ScrapingAnt bleibt eine begrenzte zusätzliche
+Shop-Prüfung, keine Voraussetzung für CardPal oder öffentliche Community-Quellen.
+Bei fehlendem API-Key, ausgeschöpftem internem Budget oder Provider-Kontingent
+werden frische, ausdrücklich deutsche Community-Hinweise weiterhin verarbeitet.
+Automatisierte Tests prüfen diese drei Fälle inklusive persistenter Deduplizierung;
+es werden dabei keine echten Discord-Nachrichten oder Provider-Aufrufe ausgelöst.
+
+Zusätzlich aktiviert: [PokeHunts öffentlicher RSS-Feed](https://teapawt.net/pokehuntdotfun/rss).
+Die [offizielle PokeHunt-Seite](https://www.pokehunt.fun/) bestätigt den Account
+`@pokehuntdotfun`; der anonyme Feed lieferte im aktuellen Zugriff 18 zuordenbare
+Beiträge. Das bestätigt den Feed-Zugang, **keinen aktuellen deutschen Drop**.
+Nur eigene datierte Meldungen, ausdrücklich Deutschland, maximal 15 Minuten alt
+für Queue-/Bestandshinweise. Retweets, Zitate, Prognosen und ausländische Queues
+reichen nicht aus. Der zusätzliche Account nutzt denselben öffentlichen Spiegel
+wie die vorhandenen X-Quellen: kein zusätzlicher unabhängiger Transportweg.
+Die Spiegelverzögerung ist nicht verifiziert. Community-Meldungen bleiben im
+Discord ausdrücklich als nicht vom Shop bestätigte Hinweise gekennzeichnet.
+
+Der PC-Watch verarbeitet fertig geprüfte Hosts jetzt sofort, während andere
+Quellen noch laden. Die allgemeine Händlerprüfung behält ihre Prioritätsreihenfolge;
+Abrufe zum selben Host bleiben seriell und respektieren Robots/Backoff. Der
+Minutentakt von 16 bis 20 Uhr Berlin und der sonstige Fünfminutentakt bleiben
+bestehen. Laufplan und Sendergeschwindigkeit garantieren keine zeitnahe Quelle.
+
+Weitere geprüfte Kandidaten lösen den Auftrag derzeit nicht:
+
+- [Cardwatch](https://cardwatch.eu/de): kostenlose Channel-Meldungen laut Anbieter
+  sechs Stunden verzögert; deshalb nicht als schneller Queue-Ersatz integriert.
+- [Cardiyo](https://cardiyo.io/support): kostenlose Queue-Prüfung alle 30 Minuten.
+- [Pokebot DE](https://pokebot.co/retailers/pokemon-center-de): behauptet deutsche
+  Queue-Abdeckung, aber nur per Einladung zugänglich; kein nutzbarer öffentlicher
+  Feed oder praktischer Gratis-Funktionstest bestätigt.
+
+Es bleibt möglich, eine Queue zu verpassen, wenn der Direktzugriff scheitert und
+keine freie Quelle rechtzeitig eine eindeutige Deutschland-Meldung liefert.
+Kein kostenpflichtiger Tarif und keine neue Infrastruktur wurden eingerichtet.
+
 ## Ergebnis der öffentlichen Schnittstellen-Recherche
 
 Eine frei erreichbare, regionsspezifische Status-API mit nachgewiesener DE-Drop-Latenz
@@ -62,7 +102,7 @@ Verifiziert im [Cloud-Test 41515917699](https://github.com/dougY52/tcg-deal-bot/
 92 Tests inklusive echter Chrome-Ausführung erfolgreich. Um **21:06 Uhr Berlin**
 lieferte der vorhandene kostenlose Provider eine sichtbare deutsche Shopseite
 (`store_readable`, `rendered_visibility=true`), keine Queue und keinen Alert.
-Kosten: 125 Gratis-Credits, Rest danach rechnerisch 8.990 Credits. Die lokale
+Kosten: 125 Gratis-Credits. Die lokale
 Gesamtsuite bestand aus 662 Tests, davon 655 erfolgreich und sieben Browser-Tests
 lokal übersprungen; diese sieben liefen im Cloud-Test erfolgreich.
 Der reguläre [DE-Job](https://github.com/dougY52/tcg-deal-bot/actions/runs/41515917530/job/125519330328)

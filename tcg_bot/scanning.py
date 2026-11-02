@@ -1,5 +1,5 @@
 """Bounded parallelism across retailers; never parallel requests to one host."""
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 import time
 from urllib.parse import urlsplit
@@ -7,6 +7,14 @@ from .http import Client
 
 
 def collect(shops, client, adapters, workers=1, source_seconds=60):
+    """Retain configured ordering for the existing retailer scanners."""
+    order = {s['id']: i for i, s in enumerate(shops)}
+    return sorted(iter_collect(shops, client, adapters, workers, source_seconds),
+                  key=lambda r: order[r[0]['id']])
+
+
+def iter_collect(shops, client, adapters, workers=1, source_seconds=60):
+    """Yield finished hosts immediately; only the caller mutates alert state."""
     active = [s for s in shops if s.get('enabled', True)]
     def one(shop, transport):
         started = time.monotonic()
@@ -16,7 +24,9 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
         except Exception as exc:
             return shop, [], [], type(exc).__name__, round(time.monotonic()-started, 2)
     if workers == 1 or not isinstance(client, Client):
-        return [one(s, client) for s in active]
+        for shop in active:
+            yield one(shop, client)
+        return
     groups = defaultdict(list)
     for shop in active:
         groups[urlsplit(shop['base_url']).netloc].append(shop)
@@ -39,13 +49,12 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
         finally:
             child.close()
         return result, child
-    results = []
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = [executor.submit(group, batch) for batch in groups.values()]
-        results.extend(one(s, client) for s in browser_shops)
-        for future in futures:
+        for shop in browser_shops:
+            yield one(shop, client)
+        for future in as_completed(futures):
             rows, child = future.result()
-            results.extend(rows)
             client.robots.update(child.robots)
             client.host_delay.update(child.host_delay)
             for host, stamp in child.last.items():
@@ -53,5 +62,4 @@ def collect(shops, client, adapters, workers=1, source_seconds=60):
             for host, stamp in child.cooldowns.items():
                 client.cooldowns[host] = max(client.cooldowns.get(host, 0), stamp)
             client.blocked.update(child.blocked)
-    order = {s['id']: i for i,s in enumerate(active)}
-    return sorted(results, key=lambda r: order[r[0]['id']])
+            yield from rows

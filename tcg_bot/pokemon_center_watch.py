@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 from .drop_watch import visible
 from .pokemon_center_queue import snapshot as queue_snapshot
 from .pc_schedule import due as check_due
-from .scanning import collect
+from .scanning import iter_collect
 from .telegram_sources import parse as telegram_parse
 from .web_sources import Document
 
@@ -27,6 +27,10 @@ PRODUCT = re.compile(r'booster|display|trainer[ -]?box|\betbs?\b|\bttbs?\b|kolle
 EARLY = re.compile(r'back[ -]?end|(?:loaded|added|listed|hinterlegt|eingepflegt|gelistet).{0,80}(?:product|produkt|SKU)|(?:products?|produkte?|SKUs?).{0,80}(?:loaded|added|listed|hinterlegt|eingepflegt|gelistet)', re.I)
 QUEUE = re.compile(r'warteschlange|warteraum|\bqueue\b', re.I)
 LIVE = re.compile(r'\blive\b|\bopen\b|\bup\b|aktiv|geöffnet|offen|gestartet', re.I)
+# A present-tense regional announcement, not a prediction or a general guide.
+# This exact wording occurs in PokeHunt's public DE queue report.
+PRESENT_DE_QUEUE = re.compile(r'\W*Pok[eé]mon\s*Cent(?:er|re)\s+Queue\s+is\s+'
+    r'(?:only\s+)?for\s+(?:Germany|Deutschland)(?:\s+only)?[.!\s]*', re.I)
 STOCK = re.compile(r'auf lager|vorrätig|lieferbar|verfügbar|erhältlich|bestellbar|vorbestellen|pre.?orders? (?:open|live)|in stock|available|add to cart', re.I)
 NEGATIVE = re.compile(r'ausverkauft|sold out|out of stock|abgelaufen|closed|geschlossen|not (?:live|available|open)|nicht (?:mehr )?(?:lieferbar|verfügbar|offen)|waitlist|notify me|benachrichtigen|coming soon|invitation|einladung', re.I)
 SPECULATIVE = re.compile(r'\?|vielleicht|vermutlich|gerücht|rumou?r|maybe|might|possibly|could be|expected|expecting|hopefully|likely|\bsoon\b|\bbald\b|\bmorgen\b|tomorrow', re.I)
@@ -128,7 +132,8 @@ def qualify(row, now, cfg):
     claim = clean(' '.join(parts))
     if SPECULATIVE.search(claim):
         return None, 'SPECULATION'
-    if QUEUE.search(claim) and LIVE.search(claim) and not NEGATIVE.search(claim):
+    queue_live = LIVE.search(claim) or any(PRESENT_DE_QUEUE.fullmatch(p) for p in parts)
+    if QUEUE.search(claim) and queue_live and not NEGATIVE.search(claim):
         kind = 'queue_report'
     elif (PRODUCT.search(claim) or SKU.search(claim)) and (EARLY.search(claim) or re.search(r'\bloaded\b|hinterlegt|eingepflegt', claim, re.I)):
         # "Not live yet" is expected in a backend lead, but a retraction is not.
@@ -240,12 +245,12 @@ def run(cfg, state, client, now=None, send=None, checkpoint=None, queue_observat
         observation = queue_observation if source['id'] == 'pc-de-store' else None
         return fetch_source(source, transport, now, observation)
     def results():
-        # Yield before starting other network requests: collect() waits for all
-        # its futures. Confirmed queues must not wait for slow community feeds.
+        # Already confirmed evidence goes first; other sources are delivered as
+        # their host finishes, without waiting for blocked/slow unrelated hosts.
         for source in immediate:
             rows, notes = fetch(source, client)
             yield source, rows, notes, None, 0
-        yield from collect(due, client, {'pc': fetch}, workers=4, source_seconds=30)
+        yield from iter_collect(due, client, {'pc': fetch}, workers=4, source_seconds=30)
     for source, rows, notes, error, elapsed in results():
         old = table['sources'].setdefault(source['id'], {})
         direct_retry = old.get('retry_at', 0) if confirmed and source['id'] == 'pc-de-store' else 0

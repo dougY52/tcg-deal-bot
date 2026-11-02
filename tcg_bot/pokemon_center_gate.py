@@ -215,7 +215,7 @@ def run_gate(cfg, state, client, now, probe=None, checkpoint=None, interval=240,
             gate['provider_halted'] = True
         return report, None
     report['confirmation'] = {k: result[k] for k in
-        ('status', 'frame_checked', 'page_bytes', 'headings', 'reported_credits', 'remaining_before',
+        ('status', 'frame_checked', 'page_bytes', 'headings', 'reported_credits',
          'rendered_visibility', 'banner_location', 'reason') if k in result}
     if result.get('status') != 'queue_open_de' or result.get('region') != 'DE' or not result.get('banner'):
         report['status'] = 'germany_not_confirmed'

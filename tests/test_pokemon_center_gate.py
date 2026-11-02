@@ -135,6 +135,13 @@ class GatedDeliveryTests(unittest.TestCase):
         self.probe.assert_not_called()
         self.send.assert_not_called()
 
+    def test_public_report_does_not_publish_provider_account_balance(self):
+        self.probe.side_effect = lambda now: dict(provider_snapshot(
+            {'status_code': 200, 'html': QUEUE+DE}, now), remaining_before=6000)
+        gate, report = self.scan(NOW)
+        self.assertNotIn('remaining_before', str(gate))
+        self.assertEqual(report['sent'], 1)
+
     def test_real_de_evidence_sends_once_and_new_wave_can_alert(self):
         self.scan(NOW)
         self.scan(NOW+60)
