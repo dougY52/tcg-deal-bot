@@ -139,6 +139,20 @@ class YonkaiTests(unittest.TestCase):
         self.client.api['add_to_cart']['url'] = '/?add-to-cart=999'
         self.assertEqual(self.live()[1], 'NO_CHECKOUT')
 
+    def test_actual_dragonball_storefront_alias_still_observes_stock_changes(self):
+        self.client.api['name'] = self.client.product['name'] = 'Dragonball Super · FB11 Display EN'
+        self.client.product['offers']['availability'] = 'https://schema.org/OutOfStock'
+        self.assertEqual(self.live()[1], 'OUT_OF_STOCK')
+        self.client.product['offers']['availability'] = 'https://schema.org/InStock'
+        self.assertIsNone(self.live()[1])
+
+    def test_franchise_alias_never_hides_different_set_or_language(self):
+        self.client.api['name'] = self.client.product['name'] = 'Dragonball Super · FB11 Display EN'
+        for name in ['FB09 Display EN', 'FB11 Display JP', 'FB11 Display EN 2nd Edition']:
+            with self.subTest(name=name):
+                self.client.item['n'] = name
+                self.assertEqual(self.live()[1], 'AMBIGUOUS_VARIANT')
+
     def test_html_encoded_cart_query_preserves_exact_product_id(self):
         self.client.api['add_to_cart']['url'] = '/?check=1&#038;add-to-cart=123'
         self.assertIsNone(self.live()[1])

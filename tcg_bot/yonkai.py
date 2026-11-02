@@ -16,6 +16,13 @@ from .web_sources import Document, normalized, same_site, structured_products
 API = '/wp-json/wc/store/v1/products'
 
 
+def product_label(name):
+    # The storefront uses "Dragon Ball" while Woo/page names use
+    # "Dragonball Super". Only normalize that known franchise prefix;
+    # the remaining product name, set, language and edition must still agree.
+    return re.sub(r'^dragon\s*ball(?: super)?(?= )', 'dragon ball', label(name))
+
+
 def product_url(url, shop):
     p = urlsplit(url)
     return same_site(url, shop['base_url']) and p.path.startswith('/produkt/') and not p.query and not p.fragment
@@ -114,7 +121,7 @@ def live(o, shop, client, now):
     product = products[0]
     data = product.get('offers', {})
     if (not isinstance(data, dict) or data.get('url') != o['url']
-            or label(product.get('name', '')) != label(api.get('name', ''))
+            or product_label(product.get('name', '')) != product_label(api.get('name', ''))
             or product.get('sku', '') != api.get('sku', '')
             or data.get('priceCurrency') != 'EUR'):
         return None, 'AMBIGUOUS_VARIANT'
@@ -126,7 +133,7 @@ def live(o, shop, client, now):
         return None, 'AMBIGUOUS_VARIANT'
     item = matches[0]
     if (item.get('u') != o['url'] or type(item.get('p')) is not int
-            or label(str(item.get('g', '')) + ' ' + str(item.get('n', ''))) != label(product['name'])
+            or product_label(str(item.get('g', '')) + ' ' + str(item.get('n', ''))) != product_label(product['name'])
             or item.get('s') not in (0, 1) or type(item.get('s')) is not int):
         return None, 'AMBIGUOUS_VARIANT'
     if Decimal(item['p']) / 100 != Decimal(row['price']):
