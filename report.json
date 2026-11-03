@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-03T04:55:23.038309+00:00",
+  "checked_at": "2026-11-03T05:00:50.655658+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,20 @@
       "retry_at": 1793683842.446166
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 1.38
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.73
+      "seconds": 1.77
     },
     {
       "id": "pc-de-store",
@@ -23,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.5
+      "seconds": 1.69
     },
     {
       "id": "drop-us-public",
@@ -39,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 0.9
     },
     {
       "id": "switchstock-public",
@@ -47,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 1.0
     },
     {
       "id": "pokehunt-public",
@@ -55,22 +63,14 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.93
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
-      "notes": [],
-      "error": null,
-      "seconds": 15.07
+      "seconds": 0.89
     }
   ],
   "rejected": {
     "NOT_POKEMON_CENTER": 97,
-    "SPECULATION": 2,
+    "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
-    "STALE_OR_UNDATED": 1
+    "SPECULATION": 2
   },
   "alerts": [],
   "sent": 0,
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793681693.181,
-      "age_seconds": 28.52
+      "checked_at": 1793682025.784,
+      "age_seconds": 23.42
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793681578695,
-    "last_stream_at": 1793681578522,
-    "last_cycle_at": 1793681577125,
-    "next_alarm": 1793681878126,
+    "last_inbox_at": 1793681820111,
+    "last_stream_at": 1793681819909,
+    "last_cycle_at": 1793681818483,
+    "next_alarm": 1793682119484,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
@@ -141,7 +141,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 10,
+    "discovery_articles": 11,
     "connection_fresh": true
   }
 }
