@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-03T14:40:31.444320+00:00",
+  "checked_at": "2026-11-03T14:45:36.613229+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.9
+      "seconds": 1.42
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.97
+      "seconds": 1.89
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.06
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.9
+      "seconds": 1.84
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.87
+      "seconds": 0.95
     },
     {
       "id": "switchstock-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 0.91
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793716812.146,
-      "age_seconds": 17.79
+      "checked_at": 1793717112.376,
+      "age_seconds": 22.76
     }
   },
   "schedule": {
@@ -104,8 +104,8 @@
       },
       {
         "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
+        "status": "unavailable",
+        "error": "FetchError"
       },
       {
         "id": "restockradar",
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793716775132,
-    "last_stream_at": 1793716774949,
-    "last_cycle_at": 1793716773520,
-    "next_alarm": 1793717074520,
+    "last_inbox_at": 1793717016483,
+    "last_stream_at": 1793717016311,
+    "last_cycle_at": 1793717014903,
+    "next_alarm": 1793717315904,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
