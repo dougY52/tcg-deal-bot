@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-03T18:42:03.722962+00:00",
+  "checked_at": "2026-11-03T18:43:13.129985+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,20 @@
       "retry_at": 1793732492.1840434
     },
     {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.91
-    },
-    {
       "id": "galar-public-discord",
       "status": "ok",
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 2.0
+      "seconds": 1.27
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.82
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 2.49
+      "seconds": 1.71
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.51
+      "seconds": 0.93
     },
     {
       "id": "switchstock-public",
@@ -55,19 +55,19 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.42
+      "seconds": 0.96
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 1,
+      "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.2
+      "seconds": 0.97
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 81,
+    "NOT_POKEMON_CENTER": 98,
     "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
     "SPECULATION": 2
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793731311.316,
-      "age_seconds": 10.64
+      "checked_at": 1793731372.075,
+      "age_seconds": 19.6
     }
   },
   "schedule": {
