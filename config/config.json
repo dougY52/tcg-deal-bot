@@ -1069,14 +1069,15 @@
       "adapter": "shopify",
       "currency": "EUR",
       "enabled": true,
-      "max_pages": 4,
+      "max_pages": 20,
       "seller_score": 75,
+      "stock_watch_each_run": true,
       "trust_evidence": {
         "legal_url": "https://yonko-tcg.de/policies/legal-notice",
         "verified_on": "2026-10-03",
         "scope": "Impressum, Ansprechpartner und deutsche Anschrift geprüft; keine behaupteten externen Bewertungen."
       },
-      "discovery_scope": "Am 03.10.2026 Katalog und Impressum geprüft; bis 1000 Produkte je Lauf, Seitenlimit sichtbar im Bericht."
+      "discovery_scope": "Jeder reguläre Cloud-Lauf: öffentlicher Gesamtkatalog mit allen Varianten einschließlich ausverkaufter Produkte; vor Alerts konkrete Variante, Sprache, Live-Preis und Bestellbarkeit prüfen."
     },
     {
       "id": "zenocards-com",

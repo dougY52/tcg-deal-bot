@@ -526,8 +526,17 @@ Unverbindliche Reservierungen, Wartelisten und volle Preorder-Kontingente bleibe
 stumm; qualifizierende offene verbindliche Preorders sind zulässig. Die
 bestehenden Sprach-, Retailpreis-, 200-Euro- und Dublettenregeln gelten weiter.
 
-Alle sechs priorisierten Händler erhalten einen parallelen Katalogabruf. Größere
+Alle sieben priorisierten Händler erhalten einen parallelen Katalogabruf. Größere
 Pokémon-Bestände können das ungenutzte Naruto-Zeitfenster nutzen; der gesamte
 Live-Zeitrahmen bleibt unverändert. Sollte eine Einzelprüfung am Zeitlimit
 scheitern, werden bislang nicht geprüfte Varianten im nächsten Lauf vorgezogen.
+
+YONKO TCG (`yonko-tcg.de`) wurde am 03.11.2026 von der rotierenden Suche in diese
+Bestandsprüfung bei jedem regulären Cloud-Lauf aufgenommen. Der öffentliche
+Shopify-Katalog wird ab Seite eins einschließlich ausverkaufter Varianten gelesen;
+neu veröffentlichte Produkte werden automatisch berücksichtigt. Es gelten die
+bestehenden Regeln für Pokémon DE/EN, Dragon Ball EN und One Piece EN sowie
+Live-Checkout, Preisbewertung und Dubletten. YONKO TCG und Yonkai Berlin bleiben
+unterschiedliche Händler. Abruffehler oder Zeitlimits werden als unvollständige
+Prüfung protokolliert und niemals als ausverkauft gewertet.
 Der Bericht trennt vollständigen Katalogabruf, Einzelprüfung und echten Versand.

@@ -64,10 +64,11 @@ class StockCatalogTests(unittest.TestCase):
     def test_shipped_shops_and_scope(self):
         cfg = load_config('config/config.json')
         shops = {s['id']: s for s in cfg['shops'] if s.get('stock_watch_each_run')}
-        self.assertEqual(set(shops), {'kofuku','feenturm','tcgviert','herbtcg','manaquelle','yonkai-berlin'})
+        self.assertEqual(set(shops), {'kofuku','feenturm','tcgviert','herbtcg','manaquelle','yonkai-berlin','yonko-tcg-de'})
         self.assertEqual(shops['kofuku']['base_url'], 'https://kofuku.de')
+        self.assertEqual(shops['yonko-tcg-de']['base_url'], 'https://yonko-tcg.de')
         self.assertEqual(len(shops['feenturm']['stock_collections']), 3)
-        for sid in ('kofuku','tcgviert','herbtcg'):
+        for sid in ('kofuku','tcgviert','herbtcg','yonko-tcg-de'):
             self.assertFalse(shops[sid].get('stock_collections'))
 
     def test_one_broken_shop_does_not_skip_other_shops(self):
@@ -78,8 +79,8 @@ class StockCatalogTests(unittest.TestCase):
             shop['_catalog_coverage'] = dict(complete=True, products=0, endpoints=[])
             return [], []
         _, report = stock_watch.scan(cfg, {}, object(), {'shopify': adapter, 'yonkai': adapter}, NOW)
-        self.assertEqual(len(report), 6)
-        self.assertEqual(sum(s['complete'] for s in report), 5)
+        self.assertEqual(len(report), 7)
+        self.assertEqual(sum(s['complete'] for s in report), 6)
         self.assertEqual(next(s['error'] for s in report if s['shop']=='kofuku'), 'TimeoutError')
 
 

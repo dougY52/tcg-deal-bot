@@ -1,0 +1,40 @@
+{
+  "coverage": {
+    "complete": true,
+    "endpoints": [
+      {
+        "url": "https://yonko-tcg.de/products.json",
+        "pages": 3,
+        "products": 628,
+        "complete": true
+      }
+    ],
+    "products": 628
+  },
+  "variants": 997,
+  "relevant": 71,
+  "notes": [],
+  "checks": [
+    {
+      "title": "[DE] Pokémon Top Trainer Box - Mega-Entwicklung : Delta-Herrschaft (ME06)",
+      "url": "https://yonko-tcg.de/products/de-pokemon-top-trainer-box-mega-entwicklung-delta-herrschaft-me06?variant=54349909459272",
+      "catalog_price": "74.95",
+      "live_price": "74.95",
+      "reason": null,
+      "status": "preorder",
+      "cart": true,
+      "franchise": "Pokémon",
+      "language": "DE"
+    }
+  ],
+  "checked_at": 1793699150.8666952,
+  "available_under_200": {
+    "Pokémon:DE": 1
+  },
+  "shop": "yonko-tcg-de",
+  "checked_on": "2026-11-03",
+  "timezone": "Europe/Berlin",
+  "discord_sent": 0,
+  "price_qualification_asserted": false,
+  "notes_on_scope": "Full public catalog read; one available matching variant under EUR 200 validated with the production live validator. Catalog counts include unsupported products/languages. Existing retail-price and deduplication rules remain mandatory for alerts."
+}
