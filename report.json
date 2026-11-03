@@ -1,10 +1,13 @@
 {
-  "checked_at": "2026-11-03T07:35:22.526270+00:00",
+  "checked_at": "2026-11-03T07:40:31.854842+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1793691330.9303584
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.2
     },
     {
       "id": "galar-public-discord",
@@ -12,7 +15,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.14
+      "seconds": 1.43
     },
     {
       "id": "bisafans-public",
@@ -20,7 +23,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.67
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -31,7 +34,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.06
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +42,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.61
+      "seconds": 1.66
     },
     {
       "id": "drop-us-public",
@@ -47,7 +50,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.0
     },
     {
       "id": "switchstock-public",
@@ -55,7 +58,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 1.01
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +66,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.91
+      "seconds": 0.87
     }
   ],
   "rejected": {
@@ -86,8 +89,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793691293.042,
-      "age_seconds": 28.14
+      "checked_at": 1793691623.309,
+      "age_seconds": 7.03
     }
   },
   "schedule": {
@@ -121,27 +124,8 @@
     "errors": []
   },
   "cardpal_relay": {
-    "configured": true,
-    "status": "stream_connected",
-    "enabled_at": 1793565143326,
-    "baseline_at": 1793565144804,
-    "last_inbox_at": 1793691291635,
-    "last_stream_at": 1793691291475,
-    "last_cycle_at": 1793691289950,
-    "next_alarm": 1793691590950,
-    "sent": 0,
-    "failures": 0,
-    "browser_minutes_used": 0,
-    "shop_drop_latency_verified": false,
-    "pokemon_deals_enabled": true,
-    "tcg_deals_enabled": true,
-    "subscribed_franchises": [
-      "DRAGONBALL",
-      "ONEPIECE",
-      "POKEMON"
-    ],
-    "dealz_threshold_percent": 5,
-    "discovery_articles": 7,
-    "connection_fresh": true
+    "status": "unavailable",
+    "connection_fresh": false,
+    "shop_drop_latency_verified": false
   }
 }
