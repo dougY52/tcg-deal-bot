@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-03T09:05:33.875630+00:00",
+  "checked_at": "2026-11-03T09:10:29.575708+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.22
+      "seconds": 1.35
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.67
+      "seconds": 1.74
     },
     {
       "id": "pc-de-store",
@@ -39,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.64
+      "seconds": 1.56
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.95
+      "seconds": 0.94
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 0.95
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.01
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793696715.669,
-      "age_seconds": 16.56
+      "checked_at": 1793697015.725,
+      "age_seconds": 12.46
     }
   },
   "schedule": {
@@ -121,8 +121,27 @@
     "errors": []
   },
   "cardpal_relay": {
-    "status": "unavailable",
-    "connection_fresh": false,
-    "shop_drop_latency_verified": false
+    "configured": true,
+    "status": "stream_connected",
+    "enabled_at": 1793565143326,
+    "baseline_at": 1793565144804,
+    "last_inbox_at": 1793696838383,
+    "last_stream_at": 1793696838200,
+    "last_cycle_at": 1793696836648,
+    "next_alarm": 1793697137649,
+    "sent": 0,
+    "failures": 0,
+    "browser_minutes_used": 0,
+    "shop_drop_latency_verified": false,
+    "pokemon_deals_enabled": true,
+    "tcg_deals_enabled": true,
+    "subscribed_franchises": [
+      "DRAGONBALL",
+      "ONEPIECE",
+      "POKEMON"
+    ],
+    "dealz_threshold_percent": 5,
+    "discovery_articles": 4,
+    "connection_fresh": true
   }
 }
