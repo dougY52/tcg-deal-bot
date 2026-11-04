@@ -1,6 +1,15 @@
 {
-  "checked_at": "2026-11-04T17:33:07.738503+00:00",
+  "checked_at": "2026-11-04T17:33:23.585351+00:00",
   "sources": [
+    {
+      "id": "pc-de-store",
+      "status": "backoff",
+      "retry_at": 1793813647.7385027
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "not_due"
+    },
     {
       "id": "drop-uk-public",
       "status": "backoff",
@@ -17,68 +26,30 @@
       "retry_at": 1793813844.2114582
     },
     {
+      "id": "pokehunt-public",
+      "status": "not_due"
+    },
+    {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1793815894.4350207
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 1.23
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "ok",
-      "items": 19,
-      "notes": [],
-      "error": null,
-      "seconds": 1.64
-    },
-    {
       "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.87
-    },
-    {
-      "id": "pc-de-store",
-      "status": "blocked",
-      "items": 0,
-      "notes": [
-        "BLOCKED_NOT_STOCK",
-        "QUEUE_FRAME_READ"
-      ],
-      "error": null,
-      "seconds": 2.07
+      "status": "not_due"
     }
   ],
-  "rejected": {
-    "GERMANY_NOT_EXPLICIT": 3,
-    "NOT_POKEMON_CENTER": 50,
-    "STALE_OR_UNDATED": 1
-  },
+  "rejected": {},
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 3,
+  "readable_sources": 0,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "not_due",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "open",
-      "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1793813572.182,
-      "age_seconds": 14.08
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -86,26 +57,8 @@
     "interval_seconds": 60
   },
   "mydealz": {
-    "sources": [
-      {
-        "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "restockradar",
-        "status": "ok",
-        "items": 26
-      }
-    ],
-    "rejected": {
-      "STALE_OR_UNDATED": 1
-    },
+    "sources": [],
+    "rejected": {},
     "alerts": [],
     "sent": 0,
     "errors": []
