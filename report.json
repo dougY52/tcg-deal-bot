@@ -1,13 +1,18 @@
 {
-  "checked_at": "2026-11-04T21:20:32.512599+00:00",
+  "checked_at": "2026-11-04T21:25:25.811150+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
+      "status": "backoff",
+      "retry_at": 1793830832.5125995
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
       "notes": [],
-      "error": "FetchError",
-      "seconds": 0.1
+      "error": null,
+      "seconds": 1.14
     },
     {
       "id": "bisafans-public",
@@ -15,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.89
+      "seconds": 1.67
     },
     {
       "id": "pc-de-store",
@@ -26,15 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 2.13
+      "seconds": 2.2
     },
     {
       "id": "drop-uk-public",
@@ -42,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.68
+      "seconds": 1.69
     },
     {
       "id": "drop-us-public",
@@ -50,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 0.82
     },
     {
       "id": "switchstock-public",
@@ -58,7 +55,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 1.02
     },
     {
       "id": "pokehunt-public",
@@ -66,12 +63,12 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.04
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 93,
     "GERMANY_NOT_EXPLICIT": 8,
+    "NOT_POKEMON_CENTER": 93,
     "STALE_OR_UNDATED": 1,
     "SPECULATION": 3
   },
@@ -89,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793827227.962,
-      "age_seconds": 2.52
+      "checked_at": 1793827499.035,
+      "age_seconds": 25.43
     }
   },
   "schedule": {
@@ -113,7 +110,7 @@
       {
         "id": "restockradar",
         "status": "ok",
-        "items": 26
+        "items": 27
       }
     ],
     "rejected": {
@@ -128,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793827166224,
-    "last_stream_at": 1793827166065,
-    "last_cycle_at": 1793827163603,
-    "next_alarm": 1793827464604,
+    "last_inbox_at": 1793827408045,
+    "last_stream_at": 1793827407855,
+    "last_cycle_at": 1793827406027,
+    "next_alarm": 1793827707028,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
