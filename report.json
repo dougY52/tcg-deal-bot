@@ -1,6 +1,21 @@
 {
-  "checked_at": "2026-11-04T17:32:24.211458+00:00",
+  "checked_at": "2026-11-04T17:33:07.738503+00:00",
   "sources": [
+    {
+      "id": "drop-uk-public",
+      "status": "backoff",
+      "retry_at": 1793813844.2114582
+    },
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1793813844.2114582
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1793813844.2114582
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
@@ -15,6 +30,22 @@
       "seconds": 1.23
     },
     {
+      "id": "pokehunt-public",
+      "status": "ok",
+      "items": 19,
+      "notes": [],
+      "error": null,
+      "seconds": 1.64
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.87
+    },
+    {
       "id": "pc-de-store",
       "status": "blocked",
       "items": 0,
@@ -23,47 +54,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
       "seconds": 2.07
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.28
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.09
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.91
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "ok",
-      "items": 19,
-      "notes": [],
-      "error": null,
-      "seconds": 1.44
     }
   ],
   "rejected": {
@@ -85,8 +76,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793813542.139,
-      "age_seconds": 0.53
+      "checked_at": 1793813572.182,
+      "age_seconds": 14.08
     }
   },
   "schedule": {
