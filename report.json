@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T20:55:26.492481+00:00",
+  "checked_at": "2026-11-05T21:00:52.189796+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.49
+      "seconds": 1.36
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.93
+      "seconds": 1.65
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.12
+      "seconds": 2.26
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.54
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 0.89
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.06
+      "seconds": 1.13
     },
     {
       "id": "pokehunt-public",
@@ -63,40 +63,18 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.88
+      "seconds": 0.87
     }
   ],
   "rejected": {
+    "DUPLICATE": 1,
     "NOT_POKEMON_CENTER": 104,
     "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 3
   },
-  "alerts": [
-    {
-      "source": "galar-public-discord",
-      "kind": "early_warning",
-      "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/#msg-1568005313355845833",
-      "payload": {
-        "allowed_mentions": {
-          "parse": []
-        },
-        "embeds": [
-          {
-            "title": "👀 VORWARNUNG · POKÉMON CENTER DE",
-            "url": "https://communityone.io/en/servers/1554874902937346108/galar-alerts-uk-pokemon-restocks/updates/#msg-1568005313355845833",
-            "description": "🇩🇪 **Deutschland ausdrücklich genannt**\nNothing else new is loaded apart from the German 30th ETBS and the Ditto Collection\n\n**Community-Hinweis, vom Shop nicht bestätigt.**\nProdukt laut Quelle hinterlegt. Noch kein bestätigter Verkaufsstart, Bestand oder Termin.\n[Pokémon Center Deutschland öffnen](https://www.pokemoncenter.com/de-de/)",
-            "color": 3447003,
-            "timestamp": "2026-11-05T20:53:19+00:00",
-            "footer": {
-              "text": "Quelle: Galar Alerts · öffentliche Discord-Ankündigung · Datum = Originalmeldung"
-            }
-          }
-        ]
-      }
-    }
-  ],
-  "sent": 1,
+  "alerts": [],
+  "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
   "readable_sources": 6,
@@ -109,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793912112.994,
-      "age_seconds": 11.89
+      "checked_at": 1793912443.435,
+      "age_seconds": 7.35
     }
   },
   "schedule": {
@@ -148,10 +126,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793911982496,
-    "last_stream_at": 1793911982338,
-    "last_cycle_at": 1793911980792,
-    "next_alarm": 1793912281793,
+    "last_inbox_at": 1793912224041,
+    "last_stream_at": 1793912223881,
+    "last_cycle_at": 1793912222290,
+    "next_alarm": 1793912523291,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
