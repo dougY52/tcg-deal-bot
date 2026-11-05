@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T09:15:28.006107+00:00",
+  "checked_at": "2026-11-05T09:20:32.692483+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.2
+      "seconds": 1.29
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.77
+      "seconds": 1.69
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.1
+      "seconds": 2.04
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.59
+      "seconds": 1.56
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 0.94
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 1.05
     },
     {
       "id": "pokehunt-public",
@@ -83,9 +83,11 @@
     "credits_reserved_this_run": 0,
     "credit_provider_enabled": false,
     "signal": {
-      "state": "unknown",
+      "state": "open",
       "trigger": false,
-      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
+      "germany_confirmed": false,
+      "checked_at": 1793870405.723,
+      "age_seconds": 25.62
     }
   },
   "schedule": {
@@ -123,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793870055575,
-    "last_stream_at": 1793870055402,
-    "last_cycle_at": 1793870054017,
-    "next_alarm": 1793870355017,
+    "last_inbox_at": 1793870296969,
+    "last_stream_at": 1793870296781,
+    "last_cycle_at": 1793870295365,
+    "next_alarm": 1793870596365,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
