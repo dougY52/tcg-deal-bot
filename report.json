@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-06T15:16:24.172196+00:00",
+  "checked_at": "2026-11-06T15:17:21.073327+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,20 @@
       "retry_at": 1793980853.648005
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 1.28
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.86
+      "seconds": 1.83
     },
     {
       "id": "pc-de-store",
@@ -23,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +39,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.63
+      "seconds": 1.58
     },
     {
       "id": "drop-us-public",
@@ -39,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 1.04
     },
     {
       "id": "switchstock-public",
@@ -47,7 +55,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 0.96
     },
     {
       "id": "pokehunt-public",
@@ -55,22 +63,14 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.91
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 6.87
+      "seconds": 0.96
     }
   ],
   "rejected": {
     "NOT_POKEMON_CENTER": 98,
+    "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
-    "SPECULATION": 2,
-    "STALE_OR_UNDATED": 1
+    "SPECULATION": 2
   },
   "alerts": [],
   "sent": 0,
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793978180.48,
-      "age_seconds": 2.21
+      "checked_at": 1793978240.479,
+      "age_seconds": 0
     }
   },
   "schedule": {
