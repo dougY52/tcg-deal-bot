@@ -1,10 +1,13 @@
 {
-  "checked_at": "2026-11-06T17:00:52.301610+00:00",
+  "checked_at": "2026-11-06T17:01:13.595129+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1793984473.175532
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.1
     },
     {
       "id": "galar-public-discord",
@@ -12,15 +15,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.24
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.67
+      "seconds": 1.21
     },
     {
       "id": "pc-de-store",
@@ -34,12 +29,20 @@
       "seconds": 2.06
     },
     {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.06
+    },
+    {
       "id": "drop-uk-public",
       "status": "ok",
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.74
+      "seconds": 1.75
     },
     {
       "id": "drop-us-public",
@@ -47,7 +50,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.76
+      "seconds": 0.92
     },
     {
       "id": "switchstock-public",
@@ -55,7 +58,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.09
+      "seconds": 1.12
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +66,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 1.01
     }
   ],
   "rejected": {
@@ -86,8 +89,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1793984418.414,
-      "age_seconds": 32.36
+      "checked_at": 1793984448.423,
+      "age_seconds": 23.64
     }
   },
   "schedule": {
