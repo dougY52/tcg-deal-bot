@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-06T18:17:22.782889+00:00",
+  "checked_at": "2026-11-06T18:18:09.940403+00:00",
   "sources": [
     {
       "id": "switchstock-public",
@@ -22,7 +22,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.6
+      "seconds": 1.28
     },
     {
       "id": "bisafans-public",
@@ -30,7 +30,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.89
+      "seconds": 1.9
     },
     {
       "id": "pc-de-store",
@@ -41,7 +41,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
@@ -49,7 +49,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.67
+      "seconds": 1.12
     },
     {
       "id": "drop-us-public",
@@ -57,7 +57,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.97
     }
   ],
   "rejected": {
@@ -72,10 +72,17 @@
   "inventory_confirmed": false,
   "readable_sources": 4,
   "queue_gate": {
-    "status": "public_signal_backoff",
+    "status": "no_live_trigger",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false
+    "credit_provider_enabled": false,
+    "signal": {
+      "state": "open",
+      "trigger": false,
+      "germany_confirmed": false,
+      "checked_at": 1793989064.947,
+      "age_seconds": 23.54
+    }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -112,10 +119,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1793988812835,
-    "last_stream_at": 1793988812636,
-    "last_cycle_at": 1793988811210,
-    "next_alarm": 1793989112210,
+    "last_inbox_at": 1793989054188,
+    "last_stream_at": 1793989054001,
+    "last_cycle_at": 1793989052590,
+    "next_alarm": 1793989353591,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
