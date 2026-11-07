@@ -1,10 +1,13 @@
 {
-  "checked_at": "2026-11-07T21:15:29.500966+00:00",
+  "checked_at": "2026-11-07T21:20:30.039469+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1794086131.1365607
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.07
     },
     {
       "id": "bisafans-public",
@@ -12,15 +15,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.75
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 10,
-      "notes": [],
-      "error": null,
-      "seconds": 2.05
+      "seconds": 1.61
     },
     {
       "id": "pc-de-store",
@@ -31,7 +26,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.11
+      "seconds": 2.07
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +34,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.53
+      "seconds": 1.55
     },
     {
       "id": "drop-us-public",
@@ -47,7 +42,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 0.95
     },
     {
       "id": "switchstock-public",
@@ -55,7 +50,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.05
+      "seconds": 1.13
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +58,15 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.35
+      "seconds": 0.86
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 6.68
     }
   ],
   "rejected": {
@@ -86,8 +89,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794086104.381,
-      "age_seconds": 23.67
+      "checked_at": 1794086405.332,
+      "age_seconds": 23.33
     }
   },
   "schedule": {
@@ -110,7 +113,7 @@
       {
         "id": "restockradar",
         "status": "unavailable",
-        "error": "FetchError"
+        "error": "ValueError"
       }
     ],
     "rejected": {
@@ -125,10 +128,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794086119632,
-    "last_stream_at": 1794086119083,
-    "last_cycle_at": 1794086115474,
-    "next_alarm": 1794086416475,
+    "last_inbox_at": 1794086360375,
+    "last_stream_at": 1794086360153,
+    "last_cycle_at": 1794086358756,
+    "next_alarm": 1794086659757,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
