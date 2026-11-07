@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-07T17:41:19.564739+00:00",
+  "checked_at": "2026-11-07T17:42:22.499840+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,20 @@
       "retry_at": 1794075079.2485743
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 9,
+      "notes": [],
+      "error": null,
+      "seconds": 1.64
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.74
+      "seconds": 1.78
     },
     {
       "id": "pc-de-store",
@@ -23,15 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 9,
-      "notes": [],
-      "error": null,
-      "seconds": 2.74
+      "seconds": 2.11
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.54
+      "seconds": 1.6
     },
     {
       "id": "drop-us-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.08
+      "seconds": 1.05
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.07
+      "seconds": 0.93
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794073249.673,
-      "age_seconds": 28.44
+      "checked_at": 1794073340.273,
+      "age_seconds": 0.8
     }
   },
   "schedule": {
@@ -99,13 +99,13 @@
     "sources": [
       {
         "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
+        "status": "unavailable",
+        "error": "FetchError"
       },
       {
         "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
+        "status": "unavailable",
+        "error": "FetchError"
       },
       {
         "id": "restockradar",
@@ -114,7 +114,7 @@
       }
     ],
     "rejected": {
-      "STALE_OR_UNDATED": 3
+      "STALE_OR_UNDATED": 2
     },
     "alerts": [],
     "sent": 0,
