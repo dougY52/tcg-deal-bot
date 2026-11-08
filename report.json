@@ -1,28 +1,10 @@
 {
-  "checked_at": "2026-11-08T16:39:21.157945+00:00",
+  "checked_at": "2026-11-08T16:40:31.160817+00:00",
   "sources": [
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1794156024.2257822
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "backoff",
-      "retry_at": 1794156024.2257822
-    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1794157584.1948245
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 10,
-      "notes": [],
-      "error": null,
-      "seconds": 1.61
     },
     {
       "id": "bisafans-public",
@@ -30,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.78
+      "seconds": 1.94
     },
     {
       "id": "pc-de-store",
@@ -41,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -49,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.14
+      "seconds": 2.17
     },
     {
       "id": "drop-us-public",
@@ -57,12 +39,36 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 1.13
+    },
+    {
+      "id": "switchstock-public",
+      "status": "ok",
+      "items": 14,
+      "notes": [],
+      "error": null,
+      "seconds": 0.59
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 1.47
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 5.71
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 63,
-    "GERMANY_NOT_EXPLICIT": 2,
+    "NOT_POKEMON_CENTER": 91,
+    "GERMANY_NOT_EXPLICIT": 4,
     "RETRACTED": 1,
     "SPECULATION": 2
   },
@@ -70,7 +76,7 @@
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 4,
+  "readable_sources": 6,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -80,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794155943.839,
-      "age_seconds": 15.88
+      "checked_at": 1794156003.796,
+      "age_seconds": 25.82
     }
   },
   "schedule": {
