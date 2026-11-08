@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T16:27:22.951241+00:00",
+  "checked_at": "2026-11-08T16:28:25.195858+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,20 @@
       "retry_at": 1794157584.1948245
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 1.29
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.89
+      "seconds": 1.68
     },
     {
       "id": "pc-de-store",
@@ -23,15 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 10,
-      "notes": [],
-      "error": null,
-      "seconds": 8.64
+      "seconds": 2.06
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 2.04
+      "seconds": 8.47
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 1.76
     },
     {
       "id": "switchstock-public",
@@ -55,20 +55,20 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 2.91
+      "seconds": 2.28
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 0,
+      "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 8.5
+      "seconds": 1.35
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 77,
-    "GERMANY_NOT_EXPLICIT": 2,
+    "NOT_POKEMON_CENTER": 91,
+    "GERMANY_NOT_EXPLICIT": 4,
     "RETRACTED": 1,
     "SPECULATION": 2
   },
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794155221.923,
-      "age_seconds": 19.54
+      "checked_at": 1794155281.725,
+      "age_seconds": 22.11
     }
   },
   "schedule": {
