@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T04:35:24.505584+00:00",
+  "checked_at": "2026-11-08T04:40:30.088295+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.22
+      "seconds": 1.44
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.99
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.65
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 2.43
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.0
+      "seconds": 1.44
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 2.09
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794112509.883,
-      "age_seconds": 13.12
+      "checked_at": 1794112811.101,
+      "age_seconds": 17.36
     }
   },
   "schedule": {
@@ -127,11 +127,11 @@
     "baseline_at": 1793565144804,
     "last_inbox_at": 1794112089683,
     "last_stream_at": 1794112089505,
-    "last_cycle_at": 1794112435698,
-    "next_alarm": 1794112555698,
+    "last_cycle_at": 1794112795964,
+    "next_alarm": 1794113095964,
     "sent": 0,
     "last_error": "CARDPAL_HTTP_503",
-    "failures": 4,
+    "failures": 6,
     "browser_minutes_used": 0,
     "shop_drop_latency_verified": false,
     "pokemon_deals_enabled": true,
