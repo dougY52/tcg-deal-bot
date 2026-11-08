@@ -1,10 +1,28 @@
 {
-  "checked_at": "2026-11-08T16:35:24.225782+00:00",
+  "checked_at": "2026-11-08T16:36:10.382504+00:00",
   "sources": [
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1794156024.2257822
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1794156024.2257822
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1794157584.1948245
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 1.22
     },
     {
       "id": "bisafans-public",
@@ -15,14 +33,6 @@
       "seconds": 1.79
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 10,
-      "notes": [],
-      "error": null,
-      "seconds": 1.82
-    },
-    {
       "id": "pc-de-store",
       "status": "blocked",
       "items": 0,
@@ -31,7 +41,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +49,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 18.07
+      "seconds": 24.22
     },
     {
       "id": "drop-us-public",
@@ -47,23 +57,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 4.01
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 7.96
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "seconds": 1.2
     }
   ],
   "rejected": {
@@ -86,8 +80,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794155702.857,
-      "age_seconds": 19.93
+      "checked_at": 1794155762.932,
+      "age_seconds": 6.02
     }
   },
   "schedule": {
