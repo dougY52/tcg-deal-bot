@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T11:20:32.729864+00:00",
+  "checked_at": "2026-11-08T11:25:23.375590+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.53
+      "seconds": 1.23
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.91
+      "seconds": 1.9
     },
     {
       "id": "pc-de-store",
@@ -31,15 +31,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.07
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 17,
+      "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.66
+      "seconds": 1.55
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.18
+      "seconds": 1.13
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 3.29
+      "seconds": 0.98
     },
     {
       "id": "pokehunt-public",
@@ -63,14 +63,14 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.93
+      "seconds": 0.97
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 89,
+    "NOT_POKEMON_CENTER": 82,
     "GERMANY_NOT_EXPLICIT": 4,
     "RETRACTED": 1,
-    "SPECULATION": 2
+    "SPECULATION": 1
   },
   "alerts": [],
   "sent": 0,
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794136824.779,
-      "age_seconds": 6.43
+      "checked_at": 1794137095.098,
+      "age_seconds": 26.79
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794136630980,
-    "last_stream_at": 1794136630811,
-    "last_cycle_at": 1794136629371,
-    "next_alarm": 1794136930372,
+    "last_inbox_at": 1794137113893,
+    "last_stream_at": 1794137113693,
+    "last_cycle_at": 1794137112167,
+    "next_alarm": 1794137413168,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
