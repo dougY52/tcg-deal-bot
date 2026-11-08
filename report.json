@@ -1,10 +1,26 @@
 {
-  "checked_at": "2026-11-08T15:05:23.456140+00:00",
+  "checked_at": "2026-11-08T15:06:09.564527+00:00",
   "sources": [
     {
-      "id": "reddit-de-public",
+      "id": "pokehunt-public",
       "status": "backoff",
-      "retry_at": 1794150324.138694
+      "retry_at": 1794150623.4561398
+    },
+    {
+      "id": "reddit-de-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.2
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 1.51
     },
     {
       "id": "bisafans-public",
@@ -12,7 +28,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.68
+      "seconds": 1.88
     },
     {
       "id": "pc-de-store",
@@ -23,15 +39,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 10,
-      "notes": [],
-      "error": null,
-      "seconds": 4.48
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +47,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 3.14
+      "seconds": 2.72
     },
     {
       "id": "drop-us-public",
@@ -47,7 +55,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 8.45
+      "seconds": 0.89
     },
     {
       "id": "switchstock-public",
@@ -55,15 +63,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 5.0
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 13.46
+      "seconds": 1.22
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794150295.44,
-      "age_seconds": 26.67
+      "checked_at": 1794150355.526,
+      "age_seconds": 12.55
     }
   },
   "schedule": {
