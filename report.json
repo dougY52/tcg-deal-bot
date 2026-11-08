@@ -1,10 +1,13 @@
 {
-  "checked_at": "2026-11-08T04:40:30.088295+00:00",
+  "checked_at": "2026-11-08T04:45:29.099317+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1794112830.4071236
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.08
     },
     {
       "id": "galar-public-discord",
@@ -12,7 +15,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.44
+      "seconds": 1.14
     },
     {
       "id": "bisafans-public",
@@ -20,7 +23,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.81
+      "seconds": 1.59
     },
     {
       "id": "pc-de-store",
@@ -31,7 +34,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.04
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +42,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 1.97
     },
     {
       "id": "drop-us-public",
@@ -47,7 +50,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 2.43
+      "seconds": 5.37
     },
     {
       "id": "switchstock-public",
@@ -55,20 +58,20 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.44
+      "seconds": 3.07
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 16,
+      "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 2.09
+      "seconds": 7.84
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 90,
-    "GERMANY_NOT_EXPLICIT": 4,
+    "NOT_POKEMON_CENTER": 87,
+    "GERMANY_NOT_EXPLICIT": 3,
     "RETRACTED": 1,
     "SPECULATION": 2
   },
@@ -86,8 +89,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794112811.101,
-      "age_seconds": 17.36
+      "checked_at": 1794113110.178,
+      "age_seconds": 17.19
     }
   },
   "schedule": {
@@ -127,11 +130,11 @@
     "baseline_at": 1793565144804,
     "last_inbox_at": 1794112089683,
     "last_stream_at": 1794112089505,
-    "last_cycle_at": 1794112795964,
-    "next_alarm": 1794113095964,
+    "last_cycle_at": 1794113096158,
+    "next_alarm": 1794113396158,
     "sent": 0,
     "last_error": "CARDPAL_HTTP_503",
-    "failures": 6,
+    "failures": 7,
     "browser_minutes_used": 0,
     "shop_drop_latency_verified": false,
     "pokemon_deals_enabled": true,
