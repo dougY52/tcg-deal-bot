@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T21:05:26.253986+00:00",
+  "checked_at": "2026-11-09T21:10:29.359369+00:00",
   "sources": [
     {
       "id": "switchstock-public",
@@ -17,20 +17,12 @@
       "retry_at": 1794261030.9736173
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 11,
-      "notes": [],
-      "error": null,
-      "seconds": 1.2
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.66
+      "seconds": 1.83
     },
     {
       "id": "pc-de-store",
@@ -41,7 +33,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.12
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 2.5
     },
     {
       "id": "drop-uk-public",
@@ -49,7 +49,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 4.49
+      "seconds": 1.61
     },
     {
       "id": "drop-us-public",
@@ -57,18 +57,41 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.3
+      "seconds": 1.03
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 58,
+    "NOT_POKEMON_CENTER": 57,
     "GERMANY_NOT_EXPLICIT": 6,
-    "DUPLICATE": 2,
     "RETRACTED": 1,
-    "SPECULATION": 1
+    "SPECULATION": 1,
+    "DUPLICATE": 1
   },
-  "alerts": [],
-  "sent": 0,
+  "alerts": [
+    {
+      "source": "drop-uk-public",
+      "kind": "early_warning",
+      "url": "https://x.com/dropalertsuk/status/2119809358565671147",
+      "payload": {
+        "allowed_mentions": {
+          "parse": []
+        },
+        "embeds": [
+          {
+            "title": "👀 VORWARNUNG · POKÉMON CENTER DE",
+            "url": "https://x.com/dropalertsuk/status/2119809358565671147",
+            "description": "🇩🇪 **Deutschland ausdrücklich genannt**\n:) Nothing is confirmed yet, and it could well be a German drop, as the PKC German 30th ETBs are loaded and ready to go live!\n\n**Community-Hinweis, vom Shop nicht bestätigt.**\nProdukt laut Quelle hinterlegt. Noch kein bestätigter Verkaufsstart, Bestand oder Termin.\n[Pokémon Center Deutschland öffnen](https://www.pokemoncenter.com/de-de/)",
+            "color": 3447003,
+            "timestamp": "2026-11-09T15:08:29+00:00",
+            "footer": {
+              "text": "Quelle: DROP UK · X via öffentlicher RSS-Spiegel · Datum = Originalmeldung"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sent": 1,
   "errors": [],
   "inventory_confirmed": false,
   "readable_sources": 4,
@@ -81,8 +104,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794258296.262,
-      "age_seconds": 27.69
+      "checked_at": 1794258628.147,
+      "age_seconds": 0
     }
   },
   "schedule": {
@@ -120,10 +143,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794258327036,
-    "last_stream_at": 1794258326249,
-    "last_cycle_at": 1794258322300,
-    "next_alarm": 1794258623311,
+    "last_inbox_at": 1794258567694,
+    "last_stream_at": 1794258567497,
+    "last_cycle_at": 1794258566022,
+    "next_alarm": 1794258867023,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
