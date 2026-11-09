@@ -1,18 +1,28 @@
 {
-  "checked_at": "2026-11-09T17:12:26.189752+00:00",
+  "checked_at": "2026-11-09T17:13:21.852848+00:00",
   "sources": [
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1794244646.189752
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1794244646.189752
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1794246364.4580412
     },
     {
-      "id": "galar-public-discord",
+      "id": "bisafans-public",
       "status": "ok",
-      "items": 9,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.21
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -23,23 +33,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 2.09
+      "seconds": 2.21
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 17,
+      "items": 10,
       "notes": [],
       "error": null,
-      "seconds": 9.42
+      "seconds": 1.58
     },
     {
       "id": "drop-us-public",
@@ -47,31 +49,22 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 3.34
+      "seconds": 0.89
     },
     {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 9,
       "notes": [],
-      "error": "FetchError",
-      "seconds": 17.31
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "error": null,
+      "seconds": 5.63
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 55,
-    "GERMANY_NOT_EXPLICIT": 7,
+    "NOT_POKEMON_CENTER": 50,
+    "GERMANY_NOT_EXPLICIT": 6,
     "DUPLICATE": 2,
-    "RETRACTED": 1,
-    "SPECULATION": 1
+    "RETRACTED": 1
   },
   "alerts": [],
   "sent": 0,
@@ -87,8 +80,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794244321.043,
-      "age_seconds": 23.58
+      "checked_at": 1794244381.052,
+      "age_seconds": 18.98
     }
   },
   "schedule": {
