@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T17:54:24.373891+00:00",
+  "checked_at": "2026-11-09T17:55:24.887518+00:00",
   "sources": [
     {
       "id": "drop-us-public",
@@ -22,12 +22,20 @@
       "retry_at": 1794250001.6417942
     },
     {
+      "id": "drop-uk-public",
+      "status": "ok",
+      "items": 17,
+      "notes": [],
+      "error": null,
+      "seconds": 1.15
+    },
+    {
       "id": "galar-public-discord",
       "status": "ok",
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.25
+      "seconds": 1.23
     },
     {
       "id": "bisafans-public",
@@ -35,7 +43,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.78
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -46,20 +54,12 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "ok",
-      "items": 17,
-      "notes": [],
-      "error": null,
-      "seconds": 2.55
+      "seconds": 2.08
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 37,
     "GERMANY_NOT_EXPLICIT": 6,
+    "NOT_POKEMON_CENTER": 37,
     "DUPLICATE": 1,
     "RETRACTED": 1,
     "SPECULATION": 1
@@ -78,8 +78,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794246853.269,
-      "age_seconds": 9.68
+      "checked_at": 1794246913.319,
+      "age_seconds": 10.11
     }
   },
   "schedule": {
@@ -117,10 +117,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794246664648,
-    "last_stream_at": 1794246662379,
-    "last_cycle_at": 1794246658611,
-    "next_alarm": 1794246959611,
+    "last_inbox_at": 1794246906963,
+    "last_stream_at": 1794246906282,
+    "last_cycle_at": 1794246902289,
+    "next_alarm": 1794247203295,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
