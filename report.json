@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T16:38:26.293499+00:00",
+  "checked_at": "2026-11-09T16:39:21.353039+00:00",
   "sources": [
     {
       "id": "pokehunt-public",
@@ -17,7 +17,15 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.21
+      "seconds": 1.27
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.84
     },
     {
       "id": "pc-de-store",
@@ -28,14 +36,6 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
       "seconds": 2.11
     },
     {
@@ -44,7 +44,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.72
+      "seconds": 1.63
     },
     {
       "id": "drop-us-public",
@@ -52,7 +52,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 0.92
     },
     {
       "id": "switchstock-public",
@@ -60,7 +60,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 1.04
     }
   ],
   "rejected": {
@@ -84,8 +84,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794242299.276,
-      "age_seconds": 5.34
+      "checked_at": 1794242359.821,
+      "age_seconds": 0
     }
   },
   "schedule": {
