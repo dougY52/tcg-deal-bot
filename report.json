@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T16:59:22.416942+00:00",
+  "checked_at": "2026-11-09T17:00:57.157722+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1794246364.4580412
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 9,
-      "notes": [],
-      "error": null,
-      "seconds": 1.26
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.8
+      "seconds": 1.83
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.09
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 9,
+      "notes": [],
+      "error": null,
+      "seconds": 4.72
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.67
+      "seconds": 2.33
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.53
+      "seconds": 3.01
     },
     {
       "id": "switchstock-public",
@@ -55,20 +55,20 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 3.09
+      "seconds": 1.77
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 12,
+      "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.47
+      "seconds": 2.05
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 80,
-    "GERMANY_NOT_EXPLICIT": 8,
+    "NOT_POKEMON_CENTER": 83,
+    "GERMANY_NOT_EXPLICIT": 9,
     "DUPLICATE": 2,
     "RETRACTED": 1,
     "SPECULATION": 1
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794243533.806,
-      "age_seconds": 26.81
+      "checked_at": 1794243655.693,
+      "age_seconds": 0
     }
   },
   "schedule": {
