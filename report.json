@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T07:15:30.269939+00:00",
+  "checked_at": "2026-11-09T07:20:30.825912+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.29
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.81
+      "seconds": 1.82
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.11
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.57
+      "seconds": 1.61
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 0.87
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 1.05
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.91
+      "seconds": 0.92
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794208518.23,
-      "age_seconds": 10.54
+      "checked_at": 1794208818.292,
+      "age_seconds": 10.87
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794208357808,
-    "last_stream_at": 1794208357625,
+    "last_inbox_at": 1794208659825,
+    "last_stream_at": 1794208659429,
     "last_cycle_at": 1794208356198,
-    "next_alarm": 1794208657200,
+    "next_alarm": 1794208957233,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
