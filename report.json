@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T16:19:21.118957+00:00",
+  "checked_at": "2026-11-09T16:20:30.599523+00:00",
   "sources": [
     {
       "id": "switchstock-public",
@@ -22,15 +22,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.52
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.67
+      "seconds": 1.59
     },
     {
       "id": "pc-de-store",
@@ -41,15 +33,23 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.09
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.12
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 10,
+      "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.12
+      "seconds": 4.16
     },
     {
       "id": "drop-us-public",
@@ -57,14 +57,15 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.49
+      "seconds": 1.48
     }
   ],
   "rejected": {
-    "GERMANY_NOT_EXPLICIT": 6,
-    "NOT_POKEMON_CENTER": 50,
+    "GERMANY_NOT_EXPLICIT": 7,
+    "NOT_POKEMON_CENTER": 55,
     "DUPLICATE": 2,
-    "RETRACTED": 1
+    "RETRACTED": 1,
+    "SPECULATION": 1
   },
   "alerts": [],
   "sent": 0,
@@ -80,8 +81,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794241156.518,
-      "age_seconds": 3.25
+      "checked_at": 1794241216.736,
+      "age_seconds": 12.31
     }
   },
   "schedule": {
