@@ -1,10 +1,18 @@
 {
-  "checked_at": "2026-11-09T10:31:27.278863+00:00",
+  "checked_at": "2026-11-09T10:35:31.438941+00:00",
   "sources": [
     {
-      "id": "reddit-de-public",
+      "id": "pokehunt-public",
       "status": "backoff",
-      "retry_at": 1794220525.269569
+      "retry_at": 1794220587.2788632
+    },
+    {
+      "id": "reddit-de-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.15
     },
     {
       "id": "galar-public-discord",
@@ -12,15 +20,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.36
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.66
+      "seconds": 1.22
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.03
+      "seconds": 2.04
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.01
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +47,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 6.06
+      "seconds": 1.68
     },
     {
       "id": "drop-us-public",
@@ -47,7 +55,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.86
+      "seconds": 0.94
     },
     {
       "id": "switchstock-public",
@@ -55,15 +63,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 6.29
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 14.81
+      "seconds": 1.11
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794220278.611,
-      "age_seconds": 7.32
+      "checked_at": 1794220518.776,
+      "age_seconds": 10.57
     }
   },
   "schedule": {
