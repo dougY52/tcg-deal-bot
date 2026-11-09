@@ -1,6 +1,11 @@
 {
-  "checked_at": "2026-11-09T15:30:43.608459+00:00",
+  "checked_at": "2026-11-09T15:31:28.877073+00:00",
   "sources": [
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1794238543.608459
+    },
     {
       "id": "pokehunt-public",
       "status": "backoff",
@@ -17,7 +22,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.3
+      "seconds": 1.32
     },
     {
       "id": "bisafans-public",
@@ -25,7 +30,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.93
+      "seconds": 1.71
     },
     {
       "id": "pc-de-store",
@@ -36,7 +41,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.23
     },
     {
       "id": "drop-uk-public",
@@ -44,7 +49,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 16.84
+      "seconds": 2.56
     },
     {
       "id": "drop-us-public",
@@ -52,15 +57,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 11.1
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 2.09
+      "seconds": 1.01
     }
   ],
   "rejected": {
@@ -84,8 +81,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794238243.095,
-      "age_seconds": 0
+      "checked_at": 1794238273.059,
+      "age_seconds": 14.46
     }
   },
   "schedule": {
