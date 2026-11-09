@@ -1,20 +1,10 @@
 {
-  "checked_at": "2026-11-09T17:06:27.896467+00:00",
+  "checked_at": "2026-11-09T17:07:21.882091+00:00",
   "sources": [
     {
       "id": "drop-us-public",
       "status": "backoff",
       "retry_at": 1794244047.1004548
-    },
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1794243998.2714608
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "backoff",
-      "retry_at": 1794243998.2714608
     },
     {
       "id": "reddit-de-public",
@@ -27,7 +17,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.75
+      "seconds": 1.19
     },
     {
       "id": "bisafans-public",
@@ -35,7 +25,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.81
+      "seconds": 1.71
     },
     {
       "id": "pc-de-store",
@@ -46,7 +36,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.17
+      "seconds": 2.04
     },
     {
       "id": "drop-uk-public",
@@ -54,12 +44,28 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 10.32
+      "seconds": 5.61
+    },
+    {
+      "id": "switchstock-public",
+      "status": "ok",
+      "items": 14,
+      "notes": [],
+      "error": null,
+      "seconds": 5.69
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "ok",
+      "items": 12,
+      "notes": [],
+      "error": null,
+      "seconds": 0.55
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 37,
-    "GERMANY_NOT_EXPLICIT": 6,
+    "NOT_POKEMON_CENTER": 62,
+    "GERMANY_NOT_EXPLICIT": 7,
     "DUPLICATE": 1,
     "RETRACTED": 1,
     "SPECULATION": 1
@@ -68,18 +74,16 @@
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 3,
+  "readable_sources": 5,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
     "credit_provider_enabled": false,
     "signal": {
-      "state": "open",
+      "state": "unknown",
       "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1794243984.839,
-      "age_seconds": 1.63
+      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
     }
   },
   "schedule": {
