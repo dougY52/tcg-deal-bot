@@ -1,20 +1,18 @@
 {
-  "checked_at": "2026-11-09T15:08:24.472539+00:00",
+  "checked_at": "2026-11-09T15:09:22.911693+00:00",
   "sources": [
-    {
-      "id": "galar-public-discord",
-      "status": "backoff",
-      "retry_at": 1794236962.4018211
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "backoff",
-      "retry_at": 1794236962.4018211
-    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1794239130.1678932
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 8,
+      "notes": [],
+      "error": null,
+      "seconds": 1.43
     },
     {
       "id": "bisafans-public",
@@ -22,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.08
+      "seconds": 1.89
     },
     {
       "id": "pc-de-store",
@@ -33,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.06
     },
     {
       "id": "drop-uk-public",
@@ -41,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.84
+      "seconds": 5.75
     },
     {
       "id": "drop-us-public",
@@ -49,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 5.92
+      "seconds": 0.81
     },
     {
       "id": "switchstock-public",
@@ -57,43 +55,29 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.79
+      "seconds": 1.52
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 1.06
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 63,
-    "GERMANY_NOT_EXPLICIT": 5,
+    "GERMANY_NOT_EXPLICIT": 8,
+    "NOT_POKEMON_CENTER": 83,
+    "DUPLICATE": 2,
     "RETRACTED": 1,
     "SPECULATION": 1
   },
-  "alerts": [
-    {
-      "source": "drop-us-public",
-      "kind": "early_warning",
-      "url": "https://x.com/dropalertsusa/status/2119809080948629896",
-      "payload": {
-        "allowed_mentions": {
-          "parse": []
-        },
-        "embeds": [
-          {
-            "title": "👀 VORWARNUNG · POKÉMON CENTER DE",
-            "url": "https://x.com/dropalertsusa/status/2119809080948629896",
-            "description": "🇩🇪 **Deutschland ausdrücklich genannt**\nWe recommend being prepared for a potential Pokemon Center drop today :) Nothing is confirmed and it may well be a German drop, as the PKC German 30th ETBs are loaded and ready to drop!\n\n**Community-Hinweis, vom Shop nicht bestätigt.**\nProdukt laut Quelle hinterlegt. Noch kein bestätigter Verkaufsstart, Bestand oder Termin.\n[Pokémon Center Deutschland öffnen](https://www.pokemoncenter.com/de-de/)",
-            "color": 3447003,
-            "timestamp": "2026-11-09T15:07:23+00:00",
-            "footer": {
-              "text": "Quelle: DROP US · X via öffentlicher RSS-Spiegel · Datum = Originalmeldung"
-            }
-          }
-        ]
-      }
-    }
-  ],
-  "sent": 1,
+  "alerts": [],
+  "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 4,
+  "readable_sources": 6,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -103,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794236891.487,
-      "age_seconds": 11.41
+      "checked_at": 1794236952.005,
+      "age_seconds": 8.37
     }
   },
   "schedule": {
