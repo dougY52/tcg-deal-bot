@@ -1,6 +1,11 @@
 {
-  "checked_at": "2026-11-09T15:28:22.786766+00:00",
+  "checked_at": "2026-11-09T15:29:20.693196+00:00",
   "sources": [
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1794238402.786766
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
@@ -12,7 +17,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.18
+      "seconds": 1.17
     },
     {
       "id": "bisafans-public",
@@ -20,7 +25,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.68
+      "seconds": 1.69
     },
     {
       "id": "pc-de-store",
@@ -31,7 +36,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +44,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 9.1
+      "seconds": 1.11
     },
     {
       "id": "drop-us-public",
@@ -47,7 +52,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.48
+      "seconds": 1.02
     },
     {
       "id": "switchstock-public",
@@ -55,15 +60,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 6.87
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 13.58
+      "seconds": 0.94
     }
   ],
   "rejected": {
@@ -87,8 +84,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794238093.052,
-      "age_seconds": 8.4
+      "checked_at": 1794238153.077,
+      "age_seconds": 6.09
     }
   },
   "schedule": {
@@ -126,7 +123,7 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794237963571,
+    "last_inbox_at": 1794238158742,
     "last_stream_at": 1794237963416,
     "last_cycle_at": 1794237961972,
     "next_alarm": 1794238262972,
@@ -142,7 +139,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 2,
+    "discovery_articles": 3,
     "connection_fresh": true
   }
 }
