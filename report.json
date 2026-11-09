@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-09T17:13:21.852848+00:00",
+  "checked_at": "2026-11-09T17:14:25.478193+00:00",
   "sources": [
     {
       "id": "switchstock-public",
@@ -33,15 +33,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.21
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 10,
+      "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.58
+      "seconds": 2.86
     },
     {
       "id": "drop-us-public",
@@ -49,7 +49,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 3.18
     },
     {
       "id": "galar-public-discord",
@@ -57,14 +57,15 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 5.63
+      "seconds": 6.97
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 50,
-    "GERMANY_NOT_EXPLICIT": 6,
+    "NOT_POKEMON_CENTER": 55,
+    "GERMANY_NOT_EXPLICIT": 7,
     "DUPLICATE": 2,
-    "RETRACTED": 1
+    "RETRACTED": 1,
+    "SPECULATION": 1
   },
   "alerts": [],
   "sent": 0,
@@ -80,8 +81,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794244381.052,
-      "age_seconds": 18.98
+      "checked_at": 1794244441.073,
+      "age_seconds": 22.95
     }
   },
   "schedule": {
