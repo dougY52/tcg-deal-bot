@@ -1,6 +1,19 @@
 {
-  "checked_at": "2026-11-10T15:35:25.337668+00:00",
+  "checked_at": "2026-11-10T15:35:43.238725+00:00",
   "sources": [
+    {
+      "id": "pc-de-store",
+      "status": "backoff",
+      "retry_at": 1794324985.3376684
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "not_due"
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "not_due"
+    },
     {
       "id": "drop-us-public",
       "status": "backoff",
@@ -22,65 +35,21 @@
       "retry_at": 1794325235.2287796
     },
     {
-      "id": "drop-uk-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.13
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 12,
-      "notes": [],
-      "error": null,
-      "seconds": 1.31
-    },
-    {
       "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.78
-    },
-    {
-      "id": "pc-de-store",
-      "status": "blocked",
-      "items": 0,
-      "notes": [
-        "BLOCKED_NOT_STOCK",
-        "QUEUE_FRAME_READ"
-      ],
-      "error": null,
-      "seconds": 2.1
+      "status": "not_due"
     }
   ],
-  "rejected": {
-    "GERMANY_NOT_EXPLICIT": 5,
-    "NOT_POKEMON_CENTER": 44,
-    "DUPLICATE": 1,
-    "RETRACTED": 1,
-    "SPECULATION": 1
-  },
+  "rejected": {},
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 3,
+  "readable_sources": 0,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "not_due",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "open",
-      "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1794324898.664,
-      "age_seconds": 25.12
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -90,24 +59,12 @@
   "mydealz": {
     "sources": [
       {
-        "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
-      },
-      {
         "id": "restockradar",
         "status": "unavailable",
         "error": "ValueError"
       }
     ],
-    "rejected": {
-      "STALE_OR_UNDATED": 1
-    },
+    "rejected": {},
     "alerts": [],
     "sent": 0,
     "errors": []
