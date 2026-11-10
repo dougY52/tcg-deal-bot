@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T20:15:29.709708+00:00",
+  "checked_at": "2026-11-10T20:20:30.934960+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.81
+      "seconds": 1.65
     },
     {
       "id": "pc-de-store",
@@ -23,15 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.12
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 9,
-      "notes": [],
-      "error": null,
-      "seconds": 2.33
+      "seconds": 2.03
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.76
+      "seconds": 2.41
     },
     {
       "id": "drop-us-public",
@@ -47,15 +39,15 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.76
+      "seconds": 0.49
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 21,
+      "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.36
+      "seconds": 1.14
     },
     {
       "id": "pokehunt-public",
@@ -63,11 +55,19 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.69
+      "seconds": 0.9
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 9,
+      "notes": [],
+      "error": null,
+      "seconds": 7.01
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 93,
+    "NOT_POKEMON_CENTER": 87,
     "GERMANY_NOT_EXPLICIT": 7,
     "DUPLICATE": 1,
     "RETRACTED": 1,
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794341704.358,
-      "age_seconds": 23.84
+      "checked_at": 1794342004.981,
+      "age_seconds": 23.99
     }
   },
   "schedule": {
@@ -126,10 +126,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794341670713,
-    "last_stream_at": 1794341670531,
-    "last_cycle_at": 1794341669080,
-    "next_alarm": 1794341970081,
+    "last_inbox_at": 1794341912247,
+    "last_stream_at": 1794341911942,
+    "last_cycle_at": 1794341910483,
+    "next_alarm": 1794342211484,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
