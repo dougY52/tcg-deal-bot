@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T10:05:26.766933+00:00",
+  "checked_at": "2026-11-10T10:10:30.281472+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -27,7 +27,7 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 1.16
+      "seconds": 1.18
     },
     {
       "id": "pokehunt-public",
@@ -35,7 +35,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.6
+      "seconds": 1.58
     },
     {
       "id": "bisafans-public",
@@ -43,7 +43,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 1.67
     },
     {
       "id": "pc-de-store",
@@ -54,7 +54,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.03
+      "seconds": 2.07
     }
   ],
   "rejected": {
@@ -75,8 +75,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794305119.187,
-      "age_seconds": 6.2
+      "checked_at": 1794305419.401,
+      "age_seconds": 9.54
     }
   },
   "schedule": {
@@ -114,10 +114,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794304915995,
-    "last_stream_at": 1794304915826,
-    "last_cycle_at": 1794304914465,
-    "next_alarm": 1794305215468,
+    "last_inbox_at": 1794305399653,
+    "last_stream_at": 1794305398595,
+    "last_cycle_at": 1794305397159,
+    "next_alarm": 1794305698160,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
