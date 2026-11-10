@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T17:07:31.703293+00:00",
+  "checked_at": "2026-11-10T17:08:25.425438+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,7 +32,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.78
+      "seconds": 2.06
     },
     {
       "id": "pc-de-store",
@@ -43,7 +43,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.18
+      "seconds": 2.06
     },
     {
       "id": "galar-public-discord",
@@ -51,7 +51,7 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 7.0
+      "seconds": 5.58
     }
   ],
   "rejected": {
@@ -72,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794330450.106,
-      "age_seconds": 0.12
+      "checked_at": 1794330480.299,
+      "age_seconds": 23.55
     }
   },
   "schedule": {
@@ -111,10 +111,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794330261485,
-    "last_stream_at": 1794330261285,
-    "last_cycle_at": 1794330259824,
-    "next_alarm": 1794330560825,
+    "last_inbox_at": 1794330502889,
+    "last_stream_at": 1794330502670,
+    "last_cycle_at": 1794330501238,
+    "next_alarm": 1794330802239,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
@@ -127,7 +127,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 0,
+    "discovery_articles": 1,
     "connection_fresh": true
   }
 }
