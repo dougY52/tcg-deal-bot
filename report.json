@@ -1,6 +1,16 @@
 {
-  "checked_at": "2026-11-10T15:34:24.333943+00:00",
+  "checked_at": "2026-11-10T15:35:25.337668+00:00",
   "sources": [
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1794325164.3339431
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1794325164.3339431
+    },
     {
       "id": "pokehunt-public",
       "status": "backoff",
@@ -12,12 +22,20 @@
       "retry_at": 1794325235.2287796
     },
     {
+      "id": "drop-uk-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.13
+    },
+    {
       "id": "galar-public-discord",
       "status": "ok",
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 1.41
+      "seconds": 1.31
     },
     {
       "id": "bisafans-public",
@@ -25,7 +43,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.79
+      "seconds": 1.78
     },
     {
       "id": "pc-de-store",
@@ -36,36 +54,12 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 21.26
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 8.79
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "seconds": 2.1
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 44,
     "GERMANY_NOT_EXPLICIT": 5,
+    "NOT_POKEMON_CENTER": 44,
     "DUPLICATE": 1,
     "RETRACTED": 1,
     "SPECULATION": 1
@@ -84,8 +78,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794324838.701,
-      "age_seconds": 24.23
+      "checked_at": 1794324898.664,
+      "age_seconds": 25.12
     }
   },
   "schedule": {
