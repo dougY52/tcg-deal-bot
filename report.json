@@ -1,6 +1,21 @@
 {
-  "checked_at": "2026-11-10T09:10:30.175242+00:00",
+  "checked_at": "2026-11-10T09:15:31.619017+00:00",
   "sources": [
+    {
+      "id": "drop-uk-public",
+      "status": "backoff",
+      "retry_at": 1794305432.0304031
+    },
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1794305432.0304031
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1794305432.0304031
+    },
     {
       "id": "pokehunt-public",
       "status": "backoff",
@@ -17,7 +32,7 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 1.39
+      "seconds": 1.35
     },
     {
       "id": "bisafans-public",
@@ -25,31 +40,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.71
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.85
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "seconds": 1.72
     },
     {
       "id": "pc-de-store",
@@ -60,7 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.09
     }
   ],
   "rejected": {
@@ -81,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794301801.981,
-      "age_seconds": 26.86
+      "checked_at": 1794302102.3,
+      "age_seconds": 27.97
     }
   },
   "schedule": {
@@ -120,10 +111,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794301777905,
-    "last_stream_at": 1794301777742,
-    "last_cycle_at": 1794301776349,
-    "next_alarm": 1794302077350,
+    "last_inbox_at": 1794302019280,
+    "last_stream_at": 1794302019060,
+    "last_cycle_at": 1794302017699,
+    "next_alarm": 1794302318700,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
