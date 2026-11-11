@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1794395123.4472356,
+        "checked_at": 1794395427.47407,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1794395123.4472356,
+        "checked_at": 1794395427.47407,
         "status": "ok"
       },
       "restockradar": {
@@ -56,9 +56,9 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1794395124.87382,
+        "checked_at": 1794395428.9117715,
         "failures": 0,
-        "last_success": 1794395124.87382,
+        "last_success": 1794395428.9117715,
         "retry_at": 0,
         "status": "ok"
       },
@@ -77,17 +77,17 @@
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1794395124.87382,
+        "checked_at": 1794395428.9117715,
         "failures": 0,
-        "last_success": 1794395124.87382,
+        "last_success": 1794395428.9117715,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1794395124.87382,
+        "checked_at": 1794395428.9117715,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1794395364.87382,
+        "retry_at": 1794395668.9117715,
         "status": "blocked"
       },
       "pokehunt-public": {
@@ -104,19 +104,19 @@
         "status": "unavailable"
       },
       "switchstock-public": {
-        "checked_at": 1794393930.1148665,
-        "failures": 3,
-        "last_success": 1794392432.6091864,
-        "retry_at": 1794395130.1148665,
-        "status": "unavailable"
+        "checked_at": 1794395428.9117715,
+        "failures": 0,
+        "last_success": 1794395428.9117715,
+        "retry_at": 0,
+        "status": "ok"
       }
     }
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1794395123.4472356,
-    "clear_count": 214,
-    "signal_checked_at": 1794395109.471,
+    "checked_at": 1794395427.47407,
+    "clear_count": 215,
+    "signal_checked_at": 1794395409.784,
     "signal_retry_at": 1794335900.689668
   },
   "version": 1
