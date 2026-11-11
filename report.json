@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T07:50:29.833943+00:00",
+  "checked_at": "2026-11-11T07:55:23.379269+00:00",
   "sources": [
     {
       "id": "drop-us-public",
@@ -35,7 +35,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.9
+      "seconds": 1.74
     },
     {
       "id": "pc-de-store",
@@ -46,19 +46,19 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.13
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 17,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.74
+      "seconds": 2.56
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 36,
+    "NOT_POKEMON_CENTER": 39,
     "GERMANY_NOT_EXPLICIT": 4,
     "DUPLICATE": 1,
     "RETRACTED": 1,
@@ -78,8 +78,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794383423.926,
-      "age_seconds": 4.41
+      "checked_at": 1794383694.126,
+      "age_seconds": 27.8
     }
   },
   "schedule": {
@@ -117,10 +117,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794383423581,
-    "last_stream_at": 1794383423430,
-    "last_cycle_at": 1794383422007,
-    "next_alarm": 1794383723008,
+    "last_inbox_at": 1794383665011,
+    "last_stream_at": 1794383664822,
+    "last_cycle_at": 1794383663393,
+    "next_alarm": 1794383964394,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
