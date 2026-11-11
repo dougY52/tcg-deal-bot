@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T15:27:21.195948+00:00",
+  "checked_at": "2026-11-11T15:28:33.419418+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -40,7 +40,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.62
+      "seconds": 1.89
     },
     {
       "id": "pc-de-store",
@@ -51,7 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.06
     }
   ],
   "rejected": {
@@ -71,8 +71,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794410834.276,
-      "age_seconds": 5.56
+      "checked_at": 1794410894.404,
+      "age_seconds": 17.28
     }
   },
   "schedule": {
@@ -110,10 +110,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794410630728,
-    "last_stream_at": 1794410630531,
-    "last_cycle_at": 1794410329084,
-    "next_alarm": 1794410930092,
+    "last_inbox_at": 1794410872158,
+    "last_stream_at": 1794410871983,
+    "last_cycle_at": 1794410870491,
+    "next_alarm": 1794411171493,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
