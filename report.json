@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T12:50:30.579436+00:00",
+  "checked_at": "2026-11-11T12:55:23.921053+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -27,17 +27,17 @@
       "retry_at": 1794404432.749202
     },
     {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.77
-    },
-    {
       "id": "galar-public-discord",
       "status": "ok",
       "items": 6,
+      "notes": [],
+      "error": null,
+      "seconds": 1.19
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
       "notes": [],
       "error": null,
       "seconds": 1.79
@@ -51,7 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.14
+      "seconds": 2.07
     }
   ],
   "rejected": {
@@ -71,8 +71,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794401420.407,
-      "age_seconds": 8.74
+      "checked_at": 1794401720.593,
+      "age_seconds": 1.89
     }
   },
   "schedule": {
@@ -110,10 +110,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794401337442,
-    "last_stream_at": 1794401337270,
-    "last_cycle_at": 1794401335871,
-    "next_alarm": 1794401636872,
+    "last_inbox_at": 1794401578910,
+    "last_stream_at": 1794401578706,
+    "last_cycle_at": 1794401577229,
+    "next_alarm": 1794401878230,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
