@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T13:45:31.968342+00:00",
+  "checked_at": "2026-11-11T13:50:30.866652+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -27,12 +27,20 @@
       "retry_at": 1794408033.9550173
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 6,
+      "notes": [],
+      "error": null,
+      "seconds": 1.55
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.06
+      "seconds": 1.71
     },
     {
       "id": "pc-de-store",
@@ -43,15 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 6,
-      "notes": [],
-      "error": null,
-      "seconds": 3.11
+      "seconds": 2.09
     }
   ],
   "rejected": {
@@ -71,8 +71,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794404711.117,
-      "age_seconds": 19.15
+      "checked_at": 1794405002.55,
+      "age_seconds": 26.65
     }
   },
   "schedule": {
@@ -110,10 +110,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794404718007,
-    "last_stream_at": 1794404717648,
-    "last_cycle_at": 1794404716100,
-    "next_alarm": 1794405017101,
+    "last_inbox_at": 1794404959218,
+    "last_stream_at": 1794404959036,
+    "last_cycle_at": 1794404957568,
+    "next_alarm": 1794405258569,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
