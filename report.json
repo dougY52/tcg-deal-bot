@@ -1,20 +1,10 @@
 {
-  "checked_at": "2026-11-11T13:50:30.866652+00:00",
+  "checked_at": "2026-11-11T13:55:24.191848+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
       "status": "backoff",
       "retry_at": 1794406235.0745342
-    },
-    {
-      "id": "drop-us-public",
-      "status": "backoff",
-      "retry_at": 1794405035.0745342
-    },
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1794405035.0745342
     },
     {
       "id": "pokehunt-public",
@@ -32,7 +22,23 @@
       "items": 6,
       "notes": [],
       "error": null,
-      "seconds": 1.55
+      "seconds": 1.23
+    },
+    {
+      "id": "drop-us-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 1.31
+    },
+    {
+      "id": "switchstock-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.0
     },
     {
       "id": "bisafans-public",
@@ -40,7 +46,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.71
+      "seconds": 1.89
     },
     {
       "id": "pc-de-store",
@@ -51,7 +57,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.06
     }
   ],
   "rejected": {
@@ -71,8 +77,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794405002.55,
-      "age_seconds": 26.65
+      "checked_at": 1794405302.592,
+      "age_seconds": 20.12
     }
   },
   "schedule": {
@@ -110,10 +116,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794404959218,
-    "last_stream_at": 1794404959036,
-    "last_cycle_at": 1794404957568,
-    "next_alarm": 1794405258569,
+    "last_inbox_at": 1794405200640,
+    "last_stream_at": 1794405200409,
+    "last_cycle_at": 1794405198994,
+    "next_alarm": 1794405499994,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
