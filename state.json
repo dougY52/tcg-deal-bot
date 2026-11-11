@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1794412562.9629607,
+        "checked_at": 1794412639.4026153,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1794412562.9629607,
+        "checked_at": 1794412639.4026153,
         "status": "ok"
       },
       "restockradar": {
@@ -56,9 +56,9 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1794412564.3120844,
+        "checked_at": 1794412640.7750678,
         "failures": 0,
-        "last_success": 1794412564.3120844,
+        "last_success": 1794412640.7750678,
         "retry_at": 0,
         "status": "ok"
       },
@@ -70,24 +70,24 @@
         "status": "unavailable"
       },
       "drop-us-public": {
-        "checked_at": 1794409009.5785017,
+        "checked_at": 1794412640.7750678,
         "failures": 6,
         "last_success": 1794396030.8903675,
-        "retry_at": 1794412609.5785017,
+        "retry_at": 1794416240.7750678,
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1794412564.3120844,
+        "checked_at": 1794412640.7750678,
         "failures": 0,
-        "last_success": 1794412564.3120844,
+        "last_success": 1794412640.7750678,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1794412564.3120844,
+        "checked_at": 1794412640.7750678,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1794412624.3120844,
+        "retry_at": 1794412700.7750678,
         "status": "blocked"
       },
       "pokehunt-public": {
@@ -104,19 +104,19 @@
         "status": "unavailable"
       },
       "switchstock-public": {
-        "checked_at": 1794409009.5785017,
+        "checked_at": 1794412640.7750678,
         "failures": 6,
         "last_success": 1794396030.8903675,
-        "retry_at": 1794412609.5785017,
+        "retry_at": 1794416240.7750678,
         "status": "unavailable"
       }
     }
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1794412562.9629607,
-    "clear_count": 14,
-    "signal_checked_at": 1794412550.794,
+    "checked_at": 1794412639.4026153,
+    "clear_count": 15,
+    "signal_checked_at": 1794412610.888,
     "signal_retry_at": 1794411738.6516268
   },
   "version": 1
