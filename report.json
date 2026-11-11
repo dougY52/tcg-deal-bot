@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T16:02:22.377171+00:00",
+  "checked_at": "2026-11-11T16:03:20.632194+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,7 +32,7 @@
       "items": 6,
       "notes": [],
       "error": null,
-      "seconds": 1.32
+      "seconds": 1.21
     },
     {
       "id": "bisafans-public",
@@ -40,7 +40,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.75
+      "seconds": 1.64
     },
     {
       "id": "pc-de-store",
@@ -51,7 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.1
+      "seconds": 2.08
     }
   ],
   "rejected": {
@@ -71,8 +71,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794412911.484,
-      "age_seconds": 29.46
+      "checked_at": 1794412971.662,
+      "age_seconds": 27.36
     }
   },
   "schedule": {
@@ -110,7 +110,7 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794412803713,
+    "last_inbox_at": 1794412968834,
     "last_stream_at": 1794412803458,
     "last_cycle_at": 1794412801877,
     "next_alarm": 1794413102878,
@@ -126,7 +126,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 2,
+    "discovery_articles": 3,
     "connection_fresh": true
   }
 }
