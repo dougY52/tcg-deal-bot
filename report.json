@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T08:00:50.568529+00:00",
+  "checked_at": "2026-11-11T08:05:22.967238+00:00",
   "sources": [
     {
       "id": "drop-us-public",
@@ -22,12 +22,12 @@
       "retry_at": 1794385230.3567083
     },
     {
-      "id": "drop-uk-public",
+      "id": "galar-public-discord",
       "status": "ok",
-      "items": 17,
+      "items": 6,
       "notes": [],
       "error": null,
-      "seconds": 1.57
+      "seconds": 1.5
     },
     {
       "id": "bisafans-public",
@@ -35,7 +35,15 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.77
+      "seconds": 1.63
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "ok",
+      "items": 17,
+      "notes": [],
+      "error": null,
+      "seconds": 1.63
     },
     {
       "id": "pc-de-store",
@@ -46,20 +54,12 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.1
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 6,
-      "notes": [],
-      "error": null,
-      "seconds": 2.33
+      "seconds": 2.04
     }
   ],
   "rejected": {
-    "GERMANY_NOT_EXPLICIT": 4,
     "NOT_POKEMON_CENTER": 36,
+    "GERMANY_NOT_EXPLICIT": 4,
     "DUPLICATE": 1,
     "RETRACTED": 1,
     "SPECULATION": 1
@@ -78,8 +78,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794384025.117,
-      "age_seconds": 23.95
+      "checked_at": 1794384295.58,
+      "age_seconds": 26.05
     }
   },
   "schedule": {
@@ -117,10 +117,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794383906358,
-    "last_stream_at": 1794383906173,
-    "last_cycle_at": 1794383904786,
-    "next_alarm": 1794384205786,
+    "last_inbox_at": 1794384147725,
+    "last_stream_at": 1794384147553,
+    "last_cycle_at": 1794384146136,
+    "next_alarm": 1794384447136,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
