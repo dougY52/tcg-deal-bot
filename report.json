@@ -1,11 +1,6 @@
 {
-  "checked_at": "2026-11-11T10:55:23.802941+00:00",
+  "checked_at": "2026-11-11T11:00:52.432865+00:00",
   "sources": [
-    {
-      "id": "drop-us-public",
-      "status": "backoff",
-      "retry_at": 1794394530.1947799
-    },
     {
       "id": "switchstock-public",
       "status": "backoff",
@@ -27,7 +22,15 @@
       "items": 6,
       "notes": [],
       "error": null,
-      "seconds": 1.38
+      "seconds": 1.58
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.8
     },
     {
       "id": "pc-de-store",
@@ -38,15 +41,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 2.08
+      "seconds": 2.11
     },
     {
       "id": "drop-uk-public",
@@ -54,7 +49,15 @@
       "items": 0,
       "notes": [],
       "error": "FetchError",
-      "seconds": 26.11
+      "seconds": 26.09
+    },
+    {
+      "id": "drop-us-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 3.94
     }
   ],
   "rejected": {
@@ -74,8 +77,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794394508.488,
-      "age_seconds": 13.77
+      "checked_at": 1794394839.183,
+      "age_seconds": 11.82
     }
   },
   "schedule": {
@@ -113,10 +116,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794394336469,
-    "last_stream_at": 1794394336188,
-    "last_cycle_at": 1794394034650,
-    "next_alarm": 1794394635658,
+    "last_inbox_at": 1794394819035,
+    "last_stream_at": 1794394818883,
+    "last_cycle_at": 1794394817490,
+    "next_alarm": 1794395118490,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
