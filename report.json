@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T04:25:26.048672+00:00",
+  "checked_at": "2026-11-12T04:30:40.224408+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1794460830.7414572
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 7,
-      "notes": [],
-      "error": null,
-      "seconds": 1.45
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.99
+      "seconds": 1.69
     },
     {
       "id": "pc-de-store",
@@ -34,12 +26,20 @@
       "seconds": 2.06
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 7,
+      "notes": [],
+      "error": null,
+      "seconds": 2.34
+    },
+    {
       "id": "drop-uk-public",
       "status": "ok",
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.72
+      "seconds": 1.46
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.99
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 0.98
     },
     {
       "id": "pokehunt-public",
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794457511.9,
-      "age_seconds": 12.6
+      "checked_at": 1794457813.445,
+      "age_seconds": 25.39
     }
   },
   "schedule": {
@@ -126,10 +126,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794457464224,
-    "last_stream_at": 1794457464022,
-    "last_cycle_at": 1794457462586,
-    "next_alarm": 1794457763586,
+    "last_inbox_at": 1794457705614,
+    "last_stream_at": 1794457705424,
+    "last_cycle_at": 1794457703985,
+    "next_alarm": 1794458004985,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
