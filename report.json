@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T12:55:23.286698+00:00",
+  "checked_at": "2026-11-12T13:00:49.608723+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.43
+      "seconds": 1.4
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.77
+      "seconds": 1.97
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.04
     },
     {
       "id": "drop-uk-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.99
     },
     {
       "id": "switchstock-public",
@@ -55,19 +55,19 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.0
+      "seconds": 0.94
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 15,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 1.02
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 88,
+    "NOT_POKEMON_CENTER": 93,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794488097.02,
-      "age_seconds": 24.85
+      "checked_at": 1794488426.723,
+      "age_seconds": 21.35
     }
   },
   "schedule": {
@@ -126,10 +126,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794487953318,
-    "last_stream_at": 1794487953141,
-    "last_cycle_at": 1794487951643,
-    "next_alarm": 1794488252645,
+    "last_inbox_at": 1794488436037,
+    "last_stream_at": 1794488435842,
+    "last_cycle_at": 1794488434454,
+    "next_alarm": 1794488735456,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
