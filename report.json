@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T18:52:33.737586+00:00",
+  "checked_at": "2026-11-12T18:53:22.640306+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1794512783.459214
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 9,
-      "notes": [],
-      "error": null,
-      "seconds": 1.43
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.08
+      "seconds": 1.73
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.1
+      "seconds": 2.12
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +31,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.59
     },
     {
       "id": "drop-us-public",
@@ -47,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.12
+      "seconds": 0.91
     },
     {
       "id": "switchstock-public",
@@ -55,7 +47,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 1.01
     },
     {
       "id": "pokehunt-public",
@@ -63,12 +55,20 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.85
+      "seconds": 1.02
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 9,
+      "notes": [],
+      "error": null,
+      "seconds": 4.69
     }
   ],
   "rejected": {
-    "GERMANY_NOT_EXPLICIT": 10,
     "NOT_POKEMON_CENTER": 88,
+    "GERMANY_NOT_EXPLICIT": 10,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
     "RETRACTED": 1
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794509538.632,
-      "age_seconds": 13.58
+      "checked_at": 1794509598.734,
+      "age_seconds": 2.48
     }
   },
   "schedule": {
