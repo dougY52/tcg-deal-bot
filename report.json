@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T23:15:30.450416+00:00",
+  "checked_at": "2026-11-12T23:20:32.451183+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.89
+      "seconds": 1.83
     },
     {
       "id": "pc-de-store",
@@ -23,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 1.04
     },
     {
       "id": "switchstock-public",
@@ -52,10 +52,10 @@
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 20,
+      "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.05
+      "seconds": 1.09
     },
     {
       "id": "galar-public-discord",
@@ -63,12 +63,12 @@
       "items": 10,
       "notes": [],
       "error": null,
-      "seconds": 7.1
+      "seconds": 18.11
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 92,
-    "GERMANY_NOT_EXPLICIT": 10,
+    "NOT_POKEMON_CENTER": 87,
+    "GERMANY_NOT_EXPLICIT": 11,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
     "RETRACTED": 1
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794525310.691,
-      "age_seconds": 18.24
+      "checked_at": 1794525612.377,
+      "age_seconds": 18.18
     }
   },
   "schedule": {
@@ -124,10 +124,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794525109357,
-    "last_stream_at": 1794525109140,
-    "last_cycle_at": 1794525107653,
-    "next_alarm": 1794525408654,
+    "last_inbox_at": 1794525592248,
+    "last_stream_at": 1794525591974,
+    "last_cycle_at": 1794525590495,
+    "next_alarm": 1794525891497,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
