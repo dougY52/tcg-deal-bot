@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T14:10:31.248895+00:00",
+  "checked_at": "2026-11-12T14:15:45.272179+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,15 +12,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.44
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.82
+      "seconds": 1.46
     },
     {
       "id": "pc-de-store",
@@ -30,6 +22,14 @@
         "BLOCKED_NOT_STOCK",
         "QUEUE_FRAME_READ"
       ],
+      "error": null,
+      "seconds": 2.07
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
       "error": null,
       "seconds": 2.1
     },
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.72
+      "seconds": 0.89
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.06
+      "seconds": 0.96
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 0.85
     }
   ],
   "rejected": {
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794492621.745,
-      "age_seconds": 7.23
+      "checked_at": 1794492923.571,
+      "age_seconds": 20.18
     }
   },
   "schedule": {
@@ -126,10 +126,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794492539677,
-    "last_stream_at": 1794492539469,
-    "last_cycle_at": 1794492538057,
-    "next_alarm": 1794492839058,
+    "last_inbox_at": 1794492781114,
+    "last_stream_at": 1794492780906,
+    "last_cycle_at": 1794492779424,
+    "next_alarm": 1794493080425,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
