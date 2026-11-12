@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T15:24:24.150180+00:00",
+  "checked_at": "2026-11-12T15:25:23.720111+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,12 @@
       "retry_at": 1794498334.21303
     },
     {
-      "id": "bisafans-public",
+      "id": "galar-public-discord",
       "status": "ok",
-      "items": 20,
+      "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.77
+      "seconds": 1.19
     },
     {
       "id": "pc-de-store",
@@ -23,7 +23,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.04
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.5
+      "seconds": 1.61
     },
     {
       "id": "drop-us-public",
@@ -39,35 +47,27 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 1.02
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 17,
+      "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 1.01
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 20,
+      "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.0
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 8,
-      "notes": [],
-      "error": null,
-      "seconds": 5.37
+      "seconds": 1.02
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 93,
+    "NOT_POKEMON_CENTER": 89,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
     "GERMANY_NOT_EXPLICIT": 6,
@@ -79,15 +79,10 @@
   "inventory_confirmed": false,
   "readable_sources": 6,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "public_signal_backoff",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "unknown",
-      "trigger": false,
-      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
