@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-13T18:38:23.084193+00:00",
+  "checked_at": "2026-11-13T18:39:19.728170+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 8,
       "notes": [],
       "error": null,
-      "seconds": 1.26
+      "seconds": 1.33
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.79
+      "seconds": 1.65
     },
     {
       "id": "pc-de-store",
@@ -31,15 +31,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.1
+      "seconds": 2.04
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 18,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.62
+      "seconds": 1.51
     },
     {
       "id": "drop-us-public",
@@ -47,28 +47,28 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.88
+      "seconds": 1.43
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 12,
+      "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.13
+      "seconds": 0.62
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 19,
+      "items": 22,
       "notes": [],
       "error": null,
-      "seconds": 0.89
+      "seconds": 0.91
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 87,
-    "GERMANY_NOT_EXPLICIT": 6,
+    "NOT_POKEMON_CENTER": 99,
+    "GERMANY_NOT_EXPLICIT": 8,
     "DUPLICATE": 1,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
@@ -88,8 +88,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794595083.355,
-      "age_seconds": 17.83
+      "checked_at": 1794595143.896,
+      "age_seconds": 14.41
     }
   },
   "schedule": {
