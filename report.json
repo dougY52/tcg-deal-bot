@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-13T19:57:16.792955+00:00",
+  "checked_at": "2026-11-13T20:01:53.256840+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.46
+      "seconds": 1.22
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.79
+      "seconds": 1.69
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.11
+      "seconds": 2.06
     },
     {
       "id": "drop-uk-public",
@@ -47,7 +47,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.01
     },
     {
       "id": "switchstock-public",
@@ -55,20 +55,20 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 1.09
+      "seconds": 1.01
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 22,
+      "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.53
+      "seconds": 0.94
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 88,
-    "GERMANY_NOT_EXPLICIT": 7,
+    "NOT_POKEMON_CENTER": 86,
+    "GERMANY_NOT_EXPLICIT": 6,
     "DUPLICATE": 1,
     "SPECULATION": 1,
     "STALE_OR_UNDATED": 1,
@@ -88,8 +88,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794599825.968,
-      "age_seconds": 9.37
+      "checked_at": 1794600096.439,
+      "age_seconds": 15.48
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794599710555,
-    "last_stream_at": 1794599649755,
-    "last_cycle_at": 1794599648228,
-    "next_alarm": 1794599949228,
+    "last_inbox_at": 1794599893596,
+    "last_stream_at": 1794599892883,
+    "last_cycle_at": 1794599889716,
+    "next_alarm": 1794600190718,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
