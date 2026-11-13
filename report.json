@@ -1,13 +1,10 @@
 {
-  "checked_at": "2026-11-13T12:20:57.225415+00:00",
+  "checked_at": "2026-11-13T12:25:27.315451+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.1
+      "status": "backoff",
+      "retry_at": 1794576057.2254145
     },
     {
       "id": "bisafans-public",
@@ -15,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.63
+      "seconds": 1.86
     },
     {
       "id": "pc-de-store",
@@ -26,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.17
     },
     {
       "id": "drop-uk-public",
@@ -34,7 +31,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.59
+      "seconds": 1.64
     },
     {
       "id": "drop-us-public",
@@ -42,7 +39,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.85
+      "seconds": 0.88
     },
     {
       "id": "switchstock-public",
@@ -58,7 +55,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.0
+      "seconds": 0.99
     },
     {
       "id": "galar-public-discord",
@@ -66,7 +63,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 12.77
+      "seconds": 15.98
     }
   ],
   "rejected": {
@@ -91,8 +88,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794572450.684,
-      "age_seconds": 5.23
+      "checked_at": 1794572721.666,
+      "age_seconds": 4.15
     }
   },
   "schedule": {
@@ -128,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794572420305,
-    "last_stream_at": 1794572420103,
-    "last_cycle_at": 1794572418573,
-    "next_alarm": 1794572719573,
+    "last_inbox_at": 1794572706740,
+    "last_stream_at": 1794572661502,
+    "last_cycle_at": 1794572660063,
+    "next_alarm": 1794572961064,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
@@ -144,7 +141,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 2,
+    "discovery_articles": 3,
     "connection_fresh": true
   }
 }
