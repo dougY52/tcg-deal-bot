@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1794628845.1071637,
+        "checked_at": 1794629123.902237,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1794628845.1071637,
+        "checked_at": 1794629123.902237,
         "status": "ok"
       },
       "restockradar": {
@@ -62,18 +62,18 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1794628846.6053853,
+        "checked_at": 1794629125.3383834,
         "failures": 0,
-        "last_success": 1794628846.6053853,
+        "last_success": 1794629125.3383834,
         "retry_at": 0,
         "status": "ok"
       },
       "drop-uk-public": {
-        "checked_at": 1794628846.6053853,
-        "failures": 0,
+        "checked_at": 1794629125.3383834,
+        "failures": 1,
         "last_success": 1794628846.6053853,
-        "retry_at": 0,
-        "status": "ok"
+        "retry_at": 1794629425.3383834,
+        "status": "unavailable"
       },
       "drop-us-public": {
         "checked_at": 1794628846.6053853,
@@ -83,17 +83,17 @@
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1794628846.6053853,
+        "checked_at": 1794629125.3383834,
         "failures": 0,
-        "last_success": 1794628846.6053853,
+        "last_success": 1794629125.3383834,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1794628846.6053853,
+        "checked_at": 1794629125.3383834,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1794629086.6053853,
+        "retry_at": 1794629365.3383834,
         "status": "blocked"
       },
       "pokehunt-public": {
@@ -120,9 +120,9 @@
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1794628845.1071637,
-    "clear_count": 139,
-    "signal_checked_at": 1794628842.45,
+    "checked_at": 1794629123.902237,
+    "clear_count": 140,
+    "signal_checked_at": 1794629113.775,
     "signal_retry_at": 1794594456.2197335
   },
   "version": 1
