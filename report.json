@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-14T04:35:26.445704+00:00",
+  "checked_at": "2026-11-14T04:40:28.790715+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,7 +32,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.75
+      "seconds": 1.74
     },
     {
       "id": "pc-de-store",
@@ -43,7 +43,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
+      "seconds": 2.07
     },
     {
       "id": "galar-public-discord",
@@ -51,7 +51,7 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 9.12
+      "seconds": 8.03
     }
   ],
   "rejected": {
@@ -72,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794630919.49,
-      "age_seconds": 5.52
+      "checked_at": 1794631220.345,
+      "age_seconds": 7.03
     }
   },
   "schedule": {
@@ -109,10 +109,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794630883060,
-    "last_stream_at": 1794630882902,
-    "last_cycle_at": 1794630881501,
-    "next_alarm": 1794631182502,
+    "last_inbox_at": 1794631124510,
+    "last_stream_at": 1794631124310,
+    "last_cycle_at": 1794631122867,
+    "next_alarm": 1794631423867,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
