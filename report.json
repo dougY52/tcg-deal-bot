@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-15T16:22:27.597153+00:00",
+  "checked_at": "2026-11-15T16:23:27.105281+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.63
+      "seconds": 2.09
     },
     {
       "id": "pc-de-store",
@@ -23,7 +23,39 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.09
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.17
+    },
+    {
+      "id": "drop-us-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.94
+    },
+    {
+      "id": "switchstock-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.97
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.96
     },
     {
       "id": "galar-public-discord",
@@ -31,53 +63,18 @@
       "items": 7,
       "notes": [],
       "error": null,
-      "seconds": 3.36
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "ok",
-      "items": 17,
-      "notes": [],
-      "error": null,
-      "seconds": 1.7
-    },
-    {
-      "id": "drop-us-public",
-      "status": "ok",
-      "items": 21,
-      "notes": [],
-      "error": null,
-      "seconds": 0.82
-    },
-    {
-      "id": "switchstock-public",
-      "status": "ok",
-      "items": 13,
-      "notes": [],
-      "error": null,
-      "seconds": 1.05
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "ok",
-      "items": 19,
-      "notes": [],
-      "error": null,
-      "seconds": 0.95
+      "seconds": 5.51
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 86,
-    "GERMANY_NOT_EXPLICIT": 7,
-    "STALE_OR_UNDATED": 2,
-    "SPECULATION": 1,
-    "RETRACTED": 1
+    "NOT_POKEMON_CENTER": 25,
+    "GERMANY_NOT_EXPLICIT": 2
   },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 6,
+  "readable_sources": 2,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -87,8 +84,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794759718.416,
-      "age_seconds": 27.68
+      "checked_at": 1794759779.152,
+      "age_seconds": 26.42
     }
   },
   "schedule": {
@@ -124,10 +121,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794759533602,
-    "last_stream_at": 1794759533420,
-    "last_cycle_at": 1794759531982,
-    "next_alarm": 1794759832983,
+    "last_inbox_at": 1794759776849,
+    "last_stream_at": 1794759775448,
+    "last_cycle_at": 1794759773382,
+    "next_alarm": 1794760074383,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
