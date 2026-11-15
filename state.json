@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1794756260.1796782,
+        "checked_at": 1794756332.9494336,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1794756260.1796782,
+        "checked_at": 1794756332.9494336,
         "status": "ok"
       },
       "restockradar": {
@@ -62,9 +62,9 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1794756261.6411283,
+        "checked_at": 1794756334.8717685,
         "failures": 0,
-        "last_success": 1794756261.6411283,
+        "last_success": 1794756334.8717685,
         "retry_at": 0,
         "status": "ok"
       },
@@ -83,17 +83,17 @@
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1794756261.6411283,
+        "checked_at": 1794756334.8717685,
         "failures": 0,
-        "last_success": 1794756261.6411283,
+        "last_success": 1794756334.8717685,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1794756261.6411283,
+        "checked_at": 1794756334.8717685,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1794756321.6411283,
+        "retry_at": 1794756394.8717685,
         "status": "blocked"
       },
       "pokehunt-public": {
@@ -104,9 +104,9 @@
         "status": "unavailable"
       },
       "reddit-de-public": {
-        "checked_at": 1794752732.3059924,
+        "checked_at": 1794756334.8717685,
         "failures": 6,
-        "retry_at": 1794756332.3059924,
+        "retry_at": 1794759934.8717685,
         "status": "unavailable"
       },
       "switchstock-public": {
@@ -120,9 +120,9 @@
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1794756260.1796782,
-    "clear_count": 63,
-    "signal_checked_at": 1794756241.076,
+    "checked_at": 1794756332.9494336,
+    "clear_count": 64,
+    "signal_checked_at": 1794756326.8,
     "signal_retry_at": 1794743196.2517235
   },
   "version": 1
