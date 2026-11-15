@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-15T01:00:47.893097+00:00",
+  "checked_at": "2026-11-15T01:05:25.523670+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,15 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.61
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 8,
-      "notes": [],
-      "error": null,
-      "seconds": 2.04
+      "seconds": 1.82
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.29
+      "seconds": 2.15
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 8,
+      "notes": [],
+      "error": null,
+      "seconds": 2.65
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.5
+      "seconds": 1.64
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 1.09
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.05
+      "seconds": 0.91
     },
     {
       "id": "pokehunt-public",
@@ -88,8 +88,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794704437.782,
-      "age_seconds": 8.03
+      "checked_at": 1794704707.767,
+      "age_seconds": 16.28
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794704258285,
-    "last_stream_at": 1794704258024,
-    "last_cycle_at": 1794704256317,
-    "next_alarm": 1794704557318,
+    "last_inbox_at": 1794704499569,
+    "last_stream_at": 1794704499364,
+    "last_cycle_at": 1794704497983,
+    "next_alarm": 1794704798984,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
