@@ -1,6 +1,15 @@
 {
-  "checked_at": "2026-11-15T15:50:29.851383+00:00",
+  "checked_at": "2026-11-15T15:50:51.349022+00:00",
   "sources": [
+    {
+      "id": "pc-de-store",
+      "status": "backoff",
+      "retry_at": 1794757889.851383
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "not_due"
+    },
     {
       "id": "drop-uk-public",
       "status": "backoff",
@@ -27,54 +36,21 @@
       "retry_at": 1794759934.8717685
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 7,
-      "notes": [],
-      "error": null,
-      "seconds": 1.16
-    },
-    {
       "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.71
-    },
-    {
-      "id": "pc-de-store",
-      "status": "blocked",
-      "items": 0,
-      "notes": [
-        "BLOCKED_NOT_STOCK",
-        "QUEUE_FRAME_READ"
-      ],
-      "error": null,
-      "seconds": 2.03
+      "status": "not_due"
     }
   ],
-  "rejected": {
-    "GERMANY_NOT_EXPLICIT": 2,
-    "NOT_POKEMON_CENTER": 25
-  },
+  "rejected": {},
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 2,
+  "readable_sources": 0,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "not_due",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "open",
-      "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1794757807.27,
-      "age_seconds": 21.17
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -83,16 +59,6 @@
   },
   "mydealz": {
     "sources": [
-      {
-        "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
-      },
       {
         "id": "restockradar",
         "status": "unavailable",
@@ -109,10 +75,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794757602113,
-    "last_stream_at": 1794757601913,
-    "last_cycle_at": 1794757600461,
-    "next_alarm": 1794757901461,
+    "last_inbox_at": 1794757843489,
+    "last_stream_at": 1794757843335,
+    "last_cycle_at": 1794757841873,
+    "next_alarm": 1794758142873,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
