@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-15T17:29:20.353034+00:00",
+  "checked_at": "2026-11-15T17:30:47.384768+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1794767190.5346875
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 7,
-      "notes": [],
-      "error": null,
-      "seconds": 1.36
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.83
+      "seconds": 1.63
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.11
+      "seconds": 2.06
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 7,
+      "notes": [],
+      "error": null,
+      "seconds": 2.22
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.6
+      "seconds": 1.63
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 0.88
     },
     {
       "id": "switchstock-public",
@@ -55,20 +55,20 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.05
+      "seconds": 1.13
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 19,
+      "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.9
+      "seconds": 1.02
     }
   ],
   "rejected": {
+    "NOT_POKEMON_CENTER": 88,
     "GERMANY_NOT_EXPLICIT": 7,
-    "NOT_POKEMON_CENTER": 86,
     "STALE_OR_UNDATED": 2,
     "SPECULATION": 1,
     "RETRACTED": 1
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794763742.111,
-      "age_seconds": 16.79
+      "checked_at": 1794763832.569,
+      "age_seconds": 13.5
     }
   },
   "schedule": {
