@@ -1,15 +1,6 @@
 {
-  "checked_at": "2026-11-16T17:15:50.416531+00:00",
+  "checked_at": "2026-11-16T17:16:25.782213+00:00",
   "sources": [
-    {
-      "id": "pc-de-store",
-      "status": "backoff",
-      "retry_at": 1794849394.4023025
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "not_due"
-    },
     {
       "id": "drop-uk-public",
       "status": "backoff",
@@ -36,21 +27,54 @@
       "retry_at": 1794849702.5989273
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 10,
+      "notes": [],
+      "error": null,
+      "seconds": 1.23
+    },
+    {
       "id": "bisafans-public",
-      "status": "not_due"
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.87
+    },
+    {
+      "id": "pc-de-store",
+      "status": "blocked",
+      "items": 0,
+      "notes": [
+        "BLOCKED_NOT_STOCK",
+        "QUEUE_FRAME_READ"
+      ],
+      "error": null,
+      "seconds": 2.07
     }
   ],
-  "rejected": {},
+  "rejected": {
+    "GERMANY_NOT_EXPLICIT": 2,
+    "NOT_POKEMON_CENTER": 28
+  },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 0,
+  "readable_sources": 2,
   "queue_gate": {
-    "status": "not_due",
+    "status": "no_live_trigger",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false
+    "credit_provider_enabled": false,
+    "signal": {
+      "state": "open",
+      "trigger": false,
+      "germany_confirmed": false,
+      "checked_at": 1794849376.587,
+      "age_seconds": 7.62
+    }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -60,12 +84,24 @@
   "mydealz": {
     "sources": [
       {
+        "id": "mydealz-pokemon",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "mydealz-new",
+        "status": "ok",
+        "items": 30
+      },
+      {
         "id": "restockradar",
         "status": "unavailable",
         "error": "ValueError"
       }
     ],
-    "rejected": {},
+    "rejected": {
+      "STALE_OR_UNDATED": 1
+    },
     "alerts": [],
     "sent": 0,
     "errors": []
