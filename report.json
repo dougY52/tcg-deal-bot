@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-17T18:33:22.449481+00:00",
+  "checked_at": "2026-11-17T18:34:32.498238+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1794943002.94464
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 11,
-      "notes": [],
-      "error": null,
-      "seconds": 1.25
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.67
+      "seconds": 1.63
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.46
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +31,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 2.21
+      "seconds": 1.69
     },
     {
       "id": "drop-us-public",
@@ -47,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 0.85
     },
     {
       "id": "switchstock-public",
@@ -55,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.25
+      "seconds": 1.06
     },
     {
       "id": "pokehunt-public",
@@ -63,13 +55,21 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.56
+      "seconds": 1.63
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 11,
+      "notes": [],
+      "error": null,
+      "seconds": 6.33
     }
   ],
   "rejected": {
     "NOT_POKEMON_CENTER": 95,
-    "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 2,
+    "GERMANY_NOT_EXPLICIT": 7,
     "STALE_OR_UNDATED": 2
   },
   "alerts": [],
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794940374.986,
-      "age_seconds": 26.13
+      "checked_at": 1794940464.909,
+      "age_seconds": 5.93
     }
   },
   "schedule": {
