@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-17T05:30:49.860806+00:00",
+  "checked_at": "2026-11-17T05:35:32.137245+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,15 @@
       "items": 9,
       "notes": [],
       "error": null,
-      "seconds": 1.5
+      "seconds": 1.2
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.63
     },
     {
       "id": "pc-de-store",
@@ -23,15 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.09
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 2.12
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.72
+      "seconds": 1.99
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 0.55
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.04
+      "seconds": 0.97
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 1.01
     }
   ],
   "rejected": {
@@ -88,8 +88,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1794893427.333,
-      "age_seconds": 20.92
+      "checked_at": 1794893727.775,
+      "age_seconds": 3.06
     }
   },
   "schedule": {
@@ -127,10 +127,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1794893338733,
-    "last_stream_at": 1794893338574,
-    "last_cycle_at": 1794893337165,
-    "next_alarm": 1794893638166,
+    "last_inbox_at": 1794893580353,
+    "last_stream_at": 1794893580081,
+    "last_cycle_at": 1794893578536,
+    "next_alarm": 1794893879537,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
