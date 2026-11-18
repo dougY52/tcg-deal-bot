@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1794983445.0437338,
+        "checked_at": 1794983735.6082213,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1794983445.0437338,
+        "checked_at": 1794983735.6082213,
         "status": "ok"
       },
       "restockradar": {
@@ -62,9 +62,9 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1794983445.480526,
+        "checked_at": 1794983737.1668217,
         "failures": 0,
-        "last_success": 1794983445.480526,
+        "last_success": 1794983737.1668217,
         "retry_at": 0,
         "status": "ok"
       },
@@ -83,17 +83,17 @@
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1794983445.480526,
+        "checked_at": 1794983737.1668217,
         "failures": 0,
-        "last_success": 1794983445.480526,
+        "last_success": 1794983737.1668217,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1794983445.480526,
+        "checked_at": 1794983737.1668217,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1794983685.480526,
+        "retry_at": 1794983977.1668217,
         "status": "blocked"
       },
       "pokehunt-public": {
@@ -120,9 +120,9 @@
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1794983445.0437338,
-    "clear_count": 0,
-    "signal_checked_at": 1794983112.19,
+    "checked_at": 1794983735.6082213,
+    "clear_count": 1,
+    "signal_checked_at": 1794983724.1,
     "signal_retry_at": 1794983505.480432
   },
   "version": 1
