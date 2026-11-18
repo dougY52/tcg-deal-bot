@@ -1,6 +1,21 @@
 {
-  "checked_at": "2026-11-18T18:02:33.803595+00:00",
+  "checked_at": "2026-11-18T18:03:21.908054+00:00",
   "sources": [
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1795025253.8035948
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1795025253.8035948
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1795025253.8035948
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
@@ -12,15 +27,7 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 1.52
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.64
+      "seconds": 1.2
     },
     {
       "id": "pc-de-store",
@@ -31,7 +38,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.02
+      "seconds": 2.03
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -39,31 +54,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 2.34
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 25.09
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 2.62
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "seconds": 2.09
     }
   ],
   "rejected": {
@@ -86,8 +77,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795024939.894,
-      "age_seconds": 12.6
+      "checked_at": 1795025000.075,
+      "age_seconds": 0.32
     }
   },
   "schedule": {
