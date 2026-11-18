@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-18T18:15:39.359077+00:00",
+  "checked_at": "2026-11-18T18:16:35.270791+00:00",
   "sources": [
     {
       "id": "drop-us-public",
@@ -12,6 +12,14 @@
       "retry_at": 1795029150.3740828
     },
     {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.98
+    },
+    {
       "id": "pc-de-store",
       "status": "blocked",
       "items": 0,
@@ -20,15 +28,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 2.12
+      "seconds": 2.08
     },
     {
       "id": "galar-public-discord",
@@ -36,7 +36,7 @@
       "items": 12,
       "notes": [],
       "error": null,
-      "seconds": 5.33
+      "seconds": 8.72
     },
     {
       "id": "drop-uk-public",
@@ -44,7 +44,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 9.3
+      "seconds": 1.48
     },
     {
       "id": "switchstock-public",
@@ -52,7 +52,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 5.12
+      "seconds": 7.18
     },
     {
       "id": "pokehunt-public",
@@ -60,7 +60,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.09
+      "seconds": 1.23
     }
   ],
   "rejected": {
@@ -83,8 +83,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795025721.674,
-      "age_seconds": 16.13
+      "checked_at": 1795025780.608,
+      "age_seconds": 12.47
     }
   },
   "schedule": {
@@ -118,8 +118,27 @@
     "errors": []
   },
   "cardpal_relay": {
-    "status": "unavailable",
-    "connection_fresh": false,
-    "shop_drop_latency_verified": false
+    "configured": true,
+    "status": "stream_connected",
+    "enabled_at": 1793565143326,
+    "baseline_at": 1793565144804,
+    "last_inbox_at": 1795025788319,
+    "last_stream_at": 1795025788155,
+    "last_cycle_at": 1795025786739,
+    "next_alarm": 1795026087739,
+    "sent": 0,
+    "failures": 0,
+    "browser_minutes_used": 0,
+    "shop_drop_latency_verified": false,
+    "pokemon_deals_enabled": true,
+    "tcg_deals_enabled": true,
+    "subscribed_franchises": [
+      "DRAGONBALL",
+      "ONEPIECE",
+      "POKEMON"
+    ],
+    "dealz_threshold_percent": 5,
+    "discovery_articles": 3,
+    "connection_fresh": true
   }
 }
