@@ -1,21 +1,10 @@
 {
-  "checked_at": "2026-11-18T22:20:40.268366+00:00",
+  "checked_at": "2026-11-18T22:25:24.445832+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.1
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 13,
-      "notes": [],
-      "error": null,
-      "seconds": 1.33
+      "status": "backoff",
+      "retry_at": 1795044040.2683659
     },
     {
       "id": "bisafans-public",
@@ -23,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.58
+      "seconds": 1.97
     },
     {
       "id": "pc-de-store",
@@ -34,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.07
     },
     {
       "id": "drop-uk-public",
@@ -42,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.6
+      "seconds": 1.72
     },
     {
       "id": "drop-us-public",
@@ -50,7 +39,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.86
+      "seconds": 0.98
     },
     {
       "id": "switchstock-public",
@@ -58,7 +47,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.95
+      "seconds": 1.03
     },
     {
       "id": "pokehunt-public",
@@ -66,7 +55,15 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 0.96
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 13,
+      "notes": [],
+      "error": null,
+      "seconds": 12.77
     }
   ],
   "rejected": {
@@ -89,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795040421.339,
-      "age_seconds": 17.46
+      "checked_at": 1795040719.357,
+      "age_seconds": 3.58
     }
   },
   "schedule": {
@@ -117,23 +114,21 @@
       }
     ],
     "rejected": {
-      "STALE_OR_UNDATED": 1
+      "STALE_OR_UNDATED": 3
     },
     "alerts": [],
     "sent": 0,
-    "errors": [
-      "Community article: ValueError"
-    ]
+    "errors": []
   },
   "cardpal_relay": {
     "configured": true,
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795040333813,
-    "last_stream_at": 1795040333611,
-    "last_cycle_at": 1795040332233,
-    "next_alarm": 1795040633235,
+    "last_inbox_at": 1795040575337,
+    "last_stream_at": 1795040575058,
+    "last_cycle_at": 1795040573573,
+    "next_alarm": 1795040874574,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
