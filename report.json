@@ -1,18 +1,21 @@
 {
-  "checked_at": "2026-11-19T14:55:25.983488+00:00",
+  "checked_at": "2026-11-19T15:00:53.965914+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "backoff",
-      "retry_at": 1795100135.2668653
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.14
     },
     {
       "id": "galar-public-discord",
       "status": "ok",
-      "items": 13,
+      "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.41
+      "seconds": 1.33
     },
     {
       "id": "bisafans-public",
@@ -20,7 +23,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.03
+      "seconds": 1.7
     },
     {
       "id": "pc-de-store",
@@ -31,7 +34,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.12
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +42,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.91
+      "seconds": 1.79
     },
     {
       "id": "drop-us-public",
@@ -47,7 +50,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.9
+      "seconds": 0.81
     },
     {
       "id": "switchstock-public",
@@ -55,7 +58,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.93
+      "seconds": 1.02
     },
     {
       "id": "pokehunt-public",
@@ -63,11 +66,11 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 0.97
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 90,
+    "NOT_POKEMON_CENTER": 91,
     "GERMANY_NOT_EXPLICIT": 11,
     "SPECULATION": 2,
     "STALE_OR_UNDATED": 1
@@ -86,14 +89,14 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795100113.666,
-      "age_seconds": 10.61
+      "checked_at": 1795100444.686,
+      "age_seconds": 7.91
     }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
-    "peak_window": false,
-    "interval_seconds": 300
+    "peak_window": true,
+    "interval_seconds": 60
   },
   "mydealz": {
     "sources": [
@@ -125,10 +128,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795100024386,
-    "last_stream_at": 1795100024223,
-    "last_cycle_at": 1795100022759,
-    "next_alarm": 1795100323765,
+    "last_inbox_at": 1795100265869,
+    "last_stream_at": 1795100265713,
+    "last_cycle_at": 1795100264183,
+    "next_alarm": 1795100565186,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
