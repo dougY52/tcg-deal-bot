@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T13:35:32.073773+00:00",
+  "checked_at": "2026-11-19T13:40:30.946842+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,15 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.69
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 12,
-      "notes": [],
-      "error": null,
-      "seconds": 1.98
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -39,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 1.72
     },
     {
       "id": "drop-us-public",
@@ -47,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.85
     },
     {
       "id": "switchstock-public",
@@ -55,7 +47,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 0.94
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +55,15 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.9
+      "seconds": 1.04
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 12,
+      "notes": [],
+      "error": null,
+      "seconds": 6.5
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795095325.324,
-      "age_seconds": 5.42
+      "checked_at": 1795095625.43,
+      "age_seconds": 4.07
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795095194825,
-    "last_stream_at": 1795095194619,
-    "last_cycle_at": 1795095193185,
-    "next_alarm": 1795095494185,
+    "last_inbox_at": 1795095436410,
+    "last_stream_at": 1795095436137,
+    "last_cycle_at": 1795095434580,
+    "next_alarm": 1795095735581,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
