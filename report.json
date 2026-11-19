@@ -1,18 +1,10 @@
 {
-  "checked_at": "2026-11-19T10:00:52.966599+00:00",
+  "checked_at": "2026-11-19T10:05:35.851697+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795084833.5236132
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.79
     },
     {
       "id": "pc-de-store",
@@ -23,6 +15,14 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
+      "seconds": 2.07
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
       "seconds": 2.09
     },
     {
@@ -31,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.61
+      "seconds": 1.73
     },
     {
       "id": "drop-us-public",
@@ -39,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.96
     },
     {
       "id": "switchstock-public",
@@ -47,7 +47,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 0.96
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 7.41
+      "seconds": 4.77
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795082448.226,
-      "age_seconds": 3.3
+      "checked_at": 1795082718.673,
+      "age_seconds": 15.61
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795082338512,
-    "last_stream_at": 1795082338340,
-    "last_cycle_at": 1795082336932,
-    "next_alarm": 1795082637933,
+    "last_inbox_at": 1795082579920,
+    "last_stream_at": 1795082579705,
+    "last_cycle_at": 1795082578301,
+    "next_alarm": 1795082879302,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
