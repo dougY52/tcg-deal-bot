@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T06:15:39.177940+00:00",
+  "checked_at": "2026-11-19T06:20:31.397323+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.39
+      "seconds": 1.23
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.63
+      "seconds": 2.02
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.07
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.76
+      "seconds": 1.84
     },
     {
       "id": "drop-us-public",
@@ -55,7 +55,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 0.83
+      "seconds": 0.95
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.08
+      "seconds": 0.98
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795068926.311,
-      "age_seconds": 11.48
+      "checked_at": 1795069226.613,
+      "age_seconds": 3.22
     }
   },
   "schedule": {
@@ -128,7 +128,7 @@
     "last_inbox_at": 1795068940295,
     "last_stream_at": 1795068940114,
     "last_cycle_at": 1795068938673,
-    "next_alarm": 1795069239674,
+    "next_alarm": 1795069539674,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
