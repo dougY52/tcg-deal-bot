@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-20T18:07:28.005682+00:00",
+  "checked_at": "2026-11-20T18:08:23.198102+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -27,12 +27,20 @@
       "retry_at": 1795201597.52329
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 18,
+      "notes": [],
+      "error": null,
+      "seconds": 1.22
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.57
+      "seconds": 1.89
     },
     {
       "id": "pc-de-store",
@@ -43,20 +51,12 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.03
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 18,
-      "notes": [],
-      "error": null,
-      "seconds": 9.31
+      "seconds": 2.06
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 35,
-    "GERMANY_NOT_EXPLICIT": 3
+    "GERMANY_NOT_EXPLICIT": 3,
+    "NOT_POKEMON_CENTER": 35
   },
   "alerts": [],
   "sent": 0,
@@ -64,15 +64,10 @@
   "inventory_confirmed": false,
   "readable_sources": 2,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "public_signal_backoff",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "unknown",
-      "trigger": false,
-      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -109,10 +104,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795197869250,
-    "last_stream_at": 1795197869059,
-    "last_cycle_at": 1795197867672,
-    "next_alarm": 1795198168672,
+    "last_inbox_at": 1795198110756,
+    "last_stream_at": 1795198110520,
+    "last_cycle_at": 1795198109026,
+    "next_alarm": 1795198410026,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
