@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-20T14:55:25.205867+00:00",
+  "checked_at": "2026-11-20T15:01:06.654026+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 0,
       "notes": [],
       "error": "FetchError",
-      "seconds": 1.14
+      "seconds": 1.39
     },
     {
       "id": "drop-us-public",
@@ -39,12 +39,12 @@
       "seconds": 0.0
     },
     {
-      "id": "bisafans-public",
+      "id": "galar-public-discord",
       "status": "ok",
-      "items": 20,
+      "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.68
+      "seconds": 1.45
     },
     {
       "id": "pc-de-store",
@@ -58,12 +58,12 @@
       "seconds": 2.05
     },
     {
-      "id": "galar-public-discord",
+      "id": "bisafans-public",
       "status": "ok",
-      "items": 16,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 6.83
+      "seconds": 2.07
     }
   ],
   "rejected": {
@@ -84,14 +84,14 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795186496.84,
-      "age_seconds": 27.04
+      "checked_at": 1795186857.448,
+      "age_seconds": 7.67
     }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
-    "peak_window": false,
-    "interval_seconds": 300
+    "peak_window": true,
+    "interval_seconds": 60
   },
   "mydealz": {
     "sources": [
@@ -123,10 +123,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795186519965,
-    "last_stream_at": 1795186519671,
-    "last_cycle_at": 1795186518211,
-    "next_alarm": 1795186819211,
+    "last_inbox_at": 1795186761303,
+    "last_stream_at": 1795186761048,
+    "last_cycle_at": 1795186759617,
+    "next_alarm": 1795187060618,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
