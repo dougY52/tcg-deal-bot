@@ -1,30 +1,18 @@
 {
-  "checked_at": "2026-11-20T06:00:59.814707+00:00",
+  "checked_at": "2026-11-20T06:05:33.187162+00:00",
   "sources": [
-    {
-      "id": "drop-uk-public",
-      "status": "backoff",
-      "retry_at": 1795154730.7046459
-    },
-    {
-      "id": "drop-us-public",
-      "status": "backoff",
-      "retry_at": 1795154730.7046459
-    },
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1795154730.7046459
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "backoff",
-      "retry_at": 1795154730.7046459
-    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795156249.7838979
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 1.4
     },
     {
       "id": "bisafans-public",
@@ -32,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.04
+      "seconds": 1.62
     },
     {
       "id": "pc-de-store",
@@ -43,26 +31,52 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.11
+      "seconds": 2.06
     },
     {
-      "id": "galar-public-discord",
+      "id": "drop-uk-public",
       "status": "ok",
-      "items": 15,
+      "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 5.91
+      "seconds": 1.58
+    },
+    {
+      "id": "drop-us-public",
+      "status": "ok",
+      "items": 19,
+      "notes": [],
+      "error": null,
+      "seconds": 0.94
+    },
+    {
+      "id": "switchstock-public",
+      "status": "ok",
+      "items": 17,
+      "notes": [],
+      "error": null,
+      "seconds": 0.98
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "ok",
+      "items": 18,
+      "notes": [],
+      "error": null,
+      "seconds": 0.94
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 33,
-    "GERMANY_NOT_EXPLICIT": 2
+    "NOT_POKEMON_CENTER": 94,
+    "GERMANY_NOT_EXPLICIT": 9,
+    "SPECULATION": 2,
+    "STALE_OR_UNDATED": 1
   },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 2,
+  "readable_sources": 6,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -72,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795154431.249,
-      "age_seconds": 26.46
+      "checked_at": 1795154731.582,
+      "age_seconds": 0.25
     }
   },
   "schedule": {
@@ -111,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795154411538,
-    "last_stream_at": 1795154411357,
-    "last_cycle_at": 1795154409888,
-    "next_alarm": 1795154710890,
+    "last_inbox_at": 1795154653025,
+    "last_stream_at": 1795154652800,
+    "last_cycle_at": 1795154651320,
+    "next_alarm": 1795154952322,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
