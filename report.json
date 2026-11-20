@@ -1,10 +1,18 @@
 {
-  "checked_at": "2026-11-20T20:25:31.459629+00:00",
+  "checked_at": "2026-11-20T20:30:44.977361+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795209044.3158555
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.05
     },
     {
       "id": "pc-de-store",
@@ -18,12 +26,12 @@
       "seconds": 2.06
     },
     {
-      "id": "bisafans-public",
+      "id": "galar-public-discord",
       "status": "ok",
-      "items": 20,
+      "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 2.11
+      "seconds": 4.64
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.8
+      "seconds": 1.76
     },
     {
       "id": "drop-us-public",
@@ -39,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.99
     },
     {
       "id": "switchstock-public",
@@ -47,7 +55,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.06
+      "seconds": 0.97
     },
     {
       "id": "pokehunt-public",
@@ -55,15 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.87
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 19,
-      "notes": [],
-      "error": null,
-      "seconds": 6.61
+      "seconds": 0.93
     }
   ],
   "rejected": {
@@ -86,8 +86,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795206304.543,
-      "age_seconds": 25.25
+      "checked_at": 1795206634.63,
+      "age_seconds": 8.85
     }
   },
   "schedule": {
@@ -125,10 +125,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795206137555,
-    "last_stream_at": 1795206137239,
-    "last_cycle_at": 1795206135693,
-    "next_alarm": 1795206436693,
+    "last_inbox_at": 1795206620361,
+    "last_stream_at": 1795206620144,
+    "last_cycle_at": 1795206618715,
+    "next_alarm": 1795206919723,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
@@ -141,7 +141,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 4,
+    "discovery_articles": 3,
     "connection_fresh": true
   }
 }
