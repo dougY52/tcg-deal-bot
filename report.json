@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-20T15:33:31.134595+00:00",
+  "checked_at": "2026-11-20T15:34:31.371187+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.08
     },
     {
       "id": "pc-de-store",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.16
+      "seconds": 1.85
     },
     {
       "id": "drop-us-public",
@@ -55,7 +55,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 0.95
+      "seconds": 0.98
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 0.92
     }
   ],
   "rejected": {
@@ -83,11 +83,9 @@
     "credits_reserved_this_run": 0,
     "credit_provider_enabled": false,
     "signal": {
-      "state": "open",
+      "state": "unknown",
       "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1795188780.477,
-      "age_seconds": 29.11
+      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
     }
   },
   "schedule": {
