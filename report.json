@@ -1,50 +1,35 @@
 {
-  "checked_at": "2026-11-20T18:00:53.494647+00:00",
+  "checked_at": "2026-11-20T18:01:17.644223+00:00",
   "sources": [
+    {
+      "id": "galar-public-discord",
+      "status": "backoff",
+      "retry_at": 1795197953.494647
+    },
+    {
+      "id": "drop-uk-public",
+      "status": "backoff",
+      "retry_at": 1795198253.494647
+    },
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1795198253.494647
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1795198253.494647
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1795198253.494647
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795197987.1775115
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.1
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.19
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
     },
     {
       "id": "bisafans-public",
@@ -52,7 +37,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.67
     },
     {
       "id": "pc-de-store",
@@ -63,7 +48,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.07
     }
   ],
   "rejected": {
@@ -83,8 +68,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795197639.741,
-      "age_seconds": 12.32
+      "checked_at": 1795197669.64,
+      "age_seconds": 6.61
     }
   },
   "schedule": {
@@ -107,7 +92,7 @@
       {
         "id": "restockradar",
         "status": "unavailable",
-        "error": "FetchError"
+        "error": "ValueError"
       }
     ],
     "rejected": {
