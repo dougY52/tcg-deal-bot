@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-21T15:01:21.027892+00:00",
+  "checked_at": "2026-11-21T15:01:44.951760+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -43,17 +43,10 @@
   "inventory_confirmed": false,
   "readable_sources": 0,
   "queue_gate": {
-    "status": "no_live_trigger",
+    "status": "not_due",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false,
-    "signal": {
-      "state": "open",
-      "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1795273267.275,
-      "age_seconds": 12.42
-    }
+    "credit_provider_enabled": false
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -62,16 +55,6 @@
   },
   "mydealz": {
     "sources": [
-      {
-        "id": "mydealz-pokemon",
-        "status": "ok",
-        "items": 30
-      },
-      {
-        "id": "mydealz-new",
-        "status": "ok",
-        "items": 30
-      },
       {
         "id": "restockradar",
         "status": "unavailable",
