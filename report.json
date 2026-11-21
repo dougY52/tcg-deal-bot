@@ -1,6 +1,11 @@
 {
-  "checked_at": "2026-11-21T19:20:36.280634+00:00",
+  "checked_at": "2026-11-21T19:25:31.244941+00:00",
   "sources": [
+    {
+      "id": "galar-public-discord",
+      "status": "backoff",
+      "retry_at": 1795289136.2806344
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
@@ -12,7 +17,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.64
+      "seconds": 2.02
     },
     {
       "id": "pc-de-store",
@@ -23,7 +28,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +36,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.59
+      "seconds": 1.7
     },
     {
       "id": "drop-us-public",
@@ -39,7 +44,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.87
+      "seconds": 0.99
     },
     {
       "id": "switchstock-public",
@@ -47,7 +52,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 0.99
     },
     {
       "id": "pokehunt-public",
@@ -55,15 +60,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.95
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 26.12
+      "seconds": 0.97
     }
   ],
   "rejected": {
@@ -86,8 +83,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795288818.882,
-      "age_seconds": 16.08
+      "checked_at": 1795289118.462,
+      "age_seconds": 11.26
     }
   },
   "schedule": {
@@ -123,10 +120,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795288705938,
-    "last_stream_at": 1795288705766,
-    "last_cycle_at": 1795288704194,
-    "next_alarm": 1795289005195,
+    "last_inbox_at": 1795288947368,
+    "last_stream_at": 1795288947190,
+    "last_cycle_at": 1795288945707,
+    "next_alarm": 1795289246708,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
