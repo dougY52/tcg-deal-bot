@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T17:27:19.231616+00:00",
+  "checked_at": "2026-11-23T17:28:30.587262+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,6 +32,14 @@
       "items": 20,
       "notes": [],
       "error": null,
+      "seconds": 1.6
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
       "seconds": 1.62
     },
     {
@@ -43,15 +51,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
-      "notes": [],
-      "error": null,
-      "seconds": 10.26
+      "seconds": 2.02
     }
   ],
   "rejected": {
@@ -72,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795454809.919,
-      "age_seconds": 27.97
+      "checked_at": 1795454899.649,
+      "age_seconds": 9.16
     }
   },
   "schedule": {
