@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T17:38:23.477235+00:00",
+  "checked_at": "2026-11-23T17:39:31.625532+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,7 +32,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.62
+      "seconds": 2.02
     },
     {
       "id": "pc-de-store",
@@ -47,22 +47,21 @@
     },
     {
       "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
+      "status": "unavailable",
+      "items": 0,
       "notes": [],
-      "error": null,
-      "seconds": 23.3
+      "error": "FetchError",
+      "seconds": 26.07
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 34,
-    "GERMANY_NOT_EXPLICIT": 2
+    "NOT_POKEMON_CENTER": 20
   },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 2,
+  "readable_sources": 1,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -72,8 +71,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795455501.541,
-      "age_seconds": 0.55
+      "checked_at": 1795455561.745,
+      "age_seconds": 7.77
     }
   },
   "schedule": {
