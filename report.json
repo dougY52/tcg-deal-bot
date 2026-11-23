@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T17:04:21.730273+00:00",
+  "checked_at": "2026-11-23T17:05:39.387396+00:00",
   "sources": [
     {
       "id": "galar-public-discord",
@@ -37,7 +37,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.86
+      "seconds": 2.01
     },
     {
       "id": "pc-de-store",
@@ -60,10 +60,15 @@
   "inventory_confirmed": false,
   "readable_sources": 1,
   "queue_gate": {
-    "status": "public_signal_backoff",
+    "status": "no_live_trigger",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false
+    "credit_provider_enabled": false,
+    "signal": {
+      "state": "unknown",
+      "trigger": false,
+      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
+    }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -98,10 +103,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795453251357,
-    "last_stream_at": 1795453250996,
-    "last_cycle_at": 1795453249395,
-    "next_alarm": 1795453550395,
+    "last_inbox_at": 1795453492955,
+    "last_stream_at": 1795453492567,
+    "last_cycle_at": 1795453490958,
+    "next_alarm": 1795453791971,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
