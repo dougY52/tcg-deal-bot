@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T16:22:31.776327+00:00",
+  "checked_at": "2026-11-23T16:23:22.145660+00:00",
   "sources": [
     {
       "id": "drop-uk-public",
@@ -32,15 +32,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.61
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
-      "notes": [],
-      "error": null,
-      "seconds": 1.75
+      "seconds": 1.96
     },
     {
       "id": "pc-de-store",
@@ -51,7 +43,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.02
+      "seconds": 2.03
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 3.13
     }
   ],
   "rejected": {
@@ -72,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795450922.36,
-      "age_seconds": 28.07
+      "checked_at": 1795450982.283,
+      "age_seconds": 17.41
     }
   },
   "schedule": {
