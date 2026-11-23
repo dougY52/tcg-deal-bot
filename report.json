@@ -1,38 +1,42 @@
 {
-  "checked_at": "2026-11-23T16:53:21.209816+00:00",
+  "checked_at": "2026-11-23T16:54:33.601839+00:00",
   "sources": [
-    {
-      "id": "drop-uk-public",
-      "status": "backoff",
-      "retry_at": 1795452801.4683712
-    },
-    {
-      "id": "drop-us-public",
-      "status": "backoff",
-      "retry_at": 1795452801.4683712
-    },
-    {
-      "id": "switchstock-public",
-      "status": "backoff",
-      "retry_at": 1795452801.4683712
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "backoff",
-      "retry_at": 1795452801.4683712
-    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795453595.9315648
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
+      "id": "drop-uk-public",
+      "status": "unavailable",
+      "items": 0,
       "notes": [],
-      "error": null,
-      "seconds": 1.23
+      "error": "FetchError",
+      "seconds": 1.31
+    },
+    {
+      "id": "drop-us-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.0
+    },
+    {
+      "id": "switchstock-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.0
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 0.0
     },
     {
       "id": "bisafans-public",
@@ -40,7 +44,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.7
+      "seconds": 1.62
     },
     {
       "id": "pc-de-store",
@@ -52,6 +56,14 @@
       ],
       "error": null,
       "seconds": 2.03
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 5.69
     }
   ],
   "rejected": {
@@ -72,8 +84,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795452782.221,
-      "age_seconds": 17.52
+      "checked_at": 1795452842.769,
+      "age_seconds": 27.77
     }
   },
   "schedule": {
