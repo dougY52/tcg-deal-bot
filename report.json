@@ -1,14 +1,25 @@
 {
-  "checked_at": "2026-11-23T18:01:36.227249+00:00",
+  "checked_at": "2026-11-23T18:02:28.438955+00:00",
   "sources": [
     {
-      "id": "pc-de-store",
+      "id": "drop-uk-public",
       "status": "backoff",
-      "retry_at": 1795456921.6912377
+      "retry_at": 1795457496.2272491
     },
     {
-      "id": "galar-public-discord",
-      "status": "not_due"
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1795457496.2272491
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1795457496.2272491
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1795457496.2272491
     },
     {
       "id": "reddit-de-public",
@@ -17,52 +28,53 @@
     },
     {
       "id": "bisafans-public",
-      "status": "not_due"
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 1.91
     },
     {
-      "id": "drop-uk-public",
-      "status": "unavailable",
+      "id": "pc-de-store",
+      "status": "blocked",
       "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 2.0
+      "notes": [
+        "BLOCKED_NOT_STOCK",
+        "QUEUE_FRAME_READ"
+      ],
+      "error": null,
+      "seconds": 2.04
     },
     {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
       "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
+      "error": null,
+      "seconds": 3.35
     }
   ],
-  "rejected": {},
+  "rejected": {
+    "NOT_POKEMON_CENTER": 34,
+    "GERMANY_NOT_EXPLICIT": 2
+  },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 0,
+  "readable_sources": 2,
   "queue_gate": {
-    "status": "not_due",
+    "status": "no_live_trigger",
     "germany_confirmed": false,
     "credits_reserved_this_run": 0,
-    "credit_provider_enabled": false
+    "credit_provider_enabled": false,
+    "signal": {
+      "state": "open",
+      "trigger": false,
+      "germany_confirmed": false,
+      "checked_at": 1795456942.628,
+      "age_seconds": 4.26
+    }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
@@ -71,6 +83,16 @@
   },
   "mydealz": {
     "sources": [
+      {
+        "id": "mydealz-pokemon",
+        "status": "ok",
+        "items": 30
+      },
+      {
+        "id": "mydealz-new",
+        "status": "ok",
+        "items": 30
+      },
       {
         "id": "restockradar",
         "status": "unavailable",
@@ -87,10 +109,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795456638033,
-    "last_stream_at": 1795456637540,
+    "last_inbox_at": 1795456937804,
+    "last_stream_at": 1795456937392,
     "last_cycle_at": 1795456635748,
-    "next_alarm": 1795456936749,
+    "next_alarm": 1795457236750,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
