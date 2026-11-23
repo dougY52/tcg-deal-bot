@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T15:12:30.693071+00:00",
+  "checked_at": "2026-11-23T15:13:18.777066+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.33
+      "seconds": 1.19
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.07
+      "seconds": 1.73
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.12
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.84
+      "seconds": 1.62
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.78
+      "seconds": 0.82
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.37
+      "seconds": 1.07
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.59
+      "seconds": 0.97
     }
   ],
   "rejected": {
@@ -84,11 +84,9 @@
     "credits_reserved_this_run": 0,
     "credit_provider_enabled": false,
     "signal": {
-      "state": "open",
+      "state": "unknown",
       "trigger": false,
-      "germany_confirmed": false,
-      "checked_at": 1795446740.132,
-      "age_seconds": 9.02
+      "reason": "PUBLIC_SIGNAL_UNAVAILABLE"
     }
   },
   "schedule": {
@@ -124,7 +122,7 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795446669417,
+    "last_inbox_at": 1795446789699,
     "last_stream_at": 1795446669200,
     "last_cycle_at": 1795446667779,
     "next_alarm": 1795446968780,
@@ -140,7 +138,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 2,
+    "discovery_articles": 3,
     "connection_fresh": true
   }
 }
