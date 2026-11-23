@@ -3,11 +3,11 @@
     "delivered": {},
     "sources": {
       "mydealz-new": {
-        "checked_at": 1795471550.2912178,
+        "checked_at": 1795471841.0042987,
         "status": "ok"
       },
       "mydealz-pokemon": {
-        "checked_at": 1795471550.2912178,
+        "checked_at": 1795471841.0042987,
         "status": "ok"
       },
       "restockradar": {
@@ -68,45 +68,45 @@
     },
     "sources": {
       "bisafans-public": {
-        "checked_at": 1795471551.6064525,
+        "checked_at": 1795471842.787254,
         "failures": 0,
-        "last_success": 1795471551.6064525,
+        "last_success": 1795471842.787254,
         "retry_at": 0,
         "status": "ok"
       },
       "drop-uk-public": {
-        "checked_at": 1795471263.4950123,
-        "failures": 1,
+        "checked_at": 1795471842.787254,
+        "failures": 2,
         "last_success": 1795470926.9783483,
-        "retry_at": 1795471563.4950123,
+        "retry_at": 1795472442.787254,
         "status": "unavailable"
       },
       "drop-us-public": {
-        "checked_at": 1795471263.4950123,
-        "failures": 1,
+        "checked_at": 1795471842.787254,
+        "failures": 2,
         "last_success": 1795470926.9783483,
-        "retry_at": 1795471563.4950123,
+        "retry_at": 1795472442.787254,
         "status": "unavailable"
       },
       "galar-public-discord": {
-        "checked_at": 1795471551.6064525,
+        "checked_at": 1795471842.787254,
         "failures": 0,
-        "last_success": 1795471551.6064525,
+        "last_success": 1795471842.787254,
         "retry_at": 0,
         "status": "ok"
       },
       "pc-de-store": {
-        "checked_at": 1795471551.6064525,
+        "checked_at": 1795471842.787254,
         "clear_count": 0,
         "failures": 6,
-        "retry_at": 1795471791.6064525,
+        "retry_at": 1795472082.787254,
         "status": "blocked"
       },
       "pokehunt-public": {
-        "checked_at": 1795471263.4950123,
-        "failures": 1,
+        "checked_at": 1795471842.787254,
+        "failures": 2,
         "last_success": 1795470926.9783483,
-        "retry_at": 1795471563.4950123,
+        "retry_at": 1795472442.787254,
         "status": "unavailable"
       },
       "reddit-de-public": {
@@ -116,19 +116,19 @@
         "status": "unavailable"
       },
       "switchstock-public": {
-        "checked_at": 1795471263.4950123,
-        "failures": 1,
+        "checked_at": 1795471842.787254,
+        "failures": 2,
         "last_success": 1795470926.9783483,
-        "retry_at": 1795471563.4950123,
+        "retry_at": 1795472442.787254,
         "status": "unavailable"
       }
     }
   },
   "pc_queue_gate": {
     "active": false,
-    "checked_at": 1795471550.2912178,
-    "clear_count": 17,
-    "signal_checked_at": 1795471538.354,
+    "checked_at": 1795471841.0042987,
+    "clear_count": 18,
+    "signal_checked_at": 1795471839.262,
     "signal_retry_at": 1795466495.37955
   },
   "version": 1
