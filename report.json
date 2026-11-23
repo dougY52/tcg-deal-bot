@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-23T06:15:40.789911+00:00",
+  "checked_at": "2026-11-23T06:20:39.877797+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,20 +7,12 @@
       "retry_at": 1795416335.9358966
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 1.26
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.06
     },
     {
       "id": "pc-de-store",
@@ -31,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.09
     },
     {
       "id": "drop-uk-public",
@@ -47,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.71
+      "seconds": 0.89
     },
     {
       "id": "switchstock-public",
@@ -55,7 +47,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.2
+      "seconds": 1.05
     },
     {
       "id": "pokehunt-public",
@@ -63,7 +55,15 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.15
+      "seconds": 0.92
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 5.29
     }
   ],
   "rejected": {
@@ -87,8 +87,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795414526.344,
-      "age_seconds": 12.49
+      "checked_at": 1795414800.216,
+      "age_seconds": 37.29
     }
   },
   "schedule": {
@@ -124,10 +124,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795414439368,
-    "last_stream_at": 1795414439192,
-    "last_cycle_at": 1795414437779,
-    "next_alarm": 1795414738780,
+    "last_inbox_at": 1795414680783,
+    "last_stream_at": 1795414680602,
+    "last_cycle_at": 1795414679154,
+    "next_alarm": 1795414980155,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
