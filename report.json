@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T23:35:37.615609+00:00",
+  "checked_at": "2026-11-24T23:40:40.016070+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.31
+      "seconds": 1.49
     },
     {
       "id": "bisafans-public",
@@ -36,10 +36,10 @@
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 20,
+      "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.71
+      "seconds": 1.82
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 1.12
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 0.67
     },
     {
       "id": "pokehunt-public",
@@ -63,14 +63,13 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.06
+      "seconds": 1.03
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 97,
-    "GERMANY_NOT_EXPLICIT": 8,
-    "SPECULATION": 2,
-    "STALE_OR_UNDATED": 1
+    "NOT_POKEMON_CENTER": 96,
+    "GERMANY_NOT_EXPLICIT": 7,
+    "SPECULATION": 2
   },
   "alerts": [],
   "sent": 0,
@@ -86,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795563323.219,
-      "age_seconds": 12.45
+      "checked_at": 1795563622.827,
+      "age_seconds": 15.65
     }
   },
   "schedule": {
@@ -123,10 +122,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795563112425,
-    "last_stream_at": 1795563112022,
-    "last_cycle_at": 1795563110383,
-    "next_alarm": 1795563411384,
+    "last_inbox_at": 1795563595600,
+    "last_stream_at": 1795563595235,
+    "last_cycle_at": 1795563593589,
+    "next_alarm": 1795563894589,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
