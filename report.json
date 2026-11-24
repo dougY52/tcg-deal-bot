@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T16:29:53.351227+00:00",
+  "checked_at": "2026-11-24T16:30:43.260530+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -12,20 +12,20 @@
       "retry_at": 1795539711.8748193
     },
     {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 1.83
-    },
-    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.03
+      "seconds": 1.72
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 2.29
     },
     {
       "id": "drop-uk-public",
@@ -33,7 +33,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.81
+      "seconds": 1.59
     },
     {
       "id": "drop-us-public",
@@ -41,7 +41,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.22
+      "seconds": 1.15
     },
     {
       "id": "switchstock-public",
@@ -49,7 +49,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.92
+      "seconds": 0.82
     },
     {
       "id": "pokehunt-public",
@@ -57,7 +57,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.69
+      "seconds": 1.02
     }
   ],
   "rejected": {
@@ -80,8 +80,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795537769.625,
-      "age_seconds": 22.12
+      "checked_at": 1795537827.227,
+      "age_seconds": 13.95
     }
   },
   "schedule": {
@@ -114,16 +114,15 @@
   },
   "cardpal_relay": {
     "configured": true,
-    "status": "retry_wait",
+    "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795537719547,
-    "last_stream_at": 1795537719112,
+    "last_inbox_at": 1795537805008,
+    "last_stream_at": 1795537804532,
     "last_cycle_at": 1795537788814,
-    "next_alarm": 1795537803814,
+    "next_alarm": 1795538103814,
     "sent": 0,
-    "last_error": "NETWORK_OR_RUNTIME_ERROR",
-    "failures": 1,
+    "failures": 0,
     "browser_minutes_used": 0,
     "shop_drop_latency_verified": false,
     "pokemon_deals_enabled": true,
@@ -135,6 +134,6 @@
     ],
     "dealz_threshold_percent": 5,
     "discovery_articles": 1,
-    "connection_fresh": false
+    "connection_fresh": true
   }
 }
