@@ -1,23 +1,10 @@
 {
-  "checked_at": "2026-11-24T17:04:32.459111+00:00",
+  "checked_at": "2026-11-24T17:05:41.849432+00:00",
   "sources": [
-    {
-      "id": "pc-de-store",
-      "status": "backoff",
-      "retry_at": 1795539873.7480586
-    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795543354.5845642
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 1.14
     },
     {
       "id": "bisafans-public",
@@ -25,7 +12,26 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.32
+      "seconds": 2.06
+    },
+    {
+      "id": "pc-de-store",
+      "status": "blocked",
+      "items": 0,
+      "notes": [
+        "BLOCKED_NOT_STOCK",
+        "QUEUE_FRAME_READ"
+      ],
+      "error": null,
+      "seconds": 2.06
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 2.25
     },
     {
       "id": "drop-uk-public",
@@ -33,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.61
+      "seconds": 2.64
     },
     {
       "id": "drop-us-public",
@@ -41,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.91
+      "seconds": 0.79
     },
     {
       "id": "switchstock-public",
@@ -49,7 +55,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 0.97
+      "seconds": 1.16
     },
     {
       "id": "pokehunt-public",
@@ -57,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.03
+      "seconds": 1.0
     }
   ],
   "rejected": {
@@ -79,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795539844.458,
-      "age_seconds": 25.55
+      "checked_at": 1795539936.246,
+      "age_seconds": 4.05
     }
   },
   "schedule": {
