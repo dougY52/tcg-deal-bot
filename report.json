@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T18:05:39.185474+00:00",
+  "checked_at": "2026-11-24T18:06:06.057489+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -7,12 +7,20 @@
       "retry_at": 1795547006.8346221
     },
     {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 15,
+      "notes": [],
+      "error": null,
+      "seconds": 1.64
+    },
+    {
       "id": "bisafans-public",
       "status": "ok",
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.05
+      "seconds": 1.87
     },
     {
       "id": "pc-de-store",
@@ -23,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.12
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +39,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.92
+      "seconds": 1.79
     },
     {
       "id": "drop-us-public",
@@ -39,7 +47,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.78
+      "seconds": 0.9
     },
     {
       "id": "switchstock-public",
@@ -47,7 +55,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.01
+      "seconds": 0.92
     },
     {
       "id": "pokehunt-public",
@@ -55,21 +63,13 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.57
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 15,
-      "notes": [],
-      "error": null,
-      "seconds": 8.58
+      "seconds": 1.09
     }
   ],
   "rejected": {
     "NOT_POKEMON_CENTER": 97,
-    "SPECULATION": 2,
-    "GERMANY_NOT_EXPLICIT": 7
+    "GERMANY_NOT_EXPLICIT": 7,
+    "SPECULATION": 2
   },
   "alerts": [],
   "sent": 0,
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795543518.242,
-      "age_seconds": 19.41
+      "checked_at": 1795543548.458,
+      "age_seconds": 16.08
     }
   },
   "schedule": {
