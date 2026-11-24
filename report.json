@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T02:55:25.297258+00:00",
+  "checked_at": "2026-11-24T03:01:00.827378+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 0,
       "notes": [],
       "error": "FetchError",
-      "seconds": 1.12
+      "seconds": 1.64
     },
     {
       "id": "drop-us-public",
@@ -44,15 +44,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.65
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
-      "notes": [],
-      "error": null,
-      "seconds": 1.83
+      "seconds": 2.02
     },
     {
       "id": "pc-de-store",
@@ -63,18 +55,25 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.06
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "unavailable",
+      "items": 0,
+      "notes": [],
+      "error": "FetchError",
+      "seconds": 25.17
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 34,
-    "GERMANY_NOT_EXPLICIT": 2
+    "NOT_POKEMON_CENTER": 20
   },
   "alerts": [],
   "sent": 0,
   "errors": [],
   "inventory_confirmed": false,
-  "readable_sources": 2,
+  "readable_sources": 1,
   "queue_gate": {
     "status": "no_live_trigger",
     "germany_confirmed": false,
@@ -84,8 +83,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795488912.119,
-      "age_seconds": 11.75
+      "checked_at": 1795489242.345,
+      "age_seconds": 16.91
     }
   },
   "schedule": {
@@ -121,10 +120,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795488839398,
-    "last_stream_at": 1795488838918,
-    "last_cycle_at": 1795488837295,
-    "next_alarm": 1795489138295,
+    "last_inbox_at": 1795489080937,
+    "last_stream_at": 1795489080560,
+    "last_cycle_at": 1795489078880,
+    "next_alarm": 1795489379880,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
