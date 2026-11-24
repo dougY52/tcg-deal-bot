@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T22:05:35.535113+00:00",
+  "checked_at": "2026-11-24T22:10:35.492654+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.63
+      "seconds": 1.81
     },
     {
       "id": "pc-de-store",
@@ -23,7 +23,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.08
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
@@ -31,7 +31,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 1.87
+      "seconds": 1.77
     },
     {
       "id": "drop-us-public",
@@ -39,7 +39,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 0.68
+      "seconds": 1.13
     },
     {
       "id": "switchstock-public",
@@ -47,7 +47,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.02
+      "seconds": 0.73
     },
     {
       "id": "pokehunt-public",
@@ -55,7 +55,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.0
+      "seconds": 0.99
     },
     {
       "id": "galar-public-discord",
@@ -63,7 +63,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 9.78
+      "seconds": 15.31
     }
   ],
   "rejected": {
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795557909.326,
-      "age_seconds": 24.64
+      "checked_at": 1795558210.045,
+      "age_seconds": 23.52
     }
   },
   "schedule": {
@@ -122,10 +122,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795557738017,
-    "last_stream_at": 1795557737596,
-    "last_cycle_at": 1795557735972,
-    "next_alarm": 1795558036973,
+    "last_inbox_at": 1795558221199,
+    "last_stream_at": 1795558220866,
+    "last_cycle_at": 1795558219220,
+    "next_alarm": 1795558520221,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
