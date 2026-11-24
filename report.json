@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-24T16:22:33.491922+00:00",
+  "checked_at": "2026-11-24T16:23:36.889082+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -17,7 +17,7 @@
       "items": 15,
       "notes": [],
       "error": null,
-      "seconds": 1.71
+      "seconds": 1.17
     },
     {
       "id": "bisafans-public",
@@ -25,7 +25,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.02
+      "seconds": 1.67
     },
     {
       "id": "drop-uk-public",
@@ -33,7 +33,7 @@
       "items": 17,
       "notes": [],
       "error": null,
-      "seconds": 2.1
+      "seconds": 1.57
     },
     {
       "id": "drop-us-public",
@@ -41,7 +41,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.76
+      "seconds": 1.03
     },
     {
       "id": "switchstock-public",
@@ -49,7 +49,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.01
+      "seconds": 0.94
     },
     {
       "id": "pokehunt-public",
@@ -57,7 +57,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.09
+      "seconds": 0.94
     }
   ],
   "rejected": {
@@ -80,8 +80,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795537346.42,
-      "age_seconds": 5.54
+      "checked_at": 1795537405.427,
+      "age_seconds": 10.06
     }
   },
   "schedule": {
@@ -113,8 +113,27 @@
     "errors": []
   },
   "cardpal_relay": {
-    "status": "unavailable",
-    "connection_fresh": false,
-    "shop_drop_latency_verified": false
+    "configured": true,
+    "status": "stream_connected",
+    "enabled_at": 1793565143326,
+    "baseline_at": 1793565144804,
+    "last_inbox_at": 1795537235420,
+    "last_stream_at": 1795537234935,
+    "last_cycle_at": 1795537233269,
+    "next_alarm": 1795537534269,
+    "sent": 0,
+    "failures": 0,
+    "browser_minutes_used": 0,
+    "shop_drop_latency_verified": false,
+    "pokemon_deals_enabled": true,
+    "tcg_deals_enabled": true,
+    "subscribed_franchises": [
+      "DRAGONBALL",
+      "ONEPIECE",
+      "POKEMON"
+    ],
+    "dealz_threshold_percent": 5,
+    "discovery_articles": 1,
+    "connection_fresh": true
   }
 }
