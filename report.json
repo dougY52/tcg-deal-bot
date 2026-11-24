@@ -1,50 +1,30 @@
 {
-  "checked_at": "2026-11-24T01:50:42.750499+00:00",
+  "checked_at": "2026-11-24T01:55:34.266583+00:00",
   "sources": [
+    {
+      "id": "drop-uk-public",
+      "status": "backoff",
+      "retry_at": 1795485342.7504985
+    },
+    {
+      "id": "drop-us-public",
+      "status": "backoff",
+      "retry_at": 1795485342.7504985
+    },
+    {
+      "id": "switchstock-public",
+      "status": "backoff",
+      "retry_at": 1795485342.7504985
+    },
+    {
+      "id": "pokehunt-public",
+      "status": "backoff",
+      "retry_at": 1795485342.7504985
+    },
     {
       "id": "reddit-de-public",
       "status": "backoff",
       "retry_at": 1795487124.9790561
-    },
-    {
-      "id": "drop-uk-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 1.38
-    },
-    {
-      "id": "drop-us-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "switchstock-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "pokehunt-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.0
-    },
-    {
-      "id": "galar-public-discord",
-      "status": "ok",
-      "items": 16,
-      "notes": [],
-      "error": null,
-      "seconds": 1.57
     },
     {
       "id": "bisafans-public",
@@ -52,7 +32,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.0
     },
     {
       "id": "pc-de-store",
@@ -63,7 +43,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.07
+      "seconds": 2.06
+    },
+    {
+      "id": "galar-public-discord",
+      "status": "ok",
+      "items": 16,
+      "notes": [],
+      "error": null,
+      "seconds": 9.33
     }
   ],
   "rejected": {
@@ -84,8 +72,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795485030.677,
-      "age_seconds": 10.46
+      "checked_at": 1795485331.887,
+      "age_seconds": 0.51
     }
   },
   "schedule": {
@@ -121,10 +109,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795484914609,
-    "last_stream_at": 1795484914250,
-    "last_cycle_at": 1795484912637,
-    "next_alarm": 1795485213637,
+    "last_inbox_at": 1795485156133,
+    "last_stream_at": 1795485155753,
+    "last_cycle_at": 1795485154213,
+    "next_alarm": 1795485455214,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
