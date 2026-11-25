@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-25T17:56:22.795570+00:00",
+  "checked_at": "2026-11-25T17:57:26.391950+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 16,
       "notes": [],
       "error": null,
-      "seconds": 1.24
+      "seconds": 1.22
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.05
+      "seconds": 1.61
     },
     {
       "id": "pc-de-store",
@@ -39,7 +39,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.73
+      "seconds": 1.53
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 0.87
+      "seconds": 0.92
     },
     {
       "id": "switchstock-public",
@@ -63,7 +63,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 1.01
     }
   ],
   "rejected": {
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795629380.803,
-      "age_seconds": 0.48
+      "checked_at": 1795629441.264,
+      "age_seconds": 3.8
     }
   },
   "schedule": {
@@ -119,15 +119,16 @@
   },
   "cardpal_relay": {
     "configured": true,
-    "status": "stream_connected",
+    "status": "retry_wait",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
     "last_inbox_at": 1795629266204,
     "last_stream_at": 1795629266000,
-    "last_cycle_at": 1795629264575,
-    "next_alarm": 1795629565578,
+    "last_cycle_at": 1795629454339,
+    "next_alarm": 1795629469339,
     "sent": 0,
-    "failures": 0,
+    "last_error": "NETWORK_OR_RUNTIME_ERROR",
+    "failures": 1,
     "browser_minutes_used": 0,
     "shop_drop_latency_verified": false,
     "pokemon_deals_enabled": true,
@@ -139,6 +140,6 @@
     ],
     "dealz_threshold_percent": 5,
     "discovery_articles": 6,
-    "connection_fresh": true
+    "connection_fresh": false
   }
 }
