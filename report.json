@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-26T18:13:20.032866+00:00",
+  "checked_at": "2026-11-26T18:14:24.511200+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 14,
       "notes": [],
       "error": null,
-      "seconds": 1.15
+      "seconds": 1.21
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.64
+      "seconds": 1.8
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.04
+      "seconds": 2.1
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.56
+      "seconds": 1.65
     },
     {
       "id": "drop-us-public",
@@ -47,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.85
+      "seconds": 0.88
     },
     {
       "id": "switchstock-public",
@@ -55,7 +55,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.08
+      "seconds": 1.05
     },
     {
       "id": "pokehunt-public",
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795716796.279,
-      "age_seconds": 2.42
+      "checked_at": 1795716856.686,
+      "age_seconds": 5.77
     }
   },
   "schedule": {
@@ -122,10 +122,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795716583343,
-    "last_stream_at": 1795716583162,
-    "last_cycle_at": 1795716581666,
-    "next_alarm": 1795716882668,
+    "last_inbox_at": 1795716824745,
+    "last_stream_at": 1795716824553,
+    "last_cycle_at": 1795716823118,
+    "next_alarm": 1795717124121,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
@@ -138,7 +138,7 @@
       "POKEMON"
     ],
     "dealz_threshold_percent": 5,
-    "discovery_articles": 1,
+    "discovery_articles": 0,
     "connection_fresh": true
   }
 }
