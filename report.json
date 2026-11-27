@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-27T17:03:18.974694+00:00",
+  "checked_at": "2026-11-27T17:04:24.923739+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.64
+      "seconds": 1.76
     },
     {
       "id": "pc-de-store",
@@ -23,39 +23,39 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 20,
+      "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.09
+      "seconds": 1.74
     },
     {
       "id": "drop-us-public",
       "status": "ok",
-      "items": 20,
+      "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.01
+      "seconds": 0.79
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 23,
+      "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.45
+      "seconds": 1.25
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 21,
+      "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.4
+      "seconds": 0.72
     },
     {
       "id": "galar-public-discord",
@@ -63,11 +63,11 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 12.57
+      "seconds": 12.27
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 109,
+    "NOT_POKEMON_CENTER": 102,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 1
   },
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795798986.722,
-      "age_seconds": 10.9
+      "checked_at": 1795799042.927,
+      "age_seconds": 18.87
     }
   },
   "schedule": {
