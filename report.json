@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-27T17:07:22.997851+00:00",
+  "checked_at": "2026-11-27T17:08:31.148526+00:00",
   "sources": [
     {
       "id": "galar-public-discord",
@@ -17,7 +17,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.65
+      "seconds": 2.08
     },
     {
       "id": "pc-de-store",
@@ -28,15 +28,15 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.08
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 19,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.56
+      "seconds": 1.73
     },
     {
       "id": "drop-us-public",
@@ -44,27 +44,27 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.61
+      "seconds": 1.25
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 19,
+      "items": 23,
       "notes": [],
       "error": null,
-      "seconds": 0.52
+      "seconds": 0.65
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 18,
+      "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 1.12
+      "seconds": 1.01
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 90,
+    "NOT_POKEMON_CENTER": 98,
     "GERMANY_NOT_EXPLICIT": 6,
     "SPECULATION": 1
   },
@@ -82,8 +82,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795799223.214,
-      "age_seconds": 17.8
+      "checked_at": 1795799283.526,
+      "age_seconds": 25.87
     }
   },
   "schedule": {
@@ -119,10 +119,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795799013576,
-    "last_stream_at": 1795799013240,
-    "last_cycle_at": 1795799011649,
-    "next_alarm": 1795799312650,
+    "last_inbox_at": 1795799255177,
+    "last_stream_at": 1795799254757,
+    "last_cycle_at": 1795799253198,
+    "next_alarm": 1795799554198,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
