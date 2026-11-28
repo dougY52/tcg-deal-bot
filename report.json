@@ -1,13 +1,10 @@
 {
-  "checked_at": "2026-11-28T03:20:49.399395+00:00",
+  "checked_at": "2026-11-28T03:25:33.788171+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
-      "status": "unavailable",
-      "items": 0,
-      "notes": [],
-      "error": "FetchError",
-      "seconds": 0.09
+      "status": "backoff",
+      "retry_at": 1795839649.3993948
     },
     {
       "id": "galar-public-discord",
@@ -15,15 +12,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.17
-    },
-    {
-      "id": "bisafans-public",
-      "status": "ok",
-      "items": 20,
-      "notes": [],
-      "error": null,
-      "seconds": 1.57
+      "seconds": 1.5
     },
     {
       "id": "pc-de-store",
@@ -34,15 +23,23 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.06
+      "seconds": 2.07
+    },
+    {
+      "id": "bisafans-public",
+      "status": "ok",
+      "items": 20,
+      "notes": [],
+      "error": null,
+      "seconds": 2.21
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 19,
+      "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.52
+      "seconds": 1.73
     },
     {
       "id": "drop-us-public",
@@ -50,7 +47,7 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.94
+      "seconds": 0.89
     },
     {
       "id": "switchstock-public",
@@ -58,7 +55,7 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.07
+      "seconds": 1.0
     },
     {
       "id": "pokehunt-public",
@@ -66,11 +63,11 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.91
+      "seconds": 1.02
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 101,
+    "NOT_POKEMON_CENTER": 102,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 1
   },
@@ -88,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795836042.101,
-      "age_seconds": 5.76
+      "checked_at": 1795836313.177,
+      "age_seconds": 18.74
     }
   },
   "schedule": {
@@ -125,10 +122,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795835953451,
-    "last_stream_at": 1795835953057,
-    "last_cycle_at": 1795835951379,
-    "next_alarm": 1795836252380,
+    "last_inbox_at": 1795836194903,
+    "last_stream_at": 1795836194586,
+    "last_cycle_at": 1795836192992,
+    "next_alarm": 1795836493992,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
