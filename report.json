@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-28T12:35:27.448621+00:00",
+  "checked_at": "2026-11-28T12:40:32.592206+00:00",
   "sources": [
     {
       "id": "reddit-de-public",
@@ -12,7 +12,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.34
+      "seconds": 1.39
     },
     {
       "id": "bisafans-public",
@@ -20,7 +20,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.64
+      "seconds": 1.73
     },
     {
       "id": "pc-de-store",
@@ -31,7 +31,7 @@
         "QUEUE_FRAME_READ"
       ],
       "error": null,
-      "seconds": 2.05
+      "seconds": 2.1
     },
     {
       "id": "drop-uk-public",
@@ -39,7 +39,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.58
+      "seconds": 1.61
     },
     {
       "id": "drop-us-public",
@@ -55,19 +55,19 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.98
+      "seconds": 1.02
     },
     {
       "id": "pokehunt-public",
       "status": "ok",
-      "items": 18,
+      "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.99
+      "seconds": 1.04
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 101,
+    "NOT_POKEMON_CENTER": 104,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 1
   },
@@ -85,8 +85,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795869301.42,
-      "age_seconds": 24.26
+      "checked_at": 1795869602.884,
+      "age_seconds": 28.2
     }
   },
   "schedule": {
@@ -122,10 +122,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795869199871,
-    "last_stream_at": 1795869199525,
-    "last_cycle_at": 1795869197937,
-    "next_alarm": 1795869498937,
+    "last_inbox_at": 1795869442398,
+    "last_stream_at": 1795869441581,
+    "last_cycle_at": 1795869439487,
+    "next_alarm": 1795869740487,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
