@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-28T16:10:40.595346+00:00",
+  "checked_at": "2026-11-28T16:11:07.371275+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -17,7 +17,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.13
+      "seconds": 1.23
     },
     {
       "id": "bisafans-public",
@@ -25,15 +25,15 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 1.61
+      "seconds": 2.05
     },
     {
       "id": "drop-uk-public",
       "status": "ok",
-      "items": 20,
+      "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.62
+      "seconds": 1.74
     },
     {
       "id": "drop-us-public",
@@ -41,15 +41,15 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.81
+      "seconds": 0.84
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 24,
+      "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 1.08
+      "seconds": 1.06
     },
     {
       "id": "pokehunt-public",
@@ -57,11 +57,11 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 0.95
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 108,
+    "NOT_POKEMON_CENTER": 101,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 1
   },
@@ -79,8 +79,8 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795882233.575,
-      "age_seconds": 5.48
+      "checked_at": 1795882263.663,
+      "age_seconds": 2.05
     }
   },
   "schedule": {
