@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-28T14:55:27.653646+00:00",
+  "checked_at": "2026-11-28T15:00:58.856376+00:00",
   "sources": [
     {
       "id": "pc-de-store",
@@ -17,7 +17,7 @@
       "items": 13,
       "notes": [],
       "error": null,
-      "seconds": 1.36
+      "seconds": 1.35
     },
     {
       "id": "bisafans-public",
@@ -25,7 +25,7 @@
       "items": 20,
       "notes": [],
       "error": null,
-      "seconds": 2.07
+      "seconds": 1.72
     },
     {
       "id": "drop-uk-public",
@@ -33,7 +33,7 @@
       "items": 19,
       "notes": [],
       "error": null,
-      "seconds": 1.69
+      "seconds": 1.65
     },
     {
       "id": "drop-us-public",
@@ -41,15 +41,15 @@
       "items": 21,
       "notes": [],
       "error": null,
-      "seconds": 0.96
+      "seconds": 0.85
     },
     {
       "id": "switchstock-public",
       "status": "ok",
-      "items": 18,
+      "items": 24,
       "notes": [],
       "error": null,
-      "seconds": 1.1
+      "seconds": 0.97
     },
     {
       "id": "pokehunt-public",
@@ -57,11 +57,11 @@
       "items": 18,
       "notes": [],
       "error": null,
-      "seconds": 0.86
+      "seconds": 0.99
     }
   ],
   "rejected": {
-    "NOT_POKEMON_CENTER": 101,
+    "NOT_POKEMON_CENTER": 107,
     "GERMANY_NOT_EXPLICIT": 7,
     "SPECULATION": 1
   },
@@ -79,14 +79,14 @@
       "state": "open",
       "trigger": false,
       "germany_confirmed": false,
-      "checked_at": 1795877697.896,
-      "age_seconds": 27.07
+      "checked_at": 1795878030.918,
+      "age_seconds": 22.23
     }
   },
   "schedule": {
     "timezone": "Europe/Berlin",
-    "peak_window": false,
-    "interval_seconds": 300
+    "peak_window": true,
+    "interval_seconds": 60
   },
   "mydealz": {
     "sources": [
@@ -116,10 +116,10 @@
     "status": "stream_connected",
     "enabled_at": 1793565143326,
     "baseline_at": 1793565144804,
-    "last_inbox_at": 1795877552633,
-    "last_stream_at": 1795877552170,
-    "last_cycle_at": 1795877550584,
-    "next_alarm": 1795877851584,
+    "last_inbox_at": 1795878035743,
+    "last_stream_at": 1795878035400,
+    "last_cycle_at": 1795878033820,
+    "next_alarm": 1795878334821,
     "sent": 0,
     "failures": 0,
     "browser_minutes_used": 0,
